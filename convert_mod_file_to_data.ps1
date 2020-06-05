@@ -14,7 +14,7 @@ if ($confirmation -eq 'y' -or $confirmation -eq 'Y') {
 	cd $script_dir/data
 	
 	# Extract data from current module.
-	../bin/ErfUtil.exe -1 -x -r ..\build\alfa_moonshaes.mod
+	../bin/ErfUtil.exe -1 -x -r ..\build\alfa_050_moonshaes.mod
 	
 	cd $script_dir
 }

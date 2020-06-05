@@ -12,5 +12,5 @@ if ($confirmation -eq 'y' -or $confirmation -eq 'Y') {
 	New-Item -Path $script_dir/build -ItemType Directory
 
 	# Compile mod from data
-	bin/ErfUtil.exe -1 -c build/alfa_moonshaes.mod -z data/*
+	bin/ErfUtil.exe -1 -c build/alfa_050_moonshaes.mod -z data/*
 }
