@@ -1,4 +1,4 @@
-# ALFA The Moonshae Isles
+# ALFA - The Moonshae Isles
 Welcome to the ALFA Moonshaes Isles Project.  
 
 This project contains all the information needed to build and develop on The Moonshae Isles.
