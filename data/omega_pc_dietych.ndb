@@ -1,0 +1,96 @@
+NDB V1.0
+0000002 0000001 0000046 0000008 0000017
+n00 dmw_inc
+N01 omega_pc_dietych
+s 03 vector
+sf f x
+sf f y
+sf f z
+f ffffffff ffffffff 000 v dmwand_activate
+f ffffffff ffffffff 000 i dmwand_istargetplaceable
+f ffffffff ffffffff 000 i dmwand_istargetcreateable
+f ffffffff ffffffff 000 i dmwand_istargetdestroyable
+f ffffffff ffffffff 000 i dmwand_istargetpc
+f ffffffff ffffffff 000 i dmwand_istargetnotme
+f ffffffff ffffffff 000 i dmwand_istargetnpc
+f ffffffff ffffffff 000 i dmwand_istargetpcornpc
+f ffffffff ffffffff 000 i dmwand_istargetinvalid
+f ffffffff ffffffff 000 i dmwand_isnearbydestroyable
+f ffffffff ffffffff 000 v dmwand_exploreareaforplayer
+f ffffffff ffffffff 000 v dmwand_reloadmodule
+f ffffffff ffffffff 001 s Gender
+fp o
+f 000001ec 000003ef 001 s Alignment
+fp o
+f ffffffff ffffffff 001 s Race
+fp o
+f ffffffff ffffffff 001 s ClassLevel
+fp o
+f ffffffff ffffffff 001 s Inventory
+fp o
+f ffffffff ffffffff 000 v dmwand_showattr
+f ffffffff ffffffff 000 v dmwand_fliplockstatus
+f ffffffff ffffffff 001 v dmwand_advancetime
+fp i
+f ffffffff ffffffff 000 v dmwand_swapdaynight
+f ffffffff ffffffff 002 v dmwand_shiftalignment
+fp s
+fp i
+f ffffffff ffffffff 001 v dmwand_takeoneitem
+fp o
+f ffffffff ffffffff 000 v dmwand_takeallequipped
+f ffffffff ffffffff 000 v dmwand_takeallunequipped
+f ffffffff ffffffff 000 v dmwand_destroytarget
+f ffffffff ffffffff 000 v dmwand_destroynearbytarget
+f ffffffff ffffffff 000 v dmwand_kickdapc
+f ffffffff ffffffff 000 v dmwand_killandreplace
+f ffffffff ffffffff 000 v dmwand_kill
+f ffffffff ffffffff 000 v dmwand_toad
+f ffffffff ffffffff 000 v dmwand_untoad
+f ffffffff ffffffff 000 v dmwand_followtarget
+f ffffffff ffffffff 000 v dmwand_followme
+f ffffffff ffffffff 000 v dmwand_resumedefault
+f ffffffff ffffffff 003 v dmwand_abilitycheck
+fp i
+fp s
+fp i
+f ffffffff ffffffff 003 v dmwand_skillcheck
+fp i
+fp s
+fp i
+f ffffffff ffffffff 001 v dmwand_turnoff
+fp o
+f ffffffff ffffffff 001 v dmwand_turnon
+fp o
+f ffffffff ffffffff 000 v dmwand_turntargeton
+f ffffffff ffffffff 000 v dmwand_turntargetoff
+f ffffffff ffffffff 000 v dmwand_turnnearon
+f ffffffff ffffffff 000 v dmwand_turnnearoff
+f 00000093 000001ec 000 v main
+f 0000000d 00000015 000 v #loader
+f 00000015 00000093 000 v #globals
+v 00000017 ffffffff 00000000 o oMySpeaker
+v 0000002c ffffffff 00000004 o oMyTarget
+v 00000059 ffffffff 00000008 e2 lMyLoc
+v 000001ec 000003ed 00000000 s #retval
+v 000001ec 000003e7 00000004 o oEntity
+v 000001ee 000003e1 00000008 s sReturnString
+v 000001fb 000002a2 0000000c i #switcheval
+v 000002b5 00000372 0000000c i #switcheval
+l00 0000007 00000015 0000002a
+l00 0000008 0000002a 00000057
+l00 0000009 00000057 00000081
+l01 0000005 00000093 000001ea
+l01 0000013 000001ea 000001ec
+l00 0000197 000001ec 000001ee
+l00 0000199 000001ee 00000243
+l00 0000201 00000243 00000243
+l00 0000202 00000262 00000262
+l00 0000203 00000282 00000282
+l00 0000206 000002a8 000002fd
+l00 0000208 000002fd 000002fd
+l00 0000209 00000323 00000323
+l00 0000210 0000034c 0000034c
+l00 0000213 00000378 00000395
+l00 0000215 000003bf 000003e1
+l00 0000216 000003e7 000003ef

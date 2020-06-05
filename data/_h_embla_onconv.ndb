@@ -1,0 +1,415 @@
+NDB V1.0
+0000006 0000001 0000134 0000015 0000021
+n00 x0_i0_campaign
+n01 x0_i0_partywide
+n02 x0_i0_transport
+n03 x0_i0_common
+n04 x0_i0_plotgiver
+N05 _h_embla_onconv
+s 03 vector
+sf f x
+sf f y
+sf f z
+f ffffffff ffffffff 000 s GetCampaignDBName
+f ffffffff ffffffff 003 v SetCampaignDBString
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 s GetCampaignDBString
+fp o
+fp s
+f ffffffff ffffffff 003 v SetCampaignDBInt
+fp o
+fp s
+fp i
+f ffffffff ffffffff 002 i GetCampaignDBInt
+fp o
+fp s
+f ffffffff ffffffff 003 v SetCampaignDBFloat
+fp o
+fp s
+fp f
+f ffffffff ffffffff 002 f GetCampaignDBFloat
+fp o
+fp s
+f ffffffff ffffffff 003 v SetCampaignDBVector
+fp o
+fp s
+fp t0000
+f ffffffff ffffffff 002 t0000 GetCampaignDBVector
+fp o
+fp s
+f ffffffff ffffffff 003 v SetCampaignDBLocation
+fp o
+fp s
+fp e2
+f ffffffff ffffffff 002 e2 GetCampaignDBLocation
+fp o
+fp s
+f ffffffff ffffffff 003 i StoreCampaignDBObject
+fp o
+fp s
+fp o
+f ffffffff ffffffff 004 o RetrieveCampaignDBObject
+fp o
+fp s
+fp e2
+fp o
+f ffffffff ffffffff 002 v DeleteCampaignDBVariable
+fp o
+fp s
+f ffffffff ffffffff 001 i GetNumberPartyMembers
+fp o
+f ffffffff ffffffff 003 v SetLocalStringOnAll
+fp o
+fp s
+fp s
+f ffffffff ffffffff 003 v SetLocalIntOnAll
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v SetLocalFloatOnAll
+fp o
+fp s
+fp f
+f ffffffff ffffffff 003 v SetLocalLocationOnAll
+fp o
+fp s
+fp e2
+f ffffffff ffffffff 003 v SetLocalObjectOnAll
+fp o
+fp s
+fp o
+f ffffffff ffffffff 003 v SetCampaignDBStringOnAll
+fp o
+fp s
+fp s
+f ffffffff ffffffff 003 v SetCampaignDBIntOnAll
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v SetCampaignDBFloatOnAll
+fp o
+fp s
+fp f
+f ffffffff ffffffff 003 v SetCampaignDBVectorOnAll
+fp o
+fp s
+fp t0000
+f ffffffff ffffffff 003 v SetCampaignDBLocationOnAll
+fp o
+fp s
+fp e2
+f ffffffff ffffffff 003 v StoreCampaignDBObjectOnAll
+fp o
+fp s
+fp o
+f ffffffff ffffffff 002 v DeleteCampaignDBVariableOnAll
+fp o
+fp s
+f ffffffff ffffffff 002 v GiveGoldToAllEqually
+fp o
+fp i
+f ffffffff ffffffff 002 v GiveGoldToAll
+fp o
+fp i
+f ffffffff ffffffff 002 v GiveXPToAllEqually
+fp o
+fp i
+f ffffffff ffffffff 002 v GiveXPToAll
+fp o
+fp i
+f ffffffff ffffffff 003 v AdjustReputationWithFaction
+fp o
+fp o
+fp i
+f ffffffff ffffffff 002 v ClearPersonalReputationWithFaction
+fp o
+fp o
+f ffffffff ffffffff 002 v ClearAssociateActions
+fp o
+fp i
+f ffffffff ffffffff 002 v ClearNearbyFriendActions
+fp o
+fp i
+f ffffffff ffffffff 001 v SurrenderAllToEnemies
+fp o
+f ffffffff ffffffff 002 i GetIsItemPossessedByParty
+fp o
+fp s
+f ffffffff ffffffff 002 o GetItemPossessedByParty
+fp o
+fp s
+f ffffffff ffffffff 002 v RemoveItemFromParty
+fp o
+fp s
+f ffffffff ffffffff 003 v AdjustAlignmentOnAll
+fp o
+fp i
+fp i
+f ffffffff ffffffff 004 v TravelToObject
+fp o
+fp o
+fp i
+fp f
+f ffffffff ffffffff 004 v TravelToLocation
+fp e2
+fp o
+fp i
+fp f
+f ffffffff ffffffff 001 o GetNearestExit
+fp o
+f ffffffff ffffffff 002 o GetBestExit
+fp o
+fp o
+f ffffffff ffffffff 002 v TransportToWaypoint
+fp o
+fp o
+f ffffffff ffffffff 002 v TransportToLocation
+fp o
+fp e2
+f ffffffff ffffffff 002 v TransportAllToWaypoint
+fp o
+fp o
+f ffffffff ffffffff 002 v TransportAllToLocation
+fp o
+fp e2
+f ffffffff ffffffff 003 o GetBestExitByType
+fp o
+fp o
+fp i
+f ffffffff ffffffff 000 i X0_DEBUG_SETTING
+f ffffffff ffffffff 000 i DIFFICULTY_EASY
+f ffffffff ffffffff 000 i DIFFICULTY_MODERATE
+f ffffffff ffffffff 000 i DIFFICULTY_HARD
+f ffffffff ffffffff 000 i DIFFICULTY_IMPOSSIBLE
+f ffffffff ffffffff 000 s sHasMetSuffix
+f ffffffff ffffffff 000 s sHasHiredSuffix
+f ffffffff ffffffff 000 s sDidQuitSuffix
+f ffffffff ffffffff 000 s sFriendSuffix
+f ffffffff ffffffff 000 s sHasInterjectionSuffix
+f ffffffff ffffffff 000 s sInterjectionSetSuffix
+f ffffffff ffffffff 000 s sAdviceSuffix
+f ffffffff ffffffff 000 s sPersuadeAttemptSuffix
+f ffffffff ffffffff 000 s sPersuadeSuccessSuffix
+f ffffffff ffffffff 000 s sThreatenSuffix
+f ffffffff ffffffff 000 s sOneLinerVarname
+f ffffffff ffffffff 000 s sOneShotVarname
+f ffffffff ffffffff 000 s sRouterTag
+f ffffffff ffffffff 000 s sStartLocationVarname
+f ffffffff ffffffff 000 s sRespawnLocationVarname
+f ffffffff ffffffff 000 f CONVERSATION_ATTEMPT_DELAY
+f ffffffff ffffffff 001 v DBG_msg
+fp s
+f ffffffff ffffffff 000 i GetChapter
+f ffffffff ffffffff 000 i EndModule
+f ffffffff ffffffff 001 s GetMyArea
+fp o
+f ffffffff ffffffff 002 i HasItemByTag
+fp o
+fp s
+f ffffffff ffffffff 001 v SetRespawnLocation
+fp o
+f ffffffff ffffffff 002 v SetRespawnLocationSpecific
+fp o
+fp e2
+f ffffffff ffffffff 001 e2 GetRespawnLocation
+fp o
+f ffffffff ffffffff 001 s GetTagNoPrefix
+fp o
+f ffffffff ffffffff 003 v SetBooleanValue
+fp o
+fp s
+fp i
+f ffffffff ffffffff 002 i GetBooleanValue
+fp o
+fp s
+f ffffffff ffffffff 003 v SetCampaignBooleanValue
+fp o
+fp s
+fp i
+f ffffffff ffffffff 002 i GetCampaignBooleanValue
+fp o
+fp s
+f ffffffff ffffffff 002 v ClearAllDialogue
+fp o
+fp o
+f ffffffff ffffffff 004 v SetHasInterjection
+fp o
+fp i
+fp i
+fp o
+f ffffffff ffffffff 003 v SetInterjection
+fp o
+fp i
+fp o
+f ffffffff ffffffff 002 i GetHasInterjection
+fp o
+fp o
+f ffffffff ffffffff 004 v SetHasAdvice
+fp o
+fp i
+fp i
+fp o
+f ffffffff ffffffff 002 i GetHasAdvice
+fp o
+fp o
+f ffffffff ffffffff 003 v SetOneLiner
+fp i
+fp i
+fp o
+f ffffffff ffffffff 001 i GetOneLiner
+fp o
+f ffffffff ffffffff 003 i GetPersuadeAttempt
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 v SetPersuadeAttempt
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 i GetDidPersuade
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 v SetDidPersuade
+fp o
+fp i
+fp o
+f ffffffff ffffffff 002 v SetThreaten
+fp o
+fp o
+f ffffffff ffffffff 002 i GetThreaten
+fp o
+fp o
+f ffffffff ffffffff 003 v SetFriendly
+fp o
+fp i
+fp o
+f ffffffff ffffffff 002 i GetFriendly
+fp o
+fp o
+f ffffffff ffffffff 000 o GetEventRouter
+f ffffffff ffffffff 000 s GetEventRouterTag
+f ffffffff ffffffff 000 o CreateEventRouter
+f ffffffff ffffffff 003 i ThreatenCheck
+fp i
+fp o
+fp o
+f ffffffff ffffffff 003 i FriendCheck
+fp i
+fp o
+fp o
+f ffffffff ffffffff 003 i MeanCheck
+fp i
+fp o
+fp o
+f ffffffff ffffffff 003 v PersistentConversationAttempt
+fp o
+fp s
+fp i
+f ffffffff ffffffff 002 i GetInterjectionSet
+fp o
+fp o
+f ffffffff ffffffff 000 i QUEST_NOT_TAKEN
+f ffffffff ffffffff 000 i QUEST_IN_PROGRESS
+f ffffffff ffffffff 000 i QUEST_COMPLETE
+f ffffffff ffffffff 000 i QUEST_COMPLETE_OTHER
+f ffffffff ffffffff 000 s sQuestVarname
+f ffffffff ffffffff 000 s sQuestSuffix
+f ffffffff ffffffff 000 s sQuestItemSuffix
+f ffffffff ffffffff 000 s sPlotItemSuffix
+f ffffffff ffffffff 000 s sRewardItemSuffix
+f 000002a1 0000031e 002 s GetQuestTag
+fp o
+fp i
+f 0000031e 0000035f 001 s GetQuestVarname
+fp i
+f ffffffff ffffffff 002 s GetPlotItemTag
+fp o
+fp i
+f ffffffff ffffffff 002 s GetQuestItemTag
+fp o
+fp i
+f ffffffff ffffffff 002 s GetRewardItemTag
+fp o
+fp i
+f ffffffff ffffffff 003 v SetOnQuest
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 v SetQuestDone
+fp o
+fp i
+fp o
+f 00000178 000002a1 003 i GetQuestStatus
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 v GiveQuestItem
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 v GiveRewardItem
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 i HasQuestItem
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 i HasPlotItem
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 i HasRewardItem
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 v TakePlotItem
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 v TakeQuestItem
+fp o
+fp i
+fp o
+f 00000077 00000178 000 v main
+f 0000000d 00000015 000 v #loader
+f 00000015 00000077 000 v #globals
+v 00000017 ffffffff 00000000 s X0_DATABASE_DEFAULT
+v 00000041 ffffffff 00000004 s X0_DATABASE_XP1
+v 00000079 00000170 00000000 o oNPC
+v 0000009d 00000170 00000004 o oPC
+v 00000178 0000029f 00000000 i #retval
+v 00000178 00000299 00000004 o oNPC
+v 00000178 00000299 00000008 i nQuest
+v 00000178 00000299 0000000c o oPC
+v 000001b5 00000293 00000010 i nPCStatus
+v 000001ea 00000293 00000014 i nNPCStatus
+v 000002a1 0000031c 00000000 s #retval
+v 000002a1 00000316 00000004 i nQuest
+v 000002a1 00000316 00000008 o oTarget
+v 0000031e 0000035d 00000000 s #retval
+v 0000031e 00000357 00000004 i nQuest
+l00 0000051 00000015 0000003f
+l00 0000053 0000003f 00000065
+l05 0000016 00000077 0000009b
+l05 0000017 0000009b 000000b0
+l05 0000019 000000b0 000000cd
+l05 0000021 000000cd 000000f3
+l05 0000023 000000f9 0000016a
+l05 0000025 00000176 00000178
+l04 0000183 00000178 00000187
+l04 0000185 000001b3 000001e8
+l04 0000186 000001e8 00000215
+l04 0000187 00000215 00000245
+l04 0000188 0000024b 0000026b
+l04 0000189 00000271 00000293
+l04 0000190 00000299 000002a1
+l04 0000112 000002a1 000002ae
+l04 0000113 000002b4 000002f2
+l04 0000115 000002f8 00000316
+l04 0000116 00000316 0000031e
+l04 0000121 0000031e 00000357
+l04 0000122 00000357 0000035f

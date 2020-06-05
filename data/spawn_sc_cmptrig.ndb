@@ -1,0 +1,598 @@
+NDB V1.0
+0000007 0000002 0000154 0000049 0000118
+n00 spawn_timefuncs
+n01 x0_i0_corpses
+n02 spawn_functions
+n03 spawn_flags
+n04 spawn_cfg_cusflg
+n05 x0_i0_position
+N06 spawn_sc_cmptrig
+s 03 vector
+sf f x
+sf f y
+sf f z
+s 06 NESS_CorpseInfo
+sf o origLftWpn
+sf o origRgtWpn
+sf o origArmor
+sf o lootLftWpn
+sf o lootRgtWpn
+sf o lootArmor
+f ffffffff ffffffff 001 v clockDebug
+fp s
+f ffffffff ffffffff 000 i GetCurrentRealSeconds
+f ffffffff ffffffff 006 i CalendarToRealSeconds
+fp i
+fp i
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 001 i YearsToRealSeconds
+fp i
+f ffffffff ffffffff 001 i MonthsToRealSeconds
+fp i
+f ffffffff ffffffff 001 i DaysToRealSeconds
+fp i
+f ffffffff ffffffff 001 i HoursToRealSeconds
+fp i
+f ffffffff ffffffff 001 s RealSecondsToString
+fp i
+f ffffffff ffffffff 002 i IsFlagPresent
+fp s
+fp s
+f ffffffff ffffffff 003 i GetFlagValue
+fp s
+fp s
+fp i
+f ffffffff ffffffff 003 i IsSubFlagPresent
+fp s
+fp s
+fp s
+f ffffffff ffffffff 004 i GetSubFlagValue
+fp s
+fp s
+fp s
+fp i
+f ffffffff ffffffff 002 v ParseCustomFlags
+fp o
+fp s
+f ffffffff ffffffff 002 v SetupCustomFlags
+fp o
+fp o
+f ffffffff ffffffff 000 f DISTANCE_TINY
+f ffffffff ffffffff 000 f DISTANCE_SHORT
+f ffffffff ffffffff 000 f DISTANCE_MEDIUM
+f ffffffff ffffffff 000 f DISTANCE_LARGE
+f ffffffff ffffffff 000 f DISTANCE_HUGE
+f ffffffff ffffffff 001 s LocationToString
+fp e2
+f ffffffff ffffffff 001 s VectorToString
+fp t0000
+f ffffffff ffffffff 002 v MoveToNewLocation
+fp e2
+fp o
+f ffffffff ffffffff 002 f GetChangeInX
+fp f
+fp f
+f ffffffff ffffffff 002 f GetChangeInY
+fp f
+fp f
+f ffffffff ffffffff 003 t0000 GetChangedPosition
+fp t0000
+fp f
+fp f
+f ffffffff ffffffff 002 f GetAngleBetweenLocations
+fp e2
+fp e2
+f ffffffff ffffffff 001 f GetOppositeDirection
+fp f
+f ffffffff ffffffff 001 f GetRightDirection
+fp f
+f ffffffff ffffffff 001 f GetHalfRightDirection
+fp f
+f ffffffff ffffffff 001 f GetFarRightDirection
+fp f
+f ffffffff ffffffff 002 f GetCustomRightDirection
+fp f
+fp f
+f ffffffff ffffffff 001 f GetLeftDirection
+fp f
+f ffffffff ffffffff 001 f GetHalfLeftDirection
+fp f
+f ffffffff ffffffff 001 f GetFarLeftDirection
+fp f
+f ffffffff ffffffff 002 f GetCustomLeftDirection
+fp f
+fp f
+f ffffffff ffffffff 002 v TurnToFaceObject
+fp o
+fp o
+f ffffffff ffffffff 001 e2 GetFlankingRightLocation
+fp o
+f ffffffff ffffffff 001 e2 GetFlankingLeftLocation
+fp o
+f ffffffff ffffffff 001 e2 GetOppositeLocation
+fp o
+f ffffffff ffffffff 001 e2 GetAheadLocation
+fp o
+f ffffffff ffffffff 001 e2 GetBehindLocation
+fp o
+f ffffffff ffffffff 001 e2 GetForwardFlankingRightLocation
+fp o
+f ffffffff ffffffff 001 e2 GetForwardFlankingLeftLocation
+fp o
+f ffffffff ffffffff 001 e2 GetAheadRightLocation
+fp o
+f ffffffff ffffffff 001 e2 GetAheadLeftLocation
+fp o
+f ffffffff ffffffff 001 e2 GetStepLeftLocation
+fp o
+f ffffffff ffffffff 001 e2 GetStepRightLocation
+fp o
+f ffffffff ffffffff 003 e2 GetRandomLocation
+fp o
+fp o
+fp f
+f ffffffff ffffffff 001 v SpeakLocation
+fp e2
+f ffffffff ffffffff 001 v PrintLocation
+fp e2
+f ffffffff ffffffff 001 f GetNormalizedDirection
+fp f
+f ffffffff ffffffff 004 e2 GenerateNewLocation
+fp o
+fp f
+fp f
+fp f
+f ffffffff ffffffff 004 e2 GenerateNewLocationFromLocation
+fp e2
+fp f
+fp f
+fp f
+f ffffffff ffffffff 001 e2 GetCenterPointOfArea
+fp o
+f ffffffff ffffffff 004 v SetObjectIsDestroyable
+fp o
+fp i
+fp i
+fp i
+f ffffffff ffffffff 004 v LootInventorySlots
+fp o
+fp o
+fp i
+fp i
+f ffffffff ffffffff 002 v LootInventory
+fp o
+fp o
+f ffffffff ffffffff 003 v KillAndReplaceLootable
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 v KillAndReplaceDecay
+fp o
+f ffffffff ffffffff 001 v KillAndReplaceRaiseable
+fp o
+f ffffffff ffffffff 001 v KillAndReplaceSelectable
+fp o
+f ffffffff ffffffff 001 v KillAndReplaceDecorative
+fp o
+f ffffffff ffffffff 002 v KillAndExplode
+fp o
+fp i
+f ffffffff ffffffff 002 v ExplodeObject
+fp o
+fp i
+f ffffffff ffffffff 001 v TriggerExplodeObject
+fp i
+f ffffffff ffffffff 003 v RaiseCorpse
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 o GetNearestCorpse
+fp o
+f ffffffff ffffffff 001 v TriggerRaiseCorpse
+fp i
+f ffffffff ffffffff 001 v DoActualKilling
+fp o
+f ffffffff ffffffff 001 i GetIsVictimDressed
+fp o
+f ffffffff ffffffff 002 v CopyItem2
+fp o
+fp o
+f ffffffff ffffffff 003 v InitFlags
+fp o
+fp s
+fp s
+f ffffffff ffffffff 001 i SetSpawns
+fp e2
+f ffffffff ffffffff 002 s PadIntToString
+fp i
+fp i
+f ffffffff ffffffff 002 v ResetSpawn
+fp o
+fp i
+f ffffffff ffffffff 004 i IsRestoreBlocked
+fp o
+fp e2
+fp i
+fp i
+f ffffffff ffffffff 005 v SetupSpawned
+fp o
+fp o
+fp e2
+fp i
+fp i
+f ffffffff ffffffff 005 v SetupCampSpawned
+fp o
+fp o
+fp t0000
+fp e2
+fp s
+f ffffffff ffffffff 004 i SetupSpawnDelay
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 005 v RecordSpawned
+fp o
+fp o
+fp e2
+fp e2
+fp f
+f 0000053e 00000bb3 003 v SaveStateOnDespawn
+fp o
+fp o
+fp i
+f ffffffff ffffffff 002 v SaveCampStateOnDespawn
+fp o
+fp o
+f ffffffff ffffffff 002 v RestorePCDespawns
+fp o
+fp i
+f ffffffff ffffffff 001 v ReturnHome
+fp e2
+f ffffffff ffffffff 001 i FindNextEmptyChildSlot
+fp o
+f ffffffff ffffffff 000 s SPAWN_INTERVAL
+f ffffffff ffffffff 000 s SPAWN_PCS_IN_AREA
+f ffffffff ffffffff 000 s SPAWN_AREA_COUNT
+f ffffffff ffffffff 000 s SPAWN_HEARTBEAT_SCRIPT
+f ffffffff ffffffff 000 s SPAWN_HEARTBEAT_SCHEDULED
+f ffffffff ffffffff 001 i NeedPseudoHeartbeat
+fp o
+f ffffffff ffffffff 001 v ScheduleNextPseudoHeartbeat
+fp o
+f ffffffff ffffffff 003 v Spawn_OnAreaEnter
+fp s
+fp f
+fp f
+f ffffffff ffffffff 000 v Spawn_OnAreaExit
+f ffffffff ffffffff 003 v LootTable
+fp o
+fp o
+fp i
+f ffffffff ffffffff 001 e0 ObjectEffect
+fp o
+f ffffffff ffffffff 002 v SpawnDelayDebug
+fp o
+fp s
+f 00000bb3 00000cc3 002 v SpawnCountDebug
+fp o
+fp s
+f ffffffff ffffffff 002 o GetChildByTag
+fp o
+fp s
+f ffffffff ffffffff 002 o GetChildByNumber
+fp o
+fp i
+f ffffffff ffffffff 001 o GetSpawnByID
+fp i
+f ffffffff ffffffff 001 v DeactivateSpawn
+fp o
+f ffffffff ffffffff 001 v DeactivateSpawnsByTag
+fp s
+f ffffffff ffffffff 000 v DeactivateAllSpawns
+f ffffffff ffffffff 001 v DespawnChildren
+fp o
+f ffffffff ffffffff 002 v DespawnChildrenByTag
+fp o
+fp s
+f ffffffff ffffffff 002 v AddChild
+fp o
+fp o
+f ffffffff ffffffff 002 v ReportSpawns
+fp i
+fp i
+f ffffffff ffffffff 002 v TrackModuleSpawns
+fp i
+fp i
+f ffffffff ffffffff 000 v DumpModuleSpawns
+f ffffffff ffffffff 002 i CountPCsInArea
+fp o
+fp i
+f ffffffff ffffffff 003 i CountPCsInRadius
+fp e2
+fp f
+fp i
+f ffffffff ffffffff 002 o GetRandomPCInArea
+fp o
+fp o
+f ffffffff ffffffff 003 t0001 TransferAllInventorySlots
+fp o
+fp o
+fp i
+f ffffffff ffffffff 001 i IsCreatureItem
+fp o
+f ffffffff ffffffff 003 v RandomWalk
+fp o
+fp f
+fp i
+f ffffffff ffffffff 002 v FindSeat
+fp o
+fp o
+f 00000cc3 00000d38 001 v NESS_CleanInventory
+fp o
+f ffffffff ffffffff 001 v CleanInventory
+fp o
+f ffffffff ffffffff 001 v NESS_CleanEquipped
+fp o
+f ffffffff ffffffff 001 v NESS_CleanCorpse
+fp o
+f ffffffff ffffffff 002 o NESS_CopyCorpseItem
+fp o
+fp o
+f ffffffff ffffffff 001 v StripNonDroppables
+fp o
+f ffffffff ffffffff 001 v DestroyIfNonDrop
+fp o
+f ffffffff ffffffff 003 i IsBetweenDays
+fp i
+fp i
+fp i
+f ffffffff ffffffff 003 i IsBetweenHours
+fp i
+fp i
+fp i
+f ffffffff ffffffff 002 v SetPatrolRoute
+fp i
+fp i
+f ffffffff ffffffff 002 v DoPatrolRoute
+fp i
+fp i
+f ffffffff ffffffff 003 v AddPatrolStop
+fp i
+fp i
+fp i
+f ffffffff ffffffff 003 v CheckForStuckPatrol
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 i ProcessCamp
+fp o
+f 00000211 0000053e 003 v DestroyCamp
+fp o
+fp f
+fp i
+f ffffffff ffffffff 002 v SpawnFlags
+fp o
+fp i
+f ffffffff ffffffff 002 o NESS_GetSpawnByID
+fp i
+fp o
+f ffffffff ffffffff 002 v NESS_ActivateSpawnByID
+fp i
+fp o
+f ffffffff ffffffff 002 v NESS_DeactivateSpawnByID
+fp i
+fp o
+f ffffffff ffffffff 001 v NESS_ActivateSpawn
+fp o
+f ffffffff ffffffff 001 v NESS_DeactivateSpawn
+fp o
+f ffffffff ffffffff 001 v NESS_ForceProcess
+fp o
+f ffffffff ffffffff 001 v NESS_TrackModuleSpawns
+fp i
+f ffffffff ffffffff 000 i NESS_IsModuleSpawnTracking
+f ffffffff ffffffff 001 v NESS_DumpModuleSpawns
+fp i
+f ffffffff ffffffff 000 i NESS_IsModuleSpawnDumping
+f ffffffff ffffffff 002 v NESS_ReturnHome
+fp o
+fp i
+f ffffffff ffffffff 002 v NESS_ProcessDeadCreature
+fp o
+fp o
+f ffffffff ffffffff 002 i IsPartyTogether
+fp o
+fp f
+f ffffffff ffffffff 002 i CountMembersInParty
+fp o
+fp i
+f ffffffff ffffffff 002 e2 GetRandomLocationInRadius
+fp o
+fp f
+f ffffffff ffffffff 004 o GetSpawnLocationObject
+fp o
+fp i
+fp i
+fp i
+f ffffffff ffffffff 004 t0000 GetSpawnRadiusPosition
+fp t0000
+fp f
+fp f
+fp i
+f ffffffff ffffffff 002 i CheckPositionUnseen
+fp t0000
+fp f
+f 00000101 00000211 000 v main
+f 0000000d 00000015 000 v #loader
+f 00000015 00000101 000 v #globals
+v 00000017 ffffffff 00000000 i CLOCK_DEBUG
+v 0000002d ffffffff 00000004 i SPAWN_EPOCH
+v 00000043 ffffffff 00000008 s sCorpseResRef
+v 00000064 ffffffff 0000000c s sBombResRef
+v 00000083 ffffffff 00000010 f CORPSE_DECAY_TIME
+v 00000099 ffffffff 00000014 f CORPSE_EXPLODE_TIME
+v 000000af ffffffff 00000018 i SPAWN_DELAY_DEBUG
+v 000000c5 ffffffff 0000001c i SPAWN_COUNT_DEBUG
+v 000000db ffffffff 00000020 i CONSOLE_DEBUG
+v 00000103 00000209 00000000 o oSpawned
+v 00000105 00000209 00000004 s sObject
+v 00000107 00000209 00000008 i iCount
+v 00000109 00000209 0000000c i nCampNumP
+v 0000010b 00000209 00000010 i nCampNumC
+v 0000010d 00000209 00000014 i nCampTriggerScript
+v 00000167 00000209 00000018 o oCamp
+v 0000017d 00000209 0000001c o oSpawn
+v 000001a7 00000209 00000020 f fCampDecay
+v 00000211 00000536 00000000 i nSaveState
+v 00000211 00000536 00000004 f fCampDecay
+v 00000211 00000536 00000008 o oCamp
+v 00000213 00000530 0000000c i iCount
+v 00000215 00000530 00000010 o oSpawned
+v 00000217 00000530 00000014 s sObject
+v 00000219 00000530 00000018 i nCampNumP
+v 00000242 00000530 0000001c i nCampNumC
+v 0000053e 00000bab 00000000 i nCamp
+v 0000053e 00000bab 00000004 o oSpawn
+v 0000053e 00000bab 00000008 o oSpawned
+v 00000540 00000ba5 0000000c s sSaveVarName
+v 00000542 00000ba5 00000010 i nObjectType
+v 00000558 00000ba5 00000014 s sTemplate
+v 0000055a 00000ba5 00000018 e2 lLastLocation
+v 0000055c 00000ba5 0000001c f fLastFacing
+v 0000055e 00000ba5 00000020 f fHomeX
+v 00000560 00000ba5 00000024 f fHomeY
+v 00000562 00000ba5 00000028 i nReturnHome
+v 00000720 00000791 0000002c t0000 vHome
+v 0000074b 00000791 00000038 e2 lHome
+v 0000079f 00000ba5 0000002c i nNumberSaveStates
+v 00000805 00000ba5 00000030 s sSaveVarNameBase
+v 000009c5 00000b99 00000034 f fSpawnFacing
+v 000009f1 00000b99 00000038 f fEntranceExitX
+v 00000a1f 00000b99 0000003c f fEntranceExitY
+v 00000a4d 00000b99 00000040 i iExpireTime
+v 00000bb3 00000cbb 00000000 s str
+v 00000bb3 00000cbb 00000004 o oSpawn
+v 00000cc3 00000d30 00000000 o oSpawned
+v 00000cc5 00000d2a 00000004 o oItem
+l00 0000028 00000015 0000002b
+l00 0000030 0000002b 00000041
+l01 0000022 00000041 00000062
+l01 0000026 00000062 00000081
+l01 0000029 00000081 00000097
+l01 0000032 00000097 000000ad
+l02 0000074 000000ad 000000c3
+l02 0000075 000000c3 000000d9
+l02 0000076 000000d9 000000ef
+l02 0000147 000000ef 000000ef
+l02 0000148 000000ef 000000ef
+l02 0000149 000000ef 000000ef
+l02 0000150 000000ef 000000ef
+l02 0000151 000000ef 000000ef
+l02 0000152 000000ef 000000ef
+l06 0000022 00000101 00000103
+l06 0000023 00000103 00000105
+l06 0000024 00000105 0000010b
+l06 0000027 0000010b 0000013b
+l06 0000030 0000013b 0000014d
+l06 0000032 00000153 0000015f
+l06 0000035 00000165 0000017b
+l06 0000036 0000017b 000001a5
+l06 0000037 000001a5 000001d1
+l06 0000045 000001d1 000001e1
+l06 0000047 000001e7 00000203
+l06 0000055 0000020f 00000211
+l02 0002014 00000211 00000213
+l02 0002015 00000213 00000215
+l02 0002016 00000215 00000217
+l02 0002018 00000217 00000240
+l02 0002019 00000240 00000269
+l02 0002022 00000269 0000027d
+l02 0002024 00000295 000002c3
+l02 0002025 000002c3 000002e6
+l02 0002027 000002e6 000002ee
+l02 0002030 000002f4 00000310
+l02 0002032 00000316 0000034e
+l02 0002033 0000034e 00000363
+l02 0002022 00000363 00000377
+l02 0002037 0000037d 00000391
+l02 0002039 000003a9 000003d7
+l02 0002040 000003d7 000003fa
+l02 0002042 000003fa 00000402
+l02 0002045 00000408 00000424
+l02 0002047 0000042a 00000454
+l02 0002048 00000454 00000464
+l02 0002051 0000046a 00000478
+l02 0002052 00000478 000004ae
+l02 0002053 000004ae 000004e8
+l02 0002055 000004e8 000004fb
+l02 0002058 00000501 00000516
+l02 0002037 00000516 0000052a
+l02 0002060 00000536 0000053e
+l02 0002380 0000053e 00000540
+l02 0002384 00000540 00000556
+l02 0002385 00000556 00000558
+l02 0002386 00000558 0000055a
+l02 0002387 0000055a 0000055c
+l02 0002388 0000055c 0000055e
+l02 0002389 0000055e 00000560
+l02 0002390 00000560 00000562
+l02 0002392 00000562 00000589
+l02 0002394 0000058f 000005d2
+l02 0002396 000005d2 000005e4
+l02 0002399 000005ea 000005ec
+l02 0002401 000005ec 00000607
+l02 0002402 00000607 00000622
+l02 0002403 00000622 0000063d
+l02 0002404 0000063d 00000658
+l02 0002405 00000658 0000067c
+l02 0002406 0000067c 000006a0
+l02 0002409 000006a0 000006a8
+l02 0002411 000006ae 000006d9
+l02 0002414 000006df 000006e1
+l02 0002416 000006e1 0000070c
+l02 0002419 0000070c 00000714
+l02 0002421 0000071a 00000749
+l02 0002422 00000749 0000077b
+l02 0002423 0000077b 00000791
+l02 0002427 0000079d 000007d1
+l02 0002428 000007d1 00000803
+l02 0002429 00000803 00000836
+l02 0002430 00000836 0000086e
+l02 0002434 0000086e 00000894
+l02 0002435 00000894 000008b1
+l02 0002437 000008b1 000008d5
+l02 0002438 000008d5 000008f2
+l02 0002440 000008f2 0000091a
+l02 0002441 0000091a 00000937
+l02 0002443 00000937 00000958
+l02 0002444 00000958 00000975
+l02 0002446 00000975 00000996
+l02 0002447 00000996 000009b3
+l02 0002451 000009b3 000009bd
+l02 0002453 000009c3 000009ef
+l02 0002454 000009ef 00000a1d
+l02 0002455 00000a1d 00000a4b
+l02 0002456 00000a4b 00000a7e
+l02 0002459 00000a7e 00000aa5
+l02 0002460 00000aa5 00000ac2
+l02 0002462 00000ac2 00000aeb
+l02 0002463 00000aeb 00000b08
+l02 0002465 00000b08 00000b31
+l02 0002466 00000b31 00000b4e
+l02 0002468 00000b4e 00000b7c
+l02 0002469 00000b7c 00000b99
+l02 0002471 00000bab 00000bb3
+l02 0000100 00000bb3 00000bbb
+l02 0000102 00000bc1 00000c31
+l02 0000105 00000c31 00000c39
+l02 0000107 00000c3f 00000caf
+l02 0000116 00000cbb 00000cc3
+l02 0001587 00000cc3 00000ce0
+l02 0001588 00000ce0 00000cf6
+l02 0001591 00000cf6 00000d09
+l02 0001592 00000d09 00000d24
+l02 0001594 00000d30 00000d38

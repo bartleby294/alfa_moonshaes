@@ -1,0 +1,18 @@
+//::///////////////////////////////////////////////
+//:: FileName _h_hunting09
+//:://////////////////////////////////////////////
+//:://////////////////////////////////////////////
+//:: Created By: Script Wizard
+//:: Created On: 7/17/2006 2:31:59 AM
+//:://////////////////////////////////////////////
+#include "nw_i0_tool"
+
+int StartingConditional()
+{
+
+	// Make sure the PC speaker has these items in their inventory
+	if(!HasItem(GetPCSpeaker(), "_DeadDeer"))
+		return FALSE;
+
+	return TRUE;
+}
