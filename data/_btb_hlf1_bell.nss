@@ -99,8 +99,17 @@ void createRaidingParty(object xvartRaidSpawnWP) {
     int curXvartCnt = 1;
 
     for(curXvartCnt = 1; curXvartCnt <= rand_1d5_xvarts; ++curXvartCnt) {
-        object curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_01",
-            GetLocation(xvartRaidSpawnWP), TRUE, "xvart_raider");
+
+        object curXvart = OBJECT_INVALID;
+
+        // Make one full AI xvarts and the rest smash and grab.
+        if(curXvartCnt < 2) {
+            curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_003",
+                GetLocation(xvartRaidSpawnWP), TRUE, "xvart_raider");
+        } else {
+            curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_01",
+                GetLocation(xvartRaidSpawnWP), TRUE, "xvart_raider");
+        }
 
         // Note that if there are less than 5 corn left in the area xvart will
         // not attack any more corn but at this point leave the pcs a chance.
@@ -136,7 +145,8 @@ void startRaid() {
     // Start the raid and then set a time out of 30 minutes.
     SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 1);
     SetLocalInt(OBJECT_SELF, "xvart_raids_remaining", numberOfRaids);
-    DelayCommand(1800.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
+    //DelayCommand(1800.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
+    DelayCommand(20.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
 
     object curXvartRaidWP = GetWaypointByTag("hlf1_xvart_1");
     createRaidingParty(curXvartRaidWP);
