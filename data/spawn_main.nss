@@ -1,7 +1,7 @@
 //
 //
-//   NESS
-//   Spawn Main v8.1.3
+//   ALFA NESS
+//   Spawn Main v1.2.4
 //
 //
 //   Do NOT Modify this File
@@ -10,19 +10,15 @@
 
 // Function Includes
 #include "spawn_functions"
-// Added for Spawn Group/Camp Merchant System v1.1 by U'lias Clearmon (Shawn Marcil)
-#include "spawn_funcs_uc"
+
 //
+
 // Configuration Includes
 #include "spawn_cfg_flag"
-// #include "spawn_cfg_group" replaced by #include "spawn_cfg_grp_uc"
-// for Spawn Group/Camp Merchant System v1.1 by U'lias Clearmon (Shawn Marcil)
-#include "spawn_cfg_grp_uc"
+#include "spawn_cfg_group"
 #include "spawn_cfg_global"
 #include "spawn_cfg_loot"
-// #include "spawn_cfg_camp" replaced by #include "spawn_cfg_cmp_uc"
-// for Spawn Group/Camp Merchant System v1.1 by U'lias Clearmon (Shawn Marcil)
-#include "spawn_cfg_cmp_uc"
+#include "spawn_cfg_camp"
 #include "spawn_cfg_fxsp"
 #include "spawn_cfg_fxae"
 #include "spawn_cfg_fxobj"
@@ -38,6 +34,7 @@ int GetCurrentRealSeconds();
 
 // Declare Function Includes
 void SetGlobalDefaults();
+void InitFlags(object oSpawn, string sSpawnName);
 int SetSpawns(location lBase);
 string PadIntToString(int nInt, int nDigits);
 int CountPCsInArea(object oArea = OBJECT_INVALID, int nDM = FALSE);
@@ -49,6 +46,7 @@ void RandomWalk(object oSpawn, float fWalkingRadius, int nRun);
 void FindSeat(object oSpawn, object oSpawned);
 void SetPatrolRoute(int nPatrolRoute, int nStartClosest=FALSE);
 void DoPatrolRoute(int nPatrolRoute, int nRouteType);
+void AddPatrolStop(int nPatrolRoute, int nStopNumber);
 int ProcessCamp(object oCamp);
 void DestroyCamp(object oCamp, float fCampDecay, int nSaveState);
 //
@@ -101,7 +99,7 @@ void Spawn()
         // Set Spawns
         location lBase = Location(OBJECT_SELF, Vector(), 0.0);
         SetSpawns(lBase);
-        SetLocalInt(OBJECT_SELF, SPAWN_AREA_COUNT, 0);
+        SetLocalInt(OBJECT_SELF, "AreaSpawnCount", 0);
         SetLocalInt(OBJECT_SELF, "NESS_AreaInitialized", TRUE);
 
         // Recall ourselves after flags have been initialized
@@ -117,16 +115,14 @@ void Spawn()
 
     int nPCCount = CountPCsInArea(OBJECT_SELF, TRUE);
 
-    int nAreaSpawnCount = GetLocalInt(OBJECT_SELF, SPAWN_AREA_COUNT );
-    int bLeftoversForceProcessing = GetLocalInt( GetModule(),
-      "LeftoversForceProcessing");
+    int nAreaSpawnCount = GetLocalInt(OBJECT_SELF, "AreaSpawnCount");
+    int nSpawns = GetLocalInt(OBJECT_SELF, "Spawns");
 
-    if (nPCCount == 0 && (nAreaSpawnCount == 0 || ! bLeftoversForceProcessing))
+    if (nAreaSpawnCount == 0 && nPCCount == 0)
     {
         return;
     }
 
-    int nSpawns = GetLocalInt(OBJECT_SELF, "Spawns");
     int nNewAreaSpawnCount = 0;
 
     // What time is it?  Used to compare all times
@@ -138,13 +134,7 @@ void Spawn()
         // Retrieve Spawn
         sSpawnNum = "Spawn" + PadIntToString(nNth, 2);
         oSpawn = GetLocalObject(OBJECT_SELF, sSpawnNum);
-
-        // Validate spawn
-        if (! GetIsObjectValid( oSpawn ) )
-        {
-           continue;
-        }
-        sSpawnName = GetLocalString(oSpawn, "f_Flags");
+        sSpawnName = GetName(oSpawn);
 
         // Check for spawns that need to be processed because they despawned
         // due to a PCxx flag and PCs have returned
@@ -235,7 +225,7 @@ void Spawn()
     // Do spawn tracking
     int nTrackModuleSpawns = GetLocalInt(GetModule(), "TrackModuleSpawns");
 
-    SetLocalInt(OBJECT_SELF, SPAWN_AREA_COUNT, nNewAreaSpawnCount);
+    SetLocalInt(OBJECT_SELF, "AreaSpawnCount", nNewAreaSpawnCount);
 
     // call with old count
     TrackModuleSpawns(nAreaSpawnCount, nTrackModuleSpawns);
@@ -263,8 +253,8 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
     int nChildSlot, nEmptyChildSlots;
     string sChildSlot,  sChild;
     int nSpawnBlock, nSpawnDespawn, nDespawning;
-    string sSpawnName = GetLocalString(oSpawn, "f_Flags");
-    string sSpawnTag = GetLocalString(oSpawn, "f_Template");
+    string sSpawnName = GetName(oSpawn);
+    string sSpawnTag = GetTag(oSpawn);
     location lSpawn = GetLocation(oSpawn);
     int nChildrenSpawned = GetLocalInt(oSpawn, "ChildrenSpawned");
     int nProcessesPerMinute = 60 / (nProcessFrequency * 6);
@@ -348,11 +338,6 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
     int nPatrolScriptRunning;
     int nPatrolRoute = GetLocalInt(oSpawn, "f_PatrolRoute");
     int nRouteType = GetLocalInt(oSpawn, "f_RouteType");
-    int bCheckForStuckPatrols;
-    if (nPatrolRoute)
-    {
-       bCheckForStuckPatrols = GetLocalInt(GetModule(), "CheckForStuckPatrols");
-    }
 
     // Initialize Placeables
     int nLootTime;
@@ -518,7 +503,6 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
         oCreature = GetLocalObject(oSpawn, sChildSlot);
         //debug("checking " + sChildSlot + " of " + IntToString(nSpawnNumber));
 
-
         // Check if this is Child Slot is Valid
         if (GetIsObjectValid(oCreature) == FALSE)
         {
@@ -534,13 +518,6 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
         {
             if (nPlaceable == FALSE && nSpawnCamp == FALSE && nSpawnItem == FALSE)
             {
-                // Don't process DM possessed creatures
-
-                if (GetIsDMPossessed( oCreature ) )
-                {
-                   continue;
-                }
-
                 // Check for Corpses
                 if (GetIsDead(oCreature) == FALSE)
                 {
@@ -641,9 +618,7 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
             // Random Walk
             if (nRandomWalk == TRUE && nDespawning == FALSE && nSpawnDespawn == FALSE)
             {
-                if (GetCurrentAction(oCreature) != ACTION_WAIT &&
-                    GetCurrentAction(oCreature) != ACTION_CASTSPELL &&
-                   !GetIsInCombat(oCreature) && !IsInConversation(oCreature))
+                if (GetCurrentAction(oCreature) != 36 && !GetIsInCombat(oCreature) && !IsInConversation(oCreature))
                 {
                     if (d2(1) == 2)
                     {
@@ -668,7 +643,6 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
             {
                 if (!GetIsInCombat(oCreature) && !IsInConversation(oCreature))
                 {
-
                     nPatrolScriptRunning = GetLocalInt(oCreature, "PatrolScriptRunning");
                     if (GetCurrentAction(oCreature) == ACTION_INVALID && nPatrolScriptRunning == FALSE)
                     {
@@ -676,11 +650,6 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
                         //AssignCommand(oCreature, ClearAllActions());
                         AssignCommand(oCreature, SetPatrolRoute(nPatrolRoute));
                         AssignCommand(oCreature, DoPatrolRoute(nPatrolRoute, nRouteType));
-                    }
-
-                    else if (bCheckForStuckPatrols)
-                    {
-                        CheckForStuckPatrol(oCreature, nPatrolRoute, nRouteType);
                     }
                 }
                 else if (IsInConversation(oCreature) == TRUE)
@@ -1006,7 +975,6 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
                    || (nPCCheck == TRUE && nPCCount == 0))
                 {
                     AssignCommand(oCreature, ClearAllActions());
-                    AssignCommand(oCreature, ActionWait(1.0) );
                     if (nEntranceExit > -1)
                     {
                         if (nExit > -1)
@@ -1023,7 +991,7 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
                             sExit = "EX" + PadIntToString(nExit, 2);
                             oExit = GetNearestObjectByTag(sExit, oSpawn);
                             lExit = GetLocation(oExit);
-                            //AssignCommand(oCreature, ClearAllActions());
+                            AssignCommand(oCreature, ClearAllActions());
                             AssignCommand(oCreature, ActionMoveToLocation(lExit));
                         }
                         else
@@ -1033,7 +1001,7 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
                             fEntranceExitY = GetLocalFloat(oCreature, "EntranceExitY");
                             vEntranceExit = Vector(fEntranceExitX, fEntranceExitY, 0.0);
                             lEntranceExit = Location(OBJECT_SELF, vEntranceExit, 0.0);
-                            //AssignCommand(oCreature, ClearAllActions());
+                            AssignCommand(oCreature, ClearAllActions());
                             AssignCommand(oCreature, ActionMoveToLocation(lEntranceExit));
                         }
                         if (nDespawnScript > -1)
@@ -1230,11 +1198,10 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
     {
         // If there are empty slots and nSpawnDelay is true and nNextSpawnTime is 0
         // (which indicates no timer is currently set) and this isn't the first time
-        // we've ever spawned (as indicated by nNumberChildrenSpawned) and we're not
-        // despawning because PCs have left we should
+        // we've ever spawned (as indicated by nNumberChildrenSpawned) we should
         // set up a timer
         if (nSpawnDelay && (! nSpawnDelayPeriodic) &&
-            nChildrenSpawned > 0 && nNextSpawnTime == 0 && ! nPCCheckDespawn )
+            nChildrenSpawned > 0 && nNextSpawnTime == 0 && ! nPCCheckDespawn)
         {
             nNextSpawnTime = SetupSpawnDelay(nSpawnDelay,
                nDelayRandom, nDelayMinimum, nTimeNow);
@@ -1360,7 +1327,7 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
 
             // Check the spawn delay timer
             int nOverrideSpawnDelay = GetLocalInt(oSpawn, "OverrideSpawnDelay");
-            if (nSpawnDelay || nInitialDelay)
+            if (nSpawnDelay)
             {
                 // need to refetch, as the death of a child may have changed it
                 //nNextSpawnTime = GetLocalInt(oSpawn, "NextSpawnTime");
@@ -1369,13 +1336,6 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
                 if ((nTimeNow >= nNextSpawnTime)  && (! nPCCheck || nPCCount > 0))
                 {
                     nSpawnDelayTimerExpired = TRUE;
-
-                    if (nInitialDelay)
-                    {
-                        nInitialDelay = 0;
-                        SetLocalInt(oSpawn, "f_InitialDelay", nInitialDelay );
-                    }
-
                     if (! nSpawnDelayPeriodic)
                     {
                         SpawnDelayDebug(oSpawn, "SD timer expired: " +
@@ -1394,8 +1354,7 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
             // Check Against spawn delay (SD flag)
             //debug("SpawnDelayTimerExpired: " + IntToString(nSpawnDelayTimerExpired));
 
-            if ( ( (!nSpawnDelay || nOverrideSpawnDelay) && ! nInitialDelay ) ||
-                nSpawnDelayTimerExpired )
+            if ((!nSpawnDelay) || nSpawnDelayTimerExpired || nOverrideSpawnDelay)
             {
                 //debug("respawn after delay");
                 SetLocalInt(oSpawn, "OverrideSpawnDelay", 0);
@@ -1535,8 +1494,10 @@ void DoSpawn(object oSpawn, int nTimeNow)
     int nUnseenIndividual = GetLocalInt(oSpawn, "f_UnseenIndividual");
     int nUnseenRetryCount = GetLocalInt(oSpawn, "f_UnseenRetryCount");
 
+    lHome = GetLocation(oSpawn);
+
     // Start with this position for this spawn at the spawn waypoint
-    vSpawnPos = GetPositionFromLocation(GetLocation(oSpawn));
+    vSpawnPos = GetPositionFromLocation(lHome);
 
     // Find facing for this spawn
     if (nFacing)
@@ -1655,13 +1616,8 @@ void DoSpawn(object oSpawn, int nTimeNow)
         }
     }
 
-    // Home is where we spawn in OR where we WOULD spawn in if there were no
-    // Alternate entrance specified.
-    lHome = Location(OBJECT_SELF, vSpawnPos, fSpawnFacing);
-
     // If there's an entrance/exit, lSpawnLocation may still change to that
-    lSpawnLocation = lHome;
-
+    lSpawnLocation = Location(OBJECT_SELF, vSpawnPos, fSpawnFacing);
 
     // Check Spawn Type
     nObjectType = OBJECT_TYPE_CREATURE;
@@ -1751,14 +1707,14 @@ void DoSpawn(object oSpawn, int nTimeNow)
         if (nSpawnCamp == TRUE)
         {
             oSpawned = CampSpawn(oSpawn, sTemplate, lSpawnLocation);
-            RecordSpawned(oSpawn, oSpawned, lHome, lEntranceExit, fSpawnFacing);
+            RecordSpawned(oSpawn, oSpawned, lSpawnLocation, lHome, fSpawnFacing);
         }
         else
         {
 
             oSpawned = CreateObject(nObjectType, sTemplate, lSpawnLocation);
             SpawnDelayDebug(oSpawn, "spawned " + ObjectToString(oSpawned));
-            RecordSpawned(oSpawn, oSpawned, lHome, lEntranceExit,
+            RecordSpawned(oSpawn, oSpawned, lSpawnLocation, lHome,
                fSpawnFacing);
             SetupSpawned(oSpawn, oSpawned, lHome, nTimeNow, nWalkToHome);
         }
@@ -1772,7 +1728,6 @@ object CampSpawn(object oSpawn, string sCamp, location lCamp)
     // Spawn in Camp Placeholder
     object oCamp = CreateObject(OBJECT_TYPE_PLACEABLE, "plc_invisobj", lCamp, FALSE);
     SetPlotFlag(oCamp, TRUE);
-    SetLocalObject(oCamp, "ParentSpawn", oSpawn);
     SetCampSpawn(oCamp, sCamp, lCamp);
 
     // Initialize

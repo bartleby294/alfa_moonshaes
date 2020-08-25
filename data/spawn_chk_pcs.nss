@@ -1,4 +1,3 @@
-#include "sos_include"
 //
 // Spawn Check - PCs
 //
@@ -46,47 +45,73 @@ int SpawnCheckPCs(object oSpawn)
 // -------------------------------------------
 
 
+            // Check 00
+            if (nCheckPCs == 0)
+            {
+                // Example, Allow Spawn
+                nProcessSpawn = TRUE;
+            }
+            //
 
-            // Checks 1-3 are Endless Cavern Checks
+            // Spawn with a Skill Check
             if (nCheckPCs == 1)
             {
-                int nQuest = SOS_GetPersistentInt(oPC, "nEndless");   //name of Variable here
-                if (nQuest == 1)                                      //Variable value here
+                // Get Current Number of Children
+                int nSpawnCount = GetLocalInt(oSpawn, "SpawnCount");
+
+                if (nSpawnCount == 0)
                 {
-                    // Quest Entry is 1, Spawn!
-                    nProcessSpawn = TRUE;
+                    // DC of Hidden Placeable
+                    int nItemDC = 20;
+
+                    // Player's Skill
+                    int nSkill = GetSkillRank(SKILL_SEARCH, oPC);
+
+                    // Do Skill Check
+                    int nDCCheck = d20() + nSkill;
+                    if (nDCCheck >= nItemDC)
+                    {
+                        // Placeable Spotted!
+                        string sSpotted = "You notice a thingamathingy!";
+                        FloatingTextStringOnCreature(sSpotted, oPC, TRUE);
+                        //Spawn it!
+                        nProcessSpawn = TRUE;
+                    }
                 }
             }
             //
-            if (nCheckPCs == 2)
-            {
-                int nQuest = SOS_GetPersistentInt(oPC, "nEndless");
-                if (nQuest == 2)
-                {
-                    nProcessSpawn = TRUE;
-                }
-            }
 
-            if (nCheckPCs == 3)
-            {
-                int nQuest = SOS_GetPersistentInt(oPC, "nEndless");
-                if (nQuest == 3)
-                {
-                    nProcessSpawn = TRUE;
-                }
-            }
-
-//This check is for the Disciples of Orcus temple
-            if (nCheckPCs == 4)
+            // Spawn Based on Journal Quest Entry
+            if (nCheckPCs == 1)
             {
                 // Check Journal Quest Entry
-                int nQuest = SOS_GetPersistentInt(oPC, "nOrcus");
+                int nQuest = GetLocalInt(oPC, "NW_JOURNAL_ENTRYQuest1");
                 if (nQuest == 1)
                 {
                     // Quest Entry is 1, Spawn!
                     nProcessSpawn = TRUE;
                 }
             }
+            //
+
+            // Spawn Based on Item in PC Inventory
+            if (nCheckPCs == 2)
+            {
+                // Check Player for Item
+                object oItem = GetFirstItemInInventory(oPC);
+                while (oItem != OBJECT_INVALID)
+                {
+                    if (GetTag(oItem) == "MysticKey")
+                    {
+                        // Item Found, Spawn!
+                        nProcessSpawn = TRUE;
+                    }
+                    oItem = GetNextItemInInventory(oPC);
+                }
+            }
+            //
+
+
 // -------------------------------------------
 // Only Make Modifications Between These Lines
 //

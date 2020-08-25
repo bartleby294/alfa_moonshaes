@@ -27,11 +27,11 @@
 // This value is added to the EL of a monster to determine if it's
 // enough of a challenge to warrant any XP award to a player (or
 // party).  If the player level is > than the monster EL plus this
-// value, 1 XP is awarded. 
+// value, 1 XP is awarded.
 const int XP_MAX_EL_LEVEL_DIFFERENCE = 3;
 
 // If the player level is > than the monster EL plus this
-// value, 0 XP is awarded. 
+// value, 0 XP is awarded.
 const int XP_ULTRAMAX_EL_LEVEL_DIFFERENCE = 7;
 
 // These special values are used to indicate that 1 or 0 XP should be awarded
@@ -125,7 +125,7 @@ float GetEncounterLevel( object oKilled )
     fEL = GetChallengeRating(oKilled);
   }
 
-  return fEL; 
+  return fEL;
 }
 
 // Make certain the character doesn't get more than one level from their xp gain.
@@ -174,7 +174,7 @@ void XP_RewardXP( object a_oCharacter, int a_nXP )
         {
             if (XP_DEBUG_XP)
             {
-                SpeakString(GetName( a_oCharacter ) + 
+                SpeakString(GetName( a_oCharacter ) +
                     " received 0 XP due to EL vs. party lvl considerations.");
             }
 
@@ -185,7 +185,7 @@ void XP_RewardXP( object a_oCharacter, int a_nXP )
         {
             if (XP_DEBUG_XP)
             {
-                SpeakString(GetName( a_oCharacter ) + 
+                SpeakString(GetName( a_oCharacter ) +
                     " received 1 XP due to EL vs. party lvl considerations.");
             }
             nXP = 1;
@@ -196,8 +196,8 @@ void XP_RewardXP( object a_oCharacter, int a_nXP )
     {
         if (XP_DEBUG_XP)
         {
-            SpeakString(GetName( a_oCharacter ) + " received " + 
-                IntToString( FloatToInt((ADVANCE_XP_SCALE * nXP) + 0.5 )  ) + 
+            SpeakString(GetName( a_oCharacter ) + " received " +
+                IntToString( FloatToInt((ADVANCE_XP_SCALE * nXP) + 0.5 )  ) +
                 " before ECL adjustment");
         }
 
@@ -206,7 +206,7 @@ void XP_RewardXP( object a_oCharacter, int a_nXP )
 
         if (XP_DEBUG_XP)
         {
-            SpeakString(GetName( a_oCharacter ) + " received " + 
+            SpeakString(GetName( a_oCharacter ) + " received " +
                 IntToString( nXP ) + " after ECL adjustment");
         }
 
@@ -247,7 +247,7 @@ void XP_RewardXPToPartyInArea( object a_oCharacter, object a_oArea, int a_nXP )
             // We now use character level for XP distribution, not ECL;
             // Using ECL meant the player got a bigger portion of the XP,
             // negating the ECL XP penalty
-            nPartyLevelTotal += GetHitDice( oPC );            
+            nPartyLevelTotal += GetHitDice( oPC );
         }
 
         oPC = GetNextFactionMember( a_oCharacter, TRUE );
@@ -270,7 +270,7 @@ void XP_RewardXPToPartyInArea( object a_oCharacter, object a_oArea, int a_nXP )
             else
             {
                 nCharXP = FloatToInt( IntToFloat( a_nXP ) *
-                    ( IntToFloat( GetHitDice( oPC ) ) / 
+                    ( IntToFloat( GetHitDice( oPC ) ) /
                     IntToFloat( nPartyLevelTotal ) ) );
 
                 fDimRetFactor = XP_GetDimReturnsXPFactor( oPC );
@@ -382,7 +382,7 @@ void XP_RewardXPForKill()
 
         if( !GetIsDM( oPC ) && ( oKilledArea == GetArea( oPC ) ) )
         {
-            fCurrentPC_ECL = IntToFloat ( 
+            fCurrentPC_ECL = IntToFloat (
                SEI_GetEffectiveCharacterLevel( oPC ) );
 
             if (fCurrentPC_ECL > fPartyLevel)
@@ -398,7 +398,7 @@ void XP_RewardXPForKill()
 
     if (XP_DEBUG_XP)
     {
-      SpeakString("I was killed by a party of level " + 
+      SpeakString("I was killed by a party of level " +
          FloatToString(fPartyLevel));
     }
 
@@ -418,14 +418,17 @@ void XP_RewardXPForKill()
     }
 
     int nTotalXP;
-    
+
     // Check that the encounter is appropriate for the party
     if ( fPartyLevel > (fEL + XP_MAX_EL_LEVEL_DIFFERENCE) )
     {
-     
+
       // strip all loot from the creature
+      if(gALFA_DESTROY_LOOT_ON_HIGH_EL)
+      {
       DestroyInventory(OBJECT_SELF);
       DestroyEquipped(OBJECT_SELF);
+      }
 
       if ( fPartyLevel > (fEL + XP_ULTRAMAX_EL_LEVEL_DIFFERENCE) )
       {

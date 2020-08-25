@@ -1,5 +1,5 @@
 //
-// NESS V8.1.3
+// NESS V8.0
 //
 // Spawn Global Defaults
 //
@@ -120,7 +120,7 @@ int nUnseenRetryCount = -1;
 // CorpseDecay
 int nCorpseDecay = 0;
 int nCorpseDecayType = 0;
-int nCorpseRemainsType = 0;
+int nRemainsType = 0;
 
 // CM|Dn
 // SpawnCamp
@@ -195,9 +195,6 @@ int nHealChildren = 0;
 string sSeatTag = "Seat";
 
 int nEncounterLevel = 0;
-int bLeftoversForceProcessing = 1;
-int bCheckForStuckPatrols = 1;
-int bAlwaysDestroyCorpses = 1;
 
 
 void SetUserGlobalDefaults();
@@ -279,14 +276,11 @@ void SetGlobalDefaults()
     SetLocalInt(oModule, "df_ExitMin", nExitMin);
     SetLocalInt(oModule, "df_HealChildren", nHealChildren);
     SetLocalInt(oModule, "df_EncounterLevel", nEncounterLevel);
-	  SetLocalInt(oModule, "df_CorpseRemainsType", nCorpseRemainsType);
+	SetLocalInt(oModule, "df_RemainsType", nRemainsType);
 
     SetLocalInt(oModule, "ModuleSpawnCount", 0);
 
     SetLocalString(oModule, "df_SeatTag", sSeatTag);
-    SetLocalInt(oModule, "LeftoversForceProcessing", bLeftoversForceProcessing);
-    SetLocalInt(oModule, "CheckForStuckPatrols", bCheckForStuckPatrols);    
-    SetLocalInt(oModule, "AlwaysDestroyCorpses", bAlwaysDestroyCorpses);
 
     // Record Initialization
     SetLocalInt(oModule, "GlobalDefaultsInitialized", TRUE);

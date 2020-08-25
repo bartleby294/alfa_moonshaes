@@ -41,15 +41,15 @@ location lAlfaReturnLocation;
 //  ARGUMENTS:
 //      sDatabase    = the name of the database to write to
 //      psVarName    = the name of the string variable
-//      psValue      = the string value to write 
+//      psValue      = the string value to write
 //      poPlayer     = OPTIONAL - Player to associate this string with
 //      bPartyInArea = OPTIONAL - Write variable for each player in
 //                     poPlayer's party that's also in poPlayer's current
 //                     area
 //
-void ALFA_SetPersistentString( string sDatabase, string psVarName, 
+void ALFA_SetPersistentString( string sDatabase, string psVarName,
   string psValue, object poPlayer=OBJECT_INVALID, int bPartyInArea=FALSE )
-{  
+{
   if ( bPartyInArea && GetIsObjectValid( poPlayer ) )
   {
     object oPC = GetFirstFactionMember( poPlayer );
@@ -77,7 +77,7 @@ void ALFA_SetPersistentString( string sDatabase, string psVarName,
 //  ARGUMENTS:
 //      sDatabase    = the name of the database to write to
 //      psVarName    = the name of the integer variable
-//      pnValue      = the integer value to write 
+//      pnValue      = the integer value to write
 //      poPlayer     = OPTIONAL - Player to associate this integer with
 //      bPartyInArea = OPTIONAL - Write variable for each player in
 //                     poPlayer's party that's also in poPlayer's current
@@ -113,13 +113,13 @@ void ALFA_SetPersistentInt( string sDatabase, string psVarName, int pnValue,
 //  ARGUMENTS:
 //      sDatabase    = the name of the database to write to
 //      psVarName    = the name of the float variable
-//      pfValue      = the float value to write 
+//      pfValue      = the float value to write
 //      poPlayer     = OPTIONAL - Player to associate this float with
 //      bPartyInArea = OPTIONAL - Write variable for each player in
 //                     poPlayer's party that's also in poPlayer's current
 //                     area
 //
-void ALFA_SetPersistentFloat( string sDatabase, string psVarName, float pfValue, 
+void ALFA_SetPersistentFloat( string sDatabase, string psVarName, float pfValue,
   object poPlayer=OBJECT_INVALID, int bPartyInArea=FALSE )
 {
   if ( bPartyInArea && GetIsObjectValid( poPlayer ) )
@@ -151,13 +151,13 @@ void ALFA_SetPersistentFloat( string sDatabase, string psVarName, float pfValue,
 //  ARGUMENTS:
 //      sDatabase    = the name of the database to write to
 //      psVarName    = the name of the location variable
-//      plValue      = the location value to write 
+//      plValue      = the location value to write
 //      poPlayer     = OPTIONAL - Player to associate this location with
 //      bPartyInArea = OPTIONAL - Write variable for each player in
 //                     poPlayer's party that's also in poPlayer's current
 //                     area
 //
-void ALFA_SetPersistentLocation( string sDatabase, string psVarName, 
+void ALFA_SetPersistentLocation( string sDatabase, string psVarName,
   location plValue, object poPlayer=OBJECT_INVALID, int bPartyInArea=FALSE )
 {
   if ( bPartyInArea && GetIsObjectValid( poPlayer ) )
@@ -187,13 +187,13 @@ void ALFA_SetPersistentLocation( string sDatabase, string psVarName,
 //  ARGUMENTS:
 //      sDatabase    = the name of the database to write to
 //      psVarName    = the name of the vector variable
-//      pvValue      = the vector value to write 
+//      pvValue      = the vector value to write
 //      poPlayer     = OPTIONAL - Player to associate this vector with
 //      bPartyInArea = OPTIONAL - Write variable for each player in
 //                     poPlayer's party that's also in poPlayer's current
 //                     area
 //
-void ALFA_SetPersistentVector( string sDatabase, string psVarName, 
+void ALFA_SetPersistentVector( string sDatabase, string psVarName,
   vector pvValue, object poPlayer=OBJECT_INVALID, int bPartyInArea=FALSE )
 {
   if ( bPartyInArea && GetIsObjectValid( poPlayer ) )
@@ -223,13 +223,13 @@ void ALFA_SetPersistentVector( string sDatabase, string psVarName,
 //  ARGUMENTS:
 //      sDatabase    = the name of the database to write to
 //      psVarName    = the name of the object variable
-//      poObject     = the object to write 
+//      poObject     = the object to write
 //      poPlayer     = OPTIONAL - Player to associate this object with
 //      bPartyInArea = OPTIONAL - Write variable for each player in
 //                     poPlayer's party that's also in poPlayer's current
 //                     area
 //
-void ALFA_SetPersistentObject( string sDatabase, string psVarName, 
+void ALFA_SetPersistentObject( string sDatabase, string psVarName,
   object poObject, object poPlayer=OBJECT_INVALID, int bPartyInArea=FALSE )
 {
   if ( bPartyInArea && GetIsObjectValid( poPlayer ) )
@@ -270,7 +270,7 @@ void ALFA_SetPersistentObject( string sDatabase, string psVarName,
 //      psVarName    = the name of the string variable
 //      poPlayer     = OPTIONAL - Player associated with this string
 //
-string ALFA_GetPersistentString( string sDatabase, string psVarName, 
+string ALFA_GetPersistentString( string sDatabase, string psVarName,
   object poPlayer=OBJECT_INVALID )
 {
   return GetCampaignString( sDatabase, psVarName, poPlayer );
@@ -296,7 +296,7 @@ int ALFA_GetPersistentInt(string sDatabase, string psVarName,
 //      psVarName    = the name of the float variable
 //      poPlayer     = OPTIONAL - Player associated with this float
 //
-float ALFA_GetPersistentFloat( string sDatabase, string psVarName, 
+float ALFA_GetPersistentFloat( string sDatabase, string psVarName,
   object poPlayer=OBJECT_INVALID )
 {
   return GetCampaignFloat( sDatabase, psVarName, poPlayer );
@@ -322,7 +322,7 @@ location ALFA_GetPersistentLocation( string sDatabase, string psVarName,
 //      psVarName    = the name of the vector variable
 //      poPlayer     = OPTIONAL - Player associated with this vector
 //
-vector ALFA_GetPersistentVector( string sDatabase, string psVarName, 
+vector ALFA_GetPersistentVector( string sDatabase, string psVarName,
   object poPlayer=OBJECT_INVALID )
 {
   return GetCampaignVector( sDatabase, psVarName, poPlayer );
@@ -341,7 +341,7 @@ object ALFA_GetPersistentObject( string sDatabase, string psVarName,
   location lCreateAtLocation, object oCreateOnOwner = OBJECT_INVALID,
   object poPlayer = OBJECT_INVALID )
 {
-  return RetrieveCampaignObject( sDatabase, psVarName, lCreateAtLocation, 
+  return RetrieveCampaignObject( sDatabase, psVarName, lCreateAtLocation,
     oCreateOnOwner, poPlayer );
 }
 
@@ -355,15 +355,15 @@ object ALFA_GetPersistentObject( string sDatabase, string psVarName,
 //      psVarName         = the name of the variable to delete
 //      poPlayer          = OPTIONAL - Player associated with this variable
 //
-void ALFA_DeletePersistentVariable( string sDatabase, string psVarName, 
+void ALFA_DeletePersistentVariable( string sDatabase, string psVarName,
   object poPlayer=OBJECT_INVALID )
 {
   DeleteCampaignVariable( sDatabase, psVarName, poPlayer );
 }
 
-// The Set/Get Campaign Location functions are broken, because they store the 
+// The Set/Get Campaign Location functions are broken, because they store the
 // OBJECT ID of the area portion of the location, which can change across server
-// resets (especially if the module is modified).  These versions store and 
+// resets (especially if the module is modified).  These versions store and
 // retrieve the tag of the area, a vector and the facing.  This works only if
 // the module has unique area tags.  A flag is used to indicate if this is so; if
 // not, we fall back to the somewhat less broken Bioware versions.
@@ -392,7 +392,7 @@ void ALFA_SetCampaignLocation( string sDatabase, string psVarName,
 
 }
 
-location ALFA_GetCampaignLocation( string sDatabase, string psVarName, 
+location ALFA_GetCampaignLocation( string sDatabase, string psVarName,
   object oPlayer = OBJECT_INVALID)
 {
   location lReturnLoc;

@@ -1,6 +1,6 @@
 //
-// NESS V8.1
-// Spawn Config Custom Flags
+// NESS V8.0
+// Spawn Config Flags
 //
 //  This file is for the USER to to add support for custom flags.  It will
 //  normally not be overwritten by UPDATE releases, so remerging can be avoided.
@@ -44,11 +44,6 @@ void ParseCustomFlags(object oSpawn, string sFlags)
     int dfGlobalSuppressDR = GetLocalInt(oModule, "df_GlobalSuppressDR");
     int dfEncounterLevel = GetLocalInt(oModule, "df_EncounterLevel");
 
-
-    // NOTE:  Because of the unique nature of these flags being present as both 
-    // standard flags and custom flags (for back compatibility) only write flags
-    // if they're present!!
-
     // Initialize Dim Returns Suppression
     int nSuppressDimReturns = IsFlagPresent(sFlags, "SX");
 
@@ -56,26 +51,28 @@ void ParseCustomFlags(object oSpawn, string sFlags)
     {
       // If the flag is present, get suppression mode from its value
       nSuppressDimReturns = GetFlagValue(sFlags, "SX", dfSuppressDR);
-      SetLocalInt(oSpawn, "f_SuppressDimReturns", nSuppressDimReturns);
     }
+
+    else
+    {
+      // Use the global setting
+      nSuppressDimReturns = dfGlobalSuppressDR;
+    }
+
+    // Record Dim Returns Suppression
+    SetLocalInt(oSpawn, "f_SuppressDimReturns", nSuppressDimReturns);
 
     // Initialize Loot Suppression
     int nSuppressLooting = IsFlagPresent(sFlags, "NL");
 
     // Record Loot Suppression
-    if (nSuppressLooting)
-    {
-      SetLocalInt(oSpawn, "f_SuppressLooting", nSuppressLooting);
-    }
+    SetLocalInt(oSpawn, "f_SuppressLooting", nSuppressLooting);
 
     // Initialize Subdual Mode
     int nSubdualMode = IsFlagPresent(sFlags, "SB");
 
     // Record Subdual Mode
-    if (nSubdualMode)
-    {
-      SetLocalInt(oSpawn, "f_SubdualMode", nSubdualMode);
-    }
+    SetLocalInt(oSpawn, "f_SubdualMode", nSubdualMode);
 
     int nEncounterLevel;
 

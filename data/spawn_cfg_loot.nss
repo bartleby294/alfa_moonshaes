@@ -30,33 +30,288 @@ void LootTable(object oSpawn, object oSpawned, int nLootTable)
     object oItem;
     string sTemplate;
     int nStack;
+    int i = 0;
+    int num = 0;
+    int j = 0;
 
 //
 // Only Make Modifications Between These Lines
 // -------------------------------------------
 
     // Table 00
-    if (nLootTable == 0)
+   // if (nLootTable == 0)
     {
         // 50% Chance
-        if (d100(1) > 50)
-        {
+       // if (d100(1) > 10)
+     //   {
             // Created Custom Item with ResRef of magicsword
-            sTemplate = "magicsword";
-            nStack = 1;
-        }
-        oItem = CreateItemOnObject(sTemplate, oSpawned, nStack);
-    }
+         //   sTemplate = "magicsword";
+       //     nStack = 1;
+      //  }
+      //  oItem = CreateItemOnObject(sTemplate, oSpawned, nStack);
+    //}
     //
 
     // Random Gold and *Nothing* Else
-    else if (nLootTable == 1)
+  //  else */
+  if (nLootTable == 1)
     {
         CleanInventory(oSpawned);
         // Add our Items: Gold for Example
-        nStack = Random(50) + 1;
+        nStack = Random(20) + 1;
         oItem = CreateItemOnObject("nw_it_gold001", oSpawned, nStack);
     }
+
+  if (nLootTable == 2 || nLootTable == 3 || nLootTable ==4)      //goblin loot table low
+    {
+       CleanInventory(oSpawned);
+       num = Random(3) + 1;
+
+
+
+
+       for(j=0;j<=num;j++){
+
+       i = Random(100);
+
+
+
+       if (nLootTable == 3){//(if lowbie goblins, only first loot table
+         i = 10;
+
+
+       }
+
+       if (nLootTable == 4){//if tough goblins, better chance of good loot
+         i = i + 40;
+
+
+       }
+
+       if(i<= 65){    //low loot table
+
+        switch (Random(28) )
+        {
+            case 0:
+            nStack = Random(3) + 1;
+            oItem = CreateItemOnObject("nw_it_gold001", oSpawned, nStack);
+            break;
+
+            case 1:
+            nStack = 1;
+            oItem = CreateItemOnObject("hc_healkit", oSpawned, nStack);
+            break;
+
+            case 2:
+            nStack = 1;
+            oItem = CreateItemOnObject("alfa_apple", oSpawned, nStack);
+            break;
+
+            case 3:
+            nStack = 1;
+            oItem = CreateItemOnObject("bread", oSpawned, nStack);
+            break;
+
+            case 4:
+            nStack = 1;
+            oItem = CreateItemOnObject("mead", oSpawned, nStack);
+            break;
+
+            case 5:
+            nStack = 1;
+            oItem = CreateItemOnObject("004RustySword", oSpawned, nStack);
+            break;
+
+            case 6:
+            nStack = 1;
+            oItem = CreateItemOnObject("BelayingPin", oSpawned, nStack);
+            break;
+
+            case 7:
+            nStack = 1;
+            oItem = CreateItemOnObject("004ShoddyMace", oSpawned, nStack);
+            break;
+
+            case 8:
+            nStack = 1;
+            oItem = CreateItemOnObject("004Dart1", oSpawned, nStack);
+            break;
+
+            case 9:
+            nStack = 1;
+            oItem = CreateItemOnObject("NW_IT_MSMLMISC20", oSpawned, nStack);
+            break;
+
+            case 10:
+            nStack = 1;
+            oItem = CreateItemOnObject("NW_IT_MSMLMISC24", oSpawned, nStack);
+            break;
+
+            case 11:
+            nStack = 1;
+            oItem = CreateItemOnObject("004Dart1", oSpawned, nStack);
+            break;
+
+            case 12:
+            nStack = 1;
+            oItem = CreateItemOnObject("NW_IT_MPOTION021", oSpawned, nStack);
+            break;
+
+            case 13:
+            nStack = 1;
+            oItem = CreateItemOnObject("NW_IT_MPOTION023", oSpawned, nStack);
+            break;
+
+            case 14:
+            nStack = 1;
+            oItem = CreateItemOnObject("slimygoblinear", oSpawned, nStack);
+            break;
+
+            case 15:
+            nStack = 1;
+            oItem = CreateItemOnObject("slimygoblinear", oSpawned, nStack);
+            break;
+
+            case 16:
+            nStack = 1;
+            oItem = CreateItemOnObject("slimygoblinear", oSpawned, nStack);
+            break;
+
+            case 17:
+            nStack = 1;
+            oItem = CreateItemOnObject("mead", oSpawned, nStack);
+            break;
+
+            case 18:
+            nStack = 1;
+            oItem = CreateItemOnObject("nuts", oSpawned, nStack);
+            break;
+
+            case 19:
+            nStack = 1;
+            oItem = CreateItemOnObject("meat", oSpawned, nStack);
+            break;
+
+
+            }// switch close
+        }//if close
+        else if(i > 65 && i < 95){    //middle loot table
+
+        switch (Random(9) )
+        {
+            case 0:
+            nStack = Random(10) + 3;
+            oItem = CreateItemOnObject("nw_it_gold001", oSpawned, nStack);
+            break;
+
+            case 1:
+            nStack = 1;
+            oItem = CreateItemOnObject("PotionOfCLW", oSpawned, nStack);
+            break;
+
+            case 2:
+            nStack = 1;
+            oItem = CreateItemOnObject("NW_AARCL012", oSpawned, nStack);
+            break;
+
+            case 3:
+            nStack = 1;
+            oItem = CreateItemOnObject("NW_ASHSW001", oSpawned, nStack);
+            break;
+
+            case 4:
+            nStack = 1;
+            oItem = CreateItemOnObject("uc_it_arcscr139", oSpawned, nStack);
+            break;
+
+            case 5:
+            nStack = 1;
+            oItem = CreateItemOnObject("uc_it_arcscr187", oSpawned, nStack);
+            break;
+
+            case 6:
+            nStack = 1;
+            oItem = CreateItemOnObject("004Baby", oSpawned, nStack);
+            break;
+
+            case 7:
+            nStack = 1;
+            oItem = CreateItemOnObject("NW_IT_MPOTION009", oSpawned, nStack);
+            break;
+
+            case 8:
+            nStack = 1;
+            oItem = CreateItemOnObject("NW_AARCL004", oSpawned, nStack);
+            break;
+
+          } // switch close
+        }  //else if close
+
+        else {    //high loot table
+
+        switch (Random(9) )
+        {
+            case 0:
+            nStack = Random(20) + 8;
+            oItem = CreateItemOnObject("nw_it_gold001", oSpawned, nStack);
+            break;
+
+            case 1:
+            nStack = 1;
+            oItem = CreateItemOnObject("PotionOfCLW", oSpawned, nStack);
+            break;
+
+            case 2:
+            nStack = 1;
+            oItem = CreateItemOnObject("uc_it_divscr062", oSpawned, nStack);
+            break;
+
+            case 3:
+            nStack = 1;
+            oItem = CreateItemOnObject("uc_it_arcscr072", oSpawned, nStack);
+            break;
+
+            case 4:
+            nStack = 1;
+            oItem = CreateItemOnObject("uc_it_arcscr103", oSpawned, nStack);
+            break;
+
+            case 5:
+            nStack = 1;
+            oItem = CreateItemOnObject("uc_it_arcscr145", oSpawned, nStack);
+            break;
+
+            case 6:
+            nStack = 1;
+            oItem = CreateItemOnObject("004Baby", oSpawned, nStack);
+            break;
+
+            case 7:
+            nStack = 1;
+            oItem = CreateItemOnObject("uc_it_arcscr180", oSpawned, nStack);
+            break;
+
+            case 8:
+            nStack = 1;
+            oItem = CreateItemOnObject("uc_it_arcscr210", oSpawned, nStack);
+            break;
+
+            case 9:
+            nStack = 1;
+            oItem = CreateItemOnObject("NW_IT_MPOTION008", oSpawned, nStack);
+            break;
+
+            case 10:
+            nStack = 1;
+            oItem = CreateItemOnObject("NW_IT_MPOTION019", oSpawned, nStack);
+            break;
+
+          } // switch close
+        }  //else close
+    }
+
+    }//for loop close
+
     // Merchant-based loot - from DanieleB NESS scripts
     else if( nLootTable >= 500 )
     {
@@ -128,13 +383,13 @@ void LootTable(object oSpawn, object oSpawned, int nLootTable)
                 string sRoot = GetStringLowerCase( GetSubString( sTemplate , 0 , 6 ) );
                 if( sRoot == "nw_wam"  || sRoot == "nw_wth" )
                     {
-                    nStack = Random( 30 ) + 1;
+                    nStack = Random( 3  ) + 1;
                     }
                 else
                 // -- Check if the item is Gold, and creates more in Stack
                 //    small amount generated : gold placement should maybe be handled in some other way.
                 if( GetStringLowerCase( sTemplate ) == "nw_it_gold001" )
-                    nStack = Random( 30 ) + 5;
+                    nStack = Random( 3  ) + 5;
                 else
                 if( nStack < 1 )
                     nStack = 1;
@@ -151,7 +406,7 @@ void LootTable(object oSpawn, object oSpawned, int nLootTable)
                 "LOOT_" +
                 IntToString( nLootTable ) +
                 "] for Spawn Waypoint : " +
-                GetLocalString(oSpawn, "f_Flags") );
+                GetName( oSpawn ) );
             }
         }
 
@@ -159,4 +414,5 @@ void LootTable(object oSpawn, object oSpawned, int nLootTable)
 // Only Make Modifications Between These Lines
 //
 
+}
 }

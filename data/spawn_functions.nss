@@ -1,5 +1,5 @@
 //
-// NESS V8.1.3
+// NESS V8.0
 // Spawn Functions
 //
 //   Do NOT Modify this File
@@ -11,7 +11,7 @@
 #include "spawn_cfg_cusflg"
 #include "x0_i0_corpses"
 
-void InitFlags(object oSpawn, string sSpawnName, string sSpawnTag);
+void InitFlags(object oSpawn, string sSpawnName);
 int SetSpawns(location lBase);
 string PadIntToString(int nInt, int nDigits);
 
@@ -30,8 +30,8 @@ int SetupSpawnDelay(int nSpawnDelay, int nDelayMinimum, int nDelayRandom,
    int nTimeNow);
 
 // Writes all the necessary info onto a spawn and its child after spawning
-void RecordSpawned(object oSpawn, object oSpawned, location lHome,
-   location lEntranceExit, float fSpawnedFacing);
+void RecordSpawned(object oSpawn, object oSpawned, location lStartLocation,
+   location lHome, float fSpawnedFacing);
 
 // Saves the state of one child onto the spawn (or a camp object) for respawning
 void SaveStateOnDespawn(object oSpawned, object oSpawn, int nCamp=FALSE);
@@ -45,31 +45,9 @@ void RestorePCDespawns(object oSpawn, int nTimeNow);
 void ReturnHome(location lHome);
 int FindNextEmptyChildSlot(object oSpawn);
 
-//
-// Pseudo-heartbeat support
-//
-
-const string SPAWN_INTERVAL = "Spawn_Interval";
-const string SPAWN_PCS_IN_AREA = "Spawn_PCsInArea";
-const string SPAWN_AREA_COUNT = "AreaSpawnCount";
-const string SPAWN_HEARTBEAT_SCRIPT = "SpawnHeartbeatScript";
-const string SPAWN_HEARTBEAT_SCHEDULED = "SpawnHeartbeatScheduled";
-
-// This checks conditions to determine if a pseudo-heartbeat should be called
-int NeedPseudoHeartbeat( object oArea );
-// ... and if it should, this schedules it.
-void ScheduleNextPseudoHeartbeat( object oArea );
-
-// Pseudo-heartbeat area enter and exit functions
-void Spawn_OnAreaEnter( string sHeartbeatScript = "spawn_sample_hb",
-  float fHeartbeatInterval = 6.0, float fFirstDelay = 0.0 );
-void Spawn_OnAreaExit();
-
 // Externals
 void LootTable(object oSpawn, object oSpawned, int nLootTable);
 effect ObjectEffect(object oSpawn);
-
-
 
 int SPAWN_DELAY_DEBUG = FALSE;
 int SPAWN_COUNT_DEBUG = FALSE;
@@ -80,12 +58,12 @@ void SpawnDelayDebug(object oSpawn, string str)
     if (SPAWN_DELAY_DEBUG)
     {
         WriteTimestampedLogEntry("[sd " + GetName(GetArea(oSpawn)) + "] " +
-           GetLocalString(oSpawn, "f_Template") + " (" + ObjectToString(oSpawn) + "): " + str);
+           GetTag(oSpawn) + " (" + ObjectToString(oSpawn) + "): " + str);
 
         if (CONSOLE_DEBUG)
         {
             SendMessageToAllDMs("[sd " + GetName(GetArea(oSpawn)) + "] "
-                + GetLocalString(oSpawn, "f_Template") + " (" + ObjectToString(oSpawn) + "): " + str);
+                + GetTag(oSpawn) + " (" + ObjectToString(oSpawn) + "): " + str);
         }
     /*
         object oPC = GetFirstPC();
@@ -100,12 +78,12 @@ void SpawnCountDebug(object oSpawn, string str)
     if (SPAWN_COUNT_DEBUG)
     {
         WriteTimestampedLogEntry("[sc " + GetName(GetArea(oSpawn)) + "] " +
-           GetLocalString(oSpawn, "f_Template") + " (" +ObjectToString(oSpawn) + "): " + str);
+           GetTag(oSpawn) + " (" +ObjectToString(oSpawn) + "): " + str);
 
         if (CONSOLE_DEBUG)
         {
             SendMessageToAllDMs("[sc " + GetName(GetArea(oSpawn)) + "] "
-               + GetLocalString(oSpawn, "f_Template") + " (" +ObjectToString(oSpawn) + "): " + str);
+               + GetTag(oSpawn) + " (" +ObjectToString(oSpawn) + "): " + str);
         }
     /*
         object oPC = GetFirstPC();
@@ -184,9 +162,7 @@ int IsBetweenHours(int nCheckHour, int nHourStart, int nHourEnd);
 //
 void SetPatrolRoute(int nPatrolRoute, int nStartClosest=FALSE);
 void DoPatrolRoute(int nPatrolRoute, int nRouteType);
-void AddPatrolStop(int nPatrolRoute, int nStopNumber, int bJump=FALSE);
-void CheckForStuckPatrol(object oCreature, int nPatrolRoute, int nRouteType);
-
+void AddPatrolStop(int nPatrolRoute, int nStopNumber);
 //
 // Camp Functions
 //
@@ -214,7 +190,7 @@ void NESS_ReturnHome(object oCreature, int bRun=FALSE);
 void NESS_ProcessDeadCreature(object oCreature, object oSpawn=OBJECT_INVALID);
 
 // This Function Initializes the Flags
-void InitFlags(object oSpawn, string sSpawnName, string sSpawnTag)
+void InitFlags(object oSpawn, string sSpawnName)
 {
     // These are true when certain flags are present, false otherwise
 
@@ -298,8 +274,6 @@ void InitFlags(object oSpawn, string sSpawnName, string sSpawnTag)
     int dfEncounterLevel = GetLocalInt(oModule, "df_EncounterLevel");
 
     //debug("init flags: " + sSpawnName);
-    SetLocalString(oSpawn, "f_Flags", sSpawnName);
-    SetLocalString(oSpawn, "f_Template", sSpawnTag);
 
     // Initialize FlagTable
     int nFlagTable = IsFlagPresent(sSpawnName, "_FT");
@@ -316,9 +290,12 @@ void InitFlags(object oSpawn, string sSpawnName, string sSpawnTag)
         {
             sSpawnName = sSpawnName + GetLocalString(oSpawn, "f_Flags");
         }
-
         SetLocalString(oSpawn, "f_Flags", sSpawnName);
-        sSpawnTag = GetLocalString(oSpawn, "f_Template");
+    }
+    else
+    {
+        SetLocalString(oSpawn, "f_Flags", sSpawnName);
+        SetLocalString(oSpawn, "f_Template", GetTag(oSpawn));
     }
 
     // Initialize CustomFlag
@@ -331,8 +308,6 @@ void InitFlags(object oSpawn, string sSpawnName, string sSpawnTag)
             (FindSubString(sSpawnName, "CF") + 2));
         sSpawnName = GetStringLeft(sSpawnName, GetStringLength(sSpawnName) -
             (GetStringLength(sCustomFlag) + 3));
-        SetLocalString(oSpawn, "f_Flags", sSpawnName);
-
     }
 
     // Record CustomFlag
@@ -867,7 +842,7 @@ void InitFlags(object oSpawn, string sSpawnName, string sSpawnTag)
 // This Function Sets the Spawns
 int SetSpawns(location lBase)
 {
-    string sSpawnName, sSpawnNum, sSpawnTag;
+    string sSpawnName, sSpawnNum;
     int nNth = 1;
     int nSpawnNum = 0;
 
@@ -875,15 +850,8 @@ int SetSpawns(location lBase)
     object oSpawn = GetFirstObjectInArea(OBJECT_SELF);
     while (oSpawn != OBJECT_INVALID)
     {
-        // Check for a local string called "NESS" on the waypoint
-        // first.  If it exists, use it instead of the name
-        sSpawnName = GetLocalString(oSpawn, "NESS");
-
-        if (GetStringLeft(sSpawnName, 2) != "SP")
-        {
-            // Retrieve Name
-            sSpawnName = GetName(oSpawn);
-        }
+        // Retrieve Name
+        sSpawnName = GetName(oSpawn);
 
         // Check if Waypoint is a Spawn Controller
         if (GetStringLeft(sSpawnName, 2) == "SP")
@@ -892,15 +860,7 @@ int SetSpawns(location lBase)
             nSpawnNum++;
             sSpawnNum = "Spawn" + PadIntToString(nSpawnNum, 2);
             SetLocalObject(OBJECT_SELF, sSpawnNum, oSpawn);
-
-
-            sSpawnTag = GetLocalString(oSpawn, "NESS_TAG");
-            if (sSpawnTag == "")
-            {
-              sSpawnTag = GetTag(oSpawn);
-            }
-
-            DelayCommand(0.0, InitFlags(oSpawn, sSpawnName, sSpawnTag));
+            DelayCommand(0.0, InitFlags(oSpawn, sSpawnName));
         }
         nNth++;
         oSpawn = GetNextObjectInArea(OBJECT_SELF);
@@ -1248,7 +1208,7 @@ object NESS_GetSpawnByID(int nSpawnID, object oArea)
     while (oSpawn != OBJECT_INVALID)
     {
         // Retrieve Name
-        sSpawnName = GetLocalString(oSpawn, "f_Flags");
+        sSpawnName = GetName(oSpawn);
 
         // Check if Waypoint is a Spawn Controller
         if (GetStringLeft(sSpawnName, 2) == "SP")
@@ -1753,138 +1713,63 @@ void DoPatrolRoute(int nPatrolRoute, int nRouteType)
 //
 
 // This Function adds a Stop to the Patrol Route
-void AddPatrolStop(int nPatrolRoute, int nStopNumber, int bJump=FALSE)
+void AddPatrolStop(int nPatrolRoute, int nStopNumber)
 {
     object oStop;
     int nRun, nScript, nFacing;
     int nDayOnly, nNightOnly;
     float fPause;
-    // Danmar:  Added below for random pause setup
-    int nRandomPause;
-    int nRandomRoute;
-    // End Danmar changes
     string sStop;
     int nValid = TRUE;
 
     // Gather Stop Information
-    oStop = GetLocalObject(OBJECT_SELF, "PR_SN" +
-       PadIntToString(nStopNumber, 2));
+    oStop = GetLocalObject(OBJECT_SELF, "PR_SN" + PadIntToString(nStopNumber, 2));
+    sStop = GetTag(oStop);
+    nRun = IsFlagPresent(sStop, "RN");
+    fPause = IntToFloat(GetFlagValue(sStop, "PS", 1));
+    nScript = GetFlagValue(sStop, "SC",  -1);
+    nFacing = IsFlagPresent(sStop, "SF");
+    nDayOnly = IsFlagPresent(sStop, "DO");
+    nNightOnly = IsFlagPresent(sStop, "NO");
 
-    if (GetIsObjectValid( oStop ) )
+    // Day Only
+    if (nDayOnly == TRUE && (GetIsDay() == FALSE && GetIsDawn() == FALSE))
     {
-        sStop = GetTag(oStop);
-        nRun = IsFlagPresent(sStop, "RN");
-        fPause = IntToFloat(GetFlagValue(sStop, "PS", 1));
+        nValid = FALSE;
+    }
 
-        // Danmar:  Added RP###/RR### flag to patrol points to allow randomization
-        // of the pause time and stops.
-        nRandomPause = GetFlagValue(sStop, "RP", 0);
-        nRandomRoute = GetFlagValue(sStop, "RR", 0);
-        // End Danmar changes.
+    // Night Only
+    if (nNightOnly == TRUE && (GetIsNight() == FALSE && GetIsDusk() == FALSE))
+    {
+        nValid = FALSE;
+    }
 
-        nScript = GetFlagValue(sStop, "SC",  -1);
-        nFacing = IsFlagPresent(sStop, "SF");
-        nDayOnly = IsFlagPresent(sStop, "DO");
-        nNightOnly = IsFlagPresent(sStop, "NO");
-
-        // Day Only
-        if (nDayOnly == TRUE && (GetIsDay() == FALSE && GetIsDawn() == FALSE))
+    // Check if Valid
+    if (nValid == TRUE)
+    {
+        // Move to Stop
+        ActionMoveToObject(oStop, nRun);
+        if (nFacing == TRUE)
         {
-            nValid = FALSE;
+            ActionDoCommand(SetFacing(GetFacingFromLocation(GetLocation(oStop))));
         }
 
-        // Night Only
-        if (nNightOnly == TRUE && (GetIsNight() == FALSE && GetIsDusk() == FALSE))
+        // Execute Script
+        if (nScript > -1)
         {
-            nValid = FALSE;
+            SetLocalInt(OBJECT_SELF, "PatrolScript", nScript);
+            ActionDoCommand(SetLocalInt(OBJECT_SELF, "PatrolScriptRunning", TRUE));
+            ExecuteScript("spawn_sc_patrol", OBJECT_SELF);
+            ActionDoCommand(SetLocalInt(OBJECT_SELF, "PatrolScriptRunning", FALSE));
         }
 
-        // Check if Valid
-        if (nValid == TRUE)
-        {
-            // Move to Stop
-            // Modified by Danmar
-            // ActionMoveToObject(oStop, nRun); // Original NESS line.
-            // if d% is less than nRandomRoute (RRxxx) then we move to the next stop.
-            // If its not then we skip that one and move to the next.
-            if ((nRandomRoute == 0) || ((Random(100) + 1) < nRandomRoute))
-            {
-                if (bJump)
-                {
-                  ActionJumpToLocation(GetLocation(oStop));
-                }
-                else
-                {
-                  ActionMoveToObject(oStop, nRun);
-                }
-            }
-            // End Danmar Changes
-            if (nFacing == TRUE)
-            {
-                ActionDoCommand(SetFacing(GetFacingFromLocation(GetLocation(oStop))));
-            }
-
-            // Execute Script
-            if (nScript > -1)
-            {
-                SetLocalInt(OBJECT_SELF, "PatrolScript", nScript);
-                ActionDoCommand(SetLocalInt(OBJECT_SELF, "PatrolScriptRunning", TRUE));
-                ExecuteScript("spawn_sc_patrol", OBJECT_SELF);
-                ActionDoCommand(SetLocalInt(OBJECT_SELF, "PatrolScriptRunning", FALSE));
-            }
-
-            // Pause
-            /*  Danmar: If fRandomPause!=0 then let's pick a random pause length and
-                add it to the existing fpause.  This way you can use PS to set the
-                minimum pause and RP to set the maximum pause.
-                Example: PR01_SN01_PS010_RR011 would cause the creature to pause between
-                10 to 20 seconds.  */
-            if (nRandomPause != 0)
-            {
-                fPause = fPause + IntToFloat(Random(nRandomPause));
-            }
-            // End Danmar Changes
-            ActionWait(fPause);
-        }
+        // Pause
+        ActionWait(fPause);
     }
 
     // Record this Stop and Clear Next Stop
     ActionDoCommand(SetLocalInt(OBJECT_SELF, "PR_LASTSTOP", nStopNumber));
     ActionDoCommand(SetLocalInt(OBJECT_SELF, "PR_NEXTSTOP", -1));
-}
-
-void CheckForStuckPatrol(object oCreature, int nPatrolRoute, int nRouteType)
-{
-   // are we at the same location as last time?
-   location lLast = GetLocalLocation(oCreature, "NESSLastLoc");
-   location lCurrent = GetLocation(oCreature);
-   if (lLast != lCurrent)
-   {
-      SetLocalLocation(oCreature, "NESSLastLoc", lCurrent);
-      SetLocalInt(oCreature, "NESSStuckCount", 0);
-      return; 
-   }
-
-   int nStuckCount = GetLocalInt(oCreature, "NESSStuckCount");
-   nStuckCount += 1;
-
-   if (nStuckCount < 3)
-   {
-      SetLocalInt(oCreature, "NESSStuckCount", nStuckCount);
-      return;
-   }
-
-   AssignCommand(oCreature, ClearAllActions());
-
-   // unstuck 'im
-   int nLastStop = GetLocalInt(OBJECT_SELF, "PR_LASTSTOP");
-
-   // force a move
-   AssignCommand(oCreature, AddPatrolStop(nPatrolRoute, nLastStop, TRUE));
-
-   // reset
-   SetLocalInt(oCreature, "NESSStuckCount", 0);
-
 }
 //
 
@@ -1900,13 +1785,6 @@ int ProcessCamp(object oCamp)
 
     // Check Creatures
     nCampNumC = GetLocalInt(oCamp, "CampNumC");
-
-    // Suppress despawning on creatureless camps
-    if ( nCampNumC == 0 )
-    {
-       nIsAlive = TRUE;
-    }
-
     for (iCount = 1; iCount <= nCampNumC; iCount++)
     {
         sObject = "CampC" + IntToString(iCount - 1);
@@ -1953,9 +1831,7 @@ int ProcessCamp(object oCamp)
                 if (! nIsBusy)
                 {
                     int nRandomWalk = GetLocalInt(oSpawned, "f_RandomWalk");
-                    if (nRandomWalk && 
-                        GetCurrentAction(oSpawned) != ACTION_WAIT &&
-                        GetCurrentAction(oSpawned) != ACTION_CASTSPELL &&
+                    if (nRandomWalk && (GetCurrentAction(oSpawned) != 36) &&
                         (d2(1) == 2))
                     {
                         AssignCommand(oSpawned, ClearAllActions());
@@ -1972,18 +1848,15 @@ int ProcessCamp(object oCamp)
     }
 
     // Check Camp Trigger
-    if (nIsAlive)
+    sCampTrigger = GetLocalString(oCamp, "CampTrigger");
+    if (sCampTrigger != "")
     {
-       sCampTrigger = GetLocalString(oCamp, "CampTrigger");
-       if (sCampTrigger != "")
-       {
-           oCampTrigger = GetLocalObject(oCamp, "Camp" + sCampTrigger);
-           if (oCampTrigger == OBJECT_INVALID || GetIsDead(oCampTrigger) == TRUE)
-           {
-               // Run Trigger Script
-               ExecuteScript("spawn_sc_cmptrig", oCamp);
-           }
-       }
+        oCampTrigger = GetLocalObject(oCamp, "Camp" + sCampTrigger);
+        if (oCampTrigger == OBJECT_INVALID || GetIsDead(oCampTrigger) == TRUE)
+        {
+            // Run Trigger Script
+            ExecuteScript("spawn_sc_cmptrig", oCamp);
+        }
     }
 
     // Check Placeable
@@ -2023,7 +1896,7 @@ void DestroyCamp(object oCamp, float fCampDecay, int nSaveState)
     {
         sObject = "CampP" + IntToString(iCount - 1);
         oSpawned = GetLocalObject(oCamp, sObject);
-
+        NESS_CleanInventory(oSpawned);
         if (nSaveState)
         {
             //debug("Saving " + sObject);
@@ -2197,7 +2070,7 @@ void ReportSpawns(int nAreaSpawns, int nModuleSpawns)
 
 void TrackModuleSpawns(int nAreaSpawnCount, int nTrackModuleSpawns)
 {
-    int nNewAreaSpawnCount = GetLocalInt(OBJECT_SELF, SPAWN_AREA_COUNT );
+    int nNewAreaSpawnCount = GetLocalInt(OBJECT_SELF, "AreaSpawnCount");
     int nSpawnDifference =  nNewAreaSpawnCount - nAreaSpawnCount;
 
     if (nSpawnDifference)
@@ -2214,7 +2087,7 @@ void TrackModuleSpawns(int nAreaSpawnCount, int nTrackModuleSpawns)
 
 void DumpModuleSpawns()
 {
-    int nAreaSpawnCount = GetLocalInt(OBJECT_SELF, SPAWN_AREA_COUNT );
+    int nAreaSpawnCount = GetLocalInt(OBJECT_SELF, "AreaSpawnCount");
     if (nAreaSpawnCount > 0)
     {
         SendMessageToAllDMs("Area " + GetName(OBJECT_SELF) + ": " +
@@ -2339,24 +2212,23 @@ void NESS_ProcessDeadCreature(object oCreature, object oSpawn=OBJECT_INVALID)
     {
         SetLocalInt(oCreature, "DeathScript", nDeathScript);
         ExecuteScript("spawn_sc_death", oCreature);
+        if (fCorpseDecay == 0.0)
+        {
+            AssignCommand(oCreature, SetIsDestroyable(TRUE, FALSE, FALSE));
+        }
     }
 
     // Spawn Corpse if Dead and No Corpse
-    if (fCorpseDecay > 0.0)
+    if (fCorpseDecay > 0.0 && GetLocalObject(oCreature, "Corpse") == OBJECT_INVALID)
     {
-      if (GetLocalObject(oCreature, "Corpse") == OBJECT_INVALID)
-      {
-         //debug("calling spawn_corpse_dth");
-         ExecuteScript("spawn_corpse_dth", oCreature);
-      }
+        //debug("calling spawn_corpse_dth");
+        ExecuteScript("spawn_corpse_dth", oCreature);
     }
 
     else
     {
-      if (GetLocalInt(GetModule(), "AlwaysDestroyCorpses"))
-      {
+        //debug("already have a corpse??");
         AssignCommand(oCreature, SetIsDestroyable(TRUE, FALSE, FALSE));
-      }
     }
 }
 
@@ -2499,7 +2371,6 @@ void RestorePCDespawns(object oSpawn, int nTimeNow)
     int nObjectType;
     string sTemplate;
     location lLastLocation;
-    location lEntranceExit;
     float fHomeX;
     float fHomeY;
     location lHome;
@@ -2557,11 +2428,14 @@ void RestorePCDespawns(object oSpawn, int nTimeNow)
               ObjectToString(oSpawned));
 
           lHome = Location(OBJECT_SELF, Vector(fHomeX, fHomeY, 0.), fSpawnFacing);
-          lEntranceExit = Location(OBJECT_SELF, Vector(fEntranceExitX,
-             fEntranceExitY, 0.), fSpawnFacing);
-
-          RecordSpawned(oSpawn, oSpawned, lHome, lEntranceExit, fSpawnFacing);
+          RecordSpawned(oSpawn, oSpawned, lLastLocation, lHome, fSpawnFacing);
           SetupSpawned(oSpawn, oSpawned, lHome, nTimeNow, FALSE);
+
+          // entranceX and entranceY need to be written explicitly, since
+          // RecordSpawned assumes the location we spawned in is in fact
+          // entrance/exit
+          SetLocalFloat(oSpawned, "EntranceExitX", fEntranceExitX);
+          SetLocalFloat(oSpawned, "EntranceExitY", fEntranceExitY);
 
           // Lifespan expire time needs to be rewritten the the spawned object,
           // since SetupSpawned generated a new one based on the current time...
@@ -2678,8 +2552,8 @@ void RestorePCDespawns(object oSpawn, int nTimeNow)
 
 //
 
-void RecordSpawned(object oSpawn, object oSpawned, location lHome,
-    location lEntranceExit, float fSpawnedFacing)
+void RecordSpawned(object oSpawn, object oSpawned, location lSpawnedLocation,
+    location lHome, float fSpawnedFacing)
 {
     int nChildrenSpawned;
     int nSpawnCount;
@@ -2696,8 +2570,8 @@ void RecordSpawned(object oSpawn, object oSpawned, location lHome,
     SetLocalFloat(oSpawned, "SpawnFacing", fSpawnedFacing);
     SetLocalFloat(oSpawned, "HomeX", GetPositionFromLocation(lHome).x);
     SetLocalFloat(oSpawned, "HomeY", GetPositionFromLocation(lHome).y);
-    SetLocalFloat(oSpawned, "EntranceExitX", GetPositionFromLocation(lEntranceExit).x);
-    SetLocalFloat(oSpawned, "EntranceExitY", GetPositionFromLocation(lEntranceExit).y);
+    SetLocalFloat(oSpawned, "EntranceExitX", GetPositionFromLocation(lSpawnedLocation).x);
+    SetLocalFloat(oSpawned, "EntranceExitY", GetPositionFromLocation(lSpawnedLocation).y);
     SetLocalString(oSpawned, "CustomFlag", sCustomFlag);
 
     // Assign Values to oSpawn
@@ -2845,7 +2719,7 @@ void SetupSpawned(object oSpawn, object oSpawned, location lHome,
                 ChangeToStandardFaction(oSpawned, STANDARD_FACTION_HOSTILE);
             break;
             case 4:
-                oFaction = GetNearestObjectByTag("SpawnFaction", oSpawned);
+                oFaction = GetNearestObjectByTag("SpawnFaction");
                 if (oFaction != OBJECT_INVALID)
                 {
                     ChangeFaction(oSpawned, oFaction);
@@ -3020,7 +2894,7 @@ void SetupSpawned(object oSpawn, object oSpawned, location lHome,
         SetLocalInt(oSpawned, "AlfaEncounterLevel", nEncounterLevel);
     }
 
-    SetupCustomFlags(oSpawn, oSpawned);
+    //SetupCustomFlags(oSpawn, oSpawned);
 }
 
 //
@@ -3029,8 +2903,6 @@ void SetupCampSpawned(object oSpawn, object oSpawned, vector vCampPosition,
    location lHome, string sFlags)
 {
     //debug("in setupCampSpawned");
-
-    // This is the closest we get to an "InitFlags" call for camp creatures
     // write the flags onto the spawned creature
     SetLocalString(oSpawned, "CreatureFlags", sFlags);
     int nSpawnFacing = IsFlagPresent(sFlags, "SF");
@@ -3038,17 +2910,11 @@ void SetupCampSpawned(object oSpawn, object oSpawned, vector vCampPosition,
     int nTrapDisabled = GetSubFlagValue(sFlags, "PL", "T", 100);
     int nRandomWalk = IsFlagPresent(sFlags, "RW");
     SetLocalInt(oSpawned, "f_RandomWalk", nRandomWalk);
-
     float fCorpseDecay = IntToFloat(GetFlagValue(sFlags, "CD", 0));
     int nCorpseDecayType = GetSubFlagValue(sFlags, "CD", "T", 0);
-    int nCorpseRemainsType = GetSubFlagValue(sFlags, "CD", "R", 0);
-    int bDropWielded = IsSubFlagPresent(sFlags, "CD", "D");
-
     int nDeathScript = GetFlagValue(sFlags, "DT", -1);
     int nReturnHome = IsFlagPresent(sFlags, "RH");
     SetLocalInt(oSpawned, "f_ReturnHome", nReturnHome);
-
-
     if (nReturnHome)
     {
         int dfReturnHomeRange = GetLocalInt(GetModule(), "df_ReturnHomeRange");
@@ -3093,28 +2959,6 @@ void SetupCampSpawned(object oSpawn, object oSpawned, vector vCampPosition,
     // Corpse Decay
     if (fCorpseDecay > 0.0)
     {
-        string sCorpseRemainsResRef;
-        int bDeleteLootOnDecay = FALSE;
-
-        switch (nCorpseRemainsType)
-        {
-            case 0: sCorpseRemainsResRef = "invis_corpse_obj"; break;
-            case 1: sCorpseRemainsResRef = "invis_corpse_bdy"; break;
-            case 2: sCorpseRemainsResRef = "invis_corpse_bon"; break;
-            case 3: sCorpseRemainsResRef = "invis_corpse_pot"; break;
-            case 4: sCorpseRemainsResRef = "invis_corpse_pch"; break;
-            case 5: sCorpseRemainsResRef = "invis_corpse_scr"; break;
-            case 6: sCorpseRemainsResRef = "invis_corpse_tre"; break;
-            case 7:
-                sCorpseRemainsResRef = "invis_corpse_obj";
-                bDeleteLootOnDecay = TRUE;
-                break;
-        }
-
-        // Record CorpseDecay
-        SetLocalString(oSpawned, "CorpseRemainsResRef", sCorpseRemainsResRef);
-        SetLocalInt(oSpawned, "CorpseDropWielded", bDropWielded);
-        SetLocalInt(oSpawned, "CorpseDeleteLootOnDecay", bDeleteLootOnDecay);
         SetLocalFloat(oSpawned, "CorpseDecay", fCorpseDecay);
         SetLocalInt(oSpawned, "CorpseDecayType", nCorpseDecayType);
         AssignCommand(oSpawned, SetIsDestroyable(FALSE, FALSE, FALSE));
@@ -3253,81 +3097,4 @@ int IsRestoreBlocked(object oSpawn, location lChildLoc, int iExpireTime,
   return nSpawnBlock;
 }
 
-int NeedPseudoHeartbeat( object oArea )
-{
-  int bPCsInArea = GetLocalInt( oArea, SPAWN_PCS_IN_AREA );
-  int nAreaSpawnCount = GetLocalInt( oArea, SPAWN_AREA_COUNT );
-  int bHeartbeatScheduled = GetLocalInt( oArea, SPAWN_HEARTBEAT_SCHEDULED );
-  int bLeftoversForceProcessing = GetLocalInt( GetModule(),
-     "LeftoversForceProcessing");
 
-  // Do a heartbeat if there are PCs in the area or any spawns up, and we
-  // don't already have a heartbeat scheduled
-
-  if (bLeftoversForceProcessing)
-  {
-    return ( (bPCsInArea || nAreaSpawnCount) && ! bHeartbeatScheduled );
-  }
-
-  return ( bPCsInArea  && ! bHeartbeatScheduled );
-}
-
-void Spawn_OnAreaEnter( string sHeartbeatScript = "spawn_sample_hb",
-  float fHeartbeatInterval = 6.0, float fFirstDelay = 0.0 )
-{
-  object oPC = GetEnteringObject();
-  object oArea = OBJECT_SELF;
-
-  SetLocalString( oArea, SPAWN_HEARTBEAT_SCRIPT, sHeartbeatScript );
-  SetLocalFloat( oArea, SPAWN_INTERVAL, fHeartbeatInterval );
-
-  if ( GetIsPC( oPC ) )
-  {
-    SetLocalInt(oPC, "NESS_Player", TRUE);
-    int nPCsInArea = GetLocalInt( oArea, SPAWN_PCS_IN_AREA );
-    int nAreaSpawnCount = GetLocalInt( oArea, SPAWN_AREA_COUNT );
-
-    nPCsInArea++;
-    SetLocalInt( oArea, SPAWN_PCS_IN_AREA, nPCsInArea );
-
-    if ( NeedPseudoHeartbeat( oArea ) )
-    {
-      if ( fFirstDelay > 0.0 )
-      {
-        DelayCommand( fFirstDelay, ExecuteScript( "spawn_pseudohb", oArea ) );
-      }
-
-      else
-      {
-        ExecuteScript( "spawn_pseudohb", oArea );
-      }
-    }
-  }
-}
-
-void Spawn_OnAreaExit()
-{
-  object oPC = GetExitingObject();
-  object oArea = OBJECT_SELF;
-  int bIsPC = GetLocalInt(oPC, "NESS_Player");
-
-  if ( bIsPC )
-  {
-    int nPCsInArea = GetLocalInt( oArea, SPAWN_PCS_IN_AREA );
-    nPCsInArea--;
-    SetLocalInt( oArea, SPAWN_PCS_IN_AREA, nPCsInArea );
-  }
-}
-
-void ScheduleNextPseudoHeartbeat( object oArea )
-{
-  float fInterval = GetLocalFloat( oArea, SPAWN_INTERVAL );
-
-  if ( fInterval == 0.0 )
-  {
-      fInterval = 6.0;
-  }
-
-  DelayCommand( fInterval, ExecuteScript( "spawn_pseudohb", oArea ) );
-  SetLocalInt( oArea, SPAWN_HEARTBEAT_SCHEDULED, TRUE );
-}

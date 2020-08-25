@@ -18,25 +18,37 @@
 //::
 //:: Created By: Brent Knowles
 //:: Created On: February 12, 2001
-//::
+//:: Updated On: August, 14, 2003 (Georg) - Fixed AutoDC, Added const statement to constants
 //:://////////////////////////////////////////////
 
 // SEI_NOTE: Forward declaration. Be certain to include "subraces" in files including this one.
-void Subraces_SafeRemoveEffect( object oTarget, effect eBad ); 
+void Subraces_SafeRemoveEffect( object oTarget, effect eBad );
 
-int DC_EASY = 0;
-int DC_MEDIUM = 1;
-int DC_HARD = 2;
-int DC_SUPERIOR = 3;
-int DC_MASTER = 4;
-int DC_LEGENDARY = 5;
+const int DC_EASY = 0;
+const int DC_MEDIUM = 1;
+const int DC_HARD = 2;
+const int DC_SUPERIOR = 3;
+const int DC_MASTER = 4;
+const int DC_LEGENDARY = 5;
+const int DC_EPIC = 6;
 // * this is used by some of the template scripts
 // * 100 - this number is the chance of that dialog
 // * appearing
-int G_CLASSCHANCE = 70;
+const int G_CLASSCHANCE = 70;
+
+//Experience Point Rewards constants used in the 'des_xp_rewards' 2da
+const int XP_VERY_LOW = 1;    //50 xp
+const int XP_LOW = 2;         //100 xp
+const int XP_MEDIUM_LOW = 3;  //150 xp
+const int XP_MEDIUM = 4;      //250 xp
+const int XP_MEDIUM_HIGH = 5; //500 xp
+const int XP_HIGH = 6;        //1000 xp
+const int XP_VERY_HIGH = 7;   //2000 xp
+const int XP_EPIC = 8;        //5000 xp
 
 
 // * FUNCTION DECLARATIONS
+
 // * returns true if the player can afford to lose the indicated amount of XP without losing  a level
 int plotCanRemoveXP(object oPC, int nPenalty);
 
@@ -52,6 +64,11 @@ int HasItem(object oCreature, string s);
 void TakeGold(int nAmount, object oGoldHolder, int bDestroy=TRUE);
 object GetNearestPC();
 void SetIsEnemy(object oTarget);
+
+// Provide a scaled skill check DC based on the DC_* constant passed in
+// DC      -  DC_EASY  DC_MEDIUM  DC_HARD  DC_SUPERIOR  DC_MASTER  DC_LEGENDARY  DC_EPIC
+// nSkill  - SKILL_* constant
+// oTarget - creature that is going to perform the check;
 int AutoDC(int DC, int nSkill, object oTarget);
 void AutoAlignG(int DC, object oTarget);
 void AutoAlignE(int DC, object oTarget);
@@ -67,11 +84,17 @@ int CheckIntelligenceNormal();
 int CheckIntelligenceNormal();
 int CheckIntelligenceHigh();
 int CheckWisdomHigh();
+// Return the wisdom of oTarget
 int GetWisdom(object oTarget);
+// Return the Intelligence of the Target
 int GetIntelligence(object oTarget);
+// Return the Charisma of the Target
 int GetCharisma(object oTarget);
+// Return the numer of items oTarget possesses from type sItem (Tag)
 int GetNumItems(object oTarget,string sItem);
+// Gives the item with the ResRef sItem to creature oTarget nNumItems times
 void GiveNumItems(object oTarget,string sItem,int nNumItems);
+// Remove nNumItems Items of Type sItem (Tag) from oTarget
 void TakeNumItems(object oTarget,string sItem,int nNumItems);
 // * plays the correct character theme
 // * assumes OBJECT_SELF is in the area
@@ -91,6 +114,49 @@ void gplotAppraiseFavOpenStore(object oStore, object oPC, int nBonusMarkUp = 0, 
 int CheckDCStr(int DC, int nSkill, object oTarget);
 //Check to see if target is PC and not DM
 int GetIsPlayerCharacter(object oTarget);
+//Reward Experience based on an entry in the des_xp_rewards 2da file
+void Reward_2daXP(object oPC, int nRow, int bAllParty = TRUE, int nPercentage = 100);
+//Both speak a string ref as well as play the associate sound file
+void PlaySpeakSoundByStrRef(int nStrRef);
+
+
+// * returns a value that will be subtracted from the
+// * oTarget's DC to resist APpraise or Persuasion
+int GetNPCEasyMark(object oTarget)
+{
+    int nCharmMod = 0;
+    if (GetHasSpellEffect(SPELL_CHARM_PERSON, oTarget))
+    {
+        nCharmMod = 10;
+    }
+    else
+    if (GetHasSpellEffect(SPELL_CHARM_MONSTER, oTarget))
+    {
+        nCharmMod = 10;
+    }
+    else
+    if (GetHasSpellEffect(SPELL_CHARM_PERSON_OR_ANIMAL, oTarget))
+    {
+        nCharmMod = 10;
+    }
+    else if (GetHasSpellEffect(SPELL_MASS_CHARM, oTarget))
+    {
+            nCharmMod = 15;
+    }
+    else if (GetHasSpellEffect(SPELL_DOMINATE_MONSTER, oTarget))
+    {
+            nCharmMod = 20;
+    }
+    else if (GetHasSpellEffect(SPELL_DOMINATE_ANIMAL, oTarget))
+    {
+            nCharmMod = 20;
+    }
+    else if (GetHasSpellEffect(SPELL_DOMINATE_PERSON, oTarget))
+    {
+        nCharmMod = 20;
+    }
+    return nCharmMod;
+}
 
 //::///////////////////////////////////////////////
 //:: gplotAppraiseOpenStore
@@ -104,6 +170,7 @@ int GetIsPlayerCharacter(object oTarget);
 //:://////////////////////////////////////////////
 //:: Created By:
 //:: Created On:
+//:: 2003-05-26: Updated from XP1 sources - Georg
 //:://////////////////////////////////////////////
 void gplotAppraiseOpenStore(object oStore, object oPC, int nBonusMarkUp = 0, int nBonusMarkDown = 0)
 {
@@ -114,8 +181,11 @@ void gplotAppraiseOpenStore(object oStore, object oPC, int nBonusMarkUp = 0, int
 
     int nPlayerSkillRank = GetSkillRank(SKILL_APPRAISE, oPC);
 
-    int nNPCSkillRank = GetSkillRank(SKILL_APPRAISE, OBJECT_SELF);
+    int nNPCSkillRank = GetSkillRank(SKILL_APPRAISE, OBJECT_SELF) - GetNPCEasyMark(OBJECT_SELF);
 
+
+    if (nNPCSkillRank < 1 )
+        nNPCSkillRank = 1;
 
     int nAdjust = 0;
 
@@ -249,6 +319,7 @@ void gplotAppraiseOpenStore(object oStore, object oPC, int nBonusMarkUp = 0, int
 //:://////////////////////////////////////////////
 //:: Created By: Keith Warner
 //:: Created On: Mar 7/03
+//:: 2003-05-26: Updated from XP1 sources - Georg
 //:://////////////////////////////////////////////
 void gplotAppraiseFavOpenStore(object oStore, object oPC, int nBonusMarkUp = 0, int nBonusMarkDown = 0)
 {
@@ -308,11 +379,12 @@ void gplotAppraiseFavOpenStore(object oStore, object oPC, int nBonusMarkUp = 0, 
 //      SpeakString("OLD RANK " + IntToString(nPreviousRank));
       //  SpawnScriptDebugger();
 
-
     nBonusMarkUp = nBonusMarkUp + nAdjust;
     nBonusMarkDown = nBonusMarkDown - nAdjust;
     OpenStore(oStore, oPC, nBonusMarkUp, nBonusMarkDown);
 }
+
+
 // * plays the correct character theme
 // * assumes OBJECT_SELF is in the area
 void PlayCharacterTheme(int nTheme)
@@ -551,8 +623,8 @@ void EscapeArea(int bRun = TRUE, string sTag="NW_EXIT")
         ActionDoCommand(DestroyObject(OBJECT_SELF));
         SetCommandable(FALSE); // * this prevents them from being interrupted
     }
-    else
-    SpeakString("invalid exit waypoint");
+    //else
+    //SpeakString("invalid exit waypoint");
 }
 
 //::///////////////////////////////////////////////
@@ -653,6 +725,8 @@ void SetIsEnemy(object oTarget)
 }
 
 
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 //  AutoDC
@@ -662,6 +736,7 @@ void SetIsEnemy(object oTarget)
 // December 20 2001: Changed so that the difficulty is determined by the
 // NPC's Hit Dice
 // November 2002 (Brent): Adding a higher upper range for level 15+ campaigns.
+// August 2003 (Georg): Fixed bug not adding up DCs in the correct order
 ///////////////////////////////////////////////////////////////////////////////
 //  Created By: Brent, September 13 2001
 ///////////////////////////////////////////////////////////////////////////////
@@ -684,20 +759,33 @@ int AutoDC(int DC, int nSkill, object oTarget)
 
     switch (DC)
     {
-    case 0: nTest = nLevel / 4 + 1; break;
-        // * minor tweak to lower the values a little
-    case 1: nTest = (3 / nLevel + nLevel) - abs( (nLevel/2) -2); break;
-    case 2: nTest = FloatToInt(nLevel * 1.5 + 6) - abs( ( FloatToInt(nLevel/1.5) -2));
-    case 3: nTest = nTest + 7;
-    case 4: nTest = nTest + 7;
-    case 5: nTest = nTest + 7;
-    // because there are no break statements it should
-    // add all the bonuses
+        case DC_EASY: nTest = nLevel / 4 + 1; break;
+            // * minor tweak to lower the values a little
+        case DC_MEDIUM: nTest = (3 / nLevel + nLevel) - abs( (nLevel/2) -2); break;
+        case DC_HARD: nTest = FloatToInt(nLevel * 1.5 + 6) - abs( ( FloatToInt(nLevel/1.5) -2)); break;
+        case DC_SUPERIOR: nTest = 7+ FloatToInt(nLevel * 1.5 + 6) - abs( ( FloatToInt(nLevel/1.5) -2)); break;
+        case DC_MASTER: nTest = 14 + FloatToInt(nLevel * 1.5 + 6) - abs( ( FloatToInt(nLevel/1.5) -2)); break;
+        case DC_LEGENDARY: nTest = 21 + FloatToInt(nLevel * 1.5 + 6) - abs( ( FloatToInt(nLevel/1.5) -2)); break;
+        case DC_EPIC: nTest = 28 + FloatToInt(nLevel * 1.5 + 6) - abs( ( FloatToInt(nLevel/1.5) -2)); break;
     }
-    //SpeakString(IntToString(nTest));
+
+
+
+    // *********************************
+    // * CHARM/DOMINATION
+    // * If charmed or dominated the NPC
+    // * will be at a disadvantage
+    // *********************************
+    int nCharmMod = 0;
+
+    if (nSkill == SKILL_PERSUADE || nSkill == SKILL_BLUFF || nSkill == SKILL_INTIMIDATE)
+        nCharmMod = GetNPCEasyMark(oTarget);
+    int nDC = nTest + 10 - nCharmMod ;
+    if (nDC < 1 )
+        nDC = 1;
 
     // * Roll d20 + skill rank vs. DC + 10
-    if (GetSkillRank(nSkill, oTarget) + d20() >= (nTest + 10) )
+    if (GetSkillRank(nSkill, oTarget) + d20() >= (nDC) )
     {
        return TRUE;
     }
@@ -1353,3 +1441,53 @@ int GetIsPlayerCharacter(object oTarget)
         return TRUE;
     return FALSE;
 }
+//::///////////////////////////////////////////////
+//:: Name Reward_2daXP
+//:: Copyright (c) 2001 Bioware Corp.
+//:://////////////////////////////////////////////
+/*
+    Pass in a PC and a row from the 'des_xp_rewards'
+    2da file to reward the PC and/or party experience
+*/
+//:://////////////////////////////////////////////
+//:: Created By: Keith Warner
+//:: Created On: May 29/03
+//:://////////////////////////////////////////////
+
+void Reward_2daXP(object oPC, int nRow, int bAllParty = TRUE, int nPercentage = 100)
+{
+
+   float fPercent = IntToFloat(nPercentage)/100.0;
+   int nPlotXP = StringToInt(Get2DAString("des_xp_rewards", "XP", nRow));
+   int nReward = FloatToInt(fPercent * nPlotXP);
+   if (bAllParty == TRUE)
+   {
+        object oParty = GetFirstFactionMember(oPC);
+        while (oParty != OBJECT_INVALID)
+        {
+            GiveXPToCreature(oParty, nReward);
+            oParty = GetNextFactionMember(oPC);
+        }
+   }
+   else
+   {
+        GiveXPToCreature(oPC, nReward);
+   }
+}
+//::///////////////////////////////////////////////
+//:: Name PlaySpeakSoundByStrRef
+/*
+    Do both a SpeakStringRef and a Play StringRef
+    at the same time.
+*/
+//:://////////////////////////////////////////////
+//:: Created By: Keith Warner
+//:: Created On: Oct 23/03
+//:://////////////////////////////////////////////
+void PlaySpeakSoundByStrRef(int nStrRef)
+{
+    SpeakStringByStrRef(nStrRef);
+    PlaySoundByStrRef(nStrRef, FALSE);
+}
+
+

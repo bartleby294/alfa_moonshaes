@@ -4,14 +4,14 @@
  * ---
  * Authors: Cereborn
  * Date: 0/24/03
- *   
+ *
  * ---
  * This was created from the original sos_loc_inc script.  Character
  * location saving is now a local DB function of the ACR (SOS routines
  * are used for the central DB)
  *
  * Credits:
- *   The original authors are - 
+ *   The original authors are -
  *      Stephen "Trismuss" Clayburn
  *      T Guiles
  *      Silmar Trekfollower
@@ -79,7 +79,7 @@ void ALFA_SaveCharacterLocationOnTimer( object poPC )
       ALFA_SaveCharacterLocation( poPC );
   }
 
-  DelayCommand( gALFA_LOCATION_SAVE_INTERVAL, 
+  DelayCommand( gALFA_LOCATION_SAVE_INTERVAL,
      ALFA_SaveCharacterLocationOnTimer( poPC ) );
 }
 
@@ -172,7 +172,7 @@ void ALFA_LoadCharacterLocation( object poPC )
     else if ( GetItemPossessedBy( poPC, "ALFADeathToken" ) != OBJECT_INVALID )
     {
         return;
-    } 
+    }
 
     oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE, "CurrentLocation", poPC);
 
