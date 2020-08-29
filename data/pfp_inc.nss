@@ -541,7 +541,7 @@ void FamiliarRestCheck(object oMaster)
 
 void FamiliarCheckOnLevelUp(object oMaster)
 {
-  if(PFP_PERMANENT_DEATH == 1)
+  if(PFP_PERMANENT_DEATH == 2)
   {
     int nWizLvl = GetLevelByClass(CLASS_TYPE_WIZARD,oMaster);
     int nSorcLvl = GetLevelByClass(CLASS_TYPE_SORCERER,oMaster);

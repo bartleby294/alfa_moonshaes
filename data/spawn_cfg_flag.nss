@@ -109,7 +109,7 @@ if (nFlagTableNumber == 27)
             sFlags = "SP_SN02M01_SA_SG_CD120T3_SD120_RS50_DS2_PC5_RW_RHD50_PC2";
 
 
-            switch( Random( 7 ))
+            switch( Random( 8 ))
             {
                 case 0: sTemplate = "rat_hills3"; break;
                 case 1: sTemplate = "sewers_beetles"; break;
@@ -118,6 +118,7 @@ if (nFlagTableNumber == 27)
                 case 4: sTemplate = "RustMonster"; break;
                 case 5: sTemplate = "sewers_snek"; break;
                 case 6: sTemplate = "sewers_goo"; break;
+                case 7: sTemplate = "otyughplaguebear"; break;
              }
 
 
@@ -255,12 +256,41 @@ if (nFlagTableNumber == 27)
             sFlags = "SP_SN04_SA_SG_DS2_SU20_SD60_RS50_DS2_PC5_RW_RHD50";
             sTemplate = "rat_hills3";
         }
-        //else if (sSpawnTag == "sw_ratnest") {
+        else if (sSpawnTag == "sw_plaguerats") {
 
-            //sFlags = "SP_SG_SF_PC200_PL0_LT508A10B05C01_TR50_SD200P";
-            //sTemplate = "box";
-            //sTemplate = "ratnest001";
-            //}
+            sFlags = "SP_SN04M02_SA_SG_SD90_DS2_RS55_DS2_PC5_RW_RHD50_SU30_RG10_LT675A30B20C10";
+              sTemplate = "plaguerats";
+            }
+
+       else if (sSpawnTag == "sw_plagueratscit") {
+
+              if(GetIsDay())
+                sFlags = "SP_SN04M02_SA_SG_SD90_DS2_RS05_DS2_PC5_RHD50_SU30_RG10_LT675A30B20C10";
+              else
+                sFlags = "SP_SN04M02_SA_SG_SD90_DS2_RS40_DS2_PC5_NOD_RHD50_SU30_RG10_LT675A30B20C10";
+
+              sTemplate = "plaguerats";
+            }
+        else if (sSpawnTag == "sw_plagueratsnight") {
+
+              if(GetIsDay())
+                sFlags = "SP_SN01_SA_SG_SD90_DS2_RS05_DS2_PC5_RHD50_SU30_RG10_LT675A30B20C10";
+              else
+                sFlags = "SP_SN02M01_SA_SG_SD90_DS2_RS25_DS2_PC5_RHD50_SU30_NOD_RG15_LT675A30B20C10";
+
+              sTemplate = "plagueratspickpock";
+         }
+        else if (sSpawnTag == "sw_garbage") {
+
+            sFlags = "SP_PL3T10_SF_RG25_LT501A20B35C25";
+              sTemplate = "ratnest002";
+            }
+
+
+
+
+
+
     }
 
     if (nFlagTableNumber == 80)
@@ -298,7 +328,7 @@ if (nFlagTableNumber == 27)
             sTemplate = "herbs";
         } // These use the GROUP flag -- see spawn_cfg_group file
         if (sSpawnTag == "herbs2"){
-            sFlags = "SP_SN05M1_PL3T10_SD200_SF_SR60_RS35_LT701A97B03C00";
+            sFlags = "SP_SN10M4_PL3T10_SD200_SF_SR60_RS65_LT701A97B03C00";
             sTemplate = "herbs";
         }
 
@@ -723,19 +753,19 @@ if (nFlagTableNumber == 27)
         if (sSpawnTag == "sw_greyooze_lesser")
         {
 
-            sFlags = "SP_SN03M01_SA_SG_RS60_SD90_DS2_PC5_RW_RHD50_SU30";
+            sFlags = "SP_SN03M01_SA_SG_RS60_SD90_DS2_PC3_RW_RHD50_SU30";
             sTemplate = "sw_greyooze_lesser";
         }
         else if (sSpawnTag == "sw_greyooze")
         {
 
-            sFlags = "SP_SN01M02_SA_SG_RS40_SD90_DS2_PC5_RW_RHD50_SU30";
+            sFlags = "SP_SN01M02_SA_SG_RS40_SD90_DS2_PC3_RW_RHD50_SU30";
             sTemplate = "sw_greyooze";
         }
         else if (sSpawnTag == "sw_greyooze_greater")
         {
 
-            sFlags = "SP_SN01_SA_SG_RS30_SD90_DS2_PC5_RW_RHD50_SU30";
+            sFlags = "SP_SN01_SA_SG_RS30_SD90_DS2_PC3_RW_RHD50_SU30";
             sTemplate = "sw_greyooze_greater";
         }
 
@@ -836,6 +866,25 @@ if (nFlagTableNumber == 27)
             sFlags = "SP_PL3T10_SF_RS35_SD120";
             sTemplate = "lizardeggs";
         }
+
+        else if (sSpawnTag == "sw_umberlee_patrol")
+        {
+
+                sFlags = "SP_SN08M04_SA_SG_RS75_SD120_PR01T2C_PC05";
+
+                sTemplate = "umberlee_patrol";
+        }
+
+        else if (sSpawnTag == "sw_umb_were")
+        {
+          sFlags = "SP_SN06M03_SA_SG_RS85_SD120_PC05_RW_RG300";
+          sTemplate = "umberlee_were";
+        }
+
+
+
+
+
         else if (sSpawnTag == "sw_sunktreasure")
         {
             // SN05 = Keep 4 alive
@@ -849,17 +898,17 @@ if (nFlagTableNumber == 27)
 
 
             case 0:
-            sFlags = "SP_PL3_SD200_SF_RS25";
+            sFlags = "SP_PL3_SD200_SF_RS45";
             sTemplate = "orestone_5";
             break;
 
             case 1:
-            sFlags = "SP_PL3_SD200_SF_RS25";
+            sFlags = "SP_PL3_SD200_SF_RS35";
             sTemplate = "orestone_6";
             break;
 
             case 2:
-            sFlags = "SP_PL3T10_SD120_SF_RS40_RG800M150_LT672A50B15C05";
+            sFlags = "SP_PL3T10_SD120_SF_RS60_RG800M150_LT672A50B15C05";
             sTemplate = "ay_buriedchest";
             break;
 
@@ -880,10 +929,10 @@ if (nFlagTableNumber == 27)
             // PR31T1 = walk wapoints that start with PR31 and T1 do it circular path
             // CD = drop a corpse, but just inventory on them, no wielded or worn stuff
              if(GetIsDay()){
-               sFlags = "SP_SN01_SA_SG_SD150_RS02_DS2_PC5_RW_RHD50_SU30_RG200M50_LT670A40B10C03";
+               sFlags = "SP_SN01_SA_SG_SD150_RS05_DS2_PC5_RW_RHD50_SU30_RG200M50_LT670A40B10C03";
              }
              else{
-               sFlags = "SP_SN01_SA_SG_SD150_RS05_DS2_PC5_RW_RHD50_SU30_RG200M50_LT670A50B10C03";
+               sFlags = "SP_SN01_SA_SG_SD150_RS07_DS2_PC5_RW_RHD50_SU30_RG200M50_LT670A50B10C03";
              }
             sTemplate = "sw_dweomervore";
         }
@@ -1558,12 +1607,21 @@ if (nFlagTableNumber == 27)
 
 
             if(GetIsDay()){
-              sFlags = "SP_SN04M02_SA_SG_SD90_PR01T1C_PC05_RG5_LT500A30B20C10";
-              sTemplate = "sewers_goblins";
+              sFlags = "SP_SN06M04_SA_SG_SD90_PR01T1C_PC05_RG5_LT500A30B20C10";
+
+              //sFlags = "SP_SN04M02_SA_SG_SD90_DS2_RS55_DS2_PC5_RW_RHD50_SU30_RG10_LT675A30B20C10";
+              if(d20() < 6){
+                sTemplate = "plaguerats";
+              }
+              else
+                sTemplate = "sewers_goblins";
             }
             else{
-              sFlags = "SP_SN05M03_SA_SG_SD90_PR01T1C_PC05_RG5_LT500A30B20C10";
-              sTemplate = "sewers_goblins_night";
+              sFlags = "SP_SN07M05_SA_SG_SD90_PR01T1C_PC05_RG5_LT500A30B20C10";
+              if(d20() < 3)
+                sTemplate = "plaguerats";
+              else
+                sTemplate = "sewers_goblins_night";
             }
         }
 
@@ -1590,6 +1648,58 @@ if (nFlagTableNumber == 27)
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+   if (nFlagTableNumber == 202)
+    {
+        // These use the GROUP flag -- see spawn_cfg_group file
+         if (sSpawnTag == "sw_umberlee_patrol")
+        {
+
+                sFlags = "SP_SN10M05_SA_SG_RS25_SD120_PR01T2_PC05";
+
+                sTemplate = "umberlee_patrol";
+        }
+
+        if (sSpawnTag == "sw_umb_were")
+        {
+          sFlags = "SP_SN10M05_SA_SG_RS25_SD120_PR01T2_PC05";
+          sTemplate = "umberlee_were";
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1997,7 +2107,8 @@ if (nFlagTableNumber == 51)
             // CD = drop a corpse, but just inventory on them, no wielded or worn stuff
 
             //if(Random(100) %2){
-            sFlags = "SP_SN04_SA_SG_RS10_DOD_PR31T1_PC05_CD300T2";
+            //"SP_SN04M02_SA_SG_SD90_PR01T1C_PC05_RG5_LT500A30B20C10"
+            sFlags = "SP_SN04_SA_SG_SD120_RS05_DOD_PR31T1_PC05_CD300T2";
             sTemplate = "watchgroup";
             //}
         }
@@ -2005,7 +2116,7 @@ if (nFlagTableNumber == 51)
         if (sSpawnTag == "sw_patrolgroup")
         {
             //if(Random(100) %2){
-            sFlags = "SP_SN05_SA_SG_RS15_DOD_PR31T2_CD300T2_PC2";
+            sFlags = "SP_SN05_SA_SG_SD120_RS05_DOD_PR31T2_CD300T2_PC2";
             sTemplate = "patrolgroup";
             //}
         }

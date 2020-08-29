@@ -6,10 +6,6 @@
 //  (c) Shir'le E. Illios, 2002 (shirle@drowwanderer.com)
 //
 ////////////////////////////////////////////////////////
-//  Modified:
-//  Ariak, Nov 2004: changed SEI_RemoveEffect
-//
-///////////////////////////////////////////////////////
 
 // **************************************************************
 // ** Constants
@@ -954,18 +950,12 @@ void SEI_SetDefaultAreaSettings( int a_nSettings )
 void SEI_RemoveEffect( object a_oCharacter, effect a_eEffect )
 {
 
-    //Remove all effects that are not created by the module.
-    //Subrace traits are created by the module and will be left alone.
-    // -Ariak
-
-    if(GetEffectCreator(a_eEffect) != GetModule())
-    {
-        RemoveEffect(a_oCharacter, a_eEffect);
-    }
-
     // Only remove effects not applied by the module.
-    //if( ( GetEffectCreator( a_eEffect ) != GetModule() ) &&
-    //    ( GetEffectSubType( a_eEffect ) != SUBTYPE_SUPERNATURAL ) )
+    if( ( GetEffectCreator( a_eEffect ) != GetModule() ) &&
+        ( GetEffectSubType( a_eEffect ) != SUBTYPE_SUPERNATURAL ) )
+    {
+        RemoveEffect( a_oCharacter, a_eEffect );
+    }
 
 } // End SEI_RemoveEffect
 

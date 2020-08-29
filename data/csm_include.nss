@@ -6,7 +6,7 @@
  * Author: Modal
  * Date: 4/14/03
  * ---
- * This file contains general-purpose ALFA functions.
+ * This file contains general-purpose ALFA functions. 
  ******************************************************************/
 
 /* Dummy function to compile correctly */
@@ -34,15 +34,8 @@ string ALFA_OBJ_XP_WAND_TAG         = "ALFA_XPWand";
 string ALFA_OBJ_EMOTE_ITEM_TAG      = "emoteitem";
 string ALFA_OBJ_OLDSAP              = "ALFA_Sap";
 string ALFA_OBJ_SAP                 = "ALFA_Sap2";
-string ALFA_OBJ_BACKPACK            = "alfa_backpack";
-string ALFA_OBJ_QUIVER              = "alfa_quiver";
-string ALFA_OBJ_SPELLBOOK           = "alfa_spellbook";
-string ALFA_OBJ_TRADESCROLL         = "alfa_tradescroll";
-string ALFA_OBJ_SCABBARD            = "alfa_scabbard";
-string ALFA_OBJ_HIDDEN_POCKET       = "doa_hiddenpocket";
-string ALFA_OBJ_SPAWN_BANNER_ROD    = "RodofSpawnBanners";
-string ALFA_OBJ_TRANS_TOOL          = "alfa_transtool";
-string ALFA_OBJ_XP_ROD_TAG          = "admf_xprod";
+string ALFA_OBJ_BACKPACK			= "alfa_backpack";
+string ALFA_OBJ_SPAWN_BANNER_ROD	= "RodofSpawnBanners";
 
 /* Realism Constants */
 string ALFA_FLAG_REALISM_OFF       = "ALFA_FLAG_REALISM_OFF";
@@ -290,14 +283,14 @@ void ALFA_DestroyInventory( object oTarget )
       && (GetStringLeft( GetTag(oItem), 8 ) != "sei_sla_")
       && GetTag( oItem ) != "bedroll"
       && GetTag( oItem ) != ALFA_OBJ_SAP
-      && GetTag( oItem ) != ALFA_OBJ_SPELLBOOK
-      && GetTag( oItem ) != ALFA_OBJ_EMOTE_ITEM_TAG
-      && GetTag( oItem ) != ALFA_OBJ_HIDDEN_POCKET )
+      && GetTag( oItem ) != ALFA_OBJ_EMOTE_ITEM_TAG )
       DestroyObject( oItem );
 
     oItem = GetNextItemInInventory( oTarget );
   }
 }
+
+
 
 
 /*
@@ -921,12 +914,6 @@ void CSM_ApplyLevelLoss( object oPC )
   iCurrLvlXP = CSM_GetXPForLevel( iLevel );
 
   iNewXP = iPrevLvlXP + FloatToInt( (iCurrLvlXP - iPrevLvlXP) / 2.0 );
-
- /* Addition by Zelknolf, Aug 26 2007, to let the DMs know what the damages are. */
-  int iXP = GetXP( oPC );
-  int iDamages = iXP - iNewXP;
-  SendMessageToAllDMs("The PC "+GetName(oPC)+" has died, losing "+IntToString(iDamages)+" experience points.");
- /* End of Zelknolf modifications */
 
   SetXP( oPC, iNewXP );
 }

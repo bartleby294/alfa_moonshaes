@@ -1,3 +1,16 @@
+/*******************************************************************************
+Script:     Default NPC OnBlocked script modified for Hour-based Waypoints
+Filename:   nw_c2_defaulte
+Modifier:   Thomas J. Hamman (Rhone)
+
+This change was made from the original nw_c2_defaulte:
+
+*   If the NPC tries to go through a locked door, and he has the right key for
+    it in his inventory, he will automatically unlock and open the door.  This
+    is best when combined with an OnOpen script for the door that handles
+    reclosing and relocking it several seconds after an NPC opens it.
+*******************************************************************************/
+
 //::///////////////////////////////////////////////
 //:: Default On Blocked
 //:: NW_C2_DEFAULTE
@@ -16,34 +29,23 @@
 void main()
 {
     object oDoor = GetBlockingDoor();
-    if (GetObjectType(oDoor) == OBJECT_TYPE_CREATURE)
-    {
-        // * Increment number of times blocked
-        /*SetLocalInt(OBJECT_SELF, "X2_NUMTIMES_BLOCKED", GetLocalInt(OBJECT_SELF, "X2_NUMTIMES_BLOCKED") + 1);
-        if (GetLocalInt(OBJECT_SELF, "X2_NUMTIMES_BLOCKED") > 3)
-        {
-            SpeakString("Blocked by creature");
-            SetLocalInt(OBJECT_SELF, "X2_NUMTIMES_BLOCKED",0);
-            ClearAllActions();
-            object oEnemy = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY);
-            if (GetIsObjectValid(oEnemy) == TRUE)
-            {
-                ActionEquipMostDamagingRanged(oEnemy);
-                ActionAttack(oEnemy);
-            }
-            return;
-        }   */
+    string sKey = GetTrapKeyTag(oDoor);
+
+    if (GetItemPossessedBy(OBJECT_SELF, sKey) != OBJECT_INVALID) {
+        SetLocked(oDoor, FALSE);
+        DoDoorAction(oDoor, DOOR_ACTION_OPEN);
         return;
     }
+
     if(GetAbilityScore(OBJECT_SELF, ABILITY_INTELLIGENCE) >= 5)
     {
         if(GetIsDoorActionPossible(oDoor, DOOR_ACTION_OPEN) && GetAbilityScore(OBJECT_SELF, ABILITY_INTELLIGENCE) >= 7 )
         {
             DoDoorAction(oDoor, DOOR_ACTION_OPEN);
         }
-        else if(GetIsDoorActionPossible(oDoor, DOOR_ACTION_UNLOCK))
+        else if(GetIsDoorActionPossible(oDoor, DOOR_ACTION_BASH))
         {
-            DoDoorAction(oDoor, DOOR_ACTION_UNLOCK);
+            DoDoorAction(oDoor, DOOR_ACTION_BASH);
         }
     }
 }
