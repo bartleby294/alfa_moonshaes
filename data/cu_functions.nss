@@ -10,15 +10,15 @@
 
 void PartyGotEntry(string sGotEntry,object oPCGotEntry, int nXPToGive, string sTextMessage)
 {
-//    object oPartyMember = GetFirstFactionMember(oPCGotEntry, TRUE); // oPartyMember is the PC that called this function
+    object oPartyMember = GetFirstFactionMember(oPCGotEntry, TRUE); // oPartyMember is the PC that called this function
 
-//    while (GetIsObjectValid(oPartyMember) == TRUE) // While there are more members in the party
-//  {
-//    QuestAwardXP(oPartyMember,nXPToGive); //Give xp to each member
-//    SOS_SetPersistentInt(oPartyMember,sGotEntry,1);  // Sets a local variable in case you want to check for it (i.e. give the bonus once only)
-//    FloatingTextStringOnCreature(sTextMessage, oPartyMember, TRUE); //Tell the player what the xp was for with a string above his PC's head
-//    oPartyMember = GetNextFactionMember(oPCGotEntry, TRUE); // Find next party member
-//  }
+    while (GetIsObjectValid(oPartyMember) == TRUE) // While there are more members in the party
+  {
+    GiveXPToCreature(oPartyMember,nXPToGive); //Give xp to each member
+    SOS_SetPersistentInt(oPartyMember,sGotEntry,1);  // Sets a local variable in case you want to check for it (i.e. give the bonus once only)
+    FloatingTextStringOnCreature(sTextMessage, oPartyMember, TRUE); //Tell the player what the xp was for with a string above his PC's head
+    oPartyMember = GetNextFactionMember(oPCGotEntry, TRUE); // Find next party member
+  }
 }
 
 //This function is used to to set a local variable on every member of a party - particularly useful to stop every party member having to have the same conversation.

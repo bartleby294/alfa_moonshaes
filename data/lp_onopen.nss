@@ -4,7 +4,8 @@ void main()
 {
     if (GetLocalInt(OBJECT_SELF, "iFirstOpen") == 0)
     {
-        string sDatabase = "tb_el_persistantchests";
+        string sAreaResRef = GetResRef(GetArea(OBJECT_SELF));
+        string sDatabase = sAreaResRef; //"tb_el_persistantchests";
         string sTag = GetTag(OBJECT_SELF);
         string sVarName;
         object oItem = OBJECT_SELF;

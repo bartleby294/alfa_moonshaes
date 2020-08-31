@@ -51,7 +51,6 @@
 #include "acr_horse_i"
 
 /* Forward declarations */
-void ALFA_CheckAnimations(object oPC);
 void ALFA_AttemptTokenDrop( object oPC, object oItem );
 void ALFA_LostItem( object oItemLoser, object oItem );
 void ALFA_RegisterALFAItems();
@@ -393,9 +392,6 @@ void ALFA_OnClientEnter()
 
   /* Horse System */
   ALFA_OnHorseOwnerEnter(GetEnteringObject());
-
-  /* Animations and Maneuvers */
-  DelayCommand(30.0f, ALFA_CheckAnimations(oPC));
 
   /* User Defined */
   SignalEvent( OBJECT_SELF, EventUserDefined(ALFA_EVENT_MODULE_ON_ENTER) );
@@ -796,17 +792,4 @@ void ALFA_InitPuppetMaster( int nSetListening=TRUE )
   SetListenPattern(OBJECT_SELF, "#" + sName + "**", 16650);
 }
 
-void ALFA_CheckAnimations(object oPC)
-{
-    if(GetIsObjectValid(GetItemInSlot(INVENTORY_SLOT_CARMOUR, oPC)))
-    {
-        if(!GetHasFeat(3010, oPC)) AddItemProperty(DURATION_TYPE_PERMANENT, ItemPropertyBonusFeat(51), GetItemInSlot(INVENTORY_SLOT_CARMOUR, oPC)); //checking for additional animations I
-        if(!GetHasFeat(3011, oPC)) AddItemProperty(DURATION_TYPE_PERMANENT, ItemPropertyBonusFeat(52), GetItemInSlot(INVENTORY_SLOT_CARMOUR, oPC)); //checking for additional animations II
-        if(!GetHasFeat(3073, oPC)) AddItemProperty(DURATION_TYPE_PERMANENT, ItemPropertyBonusFeat(58), GetItemInSlot(INVENTORY_SLOT_CARMOUR, oPC)); //checking for ALFA maneuvers
-    }
-    else
-    {
-        object oHide = CreateItemOnObject("alfa_pcskin", oPC);
-        AssignCommand(oPC, ActionEquipItem(oHide, INVENTORY_SLOT_CARMOUR));
-    }
-}
+

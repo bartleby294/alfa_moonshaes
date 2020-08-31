@@ -63,7 +63,6 @@
 
 
 #include "nw_o0_itemmaker" // for HasItem() and GetIsMagical()
-#include "alfa_options"
 
 void bkSetupBehavior(int nInt);
 object GetNearestPerceivedEnemy(object oSource=OBJECT_SELF, int nNth = 1,
@@ -72,8 +71,6 @@ object GetNearestPerceivedEnemy(object oSource=OBJECT_SELF, int nNth = 1,
 void ALFA_CheckWeaponBreakage()
 {
   {
-    if (gALFA_WEAPON_BREAKAGE)
-    {
     //Set to 1 to damage the player on weapon breaking
     //or Set to 0 to not damage the player on weapon breaking
     int iDoDamage = 1; //default to do damage
@@ -253,7 +250,6 @@ void ALFA_CheckWeaponBreakage()
               }
           }
       }
-    }
    }
 }
 
@@ -262,11 +258,11 @@ void ALFA_CheckClearCombat()
 
   // george added to  clear iFight variable for weapon breakage
 
-  if(GetAttemptedAttackTarget() == OBJECT_INVALID &&
+  if(GetAttemptedAttackTarget() == OBJECT_INVALID && 
      GetAttemptedSpellTarget() == OBJECT_INVALID)
   {
     if(GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY,
-        OBJECT_SELF, 1, CREATURE_TYPE_PERCEPTION, PERCEPTION_SEEN) ==
+        OBJECT_SELF, 1, CREATURE_TYPE_PERCEPTION, PERCEPTION_SEEN) == 
         OBJECT_INVALID)
     {
       object oNPC = OBJECT_SELF;
@@ -328,7 +324,7 @@ object ALFA_ChooseDifferentTarget(object oAttacker, object oCurrentTarget)
     return oTarget;
 }
 
-int ALFA_CheckForUnconsciousTarget(object oAttacker, object oTarget,
+int ALFA_CheckForUnconsciousTarget(object oAttacker, object oTarget, 
    int nSubdualOnly=FALSE)
 {
   if (!GetIsObjectValid(oTarget))

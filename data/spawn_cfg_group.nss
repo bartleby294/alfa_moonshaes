@@ -873,6 +873,18 @@ if(sTemplate == "sw_performer")
 
                 }
     }
+    if (sTemplate == "otyughplaguebear")
+            {
+            switch( Random( 2 ))
+                {
+                    case 0: sRetTemplate = "otyughplaguebear"; break;
+                    case 1: sRetTemplate = "otyughplaguebear"; break;
+
+                }
+    }
+
+
+
 
     if (sTemplate == "sewers_goblins")
     {
@@ -917,11 +929,38 @@ if(sTemplate == "sw_performer")
         }
     }
 
-
-
-
-
-
+     if (sTemplate == "plaguerats")
+    {
+      switch( Random( 10 ))
+        {
+           case 0: sRetTemplate = "plaguerat6"; break;
+           case 1: sRetTemplate = "plaguerat6"; break;
+           case 2: sRetTemplate = "plaguerat2"; break;
+           case 3: sRetTemplate = "plaguerat2"; break;
+           case 4: sRetTemplate = "plaguerat3"; break;
+           case 5: sRetTemplate = "plaguerat3"; break;
+           case 6: sRetTemplate = "plaguerat4"; break;
+           case 7: sRetTemplate = "plaguerat4"; break;
+           case 8: sRetTemplate = "plaguerat5"; break;
+           case 9: sRetTemplate = "plaguerat1"; break;
+        }
+    }
+    if (sTemplate == "plagueratspickpock")
+    {
+      switch( Random( 10 ))
+        {
+           case 0: sRetTemplate = "plagueratpick1"; break;
+           case 1: sRetTemplate = "plagueratpick1"; break;
+           case 2: sRetTemplate = "plagueratpick1"; break;
+           case 3: sRetTemplate = "plagueratpick1"; break;
+           case 4: sRetTemplate = "plagueratpick2"; break;
+           case 5: sRetTemplate = "plagueratpick2"; break;
+           case 6: sRetTemplate = "plagueratpick2"; break;
+           case 7: sRetTemplate = "plagueratpick3"; break;
+           case 8: sRetTemplate = "plagueratpick3"; break;
+           case 9: sRetTemplate = "plagueratpick4"; break;
+        }
+    }
 
 
     if (sTemplate == "sewers_goblins_night")
@@ -1912,6 +1951,47 @@ if(sTemplate == "sw_seawraith")
 
     }
 }
+
+if(sTemplate == "umberlee_patrol")
+
+{
+    switch(Random(8))
+    {
+        case 0: sRetTemplate = "makoshark"; break;
+        case 1: sRetTemplate = "makoshark"; break;
+        case 2: sRetTemplate = "makoshark"; break;
+        case 3: sRetTemplate = "makoshark"; break;
+        case 4: sRetTemplate = "hammerheadshark"; break;
+        case 5: sRetTemplate = "hammerheadshark"; break;
+        case 6: sRetTemplate = "hammerheadshark"; break;
+        case 7: sRetTemplate = "greatwhiteshark"; break;
+
+    }
+}
+
+
+if(sTemplate == "umberlee_were")
+
+{
+    switch(Random(8))
+    {
+        case 0: sRetTemplate = "werecrab"; break;
+        case 1: sRetTemplate = "werecrab"; break;
+        case 2: sRetTemplate = "werecrab"; break;
+        case 3: sRetTemplate = "werecrab"; break;
+        case 4: sRetTemplate = "werecrab"; break;
+        case 5: sRetTemplate = "werecrab"; break;
+        case 6: sRetTemplate = "werepenguin"; break;
+        case 7: sRetTemplate = "werepenguin"; break;
+
+    }
+}
+
+
+
+
+
+
 
 
 

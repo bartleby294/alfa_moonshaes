@@ -32,7 +32,7 @@ int ALFA_SAFETY_NET_LEVEL          = 1;
 string ALFA_NUM_PLAYER_DEATHS      = "ALFA_NUM_PLAYER_DEATHS";
 
 /* Misc. Constants */
-string LOGINMESSAGE = "Welcome to ALFA - Using ACR v1.18";
+string LOGINMESSAGE = "Welcome to ALFA - Using ACR v1.16";
 
 /* Animal Companion Environment types */
 const int AC_ENVIRO_NONE = 0;
@@ -46,7 +46,6 @@ const int AC_ENVIRO_MOUNTAINS = 7;
 const int AC_ENVIRO_AQUATIC = 8;
 const int AC_ENVIRO_SWAMP = 9;
 
-/* Sets up Use limitation check for Gender */
 
-const int ITEM_PROPERTY_USE_LIMITATION_GENDER = 150;
+
 
