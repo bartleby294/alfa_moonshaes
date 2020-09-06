@@ -5,7 +5,7 @@
  * Author: Cereborn
  * Date: 5/01/03
  * ---
- * Contains code for determining if damage done by oAttacker to
+ * Contains code for determining if damage done by oAttacker to 
  * oVIctim should be considered subdual damage.
  *
  * IMPORTANT: THIS FILE IS A CORE ALFA SCRIPT AND MUST NOT BE
@@ -52,28 +52,28 @@ int ALFA_GetLastDamageSubdual(object oAttacker, object oVictim)
          SubdualDebug("ACID: " + IntToString(GetDamageDealtByType(DAMAGE_TYPE_ACID)));
       }
 
-
+      
       nDamageByType = GetDamageDealtByType(DAMAGE_TYPE_COLD);
       if (nDamageByType > 0)
       {
          nNonMelee += nDamageByType;
          SubdualDebug("COLD: " + IntToString(GetDamageDealtByType(DAMAGE_TYPE_COLD)));
       }
-
+      
       nDamageByType = GetDamageDealtByType(DAMAGE_TYPE_DIVINE);
       if (nDamageByType > 0)
       {
          nNonMelee += nDamageByType;
          SubdualDebug("DIVINE: " + IntToString(GetDamageDealtByType(DAMAGE_TYPE_DIVINE)));
       }
-
+      
       nDamageByType = GetDamageDealtByType(DAMAGE_TYPE_ELECTRICAL);
       if (nDamageByType > 0)
       {
          nNonMelee += nDamageByType;
          SubdualDebug("ELECTRICAL: " + IntToString(GetDamageDealtByType(DAMAGE_TYPE_ELECTRICAL)));
       }
-
+      
       nDamageByType = GetDamageDealtByType(DAMAGE_TYPE_FIRE);
       if (nDamageByType > 0)
       {
@@ -145,7 +145,7 @@ int ALFA_GetLastDamageSubdual(object oAttacker, object oVictim)
                 || nWeaponType == BASE_ITEM_BRACER
                 ))
             {
-              SubdualDebug("invalid subdual weapon");
+              SubdualDebug("invalid subdual weapon"); 
               nSubdued = FALSE;
             }
           }
