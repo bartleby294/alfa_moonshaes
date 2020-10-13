@@ -1,6 +1,6 @@
-     // part of the door scripts
+// part of the door scripts
 
- void main()
+   void main()
 {
 // Declare who is moving, and the target.
 object oClicker = GetClickingObject();
