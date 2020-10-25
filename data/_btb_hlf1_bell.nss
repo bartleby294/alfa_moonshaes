@@ -162,7 +162,7 @@ void startRaid() {
     SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 1);
     SetLocalInt(OBJECT_SELF, "xvart_raids_remaining", numberOfRaids);
     //DelayCommand(1800.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
-    DelayCommand(20.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
+    DelayCommand(120.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
 
     int curRaidCnt = 1;
     int rand_raids = Random(4) + 4;
