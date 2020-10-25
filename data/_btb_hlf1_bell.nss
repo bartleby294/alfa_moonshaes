@@ -1,3 +1,20 @@
+/*
+  Here is how this in theory should work.
+
+  *PC Rings bell to "signal spotting incomming Xvarts" this will start the raid.
+  *Xvarts will spawn from one of the randomly selected waypoints.
+  *PCs will get a listen/spot check to see if they hear from where.
+  *This script set intial actions on a number of xvarts to steal corn if they
+   are inturupted right now they will not resume stealing.  I may try to tweak
+   this in the future if time allows.
+  *If they steal corn they will try to run away again if inturupted they will
+   just default to hosiles right now may try to update later.
+  *If killed they will drop some corn.
+
+  Corn drop script is on Xvart
+  Run away action is on the corn
+*/
+
 int isObjectInArea(string objTag) {
     int objectFound = 0;
     object obj = GetFirstObjectInArea();
@@ -121,7 +138,6 @@ void createRaidingParty(object xvartRaidSpawnWP) {
         }
         else if(curXvartCnt == 3 && thirdCorn != OBJECT_INVALID) {
             AssignCommand(curXvart, ActionAttack(thirdCorn, FALSE));
-
         }
         else if(curXvartCnt == 4 && fouthCorn != OBJECT_INVALID) {
             AssignCommand(curXvart, ActionAttack(fouthCorn, FALSE));
@@ -148,8 +164,16 @@ void startRaid() {
     //DelayCommand(1800.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
     DelayCommand(20.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
 
-    object curXvartRaidWP = GetWaypointByTag("hlf1_xvart_1");
-    createRaidingParty(curXvartRaidWP);
+    int curRaidCnt = 1;
+    int rand_raids = Random(4) + 4;
+    float total_delay = 5.0 + IntToFloat(Random(10));
+    for(curRaidCnt = 1; curRaidCnt <= rand_raids; ++curRaidCnt) {
+        // Add Spot/Listen checks here
+        object curXvartRaidWP = GetWaypointByTag("hlf1_xvart_" +
+            IntToString(Random(3) + 1));
+        DelayCommand(total_delay, createRaidingParty(curXvartRaidWP));
+        total_delay += 25.0 + Random(20);
+    }
 }
 
 void main()

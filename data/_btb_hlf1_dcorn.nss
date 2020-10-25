@@ -1,7 +1,7 @@
 void main()
 {
     object lastAttacker = GetLastAttacker(OBJECT_SELF);
-    object getAwayLocation = GetObjectByTag("hlf1_xvart_1_exit");
+    object getAwayLocation = GetNearestObjectByTag("hlf1_xvart_exit", OBJECT_SELF);
     if(GetTag(lastAttacker) == "xvart_raider") {
         AssignCommand(lastAttacker, ActionSpeakString("*Steals Corn*"));
         CreateItemOnObject("corn", lastAttacker, 1);
