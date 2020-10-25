@@ -30,7 +30,7 @@ void plantCorn() {
     string CORN_RESREF = "alfa_produce014";
 
     int i;
-    for(i=1; i<9; ++i) {
+    for(i=1; i<49; ++i) {
         string waypointTag = BASE_WP_TAG + IntToString(i);
         string objTag = BASE_OBJ_TAG + IntToString(i);
         object wp = GetWaypointByTag(waypointTag);
