@@ -148,6 +148,28 @@ void createRaidingParty(object xvartRaidSpawnWP) {
     }
 }
 
+void spotListenChecks(object curXvartRaidWP, float total_delay) {
+    object oPC = GetFirstPC();
+    while (oPC != OBJECT_INVALID) {
+        if(1==1 || GetIsSkillSuccessful(oPC, SKILL_LISTEN, 16)
+            || GetIsSkillSuccessful(oPC, SKILL_SPOT, 16)) {
+            if(GetTag(curXvartRaidWP) == "hlf1_xvart_1") {
+                DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
+                    "You notice something to the north east."));
+            }
+            if(GetTag(curXvartRaidWP) == "hlf1_xvart_2") {
+                DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
+                    "You notice something to the east."));
+            }
+            if(GetTag(curXvartRaidWP) == "hlf1_xvart_3") {
+                DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
+                    "You notice something to the south east."));
+            }
+        }
+        oPC = GetNextPC();
+    }
+}
+
 void startRaid() {
     AssignCommand(OBJECT_SELF, ActionSpeakString("You ring the bell."));
 
@@ -171,6 +193,7 @@ void startRaid() {
         // Add Spot/Listen checks here
         object curXvartRaidWP = GetWaypointByTag("hlf1_xvart_" +
             IntToString(Random(3) + 1));
+        spotListenChecks(curXvartRaidWP, total_delay);
         DelayCommand(total_delay, createRaidingParty(curXvartRaidWP));
         total_delay += 25.0 + Random(20);
     }
