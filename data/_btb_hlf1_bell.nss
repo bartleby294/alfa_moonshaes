@@ -157,14 +157,15 @@ void createRaidingParty(object xvartRaidSpawnWP) {
 void spotListenChecks(object curXvartRaidWP, float total_delay) {
     object oPC = GetFirstPC();
     while (oPC != OBJECT_INVALID) {
-        int listenCheck = GetIsSkillSuccessful(oPC, SKILL_LISTEN, 15);
-        int spotCheck =  GetIsSkillSuccessful(oPC, SKILL_SPOT, 15);
-        if (listenCheck == 1 || spotCheck == 1) {
+
+        int listenCheck = d20(1) + GetSkillRank(SKILL_LISTEN, oPC, FALSE);
+        int spotCheck = d20(1) + GetSkillRank(SKILL_SPOT, oPC, FALSE);
+        if (listenCheck >= 15 || spotCheck >= 15) {
             string listen_spot_str = "";
-            if(listenCheck == 1 && spotCheck == 1) {
+            if(listenCheck >= 15 && spotCheck >= 15) {
                 listen_spot_str = "You spot and hear something to the";
             } else {
-                if(listenCheck) {
+                if(listenCheck >= 15) {
                     listen_spot_str = "You hear something to the";
                 } else {
                     listen_spot_str = "You spot something to the";
