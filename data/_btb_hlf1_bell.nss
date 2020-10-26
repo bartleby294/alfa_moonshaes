@@ -41,8 +41,13 @@ void createRaidingParty(object xvartRaidSpawnWP, float total_delay) {
     object fouthCorn = OBJECT_INVALID;
     object fifthCorn = OBJECT_INVALID;
 
+    GetNearestObjectByTag("hlf_f1_corn_obj_*n");
+
     // loop thorugh all obejct in area get the 5 closest corns.
     object obj = GetFirstObjectInArea();
+    object test = GetNearestObjectByTag("hlf_f1_corn_obj_*n", obj, 1);
+    WriteTimestampedLogEntry("-----------");
+    WriteTimestampedLogEntry(GetTag(test));
     while(GetIsObjectValid(obj)){
         // if its a corn check if its closer than what we have saved
         if (TestStringAgainstPattern("hlf_f1_corn_obj_*n", GetTag(obj))) {
@@ -112,7 +117,7 @@ void createRaidingParty(object xvartRaidSpawnWP, float total_delay) {
     }
 
     // Now create 1d4 +3 xvart raiders at the wp and set each to attack corn
-    int rand_1d5_xvarts = Random(4) + 3;
+    int rand_1d5_xvarts = Random(3) + 4;
     int curXvartCnt = 1;
 
     for(curXvartCnt = 1; curXvartCnt <= rand_1d5_xvarts; ++curXvartCnt) {
@@ -133,7 +138,6 @@ void createRaidingParty(object xvartRaidSpawnWP, float total_delay) {
                     ActionMoveToObject(
                         GetNearestObjectByTag("hlf1_xvart_exit", OBJECT_SELF),
                         TRUE, 0.0));
-
                 }
             } else {
                 // Slinger have them hang back and cover
