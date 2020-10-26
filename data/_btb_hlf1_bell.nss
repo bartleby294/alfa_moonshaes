@@ -111,21 +111,27 @@ void createRaidingParty(object xvartRaidSpawnWP) {
         obj = GetNextObjectInArea();
     }
 
-    // Now create 1d4 +1 xvart raiders at the wp and set each to attack corn
-    int rand_1d5_xvarts = Random(4) + 2;
+    // Now create 1d4 +3 xvart raiders at the wp and set each to attack corn
+    int rand_1d5_xvarts = Random(4) + 3;
     int curXvartCnt = 1;
 
     for(curXvartCnt = 1; curXvartCnt <= rand_1d5_xvarts; ++curXvartCnt) {
 
         object curXvart = OBJECT_INVALID;
 
-        // Make one full AI xvarts and the rest smash and grab.
-        if(curXvartCnt < 2) {
-            curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_003",
-                GetLocation(xvartRaidSpawnWP), TRUE, "xvart_raider");
+        // Make 3 full AI xvarts and the rest smash and grab.
+        if(curXvartCnt < 3) {
+            // spawn random ranged or warrior.
+            if(Random(2) == 1) {
+                curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_003",
+                    GetLocation(xvartRaidSpawnWP), FALSE, "xvart_raider");
+            } else {
+                curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_004",
+                    GetLocation(xvartRaidSpawnWP), FALSE, "xvart_raider");
+            }
         } else {
             curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_01",
-                GetLocation(xvartRaidSpawnWP), TRUE, "xvart_raider");
+                GetLocation(xvartRaidSpawnWP), FALSE, "xvart_raider");
         }
 
         // Note that if there are less than 5 corn left in the area xvart will
@@ -151,20 +157,34 @@ void createRaidingParty(object xvartRaidSpawnWP) {
 void spotListenChecks(object curXvartRaidWP, float total_delay) {
     object oPC = GetFirstPC();
     while (oPC != OBJECT_INVALID) {
-        if(1==1 || GetIsSkillSuccessful(oPC, SKILL_LISTEN, 16)
-            || GetIsSkillSuccessful(oPC, SKILL_SPOT, 16)) {
+        int listenCheck = GetIsSkillSuccessful(oPC, SKILL_LISTEN, 15);
+        int spotCheck =  GetIsSkillSuccessful(oPC, SKILL_SPOT, 15);
+        if (listenCheck == 1 || spotCheck == 1) {
+            string listen_spot_str = "";
+            if(listenCheck == 1 && spotCheck == 1) {
+                listen_spot_str = "You spot and hear something to the";
+            } else {
+                if(listenCheck) {
+                    listen_spot_str = "You hear something to the";
+                } else {
+                    listen_spot_str = "You spot something to the";
+                }
+            }
             if(GetTag(curXvartRaidWP) == "hlf1_xvart_1") {
                 DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
-                    "You notice something to the north east."));
+                    listen_spot_str + " north east."));
             }
             if(GetTag(curXvartRaidWP) == "hlf1_xvart_2") {
                 DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
-                    "You notice something to the east."));
+                    listen_spot_str + " east."));
             }
             if(GetTag(curXvartRaidWP) == "hlf1_xvart_3") {
                 DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
-                    "You notice something to the south east."));
+                    listen_spot_str + " south east."));
             }
+        } else {
+            DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
+              "You hear something but cant tell which directionit came from."));
         }
         oPC = GetNextPC();
     }
