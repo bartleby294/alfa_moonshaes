@@ -210,15 +210,15 @@ void startRaid() {
     int numberOfRaids = Random(5) + 11;
 
     // Start the raid and then set a time out of 30 minutes.
-    SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 1);
-    SetLocalInt(OBJECT_SELF, "xvart_raids_remaining", numberOfRaids);
+    //SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 1);
+    //SetLocalInt(OBJECT_SELF, "xvart_raids_remaining", numberOfRaids);
     //DelayCommand(1800.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
     DelayCommand(120.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
 
     int curRaidCnt = 1;
-    int rand_raids = Random(4) + 4;
+    //int rand_raids = Random(4) + 4;
     float total_delay = 5.0 + IntToFloat(Random(10));
-    for(curRaidCnt = 1; curRaidCnt <= rand_raids; ++curRaidCnt) {
+    for(curRaidCnt = 1; curRaidCnt <= numberOfRaids; ++curRaidCnt) {
         // Add Spot/Listen checks here
         object curXvartRaidWP = GetWaypointByTag("hlf1_xvart_" +
             IntToString(Random(5) + 1));
