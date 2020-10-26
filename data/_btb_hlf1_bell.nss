@@ -27,7 +27,7 @@ int isObjectInArea(string objTag) {
     return objectFound;
 }
 
-void createRaidingParty(object xvartRaidSpawnWP) {
+void createRaidingParty(object xvartRaidSpawnWP, float total_delay) {
 
     float firstCornDist = -1.0;
     float secondCornDist = -1.0;
@@ -119,15 +119,30 @@ void createRaidingParty(object xvartRaidSpawnWP) {
 
         object curXvart = OBJECT_INVALID;
 
-        // Make 3 full AI xvarts and the rest smash and grab.
+        // Make 2 full AI xvarts and the rest smash and grab.
         if(curXvartCnt < 3) {
             // spawn random ranged or warrior.
             if(Random(2) == 1) {
+                // Warior have them run into the fields and run out
                 curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_003",
                     GetLocation(xvartRaidSpawnWP), FALSE, "xvart_raider");
+                if(firstCorn != OBJECT_INVALID) {
+                    AssignCommand(curXvart,
+                        ActionMoveToObject(firstCorn, TRUE, 1.0));
+                DelayCommand(total_delay - 5.0,
+                    ActionMoveToObject(
+                        GetNearestObjectByTag("hlf1_xvart_exit", OBJECT_SELF),
+                        TRUE, 0.0));
+
+                }
             } else {
+                // Slinger have them hang back and cover
                 curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_004",
                     GetLocation(xvartRaidSpawnWP), FALSE, "xvart_raider");
+                DelayCommand(total_delay - 3.0,
+                    ActionMoveToObject(
+                        GetNearestObjectByTag("hlf1_xvart_exit", OBJECT_SELF),
+                        TRUE, 0.0));
             }
         } else {
             curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_01",
@@ -136,19 +151,19 @@ void createRaidingParty(object xvartRaidSpawnWP) {
 
         // Note that if there are less than 5 corn left in the area xvart will
         // not attack any more corn but at this point leave the pcs a chance.
-        if(curXvartCnt == 1 && firstCorn != OBJECT_INVALID) {
+        if(curXvartCnt == 3 && firstCorn != OBJECT_INVALID) {
             AssignCommand(curXvart, ActionAttack(firstCorn, FALSE));
         }
-        else if(curXvartCnt == 2 && secondCorn != OBJECT_INVALID) {
+        else if(curXvartCnt == 4 && secondCorn != OBJECT_INVALID) {
             AssignCommand(curXvart, ActionAttack(secondCorn, FALSE));
         }
-        else if(curXvartCnt == 3 && thirdCorn != OBJECT_INVALID) {
+        else if(curXvartCnt == 5 && thirdCorn != OBJECT_INVALID) {
             AssignCommand(curXvart, ActionAttack(thirdCorn, FALSE));
         }
-        else if(curXvartCnt == 4 && fouthCorn != OBJECT_INVALID) {
+        else if(curXvartCnt == 6 && fouthCorn != OBJECT_INVALID) {
             AssignCommand(curXvart, ActionAttack(fouthCorn, FALSE));
         }
-        else if(curXvartCnt == 5 && fifthCorn != OBJECT_INVALID) {
+        else if(curXvartCnt == 7 && fifthCorn != OBJECT_INVALID) {
             AssignCommand(curXvart, ActionAttack(fifthCorn, FALSE));
         }
     }
@@ -193,10 +208,31 @@ void spotListenChecks(object curXvartRaidWP, float total_delay) {
             }
         } else {
             DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
-              "You hear something but cant tell which directionit came from."));
+             "You hear something but cant tell which direction it came from."));
         }
         oPC = GetNextPC();
     }
+}
+
+void msgToAllPCsInArea(float delay, string message) {
+    object oPC = GetFirstPC();
+    while (oPC != OBJECT_INVALID) {
+        DelayCommand(delay, SendMessageToPC(oPC, message));
+    }
+}
+
+/* Count up the corn thats left and put 2x the corn in the barrel. */
+void rewardCorn() {
+    int cornCnt = 0;
+    object obj = GetFirstObjectInArea();
+    while(GetIsObjectValid(obj)){
+        // if its corn add to the corn count.
+        if (TestStringAgainstPattern("hlf_f1_corn_obj_*n", GetTag(obj))) {
+            cornCnt++;
+        }
+    }
+    CreateItemOnObject("corn", GetObjectByTag("rewardCorn"),
+        cornCnt * 2, "corn");
 }
 
 void startRaid() {
@@ -210,10 +246,10 @@ void startRaid() {
     int numberOfRaids = Random(5) + 11;
 
     // Start the raid and then set a time out of 30 minutes.
-    //SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 1);
+    SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 1);
     //SetLocalInt(OBJECT_SELF, "xvart_raids_remaining", numberOfRaids);
     //DelayCommand(1800.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
-    DelayCommand(120.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
+    DelayCommand(240.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
 
     int curRaidCnt = 1;
     //int rand_raids = Random(4) + 4;
@@ -223,9 +259,15 @@ void startRaid() {
         object curXvartRaidWP = GetWaypointByTag("hlf1_xvart_" +
             IntToString(Random(5) + 1));
         spotListenChecks(curXvartRaidWP, total_delay);
-        DelayCommand(total_delay, createRaidingParty(curXvartRaidWP));
+        DelayCommand(total_delay, createRaidingParty(curXvartRaidWP,
+            total_delay));
         total_delay += 25.0 + Random(20);
     }
+
+    msgToAllPCsInArea(total_delay,
+        "The xvarts scramble away carrying what spoils they can.");
+
+    DelayCommand(total_delay + 2.0, rewardCorn());
 }
 
 void main()
