@@ -172,15 +172,23 @@ void spotListenChecks(object curXvartRaidWP, float total_delay) {
             }
             if(GetTag(curXvartRaidWP) == "hlf1_xvart_1") {
                 DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
-                    listen_spot_str + " north east."));
+                    listen_spot_str + " north west."));
             }
             if(GetTag(curXvartRaidWP) == "hlf1_xvart_2") {
                 DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
-                    listen_spot_str + " east."));
+                    listen_spot_str + " west."));
             }
             if(GetTag(curXvartRaidWP) == "hlf1_xvart_3") {
                 DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
+                    listen_spot_str + " south west."));
+            }
+            if(GetTag(curXvartRaidWP) == "hlf1_xvart_4") {
+                DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
                     listen_spot_str + " south east."));
+            }
+            if(GetTag(curXvartRaidWP) == "hlf1_xvart_5") {
+                DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
+                    listen_spot_str + " north west."));
             }
         } else {
             DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
@@ -212,7 +220,7 @@ void startRaid() {
     for(curRaidCnt = 1; curRaidCnt <= rand_raids; ++curRaidCnt) {
         // Add Spot/Listen checks here
         object curXvartRaidWP = GetWaypointByTag("hlf1_xvart_" +
-            IntToString(Random(3) + 1));
+            IntToString(Random(5) + 1));
         spotListenChecks(curXvartRaidWP, total_delay);
         DelayCommand(total_delay, createRaidingParty(curXvartRaidWP));
         total_delay += 25.0 + Random(20);
