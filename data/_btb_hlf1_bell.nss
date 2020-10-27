@@ -27,7 +27,7 @@ int isObjectInArea(string objTag) {
     return objectFound;
 }
 
-void createRaidingParty(object xvartRaidSpawnWP, float total_delay) {
+void createRaidingParty(object xvartRaidSpawnWP) {
 
     float firstCornDist = -1.0;
     float secondCornDist = -1.0;
@@ -40,8 +40,6 @@ void createRaidingParty(object xvartRaidSpawnWP, float total_delay) {
     object thirdCorn = OBJECT_INVALID;
     object fouthCorn = OBJECT_INVALID;
     object fifthCorn = OBJECT_INVALID;
-
-    GetNearestObjectByTag("hlf_f1_corn_obj_*n");
 
     // loop thorugh all obejct in area get the 5 closest corns.
     object obj = GetFirstObjectInArea();
@@ -134,19 +132,21 @@ void createRaidingParty(object xvartRaidSpawnWP, float total_delay) {
                 if(firstCorn != OBJECT_INVALID) {
                     AssignCommand(curXvart,
                         ActionMoveToObject(firstCorn, TRUE, 1.0));
-                DelayCommand(15.0,
-                    ActionMoveToObject(
-                        GetNearestObjectByTag("hlf1_xvart_exit", curXvart),
-                        TRUE, 0.0));
+                    object getAwayLocation =
+                        GetNearestObjectByTag("hlf1_xvart_exit", curXvart);
+                    DelayCommand(15.0 + IntToFloat(Random(5)),
+                        AssignCommand(curXvart,
+                            ActionMoveToObject(getAwayLocation, TRUE, 0.0)));
                 }
             } else {
                 // Slinger have them hang back and cover
                 curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_004",
                     GetLocation(xvartRaidSpawnWP), FALSE, "xvart_raider");
-                DelayCommand(15.0,
-                    ActionMoveToObject(
-                        GetNearestObjectByTag("hlf1_xvart_exit", curXvart),
-                        TRUE, 0.0));
+                object getAwayLocation =
+                        GetNearestObjectByTag("hlf1_xvart_exit", curXvart);
+                    DelayCommand(15.0 + IntToFloat(Random(5)),
+                        AssignCommand(curXvart,
+                            ActionMoveToObject(getAwayLocation, TRUE, 0.0)));
             }
         } else {
             curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_01",
@@ -222,6 +222,7 @@ void msgToAllPCsInArea(float delay, string message) {
     object oPC = GetFirstPC();
     while (oPC != OBJECT_INVALID) {
         DelayCommand(delay, SendMessageToPC(oPC, message));
+        oPC = GetNextPC();
     }
 }
 
@@ -252,8 +253,6 @@ void startRaid() {
     int numberOfRaids = Random(5) + 11;
 
     // Start the raid and then set a time out of 30 minutes.
-    SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 1);
-    //SetLocalInt(OBJECT_SELF, "xvart_raids_remaining", numberOfRaids);
     //DelayCommand(1800.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
     DelayCommand(600.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
 
@@ -265,8 +264,7 @@ void startRaid() {
         object curXvartRaidWP = GetWaypointByTag("hlf1_xvart_" +
             IntToString(Random(5) + 1));
         spotListenChecks(curXvartRaidWP, total_delay);
-        DelayCommand(total_delay, createRaidingParty(curXvartRaidWP,
-            total_delay));
+        DelayCommand(total_delay, createRaidingParty(curXvartRaidWP));
         total_delay += 25.0 + Random(20);
     }
 
@@ -280,6 +278,7 @@ void main()
 {
     // If there isnt a raid going on start one.
     if(GetLocalInt(OBJECT_SELF, "xvart_raids_in_progress") == 0) {
-         startRaid();
+        SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 1);
+        startRaid();
     }
 }
