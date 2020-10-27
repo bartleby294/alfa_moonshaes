@@ -27,6 +27,16 @@ int isObjectInArea(string objTag) {
     return objectFound;
 }
 
+void runAway(object curXvart){
+    object getAwayLocation = GetNearestObjectByTag("hlf1_xvart_exit", curXvart);
+    if(!GetIsInCombat(curXvart)) {
+        SetLocalInt(curXvart, "run_away", 1);
+        DelayCommand(IntToFloat(Random(5)),
+            AssignCommand(curXvart,
+                ActionMoveToObject(getAwayLocation, TRUE, 0.0)));
+    }
+}
+
 void createRaidingParty(object xvartRaidSpawnWP) {
 
     float firstCornDist = -1.0;
@@ -132,21 +142,13 @@ void createRaidingParty(object xvartRaidSpawnWP) {
                 if(firstCorn != OBJECT_INVALID) {
                     AssignCommand(curXvart,
                         ActionMoveToObject(firstCorn, TRUE, 1.0));
-                    object getAwayLocation =
-                        GetNearestObjectByTag("hlf1_xvart_exit", curXvart);
-                    DelayCommand(15.0 + IntToFloat(Random(5)),
-                        AssignCommand(curXvart,
-                            ActionMoveToObject(getAwayLocation, TRUE, 0.0)));
+                    DelayCommand(15.0, runAway(curXvart));
                 }
             } else {
                 // Slinger have them hang back and cover
                 curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_004",
                     GetLocation(xvartRaidSpawnWP), FALSE, "xvart_raider");
-                object getAwayLocation =
-                        GetNearestObjectByTag("hlf1_xvart_exit", curXvart);
-                    DelayCommand(15.0 + IntToFloat(Random(5)),
-                        AssignCommand(curXvart,
-                            ActionMoveToObject(getAwayLocation, TRUE, 0.0)));
+                DelayCommand(15.0, runAway(curXvart));
             }
         } else {
             curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_01",
