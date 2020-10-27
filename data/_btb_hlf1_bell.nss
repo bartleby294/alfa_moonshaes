@@ -27,16 +27,6 @@ int isObjectInArea(string objTag) {
     return objectFound;
 }
 
-void runAway(object curXvart){
-    object getAwayLocation = GetNearestObjectByTag("hlf1_xvart_exit", curXvart);
-    if(!GetIsInCombat(curXvart)) {
-        SetLocalInt(curXvart, "run_away", 1);
-        DelayCommand(IntToFloat(Random(5)),
-            AssignCommand(curXvart,
-                ActionMoveToObject(getAwayLocation, TRUE, 0.0)));
-    }
-}
-
 void createRaidingParty(object xvartRaidSpawnWP) {
 
     float firstCornDist = -1.0;
@@ -239,7 +229,7 @@ void rewardCorn() {
         }
         obj = GetNextObjectInArea();
     }
-    CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 1),
+    CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 0),
         cornCnt * 2, "corn");
 }
 
