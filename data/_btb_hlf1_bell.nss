@@ -45,9 +45,9 @@ void createRaidingParty(object xvartRaidSpawnWP, float total_delay) {
 
     // loop thorugh all obejct in area get the 5 closest corns.
     object obj = GetFirstObjectInArea();
-    object test = GetNearestObjectByTag("hlf_f1_corn_obj_*n", obj, 1);
-    WriteTimestampedLogEntry("-----------");
-    WriteTimestampedLogEntry(GetTag(test));
+    //object test = GetNearestObjectByTag("hlf_f1_corn_obj_*n", obj, 1);
+    //WriteTimestampedLogEntry("-----------");
+    //WriteTimestampedLogEntry(GetTag(test));
     while(GetIsObjectValid(obj)){
         // if its a corn check if its closer than what we have saved
         if (TestStringAgainstPattern("hlf_f1_corn_obj_*n", GetTag(obj))) {
@@ -134,18 +134,18 @@ void createRaidingParty(object xvartRaidSpawnWP, float total_delay) {
                 if(firstCorn != OBJECT_INVALID) {
                     AssignCommand(curXvart,
                         ActionMoveToObject(firstCorn, TRUE, 1.0));
-                DelayCommand(total_delay - 5.0,
+                DelayCommand(15.0,
                     ActionMoveToObject(
-                        GetNearestObjectByTag("hlf1_xvart_exit", OBJECT_SELF),
+                        GetNearestObjectByTag("hlf1_xvart_exit", curXvart),
                         TRUE, 0.0));
                 }
             } else {
                 // Slinger have them hang back and cover
                 curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_004",
                     GetLocation(xvartRaidSpawnWP), FALSE, "xvart_raider");
-                DelayCommand(total_delay - 3.0,
+                DelayCommand(15.0,
                     ActionMoveToObject(
-                        GetNearestObjectByTag("hlf1_xvart_exit", OBJECT_SELF),
+                        GetNearestObjectByTag("hlf1_xvart_exit", curXvart),
                         TRUE, 0.0));
             }
         } else {
@@ -235,12 +235,14 @@ void rewardCorn() {
             cornCnt++;
         }
     }
-    CreateItemOnObject("corn", GetObjectByTag("rewardCorn"),
+    WriteTimestampedLogEntry("*-----------*");
+    WriteTimestampedLogEntry(IntToString(cornCnt));
+    CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 1),
         cornCnt * 2, "corn");
 }
 
 void startRaid() {
-    AssignCommand(OBJECT_SELF, ActionSpeakString("You ring the bell."));
+    AssignCommand(OBJECT_SELF, ActionSpeakString("The bell rings."));
 
     string BASE_WP_TAG = "hlf_f1_corn_";
     string BASE_OBJ_TAG = "hlf_f1_corn_obj_";
@@ -253,7 +255,7 @@ void startRaid() {
     SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 1);
     //SetLocalInt(OBJECT_SELF, "xvart_raids_remaining", numberOfRaids);
     //DelayCommand(1800.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
-    DelayCommand(240.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
+    DelayCommand(600.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
 
     int curRaidCnt = 1;
     //int rand_raids = Random(4) + 4;
