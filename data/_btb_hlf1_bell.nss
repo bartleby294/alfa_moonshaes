@@ -142,13 +142,13 @@ void createRaidingParty(object xvartRaidSpawnWP) {
                 if(firstCorn != OBJECT_INVALID) {
                     AssignCommand(curXvart,
                         ActionMoveToObject(firstCorn, TRUE, 1.0));
-                    DelayCommand(15.0, runAway(curXvart));
+                    //DelayCommand(15.0, runAway(curXvart));
                 }
             } else {
                 // Slinger have them hang back and cover
                 curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_004",
                     GetLocation(xvartRaidSpawnWP), FALSE, "xvart_raider");
-                DelayCommand(15.0, runAway(curXvart));
+                //DelayCommand(15.0, runAway(curXvart));
             }
         } else {
             curXvart = CreateObject(OBJECT_TYPE_CREATURE, "sw_goblin_01",

@@ -50,7 +50,20 @@ void main()
     // - Includes fleeing making sure (so it resets the ActionMoveTo each 6 seconds -
     //   this is not too bad)
     // - Includes door bashing stop heartbeat
-    if(PerformSpecialAction() || GetLocalInt(OBJECT_SELF, "run_away")) return;
+    if(PerformSpecialAction()) return;
+
+    // count how many times heartbeat has been called.
+    SetLocalInt(OBJECT_SELF, "heartbeat_cnt",
+        GetLocalInt(OBJECT_SELF, "heartbeat_cnt") + 1);
+
+    // If not in combat and around more than 4 heartbeats run away.
+    if(!GetIsInCombat(OBJECT_SELF)
+        && GetLocalInt(OBJECT_SELF, "heartbeat_cnt") > 5){
+        object getAwayLocation = GetNearestObjectByTag("hlf1_xvart_exit",
+            OBJECT_SELF);
+        AssignCommand(OBJECT_SELF,
+            ActionMoveToObject(getAwayLocation, TRUE, 0.0));
+    }
 
     // Pre-heartbeat-event
     if(FireUserEvent(AI_FLAG_UDE_HEARTBEAT_PRE_EVENT, EVENT_HEARTBEAT_PRE_EVENT))
