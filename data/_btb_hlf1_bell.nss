@@ -237,9 +237,8 @@ void rewardCorn() {
         if (TestStringAgainstPattern("hlf_f1_corn_obj_*n", GetTag(obj))) {
             cornCnt++;
         }
+        obj = GetNextObjectInArea();
     }
-    WriteTimestampedLogEntry("*-----------*");
-    WriteTimestampedLogEntry(IntToString(cornCnt));
     CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 1),
         cornCnt * 2, "corn");
 }
@@ -252,7 +251,7 @@ void startRaid() {
     string CORN_RESREF = "alfa_produce014";
 
     // do 1d5 + 10 total raids
-    int numberOfRaids = Random(5) + 11;
+    int numberOfRaids = Random(7) + 14;
 
     // Start the raid and then set a time out of 30 minutes.
     //DelayCommand(1800.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
