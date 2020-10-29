@@ -1,38 +1,37 @@
-/************************ [On Death] *******************************************
-    Filename: j_ai_ondeath or nw_c2_default7
-************************* [On Death] *******************************************
+/*/////////////////////// [On Death] ///////////////////////////////////////////
+    Filename: J_AI_OnDeath or nw_c2_default7
+///////////////////////// [On Death] ///////////////////////////////////////////
     Speeded up no end, when compiling, with seperate Include.
     Cleans up all un-droppable items, all ints and all local things when destroyed.
 
     Check down near the bottom for a good place to add XP or corpse lines ;-)
-************************* [History] ********************************************
+///////////////////////// [History] ////////////////////////////////////////////
     1.3 - Added in Turn of corpses toggle
         - Added in appropriate space for XP awards, marked with ideas (effect death)
-************************* [Workings] *******************************************
+    1.4 - Removed the redudnant notes on the "You have gained 0 experience" message
+///////////////////////// [Workings] ///////////////////////////////////////////
     You can edit this for experience, there is a seperate section for it.
 
     It will use DeathCheck to execute a cleanup-and-destroy script, that removes
     any coprse, named "j_ai_destroyself".
-************************* [Arguments] ******************************************
+///////////////////////// [Arguments] //////////////////////////////////////////
     Arguments: GetLastKiller.
-************************* [On Death] ******************************************/
+///////////////////////// [On Death] /////////////////////////////////////////*/
 
 // We only require the constants/debug file. We have 1 function, not worth another include.
-#include "j_inc_constants"
+#include "J_INC_CONSTANTS"
 
 // We need a wrapper. If the amount of deaths, got in this, is not equal to iDeaths,
 // we don't execute the script, else we do. :-P
-void DeathCheck(int iDeaths);
+void DeathCheck(int nDeaths);
 
 void main()
 {
     // If we are set to, don't fire this script at all
     if(GetAIInteger(I_AM_TOTALLY_DEAD)) return;
 
-    // Pre-death-event
-    if(FireUserEvent(AI_FLAG_UDE_DEATH_PRE_EVENT, EVENT_DEATH_PRE_EVENT))
-        // We may exit if it fires
-        if(ExitFromUDE(EVENT_DEATH_PRE_EVENT)) return;
+    // Pre-death-event. Returns TRUE if we interrupt this script call.
+    if(FirePreUserEvent(AI_FLAG_UDE_DEATH_PRE_EVENT, EVENT_DEATH_PRE_EVENT)) return;
 
     // Note: No AI on/off check here.
 
@@ -50,7 +49,7 @@ void main()
         if(!GetLocalTimer(AI_TIMER_DEATH_EFFECT_DEATH))
         {
             // Don't apply effect death to self more then once per 2 seconds.
-            SetLocalTimer(AI_TIMER_DEATH_EFFECT_DEATH, f2);
+            SetLocalTimer(AI_TIMER_DEATH_EFFECT_DEATH, 2.0);
             // This should make the last killer us.
             ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectResurrection(), OBJECT_SELF);
             ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectDamage(GetMaxHitPoints()), OBJECT_SELF);
@@ -61,50 +60,47 @@ void main()
         // Set have died once, stops giving out mulitple amounts of XP.
         SetAIInteger(WE_HAVE_DIED_ONCE, TRUE);
 
-/************************ [Experience] *****************************************
-    THIS is the place for it, below this comment. To reward XP, you might want
-    to first apply EffectDeath to ourselves (uncomment the example lines) which
-    will remove the "You recieved 0 Experience" if you have normal XP at 0, as
-    the On Death event is before the reward, and therefore now our last killer
-    will be outselves. It will not cause any errors, oKiller is already set.
+/*/////////////////////// [Experience] /////////////////////////////////////////
+    THIS is the place for it, below this comment.
 
-    Anything else, I leave to you. GetFirstFactionMember (and next), GiveXPToCreature,
-    GetXP, SetXP, GetChallengeRating all are really useful.
+    It is useful to use GetFirstFactionMember (and Next), GiveXPToCreature,
+    GetXP, SetXP, GetChallengeRating (of self) all are really useful.
 
-    Bug note: GetFirstFactionMember/Next with the PC parameter means either ONLY PC
-************************* [Experience] ****************************************/
-    // Do XP things (Use object "oKiller").
+    Bug note: GetFirstFactionMember/Next with the PC parameter means either ONLY PC,
+    and so NPC henchmen, unless FALSE is used, will not be even recognised.
+///////////////////////// [Experience] ///////////////////////////////////////*/
+    // Do XP things (Use object "oKiller" for who killed us).
 
+ExecuteScript("pwfxp", OBJECT_SELF);
 
-
-/************************ [Experience] ****************************************/
+/*/////////////////////// [Experience] ///////////////////////////////////////*/
     }
 
     // Note: Here we do a simple way of checking how many times we have died.
     // Nothing special. Debugging most useful aspect.
-    int iDeathCounterNew = GetAIInteger(AMOUNT_OF_DEATHS);
-    iDeathCounterNew++;
-    SetAIInteger(AMOUNT_OF_DEATHS, iDeathCounterNew);
+    int nDeathCounterNew = GetAIInteger(AMOUNT_OF_DEATHS);
+    nDeathCounterNew++;
+    SetAIInteger(AMOUNT_OF_DEATHS, nDeathCounterNew);
 
     // Here is the last time (in game seconds) we died. It is used in the executed script
     // to make sure we don't prematurly remove areselves.
 
     // We may want some sort of visual effect - like implosion or something, to fire.
-    int iDeathEffect = GetAIConstant(AI_DEATH_VISUAL_EFFECT);
+    int nDeathEffect = GetAIConstant(AI_DEATH_VISUAL_EFFECT);
 
     // Valid constants from 0 and up. Apply to our location (not to us, who will go!)
-    if(iDeathEffect >= i0)
+    if(nDeathEffect >= 0)
     {
-        ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect(iDeathEffect), GetLocation(OBJECT_SELF));
+        ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect(nDeathEffect), GetLocation(OBJECT_SELF));
     }
     // Default Commoner alignment changing. (If the commoner is not evil!)
-    if(GetLevelByClass(CLASS_TYPE_COMMONER) > i0 &&
+    if(GetLevelByClass(CLASS_TYPE_COMMONER) > 0 &&
        GetAlignmentGoodEvil(OBJECT_SELF) != ALIGNMENT_EVIL &&
       !GetSpawnInCondition(AI_FLAG_OTHER_NO_COMMONER_ALIGNMENT_CHANGE, AI_OTHER_MASTER))
     {
         if(GetIsPC(oKiller))
         {
-            AdjustAlignment(oKiller, ALIGNMENT_EVIL, i5);
+            AdjustAlignment(oKiller, ALIGNMENT_EVIL, 5);
         }
         else
         {
@@ -113,29 +109,31 @@ void main()
             object oMaster = GetMaster(oKiller);
             if(GetIsObjectValid(oMaster) && GetIsPC(oMaster))
             {
-                AdjustAlignment(oMaster, ALIGNMENT_EVIL, i5);
+                AdjustAlignment(oMaster, ALIGNMENT_EVIL, 5);
             }
         }
     }
-    // Always shout when we are killed. Reactions - Morale penalty, and attack the killer.
-    AISpeakString(I_WAS_KILLED);
+    // Always shout when we are killed. Reactions - Morale penalty, and
+    // attack the killer.
+    AISpeakString(AI_SHOUT_I_WAS_KILLED);
 
     // Speaks the set death speak, like "AGGGGGGGGGGGGGGGGGGG!! NOOOO!" for instance :-)
+    // Note for 1.4: No need for "CanSpeak()" for this, of course.
     SpeakArrayString(AI_TALK_ON_DEATH);
 
     // First check - do we use "destroyable corpses" or not? (default, yes)
     if(!GetSpawnInCondition(AI_FLAG_OTHER_TURN_OFF_CORPSES, AI_OTHER_MASTER))
     {
         // We will actually dissapear after 30.0 seconds if not raised.
-        int iTime = GetAIInteger(AI_CORPSE_DESTROY_TIME);
-        if(iTime == i0) // Error checking
+        int nTime = GetAIInteger(AI_CORPSE_DESTROY_TIME);
+        if(nTime == 0) // Error checking
         {
-            iTime = i30;
+            nTime = 30;
         }
-        // 64: "[Death] Checking corpse status in " + IntToString(iTime) + " [Killer] " + GetName(oKiller) + " [Times Died Now] " + IntToString(iDeathCounterNew)
-        DebugActionSpeakByInt(64, oKiller, iTime, IntToString(iDeathCounterNew));
+        // 64: "[Death] Checking corpse status in " + IntToString(nTime) + " [Killer] " + GetName(oKiller) + " [Times Died Now] " + IntToString(nDeathCounterNew)
+        DebugActionSpeakByInt(64, oKiller, nTime, IntToString(nDeathCounterNew));
         // Delay check
-        DelayCommand(IntToFloat(iTime), DeathCheck(iDeathCounterNew));
+        DelayCommand(IntToFloat(nTime), DeathCheck(nDeathCounterNew));
     }
     else
     {
@@ -155,10 +153,10 @@ void main()
 
 // We need a wrapper. If the amount of deaths, got in this, is not equal to iDeaths,
 // we don't execute the script, else we do. :-P
-void DeathCheck(int iDeaths)
+void DeathCheck(int nDeaths)
 {
     // Do the deaths imputted equal the amount we have suffered?
-    if(GetAIInteger(AMOUNT_OF_DEATHS) == iDeaths)
+    if(GetAIInteger(AMOUNT_OF_DEATHS) == nDeaths)
     {
         // - This now includes a check for Bioware's lootable functions and using them.
         ExecuteScript(FILE_DEATH_CLEANUP, OBJECT_SELF);
