@@ -16,10 +16,12 @@
 
 void main()
 {
+  // This adds the moonshaes specific special items ((tents shovels drums etc))
+  // otherwise exactly the same as standard
+  MoonshaesCustom();
   ALFA_OnActivateItem();
 
   /**************** Add Custom Code Here ***************/
-
     ExecuteScript("cmk_items", GetItemActivator());
         /* Omega Wand */
     ExecuteScript("omega_onactivate", GetItemActivator());
@@ -32,10 +34,5 @@ void main()
 //    ExecuteScript("scr_horse_brown", GetItemActivator());
         /*Grey Riding Horse Bridle */
 //    ExecuteScript("scr_horse_grey", GetItemActivator());
-
-    //This adds the moonshaes specific special items ((tents shovels drums etc)) otherwise exactly the same as standard
-
-    MoonshaesCustom();
-
   /*****************************************************/
 }
