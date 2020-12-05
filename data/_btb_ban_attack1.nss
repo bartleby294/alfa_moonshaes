@@ -1,5 +1,10 @@
 #include "alfa_wealth_inc"
 
+void writeToLog(string str) {
+    string oAreaName = GetName(GetArea(OBJECT_SELF));
+    WriteTimestampedLogEntry(oAreaName + ": " +  str);
+}
+
 object GetFirstPCInArea(object oAreaTest)
 {
     object oPCTestValid = GetFirstPC();
@@ -165,8 +170,12 @@ int DecideIfAttack(int totalEstPCWealth, int totalPCLvls, int totalPCs,
     int totalDecisionPct =  (banditActivityLevel +  lvlDecisionPct
                                 + wealthDecisionPct) / 3;
 
-    int decisionNum = Random(100) + 1;
+    writeToLog("wealthDecisionPct: " + IntToString(wealthDecisionPct));
+    writeToLog("lvlDecisionPct: " + IntToString(lvlDecisionPct));
+    writeToLog("totalDecisionPct: " + IntToString(totalDecisionPct));
 
+    int decisionNum = Random(100) + 1;
+    writeToLog("decisionNum: " + IntToString(decisionNum));
     // If we are with in our decision percentage we are good to attack.
     if(decisionNum <= totalDecisionPct) {
         return 1;
@@ -229,9 +238,12 @@ location pickSpawnLoc(object richestPC) {
     float x = pcVector.x - bandVector.x;
     float y = pcVector.y - bandVector.y;
 
+    float randX = IntToFloat(1 / (Random(5) + 1)) * (Random(3) + 1);
+    float randY = IntToFloat(1 / (Random(5) + 1)) * (Random(3) + 1);
+
     vector norm = VectorNormalize(Vector(x, y, 0.0));
-    float spawnX = bandVector.x + (15 * norm.x);
-    float spawnY = bandVector.y + (15 * norm.y);
+    float spawnX = bandVector.x + (15 * norm.x) + randX;
+    float spawnY = bandVector.y + (15 * norm.y) + randY;
 
     return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
 }
@@ -247,13 +259,15 @@ void main()
     int banditAttackState = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
                                "DISABLE_BANDITS_" + GetTag(oArea));
 
+    writeToLog("banditAttackState: " + IntToString(banditAttackState));
+
     // If bandit attacks are disabled for this area exist imediately.
     // State 0: Enabled  - Never been run before.
     // State 1: Disabled - Perceived but gathering inforamtion
     // State 2: Enabled  - Make attack no attack decision
     // State 3: Disabled - Attacking
     // State 9: Disabled
-    if(banditAttackState != 0 || banditAttackState != 2) {
+    if(banditAttackState != 0 && banditAttackState != 2) {
         return;
     }
 
@@ -282,18 +296,18 @@ void main()
 
     /* Gather Party Information The Bandit Lookout Can See. */
     while(curPC != OBJECT_INVALID) {
+        writeToLog("PC in area: " + GetPCPlayerName(curPC));
         // Only considers PCs near the rally point.
         float distToPC = GetDistanceToObject(curPC);
         if(distToPC < 100.0) {
-            SendMessageToPC(curPC, "Bandit Script Triggered");
-
+            writeToLog("PC in range: " + GetPCPlayerName(curPC));
             // If the character isnt trying to hide or doesn't account for them.
             if(GetStealthMode(curPC) == STEALTH_MODE_DISABLED
                || !GetIsSkillSuccessful(curPC, SKILL_HIDE,
                     d20() + bandSpot)
                || !GetIsSkillSuccessful(curPC, SKILL_MOVE_SILENTLY,
                     d20() + bandListen)) {
-
+                writeToLog("PC detected: " + GetPCPlayerName(curPC));
                 /* Only do the extra work if were going to need it. */
                 if(banditAttackState == 2) {
                     // If bandits make a DC 16 Apraise check they appraise PC.
@@ -303,6 +317,10 @@ void main()
                         int roll = d6(2) + 3;
                         estimatedPCWorth =
                             FloatToInt(estimatedPCWorth * roll * 0.1);
+                        ////////////////////////////////////////////////////////
+                        SpeakString("PC Worth: " +
+                            IntToString(estimatedPCWorth), TALKVOLUME_SHOUT);
+                        ////////////////////////////////////////////////////////
                     }
 
                     // Check if this PC should be the new main mark.
@@ -328,9 +346,11 @@ void main()
 
     /* If there are no PCs with in range get out of here. */
     if(totalPCs == 0) {
+        writeToLog("No PC Observed Exiting");
         return;
     /* If bandits just noticed some one set some observational time. */
     } else if(banditAttackState == 0) {
+        writeToLog("Entering Observe Phase.");
         setAttackState(oArea, 1);
         DelayCommand(10.0, setAttackState(oArea, 2));
         return;
@@ -346,11 +366,20 @@ void main()
     // if we are not attacking break out (we will update this later give pcs
     // a chance to spot the hidden bandits.)
     if(attackChoice == 0) {
+        // We decided not to attack so lets wait at least 5 mins before we
+        // think about attakcing again.
+        writeToLog("Choose attacking not worth it.");
+        setAttackState(oArea, 3);
+        DelayCommand(300.0, setAttackState(oArea, 0));
         return;
     // Start the attack!
     } else {
         // Choose our bandits and have them attack.
+        writeToLog("We are Attacking!");
+        setAttackState(oArea, 3);
+        DelayCommand(600.0, setAttackState(oArea, 0));
         while (bandXPAllocation > 0) {
+            writeToLog("bandXPAllocation: " + IntToString(bandXPAllocation));
             int banditLvl = 0;
             // if we are at the end of our xp allocation just use a lvl 1 char
             if(bandXPAllocation <= 300) {
@@ -369,6 +398,7 @@ void main()
             }
             // pick gender (will put in after the rest is tested)
             string resref = pickRace() + pickClass() + "m_bandit_1";
+            writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
             location spawnLoc = pickSpawnLoc(richestPC);
             // Spawn the bandit.
             object bandit = CreateObject(OBJECT_TYPE_CREATURE, resref,
