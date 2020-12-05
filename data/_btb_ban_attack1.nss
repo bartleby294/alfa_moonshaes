@@ -238,8 +238,8 @@ location pickSpawnLoc(object richestPC) {
     float x = pcVector.x - bandVector.x;
     float y = pcVector.y - bandVector.y;
 
-    float randX = IntToFloat(1 / (Random(5) + 1)) * (Random(3) + 1);
-    float randY = IntToFloat(1 / (Random(5) + 1)) * (Random(3) + 1);
+    float randX = 0.0; //IntToFloat(1 / (Random(5) + 1)) * (Random(3) + 1);
+    float randY = 0.0; //IntToFloat(1 / (Random(5) + 1)) * (Random(3) + 1);
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
     float spawnX = bandVector.x + (15 * norm.x) + randX;
@@ -317,10 +317,6 @@ void main()
                         int roll = d6(2) + 3;
                         estimatedPCWorth =
                             FloatToInt(estimatedPCWorth * roll * 0.1);
-                        ////////////////////////////////////////////////////////
-                        SpeakString("PC Worth: " +
-                            IntToString(estimatedPCWorth), TALKVOLUME_SHOUT);
-                        ////////////////////////////////////////////////////////
                     }
 
                     // Check if this PC should be the new main mark.
