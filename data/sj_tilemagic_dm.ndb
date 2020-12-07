@@ -1,0 +1,503 @@
+NDB V1.0
+0000005 0000001 0000209 0000049 0000079
+n00 x2_inc_switches
+n01 sj_debug_i
+n02 sj_utility_i
+n03 sj_tilemagic_i
+N04 sj_tilemagic_dm
+s 03 vector
+sf f x
+sf f y
+sf f z
+f ffffffff ffffffff 000 s MODULE_SWITCH_ENABLE_UMD_SCROLLS
+f ffffffff ffffffff 000 s MODULE_SWITCH_DISABLE_ITEM_CREATION_FEATS
+f ffffffff ffffffff 000 s MODULE_SWITCH_AOE_HURT_NEUTRAL_NPCS
+f ffffffff ffffffff 000 s MODULE_SWITCH_ENABLE_CRAFT_WAND_50_CHARGES
+f ffffffff ffffffff 000 s MODULE_SWITCH_EPIC_SPELLS_HURT_CASTER
+f ffffffff ffffffff 000 s MODULE_SWITCH_SPELL_CORERULES_DMASTERTOUCH
+f ffffffff ffffffff 000 s MODULE_SWITCH_RESTRICT_USE_POISON_TO_FEAT
+f ffffffff ffffffff 000 s MODULE_SWITCH_ENABLE_MULTI_HENCH_AOE_DAMAGE
+f ffffffff ffffffff 000 s MODULE_SWITCH_ENABLE_NPC_AOE_HURT_ALLIES
+f ffffffff ffffffff 000 s MODULE_SWITCH_ENABLE_BEBILITH_RUIN_ARMOR
+f ffffffff ffffffff 000 s MODULE_SWITCH_ENABLE_INVISIBLE_GLYPH_OF_WARDING
+f ffffffff ffffffff 000 s MODULE_SWITCH_ENABLE_CROSSAREA_WALKWAYPOINTS
+f ffffffff ffffffff 000 s MODULE_SWITCH_DISABLE_SECRET_DOOR_FLASH
+f ffffffff ffffffff 000 s MODULE_SWITCH_ENABLE_TAGBASED_SCRIPTS
+f ffffffff ffffffff 000 s MODULE_SWITCH_USE_XP2_RESTSYSTEM
+f ffffffff ffffffff 000 s MODULE_SWITCH_DISABLE_AI_DISPEL_AOE
+f ffffffff ffffffff 000 s MODULE_SWITCH_NO_RANDOM_MONSTER_LOOT
+f ffffffff ffffffff 000 s MODULE_VAR_OVERRIDE_SPELLSCRIPT
+f ffffffff ffffffff 000 s MODULE_VAR_TAGBASED_SCRIPT_PREFIX
+f ffffffff ffffffff 000 s MODULE_VAR_WANDERING_MONSTER_2DA
+f ffffffff ffffffff 000 s MODULE_VAR_AI_NO_DISPEL_AOE_CHANCE
+f ffffffff ffffffff 000 s MODULE_VAR_AI_STOP_EXPERTISE_ABUSE
+f ffffffff ffffffff 000 s CREATURE_VAR_CUSTOM_AISCRIPT
+f ffffffff ffffffff 000 s CREATURE_VAR_RANDOMIZE_SPELLUSE
+f ffffffff ffffffff 000 s CREATURE_VAR_USE_SPAWN_STEALTH
+f ffffffff ffffffff 000 s CREATURE_VAR_USE_SPAWN_SEARCH
+f ffffffff ffffffff 000 s CREATURE_VAR_USE_SPAWN_AMBIENT
+f ffffffff ffffffff 000 s CREATURE_VAR_USE_SPAWN_AMBIENT_IMMOBILE
+f ffffffff ffffffff 000 s CREATURE_VAR_IMMUNE_TO_DISPEL
+f ffffffff ffffffff 000 s CREATURE_VAR_IS_INCORPOREAL
+f ffffffff ffffffff 000 s CREATURE_VAR_NUMBER_OF_ATTACKS
+f ffffffff ffffffff 000 s CREATURE_AI_MODIFIED_MAGIC_RATE
+f ffffffff ffffffff 000 s CREATURE_AI_MODIFIED_OFFENSE_RATE
+f ffffffff ffffffff 000 s CREATURE_AI_MODIFIED_COMPASSION_RATE
+f ffffffff ffffffff 000 s CREATURE_VAR_PALE_MASTER_SPECIAL_ITEM
+f ffffffff ffffffff 000 i X2_ITEM_EVENT_ACTIVATE
+f ffffffff ffffffff 000 i X2_ITEM_EVENT_EQUIP
+f ffffffff ffffffff 000 i X2_ITEM_EVENT_UNEQUIP
+f ffffffff ffffffff 000 i X2_ITEM_EVENT_ONHITCAST
+f ffffffff ffffffff 000 i X2_ITEM_EVENT_ACQUIRE
+f ffffffff ffffffff 000 i X2_ITEM_EVENT_UNACQUIRE
+f ffffffff ffffffff 000 i X2_ITEM_EVENT_SPELLCAST_AT
+f ffffffff ffffffff 000 i X2_EXECUTE_SCRIPT_CONTINUE
+f ffffffff ffffffff 000 i X2_EXECUTE_SCRIPT_END
+f ffffffff ffffffff 001 v SetUserDefinedItemEventNumber
+fp i
+f 00000142 00000181 000 i GetUserDefinedItemEventNumber
+f ffffffff ffffffff 002 v SetModuleSwitch
+fp s
+fp i
+f ffffffff ffffffff 001 i GetModuleSwitchValue
+fp s
+f ffffffff ffffffff 000 s DOOR_FLAG_RESIST_KNOCK
+f ffffffff ffffffff 003 v SetDoorFlag
+fp o
+fp s
+fp i
+f ffffffff ffffffff 002 i GetDoorFlag
+fp o
+fp s
+f ffffffff ffffffff 000 s WAYPOINT_VAR_FORCE_SETFACING
+f ffffffff ffffffff 000 s ITEM_FLAG_NO_CRAFT_MODIFICATION
+f ffffffff ffffffff 003 v SetItemFlag
+fp o
+fp s
+fp i
+f ffffffff ffffffff 002 i GetItemFlag
+fp o
+fp s
+f ffffffff ffffffff 002 i ExecuteScriptAndReturnInt
+fp s
+fp o
+f ffffffff ffffffff 001 v SetExecutedScriptReturnValue
+fp i
+f ffffffff ffffffff 001 v SetUserDefinedItemEventPrefix
+fp s
+f ffffffff ffffffff 001 v SetModuleOverrideSpellscript
+fp s
+f ffffffff ffffffff 003 v SetCreatureFlag
+fp o
+fp s
+fp i
+f ffffffff ffffffff 002 i GetCreatureFlag
+fp o
+fp s
+f ffffffff ffffffff 002 v SetCreatureOverrideAIScript
+fp o
+fp s
+f ffffffff ffffffff 001 v SetCreatureOverrideAIScriptFinished
+fp o
+f ffffffff ffffffff 001 v ClearCreatureOverrideAIScriptTarget
+fp o
+f ffffffff ffffffff 001 o GetCreatureOverrideAIScriptTarget
+fp o
+f ffffffff ffffffff 001 v SetWanderingMonster2DAFile
+fp s
+f ffffffff ffffffff 000 s GetModuleOverrideSpellscript
+f ffffffff ffffffff 000 v SetModuleOverrideSpellScriptFinished
+f ffffffff ffffffff 000 i GetModuleOverrideSpellScriptFinished
+f ffffffff ffffffff 001 s GetUserDefinedItemEventScriptName
+fp o
+f ffffffff ffffffff 000 s SJ_VAR_DEBUG_ACTIVE
+f ffffffff ffffffff 000 s SJ_VAR_DEBUG_ERROR
+f ffffffff ffffffff 000 s SJ_VAR_DEBUG_LEVEL
+f ffffffff ffffffff 000 s SJ_VAR_DEBUG_VOLUME
+f ffffffff ffffffff 000 i SJ_DEBUG_LEVEL_ERROR
+f ffffffff ffffffff 000 i SJ_DEBUG_LEVEL_TRACE
+f ffffffff ffffffff 000 i SJ_DEBUG_LEVEL_WATCH
+f ffffffff ffffffff 000 i SJ_DEBUG_VOLUME_SILENT
+f ffffffff ffffffff 000 i SJ_DEBUG_VOLUME_QUIET
+f ffffffff ffffffff 000 i SJ_DEBUG_VOLUME_NOISY
+f ffffffff ffffffff 000 s SJ_DEBUG_PREFIX_ERROR
+f ffffffff ffffffff 000 s SJ_DEBUG_PREFIX_TRACE
+f ffffffff ffffffff 000 s SJ_DEBUG_PREFIX_WATCH
+f ffffffff ffffffff 000 s SJ_DEBUG_TEXT_ERROR
+f 000009d1 00000a35 001 v SendMessageToAllPCs
+fp s
+f 0000074f 000008fb 004 v SJ_Debug
+fp s
+fp i
+fp i
+fp i
+f 000008fb 00000934 000 i SJ_Debug_GetActive
+f 00000934 0000096c 000 i SJ_Debug_GetLevel
+f 0000096c 000009a5 000 i SJ_Debug_GetVolume
+f 000009a5 000009d1 001 v SJ_Debug_SetErrorFlag
+fp i
+f ffffffff ffffffff 000 i SJ_ROTATION_RANDOM
+f ffffffff ffffffff 000 i SJ_ROTATION_NONE
+f ffffffff ffffffff 000 i SJ_ROTATION_90
+f ffffffff ffffffff 000 i SJ_ROTATION_180
+f ffffffff ffffffff 000 i SJ_ROTATION_270
+f ffffffff ffffffff 000 i SJ_MAX_AREA_DIMENSION
+f ffffffff ffffffff 000 i SJ_MAINLIGHT1_COLOR_INVALID
+f ffffffff ffffffff 000 i SJ_MAINLIGHT2_COLOR_INVALID
+f ffffffff ffffffff 000 i SJ_SOURCELIGHT1_COLOR_INVALID
+f ffffffff ffffffff 000 i SJ_SOURCELIGHT2_COLOR_INVALID
+f ffffffff ffffffff 000 s SJ_RES_DATAPOINT
+f ffffffff ffffffff 000 s SJ_TAG_DATAPOINT
+f ffffffff ffffffff 003 i SJ_GetIsSpotValid
+fp o
+fp f
+fp f
+f ffffffff ffffffff 003 i SJ_GetIsTileValid
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 i SJ_GetAreaWidth
+fp o
+f ffffffff ffffffff 001 i SJ_GetAreaHeight
+fp o
+f 000004d3 00000563 003 s SJ_IntToPrePaddedString
+fp i
+fp i
+fp s
+f 00000628 0000074f 002 s SJ_RemoveSubString
+fp s
+fp s
+f ffffffff ffffffff 001 o SJ_CreateDatapoint
+fp s
+f ffffffff ffffffff 001 v SJ_DestroyDatapoint
+fp s
+f ffffffff ffffffff 001 o SJ_GetDatapoint
+fp s
+f ffffffff ffffffff 001 i SJ_GetIsDatapointValid
+fp s
+f ffffffff ffffffff 000 f SJ_TILEMAGIC_DELAY_CLEAR
+f ffffffff ffffffff 000 s SJ_TILEMAGIC_STYLE_NONE
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_TOPDOWN_MATRIX
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_CORNER_SE
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_CORNER_SW
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_CORNER_NE
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_CORNER_NW
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_ORDINARY_CAVE
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_ORDINARY_GRASS
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_ORDINARY_LAVA
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_ORDINARY_ICE
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_ORDINARY_PIT
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_ORDINARY_WATER_BLUE_1
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_ORDINARY_WATER_BLUE_2
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_ORDINARY_WATER_GREEN
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_ORDINARY_JAIL
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CAVE_MINING_PILE
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CAVE_STONE_COLUMN
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_GAZEBO
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_HOUSE_1
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_HOUSE_2
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_MARBLE_ARCH
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_MARKET_1
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_MARKET_2
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_RUBBLE
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_RUINED_HOUSE
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_RUINED_ARCH
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_RUINS_1
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_RUINS_2
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_CITY_WAGON
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_GRASS_CARAVAN
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_GRASS_GRAVES
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_GRASS_ANT_HILL
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_GRASS_CRYSTAL
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_ICE_BUMP
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_ICE_CASTLE_WALL
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_ITHILLID_PILLAR
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_ITHILLID_TRANSPORTER
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_KITCHEN_LANTERN
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_LAVA_FOUNTAIN
+f ffffffff ffffffff 000 i SJ_TILEMAGIC_FEATURE_UNDERDARK_WATERFALL
+f ffffffff ffffffff 000 s SJ_RES_INVISIBLE_OBJECT
+f ffffffff ffffffff 000 s SJ_TAG_TILEMAGIC_AUTOTILE
+f ffffffff ffffffff 000 s SJ_TAG_TILEMAGIC_CONTROL
+f ffffffff ffffffff 000 s SJ_TAG_TILEMAGIC_MARKER
+f ffffffff ffffffff 000 s SJ_TAG_TILEMAGIC_WIDGET
+f ffffffff ffffffff 000 s SJ_TILEMAGIC_PREFIX
+f ffffffff ffffffff 000 s SJ_TILEMAGIC_2DA_NORMALISE
+f ffffffff ffffffff 000 s SJ_TILEMAGIC_2DA_ROTATION
+f ffffffff ffffffff 000 s SJ_TILEMAGIC_2DA_ROW
+f ffffffff ffffffff 000 s SJ_TILEMAGIC_2DA_STYLE
+f ffffffff ffffffff 000 s SJ_TILEMAGIC_2DA_TILE
+f ffffffff ffffffff 000 s SJ_TILEMAGIC_2DA_Z
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_AREA_ID
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_COLUMNS
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_CORNER
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_MATRIX
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_OFFSET
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_NORMALISE
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_PALETTE
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_ROTATION
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_ROWS
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_TILE
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_USE_LAYER
+f ffffffff ffffffff 000 s SJ_VAR_TILEMAGIC_Z
+f ffffffff ffffffff 003 v SJ_TileMagic_AddRowToMatrix
+fp o
+fp i
+fp s
+f ffffffff ffffffff 006 v SJ_TileMagic_AddStyleToPalette
+fp o
+fp s
+fp i
+fp f
+fp i
+fp i
+f ffffffff ffffffff 001 v SJ_TileMagic_ClearArea
+fp o
+f ffffffff ffffffff 002 v SJ_TileMagic_ClearBorder
+fp o
+fp i
+f ffffffff ffffffff 002 v SJ_TileMagic_ClearMatrix
+fp o
+fp o
+f ffffffff ffffffff 005 v SJ_TileMagic_ClearRange
+fp o
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 003 v SJ_TileMagic_ClearSpot
+fp o
+fp f
+fp f
+f 00000181 000002c3 003 v SJ_TileMagic_ClearTile
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 v SJ_TileMagic_ConvertObjectToTile
+fp o
+f ffffffff ffffffff 005 v SJ_TileMagic_CoverArea
+fp o
+fp i
+fp f
+fp i
+fp i
+f ffffffff ffffffff 006 v SJ_TileMagic_CoverBorder
+fp o
+fp i
+fp i
+fp f
+fp i
+fp i
+f ffffffff ffffffff 004 v SJ_TileMagic_CoverMatrix
+fp o
+fp o
+fp o
+fp f
+f ffffffff ffffffff 009 v SJ_TileMagic_CoverRange
+fp o
+fp i
+fp i
+fp i
+fp i
+fp i
+fp f
+fp i
+fp i
+f ffffffff ffffffff 007 v SJ_TileMagic_CoverSpot
+fp o
+fp i
+fp f
+fp f
+fp f
+fp i
+fp f
+f ffffffff ffffffff 007 v SJ_TileMagic_CoverTile
+fp o
+fp i
+fp i
+fp i
+fp f
+fp i
+fp i
+f ffffffff ffffffff 002 o SJ_TileMagic_CreateMatrix
+fp s
+fp i
+f ffffffff ffffffff 002 o SJ_TileMagic_CreatePalette
+fp s
+fp i
+f 000003c3 000004d3 001 i SJ_TileMagic_GetAreaID
+fp o
+f ffffffff ffffffff 001 i SJ_TileMagic_GetCorrectedConstant
+fp i
+f ffffffff ffffffff 001 i SJ_TileMagic_GetColumn
+fp o
+f ffffffff ffffffff 001 i SJ_TileMagic_GetLayer
+fp o
+f ffffffff ffffffff 002 f SJ_TileMagic_GetNormalisedHeight
+fp i
+fp f
+f ffffffff ffffffff 001 i SJ_TileMagic_GetRow
+fp o
+f ffffffff ffffffff 003 s SJ_TileMagic_GetTagForSpot
+fp o
+fp f
+fp f
+f 000002c3 000003c3 003 s SJ_TileMagic_GetTagForTile
+fp o
+fp i
+fp i
+f ffffffff ffffffff 003 v SJ_TileMagic_SwitchMatrix
+fp o
+fp o
+fp f
+f ffffffff ffffffff 002 v SJ_TileMagic_SwitchPalette
+fp o
+fp o
+f 00000563 00000628 003 s SJ_TileMagic_TileToString
+fp o
+fp s
+fp i
+f ffffffff ffffffff 007 v TLChangeAreaGroundTileRange
+fp o
+fp i
+fp i
+fp i
+fp i
+fp i
+fp f
+f ffffffff ffffffff 005 v TLResetAreaGroundTileRange
+fp o
+fp i
+fp i
+fp i
+fp i
+f 00000015 00000142 000 v main
+f 0000000d 00000015 000 v #loader
+v 00000017 0000013a 00000000 o oDM
+v 0000002c 0000013a 00000004 o oItem
+v 000000a5 0000013a 00000008 t0000 vTarget
+v 000000bf 0000013a 00000014 i nColumn
+v 000000ec 0000013a 00000018 i nRow
+v 00000142 0000017f 00000000 i #retval
+v 00000181 000002bb 00000000 i nRow
+v 00000181 000002bb 00000004 i nColumn
+v 00000181 000002bb 00000008 o oArea
+v 00000183 000002b5 0000000c s sTag
+v 000001b3 000002b5 00000010 o oTile
+v 00000204 000002af 00000014 s sDebug
+v 000002c3 000003c1 00000000 s #retval
+v 000002c3 000003bb 00000004 i nRow
+v 000002c3 000003bb 00000008 i nColumn
+v 000002c3 000003bb 0000000c o oArea
+v 000002c5 000003b5 00000010 s sTag
+v 000003c3 000004d1 00000000 i #retval
+v 000003c3 000004cb 00000004 o oArea
+v 000003c5 000004c5 00000008 i nID
+v 000004d3 00000561 00000000 s #retval
+v 000004d3 0000055b 00000004 s sPadding
+v 000004d3 0000055b 00000008 i nLength
+v 000004d3 0000055b 0000000c i nInteger
+v 000004d5 00000555 00000010 s sRet
+v 00000563 00000626 00000000 s #retval
+v 00000563 00000620 00000004 i nTile
+v 00000563 00000620 00000008 s sTag
+v 00000563 00000620 0000000c o oArea
+v 00000565 0000061a 00000010 s sRet
+v 00000628 0000074d 00000000 s #retval
+v 00000628 00000747 00000004 s sSubString
+v 00000628 00000747 00000008 s sString
+v 0000062a 00000741 0000000c i nPosition
+v 00000667 00000711 00000010 s sLeft
+v 0000068c 00000711 00000014 i nCount
+v 000006c2 00000711 00000018 s sRight
+v 0000074f 000008f3 00000000 i nVolume
+v 0000074f 000008f3 00000004 i nLevel
+v 0000074f 000008f3 00000008 i nActive
+v 0000074f 000008f3 0000000c s sMessage
+v 0000079d 000008e1 00000010 i nDebugVolume
+v 00000806 0000087d 00000014 o oPC
+v 000008fb 00000932 00000000 i #retval
+v 00000934 0000096a 00000000 i #retval
+v 0000096c 000009a3 00000000 i #retval
+v 000009a5 000009c9 00000000 i nError
+v 000009d1 00000a2d 00000000 s sMessage
+v 000009d3 00000a27 00000004 o oPC
+l04 0000023 00000015 0000002a
+l04 0000024 0000002a 0000003f
+l04 0000029 0000003f 00000087
+l04 0000031 0000008d 00000099
+l04 0000035 0000009f 000000bd
+l04 0000036 000000bd 000000ea
+l04 0000037 000000ea 00000117
+l04 0000040 00000117 0000013a
+l04 0000041 00000140 00000142
+l00 0000533 00000142 0000017f
+l00 0000534 0000017f 00000181
+l03 0000768 00000181 000001b1
+l03 0000769 000001b1 000001d4
+l03 0000771 000001d4 000001e1
+l03 0000774 000001e7 000001fa
+l03 0000776 00000200 00000202
+l03 0000779 00000202 0000027f
+l03 0000780 0000027f 000002af
+l03 0000782 000002bb 000002c3
+l03 0001290 000002c3 000002e4
+l03 0001291 000002e4 00000326
+l03 0001292 00000326 00000360
+l03 0001293 00000360 00000393
+l03 0001295 00000393 000003b5
+l03 0001296 000003bb 000003c3
+l03 0001192 000003c3 000003f8
+l03 0001194 000003f8 00000408
+l03 0001198 0000040e 00000446
+l03 0001199 00000446 00000470
+l03 0001200 00000470 0000049d
+l03 0001204 000004a3 000004c5
+l03 0001205 000004cb 000004d3
+l02 0000158 000004d3 000004f0
+l02 0000160 000004f0 0000050d
+l02 0000162 0000050d 0000052d
+l02 0000165 00000533 00000555
+l02 0000166 0000055b 00000563
+l03 0001333 00000563 00000565
+l03 0001336 00000565 000005b6
+l03 0001337 000005b6 000005be
+l03 0001340 000005f8 0000061a
+l03 0001341 00000620 00000628
+l02 0000174 00000628 0000064d
+l02 0000176 0000064d 0000065f
+l02 0000179 00000665 0000068a
+l02 0000182 0000068a 000006c0
+l02 0000183 000006c0 000006e5
+l02 0000186 000006e5 00000711
+l02 0000188 0000071d 0000071f
+l02 0000191 0000071f 00000741
+l02 0000193 00000747 0000074f
+l01 0000106 0000074f 0000077d
+l01 0000109 00000783 00000795
+l01 0000112 0000079b 000007b3
+l01 0000115 000007b3 000007c0
+l01 0000118 000007c0 000007fe
+l01 0000120 00000804 00000819
+l01 0000121 00000819 0000082c
+l01 0000124 0000082c 00000839
+l01 0000127 0000083f 0000084c
+l01 0000128 0000084c 00000858
+l01 0000129 00000858 0000085e
+l01 0000131 00000864 00000877
+l01 0000136 00000889 000008c7
+l01 0000138 000008cd 000008db
+l01 0000142 000008f3 000008fb
+l01 0000147 000008fb 00000932
+l01 0000148 00000932 00000934
+l01 0000153 00000934 0000096a
+l01 0000154 0000096a 0000096c
+l01 0000159 0000096c 000009a3
+l01 0000160 000009a3 000009a5
+l01 0000165 000009a5 000009c9
+l01 0000166 000009c9 000009d1
+l01 0000095 000009d1 000009e6
+l01 0000096 000009e6 000009f9
+l01 0000098 000009f9 00000a0e
+l01 0000099 00000a0e 00000a21
+l01 0000101 00000a2d 00000a35

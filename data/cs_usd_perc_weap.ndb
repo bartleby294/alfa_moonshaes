@@ -1,0 +1,66 @@
+NDB V1.0
+0000002 0000001 0000011 0000009 0000016
+n00 nw_i0_tool
+N01 cs_usd_perc_weap
+s 03 vector
+sf f x
+sf f y
+sf f z
+f ffffffff ffffffff 002 i HasItem
+fp o
+fp s
+f ffffffff ffffffff 003 v TakeGold
+fp i
+fp o
+fp i
+f ffffffff ffffffff 002 i HasGold
+fp i
+fp o
+f ffffffff ffffffff 003 i AutoDC
+fp i
+fp i
+fp o
+f ffffffff ffffffff 004 v DoGiveXP
+fp s
+fp i
+fp o
+fp i
+f ffffffff ffffffff 003 v RewardPartyGP
+fp i
+fp o
+fp i
+f ffffffff ffffffff 003 v RewardPartyXP
+fp i
+fp o
+fp i
+f ffffffff ffffffff 002 i CheckPartyForItem
+fp o
+fp s
+f 0000007f 0000024d 000 v main
+f 0000000d 00000015 000 v #loader
+f 00000015 0000007f 000 v #globals
+v 00000017 ffffffff 00000000 i DC_EASY
+v 0000002d ffffffff 00000004 i DC_MEDIUM
+v 00000043 ffffffff 00000008 i DC_HARD
+v 00000059 ffffffff 0000000c i G_CLASSCHANCE
+v 00000081 00000245 00000000 i nUser
+v 000000ac 00000239 00000004 o oTarget
+v 000000ae 00000239 00000008 o oPC
+v 000000c3 00000239 0000000c o oItem
+v 000000e6 00000239 00000010 i nType
+l00 0000018 00000015 0000002b
+l00 0000019 0000002b 00000041
+l00 0000020 00000041 00000057
+l00 0000024 00000057 0000006d
+l01 0000005 0000007f 00000094
+l01 0000006 00000094 000000a4
+l01 0000008 000000aa 000000ac
+l01 0000009 000000ac 000000c1
+l01 0000010 000000c1 000000e4
+l01 0000011 000000e4 00000101
+l01 0000013 00000101 00000115
+l01 0000015 00000115 00000142
+l01 0000017 00000148 00000184
+l01 0000018 00000184 000001c5
+l01 0000019 000001c5 00000233
+l01 0000023 0000024b 0000024d
