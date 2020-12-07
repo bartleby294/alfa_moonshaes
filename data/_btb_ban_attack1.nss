@@ -1,4 +1,5 @@
 #include "alfa_wealth_inc"
+#include "nwnx_time"
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
@@ -186,7 +187,10 @@ int DecideIfAttack(int totalEstPCWealth, int totalPCLvls, int totalPCs,
 
 void setAttackState(object oArea, int value) {
     SetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
-        "DISABLE_BANDITS_" + GetTag(oArea), value);
+        "BANDIT_STATE_" + GetTag(oArea), value);
+    // Set the time of the last state change.
+    SetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
+        "BANDIT_STATE_TIME_" + GetTag(oArea), NWNX_Time_GetTimeStamp());
 }
 
 string pickRace() {
@@ -249,6 +253,39 @@ location pickSpawnLoc(object richestPC) {
 }
 
 /**
+ * This will get the current bandit attack state. It will also advance the
+ * state if appropriate.
+ */
+int GetCurrentBanditAttackState(object oArea){
+    int curBanditAttackState = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
+                               "BANDIT_STATE_" + GetTag(oArea));
+
+    if(curBanditAttackState == 1
+        || curBanditAttackState == 3
+        || curBanditAttackState == 4) {
+        int lastStateDateTime = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
+                                    "BANDIT_STATE_TIME_" + GetTag(oArea));
+        int curDateTime = NWNX_Time_GetTimeStamp();
+        int elapsedTime = curDateTime - lastStateDateTime;
+
+        // Reset our state back to observe if too much time has elapsed.
+        if(elapsedTime > 600) {
+            curBanditAttackState = 0;
+        // Reset our state back to observe after deciding not to attack.ck.
+        } else if (elapsedTime > 300 && curBanditAttackState == 3) {
+            curBanditAttackState = 0;
+        // Advance to attack decision if observation state and time elapsed.
+        } else if (elapsedTime > 10 && curBanditAttackState == 1) {
+            curBanditAttackState = 2;
+        }
+
+        setAttackState(oArea, 0);
+    }
+
+    return curBanditAttackState;
+}
+
+/**
  * Note that we have some exit points I'm not wild about but better to save
  * CPU cycles than make things 100% pretty.
  */
@@ -256,8 +293,7 @@ location pickSpawnLoc(object richestPC) {
 void main()
 {
     object oArea = GetArea(OBJECT_SELF);
-    int banditAttackState = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
-                               "DISABLE_BANDITS_" + GetTag(oArea));
+    int banditAttackState = GetCurrentBanditAttackState(oArea);
 
     writeToLog("banditAttackState: " + IntToString(banditAttackState));
 
@@ -265,8 +301,9 @@ void main()
     // State 0: Enabled  - Never been run before.
     // State 1: Disabled - Perceived but gathering inforamtion
     // State 2: Enabled  - Make attack no attack decision
-    // State 3: Disabled - Attacking
-    // State 9: Disabled
+    // State 3: Disabled - Choose not to attack
+    // State 4: Disabled - Attacking
+    // State 9: Disabled - Brute force over ride
     if(banditAttackState != 0 && banditAttackState != 2) {
         return;
     }
@@ -348,7 +385,6 @@ void main()
     } else if(banditAttackState == 0) {
         writeToLog("Entering Observe Phase.");
         setAttackState(oArea, 1);
-        DelayCommand(10.0, setAttackState(oArea, 2));
         return;
     }
 
@@ -366,14 +402,12 @@ void main()
         // think about attakcing again.
         writeToLog("Choose attacking not worth it.");
         setAttackState(oArea, 3);
-        DelayCommand(300.0, setAttackState(oArea, 0));
         return;
     // Start the attack!
     } else {
         // Choose our bandits and have them attack.
         writeToLog("We are Attacking!");
-        setAttackState(oArea, 3);
-        DelayCommand(600.0, setAttackState(oArea, 0));
+        setAttackState(oArea, 4);
         while (bandXPAllocation > 0) {
             writeToLog("bandXPAllocation: " + IntToString(bandXPAllocation));
             int banditLvl = 0;
