@@ -265,15 +265,17 @@ int GetCurrentBanditAttackState(object oArea){
         || curBanditAttackState == 4) {
         int lastStateDateTime = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
                                     "BANDIT_STATE_TIME_" + GetTag(oArea));
+        int hardResetTime = 200;// was 600
+        int softResetTime = 60; // was 300
         int curDateTime = NWNX_Time_GetTimeStamp();
         int elapsedTime = curDateTime - lastStateDateTime;
 
-        writeToLog("curDateTime: "+ IntToString(curDateTime));
-        writeToLog("lastStateDateTime: "+ IntToString(lastStateDateTime));
-        writeToLog("elapsedTime: "+ IntToString(elapsedTime));
+        //writeToLog("curDateTime: "+ IntToString(curDateTime));
+        //writeToLog("lastStateDateTime: "+ IntToString(lastStateDateTime));
+        //writeToLog("elapsedTime: "+ IntToString(elapsedTime));
 
         // Reset our state back to observe if too much time has elapsed.
-        if(elapsedTime > 600) {
+        if(elapsedTime > hardResetTime) {
             curBanditAttackState = 0;
             setAttackState(oArea, curBanditAttackState);
         // Reset our state back to observe after deciding not to attack.ck.
@@ -326,7 +328,7 @@ void main()
     int bandHide = 4;
     int bandMoveSilently = 4;
     int bandSenseMotive = 3;
-    int bandXPAllocation = 5000;
+    int bandXPAllocation=5000;
 
     // Get what type of bandit party this is and set specifics for that party.
     // Default above is for bandit_look_sm
