@@ -231,6 +231,12 @@ string pickClass() {
     return "r";
 }
 
+float randomFloat(int den, int num) {
+    float denominator = IntToFloat(Random(den) + 1);
+    float numerator = IntToFloat(Random(num) + 1);
+    return numerator/denominator;
+}
+
 /**
     Return a location some units of distance away on a straight line.
  */
@@ -242,8 +248,8 @@ location pickSpawnLoc(object richestPC) {
     float x = pcVector.x - bandVector.x;
     float y = pcVector.y - bandVector.y;
 
-    float randX = 0.0; //IntToFloat(1 / (Random(5) + 1)) * (Random(3) + 1);
-    float randY = 0.0; //IntToFloat(1 / (Random(5) + 1)) * (Random(3) + 1);
+    float randX = randomFloat(4, 8);
+    float randY = randomFloat(4, 8);
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
     float spawnX = bandVector.x + (15 * norm.x) + randX;
@@ -328,7 +334,7 @@ void main()
     int bandHide = 4;
     int bandMoveSilently = 4;
     int bandSenseMotive = 3;
-    int bandXPAllocation=5000;
+    int bandXPAllocation=2500;
 
     // Get what type of bandit party this is and set specifics for that party.
     // Default above is for bandit_look_sm
@@ -446,6 +452,7 @@ void main()
                 banditLvl--;
             }
 
+            SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
             AssignCommand(bandit, ActionMoveToObject(richestPC, TRUE, 1.0));
         }
     }
