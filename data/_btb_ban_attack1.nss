@@ -268,6 +268,8 @@ int GetCurrentBanditAttackState(object oArea){
         int curDateTime = NWNX_Time_GetTimeStamp();
         int elapsedTime = curDateTime - lastStateDateTime;
 
+        writeToLog("curDateTime: "+ IntToString(curDateTime));
+
         // Reset our state back to observe if too much time has elapsed.
         if(elapsedTime > 600) {
             curBanditAttackState = 0;
@@ -279,7 +281,7 @@ int GetCurrentBanditAttackState(object oArea){
             curBanditAttackState = 2;
         }
 
-        setAttackState(oArea, 0);
+        setAttackState(oArea, curBanditAttackState);
     }
 
     return curBanditAttackState;
