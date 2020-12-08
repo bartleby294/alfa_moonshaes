@@ -269,19 +269,22 @@ int GetCurrentBanditAttackState(object oArea){
         int elapsedTime = curDateTime - lastStateDateTime;
 
         writeToLog("curDateTime: "+ IntToString(curDateTime));
+        writeToLog("lastStateDateTime: "+ IntToString(lastStateDateTime));
+        writeToLog("elapsedTime: "+ IntToString(elapsedTime));
 
         // Reset our state back to observe if too much time has elapsed.
         if(elapsedTime > 600) {
             curBanditAttackState = 0;
+            setAttackState(oArea, curBanditAttackState);
         // Reset our state back to observe after deciding not to attack.ck.
         } else if (elapsedTime > 300 && curBanditAttackState == 3) {
             curBanditAttackState = 0;
+            setAttackState(oArea, curBanditAttackState);
         // Advance to attack decision if observation state and time elapsed.
         } else if (elapsedTime > 10 && curBanditAttackState == 1) {
             curBanditAttackState = 2;
+            setAttackState(oArea, curBanditAttackState);
         }
-
-        setAttackState(oArea, curBanditAttackState);
     }
 
     return curBanditAttackState;
