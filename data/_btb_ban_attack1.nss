@@ -482,8 +482,8 @@ void main()
                 banditLvl--;
             }
 
-            SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
-            AssignCommand(bandit, ActionMoveToObject(richestPC, TRUE, 1.0));
+            //SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
+            //AssignCommand(bandit, ActionMoveToObject(richestPC, TRUE, 1.0));
         }
     }
 }
