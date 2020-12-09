@@ -556,7 +556,7 @@ void main()
     All Bioware Stuff. I'd check out "x0_c2_spwn_def" for the SoU/Hordes revisions.
 ************************* [Bioware: Animations/Waypoints/Treasure] ************/
 
-    // SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);
+     SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);
     // SetSpawnInCondition(NW_FLAG_SEARCH, NW_GENERIC_MASTER);
         // Uses said skill while WalkWaypoints()
 
