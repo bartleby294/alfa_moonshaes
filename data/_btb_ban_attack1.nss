@@ -261,8 +261,8 @@ location pickSpawnLoc(object richestPC) {
     }
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
-    float spawnX = pcVector.x + (15 * norm.x) + randX;
-    float spawnY = pcVector.y + (15 * norm.y) + randY;
+    float spawnX = pcVector.x + (25 * norm.x) + randX;
+    float spawnY = pcVector.y + (25 * norm.y) + randY;
 
 
     return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
@@ -483,7 +483,7 @@ void main()
             }
 
             //SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
-            //AssignCommand(bandit, ActionMoveToObject(richestPC, TRUE, 1.0));
+            AssignCommand(bandit, ActionMoveToObject(richestPC, TRUE, 1.0));
         }
     }
 }
