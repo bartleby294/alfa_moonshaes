@@ -51,7 +51,7 @@ void DebugActionSpeakByInt(int iInteger, object oInput = OBJECT_INVALID, int nIn
     ///*
 
     string sDebug;
-    /*switch(iInteger)
+    switch(iInteger)
     {
         // - Generic AI stuff
         case 1: sDebug =  "[DCR:Melee] Most Damaging Weapon. Target: " + GetName(oInput); break;
@@ -154,7 +154,6 @@ void DebugActionSpeakByInt(int iInteger, object oInput = OBJECT_INVALID, int nIn
         DebugActionSpeak(sDebug);
     }
     // */
-    return;
 }
 
 void DebugActionSpeak(string sString)
@@ -168,7 +167,7 @@ void DebugActionSpeak(string sString)
 // Futher: - Must have debug mode set to 1
 //         - Only the server admin can seem to see this.
 //    SpeakString(sNew, TALKVOLUME_TALK);
-return;
+
 // Note, uncomment this line to send a message to the first PC in the module.
 // - Useful for singleplayer testing
     //SendMessageToPC(GetFirstPC(), sNew);
@@ -176,7 +175,7 @@ return;
 // This writes the entry to the log, very important, if debugging
 // Futher: - If left up for a long time, logs can get very big with the AI
 //         - Use to find problems in the AI and report to me :-D (Jasperre)
-    //WriteTimestampedLogEntry(sNew);
+    WriteTimestampedLogEntry(sNew);
 }
 
 // Debug: To compile this script full, uncomment all of the below.

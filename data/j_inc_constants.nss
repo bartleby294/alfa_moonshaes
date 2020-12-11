@@ -2008,7 +2008,7 @@ void DetermineCombatRound(object oTarget = OBJECT_INVALID)
            !GetLocalTimer(AI_DEFAULT_AI_COOLDOWN)))
         {
             // 73: "[Call for DCR] Default AI [Pre-Set Target]" + GetName(oTarget)
-            //DebugActionSpeakByInt(73, oTarget);
+            DebugActionSpeakByInt(73, oTarget);
             SetLocalObject(OBJECT_SELF, AI_TEMP_SET_TARGET, oTarget);
             ExecuteScript(COMBAT_FILE, OBJECT_SELF);
             SetLocalTimer(AI_DEFAULT_AI_COOLDOWN, 0.1);
@@ -2019,7 +2019,7 @@ void DetermineCombatRound(object oTarget = OBJECT_INVALID)
     {
         SetLocalObject(OBJECT_SELF, AI_TEMP_SET_TARGET, oTarget);
         // 74: "[Call for DCR] Custom AI [" + sAI + "] [Pre-Set Target]" + GetName(oTarget)
-        //DebugActionSpeakByInt(74, oTarget, FALSE, sAI);
+        DebugActionSpeakByInt(74, oTarget, FALSE, sAI);
         // Execute it
         ExecuteScript(sAI, OBJECT_SELF);
     }
