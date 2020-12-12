@@ -70,9 +70,9 @@
 void main()
 {
 /************************ [Important Spawn Settings] **************************/
-    SetAIInteger(AI_INTELLIGENCE, 10);
+    SetAIInteger(AI_INTELLIGENCE, 8);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
-    SetAIInteger(AI_MORALE, 10);
+    SetAIInteger(AI_MORALE, 5);
         // Will save (See readme). Remember: -1 or below means they always flee.
     //SetCustomAIFileName("CUSTOM_AI_FILE");
         // Sets our custom AI file. Really, only animation settings will apply when this is set.
@@ -158,7 +158,7 @@ void main()
 ************************* [Fleeing] *******************************************/
     SetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER);
         // Forces them to not flee. This may be set with AI_SetMaybeFearless at the end.
-    //SetSpawnInCondition(AI_FLAG_FLEEING_NEVER_FIGHT_IMPOSSIBLE_ODDS, AI_TARGETING_FLEE_MASTER);
+    SetSpawnInCondition(AI_FLAG_FLEEING_NEVER_FIGHT_IMPOSSIBLE_ODDS, AI_TARGETING_FLEE_MASTER);
         // This will make the creature never fight against impossible odds (8HD+ different)
     //SetSpawnInCondition(AI_FLAG_FLEEING_TURN_OFF_GROUP_MORALE, AI_TARGETING_FLEE_MASTER);
         // This turns OFF any sort of group morale bonuses.
@@ -511,23 +511,23 @@ void main()
         // On Conversation - see readme. Replaces BeginConversation().
 
     // Morale
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_MORALE_BREAK, 100, 3, "No more!", "I'm outta here!", "Catch me if you can!");
+    AI_SetSpawnInSpeakArray(AI_TALK_ON_MORALE_BREAK, 100, 3, "No more!", "I'm outta here!", "Catch me if you can!");
         // Spoken at running point, if they run to a group of allies.
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_CANNOT_RUN, 100, 3, "Never give up! Never surrender!", "I've no where to run, so make my day!", "RRRAAAAA!!!");
+    AI_SetSpawnInSpeakArray(AI_TALK_ON_CANNOT_RUN, 100, 3, "Never give up! Never surrender!", "I've no where to run, so make my day!", "RRRAAAAA!!!");
         // Spoken at running point, if they can find no ally to run to, and 4+ Intelligence. See readme
-    //AI_SetSpawnInSpeakValue(AI_TALK_ON_STUPID_RUN, "Ahhhhgggg! NO MORE! Run!!");
+    AI_SetSpawnInSpeakValue(AI_TALK_ON_STUPID_RUN, "Ahhhhgggg! NO MORE! Run!!");
         // As above, when morale breaks + no ally, but they panic and run from enemy at 3 or less intelligence.
 
     // Combat
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_EQUAL, 5, 4, "Come on!", "You won't win!", "We are not equals! I am better!", "Nothing will stop me!");
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_THEM_OVER_US, 5, 4, "I'll try! try! and try again!", "Tough man, are we?", "Trying out your 'skills'? Pathetic excuse!", "Nothing good will come from killing me!");
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_US_OVER_THEM, 5, 4, "My strength is mighty then yours!", "You will definatly die!", "NO chance for you!", "No mercy! Not for YOU!");
+    AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_EQUAL, 5, 4, "Come on!", "You won't win!", "We are not equals! I am better!", "Nothing will stop me!");
+    AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_THEM_OVER_US, 5, 4, "I'll try! try! and try again!", "Tough man, are we?", "Trying out your 'skills'? Pathetic excuse!", "Nothing good will come from killing me!");
+    AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_US_OVER_THEM, 5, 4, "My strength is mighty then yours!", "You will definatly die!", "NO chance for you!", "No mercy! Not for YOU!");
         // Spoken each DetermineCombatRound. % is /1000. See readme for Equal/Over/Under values.
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_TAUNT, 100, 3, "You're going down!", "No need to think, let my blade do it for you!", "Time to meet your death!");
+    AI_SetSpawnInSpeakArray(AI_TALK_ON_TAUNT, 100, 3, "You're going down!", "No need to think, let my blade do it for you!", "Time to meet your death!");
         // If the creature uses thier skill, taunt, on an enemy this will be said.
 
     // Event-driven.
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_PERCIEVE_ENEMY, 70, 6, "Stand and fight, lawbreaker!", "Don't run from the law!", "I have my orders!", "I am ready for violence!", "CHARGE!", "Time you died!");
+    AI_SetSpawnInSpeakArray(AI_TALK_ON_PERCIEVE_ENEMY, 70, 6, "Drop your gold and run!", "I am ready for violence!", "CHARGE!", "Time you died!");
         // This is said when they see/hear a new enemy, and start attacking them.
     //AI_SetSpawnInSpeakArray(AI_TALK_ON_DAMAGED, 20, 2, "Ouch, damn you!", "Haha! Nothing will stop me!");
         // A random value is set to speak when damaged, and may fire same time as below ones.
@@ -535,13 +535,13 @@ void main()
         // This is said when an enemy attacks the creature with a melee/ranged weapon.
     //AI_SetSpawnInSpeakArray(AI_TALK_ON_HOSTILE_SPELL_CAST_AT, 20, 2, "No one spell will stop me!", "Is that all you have!?!");
         // This is said when an enemy attacks the creature with a hostile spell.
-    //AI_SetSpawnInSpeakValue(AI_TALK_ON_DEATH, "Agggggg!");
+    AI_SetSpawnInSpeakValue(AI_TALK_ON_DEATH, "Agggggg!");
         // This will ALWAYS be said, whenever the creature dies.
 
     // Specific potion ones.
-    //AI_SetSpawnInSpeakValue(AI_TALK_WE_PASS_POTION, "Here! Catch!");
+    AI_SetSpawnInSpeakValue(AI_TALK_WE_PASS_POTION, "Here! Catch!");
         // This will be spoken when the creature passes a potion to an ally. See readme.
-    //AI_SetSpawnInSpeakValue(AI_TALK_WE_GOT_POTION, "Got it!");
+    AI_SetSpawnInSpeakValue(AI_TALK_WE_GOT_POTION, "Got it!");
         // This will be spoken by the creature we pass the potion too, using AssignCommand().
 
     // Leader ones
@@ -557,7 +557,7 @@ void main()
 ************************* [Bioware: Animations/Waypoints/Treasure] ************/
 
      SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);
-    // SetSpawnInCondition(NW_FLAG_SEARCH, NW_GENERIC_MASTER);
+     SetSpawnInCondition(NW_FLAG_SEARCH, NW_GENERIC_MASTER);
         // Uses said skill while WalkWaypoints()
 
     // SetSpawnInCondition(NW_FLAG_DAY_NIGHT_POSTING, NW_GENERIC_MASTER);
