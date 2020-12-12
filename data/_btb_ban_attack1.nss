@@ -251,18 +251,17 @@ location pickSpawnLoc(object richestPC) {
     float randX = randomFloat(4, 8);
     float randY = randomFloat(4, 8);
 
-    int angle = 0;
     switch(Random(3) + 1)
     {
         case 1:
-            y = 0.0;
+            y = y * -1.0;
         case 2:
-            x = 0.0;
+            x = x * -1.0;
     }
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
-    float spawnX = pcVector.x + (45 * norm.x) + randX;
-    float spawnY = pcVector.y + (45 * norm.y) + randY;
+    float spawnX = pcVector.x + (25 * norm.x) + randX;
+    float spawnY = pcVector.y + (25 * norm.y) + randY;
 
     return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
 }
