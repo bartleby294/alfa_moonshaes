@@ -222,7 +222,7 @@ void main()
     dispelling, spell triggers, long ranged spells first, immunity toggles, and AOE settings.
 ************************* [Combat - Spell Casters] ****************************/
 
-    //SetSpawnInCondition(AI_FLAG_COMBAT_LONGER_RANGED_SPELLS_FIRST, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_LONGER_RANGED_SPELLS_FIRST, AI_COMBAT_MASTER);
         // Casts spells only if the caster would not move into range to cast them.
         // IE long range spells, then medium, then short (unless the enemy comes to us!)
     //SetSpawnInCondition(AI_FLAG_COMBAT_FLAG_FAST_BUFF_ENEMY, AI_COMBAT_MASTER);
@@ -250,7 +250,7 @@ void main()
         // Override toggle. Forces to never cast AOE's if it will hit an ally + harm them.
     //SetSpawnInCondition(AI_FLAG_COMBAT_AOE_DONT_MIND_IF_THEY_SURVIVE, AI_COMBAT_MASTER);
         // Allies who will survive the blast are ignored for calculating best target.
-    //SetAIInteger(AI_AOE_ALLIES_LOWEST_IN_AOE, 3);
+    SetAIInteger(AI_AOE_ALLIES_LOWEST_IN_AOE, 2);
         // Defualt: 3. If amount of allies in blast radius are equal or more then
         // this, then that location is ignored.
     //SetAIInteger(AI_AOE_HD_DIFFERENCE, -8);

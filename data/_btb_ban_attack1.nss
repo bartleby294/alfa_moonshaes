@@ -326,6 +326,97 @@ int GetCurrentBanditAttackState(object oArea){
     return curBanditAttackState;
 }
 
+void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
+                        int banditAttackState) {
+    int spotSuccess = GetIsSkillSuccessful(curPC, SKILL_SPOT, d20() + bandHide);
+    int listenSuccess = GetIsSkillSuccessful(curPC, SKILL_LISTEN,
+        d20() + bandMoveSilently);
+
+    string pcMsg = "";
+
+    /* Bandits just saw you you spot the ambush*/
+    if(banditAttackState == 0) {
+        if(spotSuccess && !listenSuccess) {
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "Did that bush just move?";
+                case 2:
+                     pcMsg = "Was that a shadow up ahead?";
+                case 3:
+                     pcMsg = "A rabbit runs hurriedly across your path.";
+            }
+        }
+
+        if(!spotSuccess && listenSuccess) {
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "Was that a muffled voice?";
+                case 2:
+                     pcMsg = "You hear a twig snap.";
+                case 3:
+                     pcMsg = "It seems unnaturally quiet here?";
+            }
+        }
+
+        if(spotSuccess && listenSuccess) {
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "You see a bush move and rustle unnaturally ahead.";
+                case 2:
+                     pcMsg = "You see a humanoid form snap a branch and move behind a tree ahead.";
+                case 3:
+                     pcMsg = "You see a crow caw and swoop at the undergrowth in the distance.";
+            }
+        }
+    }
+
+    /* Bandits are attacking and you see them as they move in*/
+    if(banditAttackState == 2) {
+        if(spotSuccess && !listenSuccess) {
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "You could swear you see a steel arrow head reflection in the distance.";
+                case 2:
+                     pcMsg = "test 1";
+                case 3:
+                     pcMsg = "test 1";
+            }
+        }
+
+        if(!spotSuccess && listenSuccess) {
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "test 1";
+                case 2:
+                     pcMsg = "test 1";
+                case 3:
+                     pcMsg = "test 1";
+            }
+        }
+
+        if(spotSuccess && listenSuccess) {
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "test 1";
+                case 2:
+                     pcMsg = "test 1";
+                case 3:
+                     pcMsg = "test 1";
+            }
+        }
+    }
+
+    if(GetStringLength(pcMsg) > 0) {
+        SendMessageToPC(curPC, pcMsg);
+    }
+}
+
 /**
  * Note that we have some exit points I'm not wild about but better to save
  * CPU cycles than make things 100% pretty.
@@ -379,6 +470,7 @@ void main()
         float distToPC = GetDistanceToObject(curPC);
         if(distToPC < 100.0) {
             writeToLog("PC in range: " + GetPCPlayerName(curPC));
+            pcSpotListenCheck(curPC, bandHide, bandMoveSilently, banditAttackState);
             // If the character isnt trying to hide or doesn't account for them.
             if(GetStealthMode(curPC) == STEALTH_MODE_DISABLED
                || !GetIsSkillSuccessful(curPC, SKILL_HIDE,
