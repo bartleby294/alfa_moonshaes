@@ -261,14 +261,14 @@ location pickSpawnLoc(object richestPC) {
     }
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
-    float spawnX = pcVector.x + (35 * norm.x) + randX;
-    float spawnY = pcVector.y + (35 * norm.y) + randY;
+    float spawnX = pcVector.x + (45 * norm.x) + randX;
+    float spawnY = pcVector.y + (45 * norm.y) + randY;
 
     return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
 }
 
 /*
-location pickSpawnLoc(object richestPC) {
+location(pickSpawnLocobject richestPC) {
 
     vector bandVector = GetPosition(OBJECT_SELF);
     vector pcVector = GetPosition(richestPC);
