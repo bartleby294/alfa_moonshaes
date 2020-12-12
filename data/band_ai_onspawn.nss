@@ -70,7 +70,7 @@
 void main()
 {
 /************************ [Important Spawn Settings] **************************/
-    SetAIInteger(AI_INTELLIGENCE, 8);
+    SetAIInteger(AI_INTELLIGENCE, 10);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
     SetAIInteger(AI_MORALE, 5);
         // Will save (See readme). Remember: -1 or below means they always flee.
