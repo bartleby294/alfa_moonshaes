@@ -445,7 +445,7 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
             switch (Random(3) + 1)
             {
                 case 1:
-                     pcMsg = "You could swear you see a steel arrow head reflection in the distance.";
+                     pcMsg = "test 1";
                 case 2:
                      pcMsg = "test 1";
                 case 3:
@@ -624,6 +624,7 @@ void main()
         writeToLog("We are Attacking!");
         vector pcVector = GetPosition(richestPC);
         float pcAngle = GetFacing(richestPC);
+        writeToLog("PC Angle: " + FloatToString(pcAngle));
         setAttackState(oArea, 4);
         int attackYelled = 0;
         while (bandXPAllocation > 0) {
