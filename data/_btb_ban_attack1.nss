@@ -337,6 +337,7 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
     /* Bandits just saw you you spot the ambush*/
     if(banditAttackState == 0) {
         if(spotSuccess && !listenSuccess) {
+            writeToLog("Spot Success");
             switch (Random(3) + 1)
             {
                 case 1:
@@ -349,6 +350,7 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
         }
 
         if(!spotSuccess && listenSuccess) {
+            writeToLog("Listen Success");
             switch (Random(3) + 1)
             {
                 case 1:
@@ -361,6 +363,7 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
         }
 
         if(spotSuccess && listenSuccess) {
+            writeToLog("Spot and Listen Success");
             switch (Random(3) + 1)
             {
                 case 1:
@@ -371,11 +374,16 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
                      pcMsg = "You see a crow caw and swoop at the undergrowth in the distance.";
             }
         }
+
+        if(spotSuccess && !listenSuccess) {
+            writeToLog("Listen and Spot Fail");
+        }
     }
 
     /* Bandits are attacking and you see them as they move in*/
     if(banditAttackState == 2) {
         if(spotSuccess && !listenSuccess) {
+            writeToLog("Spot Success");
             switch (Random(3) + 1)
             {
                 case 1:
@@ -388,6 +396,7 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
         }
 
         if(!spotSuccess && listenSuccess) {
+            writeToLog("Listen Success");
             switch (Random(3) + 1)
             {
                 case 1:
@@ -400,6 +409,7 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
         }
 
         if(spotSuccess && listenSuccess) {
+            writeToLog("Spot and Listen Success");
             switch (Random(3) + 1)
             {
                 case 1:
@@ -409,6 +419,10 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
                 case 3:
                      pcMsg = "test 1";
             }
+        }
+
+        if(spotSuccess && !listenSuccess) {
+            writeToLog("Listen and Spot Fail");
         }
     }
 
