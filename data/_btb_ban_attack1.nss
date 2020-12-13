@@ -241,11 +241,9 @@ float randomFloat(int den, int num) {
 /**
     Return a location some units of distance away on a straight line.
  */
-location pickSpawnLoc(object richestPC) {
+location pickSpawnLoc(vector pcVector, float pcAngle) {
 
     vector bandVector = GetPosition(OBJECT_SELF);
-    vector pcVector = GetPosition(richestPC);
-    float pcAngle = GetFacing(richestPC);
     vector normPcVector = AngleToVector(pcAngle);
 
     float x = normPcVector.x;
@@ -261,9 +259,11 @@ location pickSpawnLoc(object richestPC) {
         case 1:
             x = cos(90.0) * x - sin(90.0) * y;
             y = sin(90.0) * x + cos(90.0) * y;
+            distance = 15;
         case 2:
             x = cos(270.0) * x - sin(270.0) * y;
             y = sin(270.0) * x + cos(270.0) * y;
+            distance = 15;
     }
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
@@ -622,6 +622,8 @@ void main()
     } else {
         // Choose our bandits and have them attack.
         writeToLog("We are Attacking!");
+        vector pcVector = GetPosition(richestPC);
+        float pcAngle = GetFacing(richestPC);
         setAttackState(oArea, 4);
         int attackYelled = 0;
         while (bandXPAllocation > 0) {
@@ -645,7 +647,7 @@ void main()
             // pick gender (will put in after the rest is tested)
             string resref = pickRace() + pickClass() + "m_bandit_1";
             writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
-            location spawnLoc = pickSpawnLoc(richestPC);
+            location spawnLoc = pickSpawnLoc(pcVector, pcAngle);
             // Spawn the bandit.
             object bandit = CreateObject(OBJECT_TYPE_CREATURE, resref,
                                 spawnLoc, FALSE, resref);
