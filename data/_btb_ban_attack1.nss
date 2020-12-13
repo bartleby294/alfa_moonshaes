@@ -244,10 +244,11 @@ float randomFloat(int den, int num) {
 location pickSpawnLoc(object richestPC) {
 
     vector bandVector = GetPosition(OBJECT_SELF);
-    vector pcVector = AngleToVector(GetFacing(richestPC));
+    vector pcVector = GetPosition(richestPC);
+    vector normPcVector = AngleToVector(GetFacing(richestPC));
 
-    float x = pcVector.x;
-    float y = pcVector.y;
+    float x = normPcVector.x;
+    float y = normPcVector.y;
 
     float randX = randomFloat(4, 8);
     float randY = randomFloat(4, 8);
