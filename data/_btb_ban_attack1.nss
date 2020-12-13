@@ -458,7 +458,13 @@ void main()
     // Get what type of bandit party this is and set specifics for that party.
     // Default above is for bandit_look_sm
     if(GetTag(OBJECT_SELF) == "bandit_look_md") {
-
+        bandSpot = 4;
+        bandListen = 5;
+        bandAppraise = 2;
+        bandHide = 4;
+        bandMoveSilently = 4;
+        bandSenseMotive = 3;
+        bandXPAllocation=2500;
     } else if(GetTag(OBJECT_SELF) == "bandit_look_lg") {
 
     }
