@@ -1,5 +1,6 @@
 #include "alfa_wealth_inc"
 #include "nwnx_time"
+#include "nw_o0_itemmaker"
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
@@ -500,6 +501,9 @@ void main()
                 writeToLog("PC detected: " + GetPCPlayerName(curPC));
                 /* Only do the extra work if were going to need it. */
                 if(banditAttackState == 2) {
+                    // Store off all our PCs.
+                    SetLocalArrayString(OBJECT_SELF, "pcTarget", totalPCs,
+                                        ObjectToString(curPC));
                     // If bandits make a DC 16 Apraise check they appraise PC.
                     int estimatedPCWorth = GetTotalWealth(curPC);
                     // If they fail they over or under estimate.
@@ -592,8 +596,13 @@ void main()
                 banditLvl--;
             }
 
+            string randomPCStr = GetLocalArrayString(OBJECT_SELF, "pcTarget",
+                                                    Random(totalPCs) + 1);
+            object randomPC = StringToObject(randomPCStr);
+
             SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
-            AssignCommand(bandit, ActionMoveToObject(richestPC, TRUE, 1.0));
+            AssignCommand(bandit, ActionAttack(randomPC, TRUE));
+            writeToLog("Attacking: " + GetName(randomPC));
         }
     }
 }
