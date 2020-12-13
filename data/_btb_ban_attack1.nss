@@ -595,7 +595,7 @@ void main()
                 LevelUpHenchman(bandit, CLASS_TYPE_INVALID, 1, PACKAGE_INVALID);
                 banditLvl--;
             }
-            int randPCNum =  Random(totalPCs) + 1;
+            int randPCNum =  Random(totalPCs);
             string randomPCStr = GetLocalArrayString(OBJECT_SELF, "pcTarget",
                                                    randPCNum);
             object randomPC = StringToObject(randomPCStr);
