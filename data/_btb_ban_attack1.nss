@@ -329,9 +329,18 @@ int GetCurrentBanditAttackState(object oArea){
 
 void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
                         int banditAttackState) {
-    int spotSuccess = GetIsSkillSuccessful(curPC, SKILL_SPOT, d20() + bandHide);
-    int listenSuccess = GetIsSkillSuccessful(curPC, SKILL_LISTEN,
-        d20() + bandMoveSilently);
+    int spotSuccess = 0;
+    int listenSuccess = 0;
+    int listenCheck = d20(1) + GetSkillRank(SKILL_LISTEN, curPC, FALSE);
+    int spotCheck = d20(1) + GetSkillRank(SKILL_SPOT, curPC, FALSE);
+
+    if(spotCheck > d20() + bandHide) {
+        spotSuccess = 1;
+    }
+
+    if(listenCheck > d20() + bandMoveSilently) {
+        listenSuccess = 1;
+    }
 
     string pcMsg = "";
 
@@ -493,11 +502,12 @@ void main()
             writeToLog("PC in range: " + GetPCPlayerName(curPC));
             pcSpotListenCheck(curPC, bandHide, bandMoveSilently, banditAttackState);
             // If the character isnt trying to hide or doesn't account for them.
+            int hideCheck = d20(1) + GetSkillRank(SKILL_HIDE, curPC, FALSE);
+            int moveSilentlyCheck = d20(1) + GetSkillRank(SKILL_MOVE_SILENTLY,
+                                                curPC, FALSE);
             if(GetStealthMode(curPC) == STEALTH_MODE_DISABLED
-               || !GetIsSkillSuccessful(curPC, SKILL_HIDE,
-                    d20() + bandSpot)
-               || !GetIsSkillSuccessful(curPC, SKILL_MOVE_SILENTLY,
-                    d20() + bandListen)) {
+               || hideCheck < d20() + bandSpot
+               || moveSilentlyCheck < d20() + bandListen) {
                 writeToLog("PC detected: " + GetPCPlayerName(curPC));
                 /* Only do the extra work if were going to need it. */
                 if(banditAttackState == 2) {
@@ -595,12 +605,9 @@ void main()
                 LevelUpHenchman(bandit, CLASS_TYPE_INVALID, 1, PACKAGE_INVALID);
                 banditLvl--;
             }
-            int randPCNum =  Random(totalPCs);
             string randomPCStr = GetLocalArrayString(OBJECT_SELF, "pcTarget",
-                                                   randPCNum);
+                                                   Random(totalPCs));
             object randomPC = StringToObject(randomPCStr);
-            writeToLog("randomPC: " + IntToString(randPCNum));
-            writeToLog("String: " + randomPCStr);
             SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
             AssignCommand(bandit, ActionAttack(randomPC, TRUE));
             writeToLog("Attacking: " + GetName(randomPC));
