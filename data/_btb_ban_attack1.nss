@@ -595,11 +595,12 @@ void main()
                 LevelUpHenchman(bandit, CLASS_TYPE_INVALID, 1, PACKAGE_INVALID);
                 banditLvl--;
             }
-
+            int randPCNum =  Random(totalPCs) + 1;
             string randomPCStr = GetLocalArrayString(OBJECT_SELF, "pcTarget",
-                                                    Random(totalPCs) + 1);
+                                                   randPCNum);
             object randomPC = StringToObject(randomPCStr);
-
+            writeToLog("randomPC: " + IntToString(randPCNum));
+            writeToLog("String: " + randomPCStr);
             SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
             AssignCommand(bandit, ActionAttack(randomPC, TRUE));
             writeToLog("Attacking: " + GetName(randomPC));
