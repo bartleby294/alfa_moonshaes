@@ -268,10 +268,10 @@ location pickSpawnLoc(object richestPC) {
     float spawnX = pcVector.x + (distance * norm.x) + randX;
     float spawnY = pcVector.y + (distance * norm.y) + randY;
 
-    //writeToLog("raw    (x, y): (" + FloatToString(x, 18, 2) + "," + FloatToString(y, 18, 2) + ")");
-    //writeToLog("norm   (x, y): (" + FloatToString(norm.x, 18, 2) + "," + FloatToString(norm.y, 18, 2) + ")");
-    //writeToLog("actual (x, y): (" + FloatToString(spawnX, 18, 2) + "," + FloatToString(spawnY, 18, 2) + ")");
-    //writeToLog("PC     (x, y): (" + FloatToString(pcVector.x, 18, 2) + "," + FloatToString(pcVector.y, 18, 2) + ")");
+    writeToLog("raw    (x, y): (" + FloatToString(x, 18, 2) + "," + FloatToString(y, 18, 2) + ")");
+    writeToLog("norm   (x, y): (" + FloatToString(norm.x, 18, 2) + "," + FloatToString(norm.y, 18, 2) + ")");
+    writeToLog("actual (x, y): (" + FloatToString(spawnX, 18, 2) + "," + FloatToString(spawnY, 18, 2) + ")");
+    writeToLog("PC     (x, y): (" + FloatToString(pcVector.x, 18, 2) + "," + FloatToString(pcVector.y, 18, 2) + ")");
 
     return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
 }
