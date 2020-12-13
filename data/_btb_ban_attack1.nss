@@ -579,6 +579,7 @@ void main()
         // Choose our bandits and have them attack.
         writeToLog("We are Attacking!");
         setAttackState(oArea, 4);
+        int attackYelled = 0;
         while (bandXPAllocation > 0) {
             writeToLog("bandXPAllocation: " + IntToString(bandXPAllocation));
             int banditLvl = 0;
@@ -615,6 +616,10 @@ void main()
             SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
             AssignCommand(bandit, ActionAttack(randomPC, TRUE));
             writeToLog("Attacking: " + GetName(randomPC));
+            if(attackYelled == 0) {
+                attackYelled = 1;
+                AssignCommand(bandit, ActionSpeakString("Attack!"));
+            }
         }
     }
 }
