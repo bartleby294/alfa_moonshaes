@@ -244,6 +244,42 @@ float randomFloat(int den, int num) {
 location pickSpawnLoc(object richestPC) {
 
     vector bandVector = GetPosition(OBJECT_SELF);
+    vector pcVector = AngleToVector(GetFacing(richestPC));
+
+    float x = pcVector.x;
+    float y = pcVector.y;
+
+    float randX = randomFloat(4, 8);
+    float randY = randomFloat(4, 8);
+
+    int distance = 25;
+
+    switch(Random(3) + 1)
+    {
+        case 1:
+            y = y * -1.0;
+            //distance = 15;
+        case 2:
+            x = x * -1.0;
+            //distance = 15;
+    }
+
+    vector norm = VectorNormalize(Vector(x, y, 0.0));
+    float spawnX = pcVector.x + (distance * norm.x) + randX;
+    float spawnY = pcVector.y + (distance * norm.y) + randY;
+
+    //writeToLog("raw    (x, y): (" + FloatToString(x, 18, 2) + "," + FloatToString(y, 18, 2) + ")");
+    //writeToLog("norm   (x, y): (" + FloatToString(norm.x, 18, 2) + "," + FloatToString(norm.y, 18, 2) + ")");
+    //writeToLog("actual (x, y): (" + FloatToString(spawnX, 18, 2) + "," + FloatToString(spawnY, 18, 2) + ")");
+    //writeToLog("PC     (x, y): (" + FloatToString(pcVector.x, 18, 2) + "," + FloatToString(pcVector.y, 18, 2) + ")");
+
+    return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
+}
+
+/*
+location pickSpawnLoc(object richestPC) {
+
+    vector bandVector = GetPosition(OBJECT_SELF);
     vector pcVector = GetPosition(richestPC);
 
     float x = pcVector.x - bandVector.x;
@@ -254,7 +290,7 @@ location pickSpawnLoc(object richestPC) {
 
     int distance = 25;
 
-   /*switch(Random(3) + 1)
+   switch(Random(3) + 1)
     {
         case 1:
             y = y * -1.0;
@@ -262,7 +298,7 @@ location pickSpawnLoc(object richestPC) {
         case 2:
             x = x * -1.0;
             //distance = 15;
-    }*/
+    }
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
     float spawnX = pcVector.x + (distance * norm.x) + randX;
@@ -275,6 +311,7 @@ location pickSpawnLoc(object richestPC) {
 
     return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
 }
+*/
 
 /*
 location(pickSpawnLocobject richestPC) {
