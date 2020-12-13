@@ -245,7 +245,8 @@ location pickSpawnLoc(object richestPC) {
 
     vector bandVector = GetPosition(OBJECT_SELF);
     vector pcVector = GetPosition(richestPC);
-    vector normPcVector = AngleToVector(GetFacing(richestPC));
+    float pcAngle = GetFacing(richestPC);
+    vector normPcVector = AngleToVector(pcAngle);
 
     float x = normPcVector.x;
     float y = normPcVector.y;
@@ -258,11 +259,11 @@ location pickSpawnLoc(object richestPC) {
     switch(Random(3) + 1)
     {
         case 1:
-            y = y * -1.0;
-            //distance = 15;
+            x = cos(90.0) * x - sin(90.0) * y;
+            y = sin(90.0) * x + cos(90.0) * y;
         case 2:
-            x = x * -1.0;
-            //distance = 15;
+            x = cos(270.0) * x - sin(270.0) * y;
+            y = sin(270.0) * x + cos(270.0) * y;
     }
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
