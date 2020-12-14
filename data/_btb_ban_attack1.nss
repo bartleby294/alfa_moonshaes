@@ -254,6 +254,7 @@ location pickSpawnLoc(vector pcVector, float pcAngle) {
 
     int distance = 25;
 
+    // 90 or 270 degree rotation of position.
     switch(Random(3) + 1)
     {
         case 1:
@@ -270,70 +271,8 @@ location pickSpawnLoc(vector pcVector, float pcAngle) {
     float spawnX = pcVector.x + (distance * norm.x) + randX;
     float spawnY = pcVector.y + (distance * norm.y) + randY;
 
-    writeToLog("raw    (x, y): (" + FloatToString(x, 18, 2) + "," + FloatToString(y, 18, 2) + ")");
-    writeToLog("norm   (x, y): (" + FloatToString(norm.x, 18, 2) + "," + FloatToString(norm.y, 18, 2) + ")");
-    writeToLog("actual (x, y): (" + FloatToString(spawnX, 18, 2) + "," + FloatToString(spawnY, 18, 2) + ")");
-    writeToLog("PC     (x, y): (" + FloatToString(pcVector.x, 18, 2) + "," + FloatToString(pcVector.y, 18, 2) + ")");
-
     return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
 }
-
-/*
-location pickSpawnLoc(object richestPC) {
-
-    vector bandVector = GetPosition(OBJECT_SELF);
-    vector pcVector = GetPosition(richestPC);
-
-    float x = pcVector.x - bandVector.x;
-    float y = pcVector.y - bandVector.y;
-
-    float randX = randomFloat(4, 8);
-    float randY = randomFloat(4, 8);
-
-    int distance = 25;
-
-   switch(Random(3) + 1)
-    {
-        case 1:
-            y = y * -1.0;
-            //distance = 15;
-        case 2:
-            x = x * -1.0;
-            //distance = 15;
-    }
-
-    vector norm = VectorNormalize(Vector(x, y, 0.0));
-    float spawnX = pcVector.x + (distance * norm.x) + randX;
-    float spawnY = pcVector.y + (distance * norm.y) + randY;
-
-    writeToLog("raw    (x, y): (" + FloatToString(x, 18, 2) + "," + FloatToString(y, 18, 2) + ")");
-    writeToLog("norm   (x, y): (" + FloatToString(norm.x, 18, 2) + "," + FloatToString(norm.y, 18, 2) + ")");
-    writeToLog("actual (x, y): (" + FloatToString(spawnX, 18, 2) + "," + FloatToString(spawnY, 18, 2) + ")");
-    writeToLog("PC     (x, y): (" + FloatToString(pcVector.x, 18, 2) + "," + FloatToString(pcVector.y, 18, 2) + ")");
-
-    return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
-}
-*/
-
-/*
-location(pickSpawnLocobject richestPC) {
-
-    vector bandVector = GetPosition(OBJECT_SELF);
-    vector pcVector = GetPosition(richestPC);
-
-    float x = pcVector.x - bandVector.x;
-    float y = pcVector.y - bandVector.y;
-
-    float randX = randomFloat(4, 8);
-    float randY = randomFloat(4, 8);
-
-    vector norm = VectorNormalize(Vector(x, y, 0.0));
-    float spawnX = bandVector.x + (15 * norm.x) + randX;
-    float spawnY = bandVector.y + (15 * norm.y) + randY;
-
-    return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
-}
-*/
 
 /**
  * This will get the current bandit attack state. It will also advance the
@@ -352,10 +291,6 @@ int GetCurrentBanditAttackState(object oArea){
         int softResetTime = 60; // was 300
         int curDateTime = NWNX_Time_GetTimeStamp();
         int elapsedTime = curDateTime - lastStateDateTime;
-
-        //writeToLog("curDateTime: "+ IntToString(curDateTime));
-        //writeToLog("lastStateDateTime: "+ IntToString(lastStateDateTime));
-        //writeToLog("elapsedTime: "+ IntToString(elapsedTime));
 
         // Reset our state back to observe if too much time has elapsed.
         if(elapsedTime > hardResetTime) {
@@ -546,7 +481,7 @@ void main()
         writeToLog("PC in area: " + GetPCPlayerName(curPC));
         // Only considers PCs near the rally point.
         float distToPC = GetDistanceToObject(curPC);
-        if(distToPC < 100.0) {
+        if(distToPC < 100.0 && !GetIsDM(curPC)) {
             writeToLog("PC in range: " + GetPCPlayerName(curPC));
             pcSpotListenCheck(curPC, bandHide, bandMoveSilently, banditAttackState);
             // If the character isnt trying to hide or doesn't account for them.
@@ -662,7 +597,6 @@ void main()
             object randomPC = StringToObject(randomPCStr);
             SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
             AssignCommand(bandit, ActionAttack(randomPC, TRUE));
-            writeToLog("Attacking: " + GetName(randomPC));
             if(attackYelled == 0) {
                 attackYelled = 1;
                 AssignCommand(bandit, ActionSpeakString("Attack!"));
