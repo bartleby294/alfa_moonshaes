@@ -42,13 +42,24 @@
 
 // - This includes J_Inc_Constants
 #include "J_INC_HEARTBEAT"
-//#include "nwnx"
+#include "nwnx_area"
 
 void main()
 {
 
     object oArea = GetArea(OBJECT_SELF);
-    //NWNX_AreaGetNumberOfPlayersInArea(oArea);
+    int oAreaPlayerNumber = NWNX_Area_GetNumberOfPlayersInArea(oArea);
+
+    if(oAreaPlayerNumber == 0) {
+        int noPCSeenIn = GetLocalInt(OBJECT_SELF, "NoPCSeenIn");
+        SetLocalInt(OBJECT_SELF, "NoPCSeenIn", noPCSeenIn + 1);
+        if(noPCSeenIn > 5) {
+            DestroyObject(OBJECT_SELF, 2.0);
+        }
+    } else {
+        SetLocalInt(OBJECT_SELF, "NoPCSeenIn", 0);
+    }
+
     // Special - Runner from the leader shouts, each heartbeat, to others to get thier
     // attention that they are being attacked.
     // - Includes fleeing making sure (so it resets the ActionMoveTo each 6 seconds -
