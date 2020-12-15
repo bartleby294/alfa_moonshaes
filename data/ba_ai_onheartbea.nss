@@ -51,13 +51,16 @@ void main()
     int oAreaPlayerNumber = NWNX_Area_GetNumberOfPlayersInArea(oArea);
 
     if(oAreaPlayerNumber == 0) {
+        WriteTimestampedLogEntry("No PCs Found");
         int noPCSeenIn = GetLocalInt(OBJECT_SELF, "NoPCSeenIn");
         SetLocalInt(OBJECT_SELF, "NoPCSeenIn", noPCSeenIn + 1);
         if(noPCSeenIn > 5) {
+            WriteTimestampedLogEntry("Destroying myself");
             DestroyObject(OBJECT_SELF, 2.0);
         }
     } else {
         SetLocalInt(OBJECT_SELF, "NoPCSeenIn", 0);
+        WriteTimestampedLogEntry("PCs Found");
     }
 
     // Special - Runner from the leader shouts, each heartbeat, to others to get thier
