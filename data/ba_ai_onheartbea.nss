@@ -46,7 +46,7 @@
 
 void main()
 {
-
+    WriteTimestampedLogEntry("HB TEST");
     object oArea = GetArea(OBJECT_SELF);
     int oAreaPlayerNumber = NWNX_Area_GetNumberOfPlayersInArea(oArea);
 
