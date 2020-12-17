@@ -39,7 +39,7 @@ object GetIntruderFromShout(object oShouter);
 void ShoutBossShout(object oEnemy);
 // Checks the target for a specific EFFECT_TYPE constant value
 // Returns TRUE or FALSE. Used On Damaged for polymorph checking.
-int GetHasEffect(int nEffectType, object oTarget = OBJECT_SELF);
+//int GetHasEffect(int nEffectType, object oTarget = OBJECT_SELF);
 // This sets a morale penalty, to the exsisting one, if there is one.
 // It will reduce itself after fDuration (or if we die, ETC, it is deleted).
 // It is deleted at the end of combat as well.
@@ -404,20 +404,20 @@ void SearchDispells(object oPlaceable)
 // Get Has Effect
 //  Checks to see if the target has a given
 //  effect, usually from a spell. Really useful this is.
-int GetHasEffect(int nEffectType, object oTarget = OBJECT_SELF)
-{
-    effect eCheck = GetFirstEffect(oTarget);
-    while(GetIsEffectValid(eCheck))
-    {
-        if(GetEffectType(eCheck) == nEffectType)
-        {
-             return TRUE;
-             break;
-        }
-        eCheck = GetNextEffect(oTarget);
-    }
-    return FALSE;
-}
+//int GetHasEffect(int nEffectType, object oTarget = OBJECT_SELF)
+//{
+//    effect eCheck = GetFirstEffect(oTarget);
+//    while(GetIsEffectValid(eCheck))
+//   {
+//        if(GetEffectType(eCheck) == nEffectType)
+//       {
+//             return TRUE;
+//             break;
+//        }
+//        eCheck = GetNextEffect(oTarget);
+//    }
+//    return FALSE;
+//}
 
 // This sets a morale penalty, to the exsisting one, if there is one.
 // It will reduce itself (by the penalty) after fDuration (or if we die, ETC, it is deleted).

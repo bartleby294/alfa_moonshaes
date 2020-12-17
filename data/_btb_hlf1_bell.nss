@@ -15,6 +15,8 @@
   Run away action is on the corn
 */
 
+#include "nwnx_time"
+
 int isObjectInArea(string objTag) {
     int objectFound = 0;
     object obj = GetFirstObjectInArea();
@@ -242,11 +244,6 @@ void startRaid() {
 
     // do 1d5 + 10 total raids
     int numberOfRaids = Random(7) + 14;
-
-    // Start the raid and then set a time out of 30 minutes.
-    //DelayCommand(1800.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
-    DelayCommand(600.0, SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 0));
-
     int curRaidCnt = 1;
     //int rand_raids = Random(4) + 4;
     float total_delay = 5.0 + IntToFloat(Random(10));
@@ -267,9 +264,12 @@ void startRaid() {
 
 void main()
 {
-    // If there isnt a raid going on start one.
-    if(GetLocalInt(OBJECT_SELF, "xvart_raids_in_progress") == 0) {
-        SetLocalInt(OBJECT_SELF, "xvart_raids_in_progress", 1);
+    // If enough time has elapsed start a raid.
+    object oArea = GetArea(OBJECT_SELF);
+    int lastRaid = GetCampaignInt("XVART_RAIDS", "XVART_RAID_" + GetTag(oArea));
+    if(NWNX_Time_GetTimeStamp() - lastRaid > 600) {
+        SetCampaignInt("XVART_RAIDS", "XVART_RAID_" + GetTag(oArea),
+            NWNX_Time_GetTimeStamp());
         startRaid();
     }
 }

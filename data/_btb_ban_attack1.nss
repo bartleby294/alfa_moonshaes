@@ -1,4 +1,6 @@
 #include "alfa_wealth_inc"
+#include "nwnx_time"
+#include "nw_o0_itemmaker"
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
@@ -186,7 +188,10 @@ int DecideIfAttack(int totalEstPCWealth, int totalPCLvls, int totalPCs,
 
 void setAttackState(object oArea, int value) {
     SetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
-        "DISABLE_BANDITS_" + GetTag(oArea), value);
+        "BANDIT_STATE_" + GetTag(oArea), value);
+    // Set the time of the last state change.
+    SetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
+        "BANDIT_STATE_TIME_" + GetTag(oArea), NWNX_Time_GetTimeStamp());
 }
 
 string pickRace() {
@@ -227,25 +232,196 @@ string pickClass() {
     return "r";
 }
 
+float randomFloat(int den, int num) {
+    float denominator = IntToFloat(Random(den) + 1);
+    float numerator = IntToFloat(Random(num) + 1);
+    return numerator/denominator;
+}
+
 /**
     Return a location some units of distance away on a straight line.
  */
-location pickSpawnLoc(object richestPC) {
+location pickSpawnLoc(vector pcVector, float pcAngle) {
 
     vector bandVector = GetPosition(OBJECT_SELF);
-    vector pcVector = GetPosition(richestPC);
+    vector normPcVector = AngleToVector(pcAngle);
 
-    float x = pcVector.x - bandVector.x;
-    float y = pcVector.y - bandVector.y;
+    float x = normPcVector.x;
+    float y = normPcVector.y;
 
-    float randX = 0.0; //IntToFloat(1 / (Random(5) + 1)) * (Random(3) + 1);
-    float randY = 0.0; //IntToFloat(1 / (Random(5) + 1)) * (Random(3) + 1);
+    float randX = randomFloat(4, 8);
+    float randY = randomFloat(4, 8);
+
+    int distance = 25;
+
+    // 90 or 270 degree rotation of position.
+    switch(Random(3) + 1)
+    {
+        case 1:
+            x = cos(90.0) * x - sin(90.0) * y;
+            y = sin(90.0) * x + cos(90.0) * y;
+            distance = 15;
+        case 2:
+            x = cos(270.0) * x - sin(270.0) * y;
+            y = sin(270.0) * x + cos(270.0) * y;
+            distance = 15;
+    }
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
-    float spawnX = bandVector.x + (15 * norm.x) + randX;
-    float spawnY = bandVector.y + (15 * norm.y) + randY;
+    float spawnX = pcVector.x + (distance * norm.x) + randX;
+    float spawnY = pcVector.y + (distance * norm.y) + randY;
 
     return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
+}
+
+/**
+ * This will get the current bandit attack state. It will also advance the
+ * state if appropriate.
+ */
+int GetCurrentBanditAttackState(object oArea){
+    int curBanditAttackState = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
+                               "BANDIT_STATE_" + GetTag(oArea));
+
+    if(curBanditAttackState == 1
+        || curBanditAttackState == 3
+        || curBanditAttackState == 4) {
+        int lastStateDateTime = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
+                                    "BANDIT_STATE_TIME_" + GetTag(oArea));
+        int hardResetTime = 200;// was 600
+        int softResetTime = 60; // was 300
+        int curDateTime = NWNX_Time_GetTimeStamp();
+        int elapsedTime = curDateTime - lastStateDateTime;
+
+        // Reset our state back to observe if too much time has elapsed.
+        if(elapsedTime > hardResetTime) {
+            curBanditAttackState = 0;
+            setAttackState(oArea, curBanditAttackState);
+        // Reset our state back to observe after deciding not to attack.ck.
+        } else if (elapsedTime > 300 && curBanditAttackState == 3) {
+            curBanditAttackState = 0;
+            setAttackState(oArea, curBanditAttackState);
+        // Advance to attack decision if observation state and time elapsed.
+        } else if (elapsedTime > 10 && curBanditAttackState == 1) {
+            curBanditAttackState = 2;
+            setAttackState(oArea, curBanditAttackState);
+        }
+    }
+
+    return curBanditAttackState;
+}
+
+void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
+                        int banditAttackState) {
+    int spotSuccess = 0;
+    int listenSuccess = 0;
+    int listenCheck = d20(1) + GetSkillRank(SKILL_LISTEN, curPC, FALSE);
+    int spotCheck = d20(1) + GetSkillRank(SKILL_SPOT, curPC, FALSE);
+
+    if(spotCheck > d20() + bandHide) {
+        spotSuccess = 1;
+    }
+
+    if(listenCheck > d20() + bandMoveSilently) {
+        listenSuccess = 1;
+    }
+
+    string pcMsg = "";
+
+    /* Bandits just saw you you spot the ambush*/
+    if(banditAttackState == 0) {
+        if(spotSuccess && !listenSuccess) {
+            writeToLog("Spot Success");
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "Did that bush just move?";
+                case 2:
+                     pcMsg = "Was that a shadow up ahead?";
+                case 3:
+                     pcMsg = "A rabbit runs hurriedly across your path.";
+            }
+        }
+
+        if(!spotSuccess && listenSuccess) {
+            writeToLog("Listen Success");
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "Was that a muffled voice?";
+                case 2:
+                     pcMsg = "You hear a twig snap.";
+                case 3:
+                     pcMsg = "It seems unnaturally quiet here?";
+            }
+        }
+
+        if(spotSuccess && listenSuccess) {
+            writeToLog("Spot and Listen Success");
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "You see a bush move and rustle unnaturally ahead.";
+                case 2:
+                     pcMsg = "You see a humanoid form snap a branch and move behind a tree ahead.";
+                case 3:
+                     pcMsg = "You see a crow caw and swoop at the undergrowth in the distance.";
+            }
+        }
+
+        if(spotSuccess && !listenSuccess) {
+            writeToLog("Listen and Spot Fail");
+        }
+    }
+
+    /* Bandits are attacking and you see them as they move in*/
+    if(banditAttackState == 2) {
+        if(spotSuccess && !listenSuccess) {
+            writeToLog("Spot Success");
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "test 1";
+                case 2:
+                     pcMsg = "test 1";
+                case 3:
+                     pcMsg = "test 1";
+            }
+        }
+
+        if(!spotSuccess && listenSuccess) {
+            writeToLog("Listen Success");
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "test 1";
+                case 2:
+                     pcMsg = "test 1";
+                case 3:
+                     pcMsg = "test 1";
+            }
+        }
+
+        if(spotSuccess && listenSuccess) {
+            writeToLog("Spot and Listen Success");
+            switch (Random(3) + 1)
+            {
+                case 1:
+                     pcMsg = "test 1";
+                case 2:
+                     pcMsg = "test 1";
+                case 3:
+                     pcMsg = "test 1";
+            }
+        }
+
+        if(spotSuccess && !listenSuccess) {
+            writeToLog("Listen and Spot Fail");
+        }
+    }
+
+    if(GetStringLength(pcMsg) > 0) {
+        SendMessageToPC(curPC, pcMsg);
+    }
 }
 
 /**
@@ -256,8 +432,7 @@ location pickSpawnLoc(object richestPC) {
 void main()
 {
     object oArea = GetArea(OBJECT_SELF);
-    int banditAttackState = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
-                               "DISABLE_BANDITS_" + GetTag(oArea));
+    int banditAttackState = GetCurrentBanditAttackState(oArea);
 
     writeToLog("banditAttackState: " + IntToString(banditAttackState));
 
@@ -265,8 +440,9 @@ void main()
     // State 0: Enabled  - Never been run before.
     // State 1: Disabled - Perceived but gathering inforamtion
     // State 2: Enabled  - Make attack no attack decision
-    // State 3: Disabled - Attacking
-    // State 9: Disabled
+    // State 3: Disabled - Choose not to attack
+    // State 4: Disabled - Attacking
+    // State 9: Disabled - Brute force over ride
     if(banditAttackState != 0 && banditAttackState != 2) {
         return;
     }
@@ -284,12 +460,18 @@ void main()
     int bandHide = 4;
     int bandMoveSilently = 4;
     int bandSenseMotive = 3;
-    int bandXPAllocation = 5000;
+    int bandXPAllocation=2500;
 
     // Get what type of bandit party this is and set specifics for that party.
     // Default above is for bandit_look_sm
     if(GetTag(OBJECT_SELF) == "bandit_look_md") {
-
+        bandSpot = 4;
+        bandListen = 5;
+        bandAppraise = 2;
+        bandHide = 4;
+        bandMoveSilently = 4;
+        bandSenseMotive = 3;
+        bandXPAllocation=2500;
     } else if(GetTag(OBJECT_SELF) == "bandit_look_lg") {
 
     }
@@ -299,17 +481,22 @@ void main()
         writeToLog("PC in area: " + GetPCPlayerName(curPC));
         // Only considers PCs near the rally point.
         float distToPC = GetDistanceToObject(curPC);
-        if(distToPC < 100.0) {
+        if(distToPC < 100.0 && !GetIsDM(curPC)) {
             writeToLog("PC in range: " + GetPCPlayerName(curPC));
+            pcSpotListenCheck(curPC, bandHide, bandMoveSilently, banditAttackState);
             // If the character isnt trying to hide or doesn't account for them.
+            int hideCheck = d20(1) + GetSkillRank(SKILL_HIDE, curPC, FALSE);
+            int moveSilentlyCheck = d20(1) + GetSkillRank(SKILL_MOVE_SILENTLY,
+                                                curPC, FALSE);
             if(GetStealthMode(curPC) == STEALTH_MODE_DISABLED
-               || !GetIsSkillSuccessful(curPC, SKILL_HIDE,
-                    d20() + bandSpot)
-               || !GetIsSkillSuccessful(curPC, SKILL_MOVE_SILENTLY,
-                    d20() + bandListen)) {
+               || hideCheck < d20() + bandSpot
+               || moveSilentlyCheck < d20() + bandListen) {
                 writeToLog("PC detected: " + GetPCPlayerName(curPC));
                 /* Only do the extra work if were going to need it. */
                 if(banditAttackState == 2) {
+                    // Store off all our PCs.
+                    SetLocalArrayString(OBJECT_SELF, "pcTarget", totalPCs,
+                                        ObjectToString(curPC));
                     // If bandits make a DC 16 Apraise check they appraise PC.
                     int estimatedPCWorth = GetTotalWealth(curPC);
                     // If they fail they over or under estimate.
@@ -348,7 +535,6 @@ void main()
     } else if(banditAttackState == 0) {
         writeToLog("Entering Observe Phase.");
         setAttackState(oArea, 1);
-        DelayCommand(10.0, setAttackState(oArea, 2));
         return;
     }
 
@@ -366,14 +552,16 @@ void main()
         // think about attakcing again.
         writeToLog("Choose attacking not worth it.");
         setAttackState(oArea, 3);
-        DelayCommand(300.0, setAttackState(oArea, 0));
         return;
     // Start the attack!
     } else {
         // Choose our bandits and have them attack.
         writeToLog("We are Attacking!");
-        setAttackState(oArea, 3);
-        DelayCommand(600.0, setAttackState(oArea, 0));
+        vector pcVector = GetPosition(richestPC);
+        float pcAngle = GetFacing(richestPC);
+        writeToLog("PC Angle: " + FloatToString(pcAngle));
+        setAttackState(oArea, 4);
+        int attackYelled = 0;
         while (bandXPAllocation > 0) {
             writeToLog("bandXPAllocation: " + IntToString(bandXPAllocation));
             int banditLvl = 0;
@@ -395,7 +583,7 @@ void main()
             // pick gender (will put in after the rest is tested)
             string resref = pickRace() + pickClass() + "m_bandit_1";
             writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
-            location spawnLoc = pickSpawnLoc(richestPC);
+            location spawnLoc = pickSpawnLoc(pcVector, pcAngle);
             // Spawn the bandit.
             object bandit = CreateObject(OBJECT_TYPE_CREATURE, resref,
                                 spawnLoc, FALSE, resref);
@@ -404,8 +592,15 @@ void main()
                 LevelUpHenchman(bandit, CLASS_TYPE_INVALID, 1, PACKAGE_INVALID);
                 banditLvl--;
             }
-
-            AssignCommand(bandit, ActionMoveToObject(richestPC, TRUE, 1.0));
+            string randomPCStr = GetLocalArrayString(OBJECT_SELF, "pcTarget",
+                                                   Random(totalPCs));
+            object randomPC = StringToObject(randomPCStr);
+            SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
+            AssignCommand(bandit, ActionAttack(randomPC, TRUE));
+            if(attackYelled == 0) {
+                attackYelled = 1;
+                AssignCommand(bandit, ActionSpeakString("Attack!"));
+            }
         }
     }
 }
