@@ -1,6 +1,0 @@
-//chest OnDeath
-
-void main()
-{
-
-}
