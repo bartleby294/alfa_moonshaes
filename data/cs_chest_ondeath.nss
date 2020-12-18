@@ -1,0 +1,6 @@
+//chest OnDeath
+
+void main()
+{
+
+}
