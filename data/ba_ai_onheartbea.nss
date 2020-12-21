@@ -41,7 +41,6 @@
 ************************* [On Heartbeat] **************************************/
 
 // - This includes J_Inc_Constants
-#include "J_INC_HEARTBEAT"
 #include "nwnx_area"
 
 void main()
@@ -62,96 +61,4 @@ void main()
         SetLocalInt(OBJECT_SELF, "NoPCSeenIn", 0);
         WriteTimestampedLogEntry("PCs Found");
     }
-
-    // Special - Runner from the leader shouts, each heartbeat, to others to get thier
-    // attention that they are being attacked.
-    // - Includes fleeing making sure (so it resets the ActionMoveTo each 6 seconds -
-    //   this is not too bad)
-    // - Includes door bashing stop heartbeat
-    if(PerformSpecialAction()) return;
-
-    // Pre-heartbeat-event
-    if(FireUserEvent(AI_FLAG_UDE_HEARTBEAT_PRE_EVENT, EVENT_HEARTBEAT_PRE_EVENT))
-        // We may exit if it fires
-        if(ExitFromUDE(EVENT_HEARTBEAT_PRE_EVENT)) return;
-
-    // AI status check. Is the AI on?
-    if(GetAIOff() || GetSpawnInCondition(AI_FLAG_OTHER_LAG_IGNORE_HEARTBEAT, AI_OTHER_MASTER)) return;
-
-    // Define the enemy and player to use.
-    object oEnemy = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY);
-    object oPlayer = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC);
-    int iTempInt;
-
-    // AI level (re)setting
-    if(!GetIsInCombat() && !GetIsObjectValid(GetAttackTarget()) &&
-       (GetIsObjectValid(oEnemy) && GetDistanceToObject(oEnemy) <= f50 ||
-        GetIsObjectValid(oPlayer) && GetDistanceToObject(oPlayer) <= f50))
-    {
-        // AI setting, normally higher then normal.
-        iTempInt = GetAIConstant(LAG_AI_LEVEL_YES_PC_OR_ENEMY_50M);
-        if(iTempInt > iM1 && GetAILevel() != iTempInt)
-        {
-            SetAILevel(OBJECT_SELF, iTempInt);
-        }
-    }
-    else
-    {
-        // AI setting, normally higher then normal.
-        iTempInt = GetAIConstant(LAG_AI_LEVEL_NO_PC_OR_ENEMY_50M);
-        if(iTempInt > iM1 && GetAILevel() != iTempInt)
-        {
-            SetAILevel(OBJECT_SELF, iTempInt);
-        }
-    }
-
-    // We can skip to the end if we are in combat, or something...
-    if(!JumpOutOfHeartBeat() && // We don't stop due to effects.
-       !GetIsInCombat() &&      // We are not in combat.
-       !GetIsObjectValid(GetAttackTarget()) && // Second combat check.
-       !GetObjectSeen(oEnemy))  // Nearest enemy is not seen.
-    {
-        // Fast buffing...if we have the spawn in condition...
-        if(GetSpawnInCondition(AI_FLAG_COMBAT_FLAG_FAST_BUFF_ENEMY, AI_COMBAT_MASTER) &&
-           GetIsObjectValid(oEnemy) && GetDistanceToObject(oEnemy) <= f40)
-        {
-            // ...we may do an advanced buff. If we cannot see/hear oEnemy, but oEnemy
-            // is within 40M, we cast many defensive spells instantly...
-            ExecuteScript(FILE_HEARTBEAT_TALENT_BUFF, OBJECT_SELF);
-            //...if TRUE (IE it does something) we turn of future calls.
-            DeleteSpawnInCondition(AI_FLAG_COMBAT_FLAG_FAST_BUFF_ENEMY, AI_COMBAT_MASTER);
-            // This MUST STOP the heartbeat event - else, the actions may be interrupted.
-            return;
-        }
-        // Execute waypoints file if we have waypoints set up.
-        if(GetWalkCondition(NW_WALK_FLAG_CONSTANT))
-        {
-            ExecuteScript(FILE_WALK_WAYPOINTS, OBJECT_SELF);
-        }
-        // We can't have any waypoints for the other things
-        else
-        {
-            // We must have animations set, and not be "paused", so doing a
-            // longer looping one
-            // - Need a valid player.
-            if(GetIsObjectValid(oPlayer))
-            {
-                // Do we have any animations to speak of?
-                // If we have a nearby PC, not in conversation, we do animations.
-                if(!IsInConversation(OBJECT_SELF) &&
-                    GetAIInteger(AI_VALID_ANIMATIONS))
-                {
-                    ExecuteScript(FILE_HEARTBEAT_ANIMATIONS, OBJECT_SELF);
-                }
-                // We may search for PC enemies :-) move closer to PC's
-                else if(GetSpawnInCondition(AI_FLAG_OTHER_SEARCH_IF_ENEMIES_NEAR, AI_OTHER_MASTER) &&
-                       !GetLocalTimer(AI_TIMER_SEARCHING) && d4() == i1)
-                {
-                    ExecuteScript(FILE_HEARTBEAT_WALK_TO_PC, OBJECT_SELF);
-                }
-            }
-        }
-    }
-    // Fire End-heartbeat-UDE
-    FireUserEvent(AI_FLAG_UDE_HEARTBEAT_EVENT, EVENT_HEARTBEAT_EVENT);
 }
