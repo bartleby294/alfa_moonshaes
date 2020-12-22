@@ -380,11 +380,11 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
             switch (Random(3) + 1)
             {
                 case 1:
-                     pcMsg = "test 1";
+                     pcMsg = "You see a group charge toward you.";
                 case 2:
-                     pcMsg = "test 1";
+                     pcMsg = "You see an arrow catch the light in the distance.";
                 case 3:
-                     pcMsg = "test 1";
+                     pcMsg = "You see a sword hilt catch the light.";
             }
         }
 
@@ -393,11 +393,11 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
             switch (Random(3) + 1)
             {
                 case 1:
-                     pcMsg = "test 1";
+                     pcMsg = "You hear some one yell 'Go!'.";
                 case 2:
-                     pcMsg = "test 1";
+                     pcMsg = "You hear a sword exiting its sheath.";
                 case 3:
-                     pcMsg = "test 1";
+                     pcMsg = "You hear an arrow loose.";
             }
         }
 
@@ -406,11 +406,11 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
             switch (Random(3) + 1)
             {
                 case 1:
-                     pcMsg = "test 1";
+                     pcMsg = "You see and hear an arrow loose in your direction.";
                 case 2:
-                     pcMsg = "test 1";
+                     pcMsg = "You hear some one yell 'Get em!' as you are ambushed.";
                 case 3:
-                     pcMsg = "test 1";
+                     pcMsg = "You see a sword hilt glint in the distance and hear a arrow loose.";
             }
         }
 
@@ -454,13 +454,14 @@ void main()
     int richestPCValue = 0;
     object curPC = GetFirstPCInArea(oArea);
 
-    int bandSpot = 4;
-    int bandListen = 5;
-    int bandAppraise = 2;
-    int bandHide = 4;
-    int bandMoveSilently = 4;
-    int bandSenseMotive = 3;
-    int bandXPAllocation=2500;
+    int bandSpot = 3;
+    int bandListen = 4;
+    int bandAppraise = 1;
+    int bandHide = 3;
+    int bandMoveSilently = 3;
+    int bandSenseMotive = 2;
+    int bandXPAllocation=1800;
+    int minLvl = 1;
 
     // Get what type of bandit party this is and set specifics for that party.
     // Default above is for bandit_look_sm
@@ -472,8 +473,16 @@ void main()
         bandMoveSilently = 4;
         bandSenseMotive = 3;
         bandXPAllocation=2500;
+        minLvl = 2;
     } else if(GetTag(OBJECT_SELF) == "bandit_look_lg") {
-
+        bandSpot = 6;
+        bandListen = 7;
+        bandAppraise = 4;
+        bandHide = 6;
+        bandMoveSilently = 6;
+        bandSenseMotive = 5;
+        bandXPAllocation=4500;
+        minLvl = 3;
     }
 
     /* Gather Party Information The Bandit Lookout Can See. */
@@ -572,7 +581,7 @@ void main()
             } else {
                 // loop till we get a valid lvl pick.
                 while(banditLvl == 0) {
-                    int randCharLvl = Random(5) + 1;
+                    int randCharLvl = Random(5) + minLvl;
                     int randCharLvlXP = getXPTableValue(randCharLvl);
                     if(bandXPAllocation - randCharLvlXP > 0) {
                         banditLvl = randCharLvl;

@@ -45,20 +45,25 @@
 
 void main()
 {
-    WriteTimestampedLogEntry("HB TEST");
     object oArea = GetArea(OBJECT_SELF);
     int oAreaPlayerNumber = NWNX_Area_GetNumberOfPlayersInArea(oArea);
 
     if(oAreaPlayerNumber == 0) {
-        WriteTimestampedLogEntry("No PCs Found");
+        //WriteTimestampedLogEntry("No PCs Found");
         int noPCSeenIn = GetLocalInt(OBJECT_SELF, "NoPCSeenIn");
         SetLocalInt(OBJECT_SELF, "NoPCSeenIn", noPCSeenIn + 1);
+        // Each time a bandit wins or is run away from they are emboldened.
         if(noPCSeenIn > 5) {
-            WriteTimestampedLogEntry("Destroying myself");
+            //WriteTimestampedLogEntry("Destroying myself");
+            int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
+                                               "BANDIT_ACTIVITY_LEVEL_2147440");
+            SetCampaignInt("FACTION_ACTIVITY",
+                           "BANDIT_ACTIVITY_LEVEL_2147440",
+                           banditActivityLevel + 1);
             DestroyObject(OBJECT_SELF, 2.0);
         }
     } else {
         SetLocalInt(OBJECT_SELF, "NoPCSeenIn", 0);
-        WriteTimestampedLogEntry("PCs Found");
+        //WriteTimestampedLogEntry("PCs Found");
     }
 }
