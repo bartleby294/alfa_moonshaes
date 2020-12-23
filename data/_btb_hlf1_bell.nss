@@ -30,6 +30,38 @@ int isObjectInArea(string objTag) {
     return objectFound;
 }
 
+void MovementDec() {
+    effect eSpeedDown = EffectMovementSpeedDecrease(50);
+    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedDown, OBJECT_SELF);
+}
+
+void MovementReset() {
+    effect eSpeedUp = EffectMovementSpeedIncrease(99);
+    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedUp, OBJECT_SELF);
+}
+
+
+void YellRunAway(object farmer) {
+    if(GetTag(farmer) == "clav") {
+        AssignCommand(farmer, SpeakString("Here they come, fleeee!"));
+    } else if(GetTag(farmer) == "jart") {
+        AssignCommand(farmer, SpeakString("Bloody things are back!"));
+    } else if(GetTag(farmer) == "rolling") {
+        AssignCommand(farmer, SpeakString("Hide, dammit, Hide!"));
+    }
+}
+
+void makeFarmerRunAway(object farmer) {
+    if(GetLocalInt(farmer, "walking") == 1){
+        SetLocalInt(farmer, "walking", 0);
+        MovementReset();
+    }
+    YellRunAway(farmer);
+    AssignCommand(farmer, ClearAllActions());
+    AssignCommand(farmer,
+        ActionMoveToObject(GetObjectByTag("corn_farmer_despawn"), TRUE));
+}
+
 void createRaidingParty(object xvartRaidSpawnWP) {
 
     float firstCornDist = -1.0;
@@ -271,6 +303,9 @@ void main()
     if(NWNX_Time_GetTimeStamp() - lastRaid > FARM_DELAY_SECONDS) {
         SetCampaignInt("XVART_RAIDS", "XVART_RAID_" + GetTag(oArea),
             NWNX_Time_GetTimeStamp());
+        makeFarmerRunAway(GetObjectByTag("clav"));
+        makeFarmerRunAway(GetObjectByTag("jart"));
+        makeFarmerRunAway(GetObjectByTag("rolling"));
         startRaid();
     }
 }
