@@ -45,21 +45,39 @@ void plantCorn() {
     }
 }
 
+void spawnFarmers() {
+    object wp = GetWaypointByTag("corn_farmer_spawn");
+    if(GetObjectByTag("clav") == OBJECT_INVALID) {
+        CreateObject(OBJECT_TYPE_CREATURE, "clav",
+            GetLocation(wp), FALSE, "clav");
+    }
+    if(GetObjectByTag("jart") == OBJECT_INVALID) {
+        CreateObject(OBJECT_TYPE_CREATURE, "jart",
+            GetLocation(wp), FALSE, "jart");
+    }
+    if(GetObjectByTag("rolling") == OBJECT_INVALID) {
+        CreateObject(OBJECT_TYPE_CREATURE, "rolling",
+            GetLocation(wp), FALSE, "rolling");
+    }
+}
+
 void main()
 {
   //ALFA_OnAreaEnter();
 
 
   /**************** Add Custom Code Here ***************/
-object oArea = GetArea(OBJECT_SELF);
-  object xvartBell = GetObjectByTag("hlf_farm1_raid_bell");
-  int lastRaid = GetCampaignInt("XVART_RAIDS", "XVART_RAID_" + GetTag(oArea));
-  if(NWNX_Time_GetTimeStamp() - lastRaid > FARM_DELAY_SECONDS) {
-        SetLocalInt(xvartBell, "planting_corn", 1);
-        if(GetLocalInt(xvartBell, "xvart_raids_in_progress") == 0) {
+    object oArea = GetArea(OBJECT_SELF);
+    object xvartBell = GetObjectByTag("hlf_farm1_raid_bell");
+    int lastRaid = GetCampaignInt("XVART_RAIDS", "XVART_RAID_" + GetTag(oArea));
+    // if no raid is going on plant the corn and spawn the farmers
+    if(NWNX_Time_GetTimeStamp() - lastRaid > FARM_DELAY_SECONDS) {
+        if(GetLocalInt(xvartBell, "reseting_area") == 0) {
+            SetLocalInt(xvartBell, "reseting_area", 1);
             plantCorn();
+            spawnFarmers();
         }
-        SetLocalInt(xvartBell, "planting_corn", 0);
+        SetLocalInt(xvartBell, "reseting_area", 0);
     }
   /*****************************************************/
 }
