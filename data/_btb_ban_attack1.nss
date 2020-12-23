@@ -2,130 +2,11 @@
 #include "nwnx_time"
 #include "nw_o0_itemmaker"
 #include "alfa_ms_config"
+#include "_btb_util"
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
     WriteTimestampedLogEntry(oAreaName + ": " +  str);
-}
-
-object GetFirstPCInArea(object oAreaTest)
-{
-    object oPCTestValid = GetFirstPC();
-    while(GetArea(oPCTestValid)!=oAreaTest&&GetIsObjectValid(oPCTestValid))
-        oPCTestValid = GetNextPC();
-    return(oPCTestValid);
-}
-
-object GetNextPCInArea(object oAreaTest)
-{
-    object oPCTestValid = GetNextPC();
-    while(GetArea(oPCTestValid)!=oAreaTest&&GetIsObjectValid(oPCTestValid))
-        oPCTestValid = GetNextPC();
-    return(oPCTestValid);
-}
-
-/**
- * This may need some adjustment right now im using the standard dnd suggested
- * wealth values to start but may need adjustment for alfa evntually.
-*/
-int getWealthTableValue(int charLvl) {
-    switch (charLvl)
-    {
-        case 1:
-             return 500;
-        case 2:
-             return 1000;
-        case 3:
-             return 3000;
-        case 4:
-             return 6000;
-        case 5:
-             return 10000;
-        case 6:
-             return 15000;
-        case 7:
-             return 21000;
-        case 8:
-             return 28000;
-        case 9:
-             return 36000;
-        case 10:
-             return 45000;
-        case 11:
-             return 55000;
-        case 12:
-             return 66000;
-        case 13:
-             return 78000;
-        case 14:
-             return 91000;
-        case 15:
-             return 105000;
-        case 16:
-             return 120000;
-        case 17:
-             return 136000;
-        case 18:
-             return 153000;
-        case 19:
-             return 171000;
-        case 20:
-             return 190000;
-        default:
-             return 1;
-    }
-
-    return 200000;
-}
-
-int getXPTableValue(int charLvl) {
-    switch (charLvl)
-    {
-        case 1:
-             return 300;
-        case 2:
-             return 900;
-        case 3:
-             return 2700;
-        case 4:
-             return 5400;
-        case 5:
-             return 9000;
-        case 6:
-             return 13000;
-        case 7:
-             return 19000;
-        case 8:
-             return 27000;
-        case 9:
-             return 36000;
-        case 10:
-             return 49000;
-        case 11:
-             return 66000;
-        case 12:
-             return 88000;
-        case 13:
-             return 110000;
-        case 14:
-             return 150000;
-        case 15:
-             return 200000;
-        case 16:
-             return 260000;
-        case 17:
-             return 340000;
-        case 18:
-             return 440000;
-        case 19:
-             return 580000;
-        case 20:
-             return 760000;
-        default:
-             return 1;
-    }
-
-    return 1;
 }
 
 /**
@@ -166,7 +47,7 @@ int DecideIfAttack(int totalEstPCWealth, int totalPCLvls, int totalPCs,
 
     // Decide if the fight will be worth the trouble.
     int normalWealth = getWealthTableValue(estAvgPCLvl);
-       int estTotalPartyXP = getXPTableValue(estAvgPCLvl) * totalPCs;
+       int estTotalPartyXP = getXPTableValueCore(estAvgPCLvl) * totalPCs;
 
     int wealthDecisionPct = (estAvgPCWealth * 100) / normalWealth;
     int lvlDecisionPct =  (bandXPAllocation * 100) / estTotalPartyXP;
@@ -288,7 +169,7 @@ int GetCurrentBanditAttackState(object oArea){
         || curBanditAttackState == 4) {
         int lastStateDateTime = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
                                     "BANDIT_STATE_TIME_" + GetTag(oArea));
-        int hardResetTime = BANDIT_DELAY_SECONDS;
+        int hardResetTime = BANDIT_HARD_DELAY_SECONDS;
         int softResetTime = BANDIT_SOFT_DELAY_SECONDS;
         int curDateTime = NWNX_Time_GetTimeStamp();
         int elapsedTime = curDateTime - lastStateDateTime;
@@ -589,7 +470,7 @@ void main()
                 // loop till we get a valid lvl pick.
                 while(banditLvl == 0) {
                     int randCharLvl = Random(5) + minLvl;
-                    int randCharLvlXP = getXPTableValue(randCharLvl);
+                    int randCharLvlXP = getXPTableValueCore(randCharLvl);
                     if(bandXPAllocation - randCharLvlXP > 0) {
                         banditLvl = randCharLvl;
                         bandXPAllocation -= randCharLvlXP;

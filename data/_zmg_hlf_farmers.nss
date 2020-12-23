@@ -1,3 +1,5 @@
+#include "_btb_util"
+
 void YellRunAway() {
     if(GetTag(OBJECT_SELF) == "clav") {
         AssignCommand(OBJECT_SELF, SpeakString("Here they come, fleeee!"));
@@ -22,9 +24,14 @@ void main()
 {
     // if there is no danger do your thing.
     if(GetLocalInt(OBJECT_SELF, "perilalert") == 0){
+        if(HasItemInInventory(OBJECT_SELF, "Im_Lazy_OOC_Item_to_slow_NPCS_Do") == 0) {
+            CreateItemOnObject("Im_Lazy_OOC_Item_to_slow_NPCS_Do",
+                OBJECT_SELF, 1);
+        }
         RandomlyWalkToCorn();
     // else run away
     } else {
+        DestroyItemsInInventory(OBJECT_SELF, "Im_Lazy_OOC_Item_to_slow_NPCS_Do", 1);
         YellRunAway();
         ClearAllActions();
         AssignCommand(OBJECT_SELF,

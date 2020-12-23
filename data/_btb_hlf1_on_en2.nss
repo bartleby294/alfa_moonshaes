@@ -46,18 +46,21 @@ void plantCorn() {
 }
 
 void spawnFarmers() {
-    object wp = GetWaypointByTag("corn_farmer_spawn");
-    if(GetObjectByTag("clav") == OBJECT_INVALID) {
-        CreateObject(OBJECT_TYPE_CREATURE, "clav",
-            GetLocation(wp), FALSE, "clav");
-    }
-    if(GetObjectByTag("jart") == OBJECT_INVALID) {
-        CreateObject(OBJECT_TYPE_CREATURE, "jart",
-            GetLocation(wp), FALSE, "jart");
-    }
-    if(GetObjectByTag("rolling") == OBJECT_INVALID) {
-        CreateObject(OBJECT_TYPE_CREATURE, "rolling",
-            GetLocation(wp), FALSE, "rolling");
+    // only spawn the farmers during the day and if they arent already there.
+    if(GetIsDay()) {
+        object wp = GetWaypointByTag("corn_farmer_spawn");
+        if(GetObjectByTag("clav") == OBJECT_INVALID) {
+            CreateObject(OBJECT_TYPE_CREATURE, "clav",
+                GetLocation(wp), FALSE, "clav");
+        }
+        if(GetObjectByTag("jart") == OBJECT_INVALID) {
+            CreateObject(OBJECT_TYPE_CREATURE, "jart",
+                GetLocation(wp), FALSE, "jart");
+        }
+        if(GetObjectByTag("rolling") == OBJECT_INVALID) {
+            CreateObject(OBJECT_TYPE_CREATURE, "rolling",
+                GetLocation(wp), FALSE, "rolling");
+        }
     }
 }
 
