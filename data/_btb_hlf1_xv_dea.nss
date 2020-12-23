@@ -133,7 +133,7 @@ void main()
         }
     }
     // Always shout when we are killed. Reactions - Morale penalty, and attack the killer.
-    AISpeakString(I_WAS_KILLED);
+    //AISpeakString(I_WAS_KILLED);
 
     // Speaks the set death speak, like "AGGGGGGGGGGGGGGGGGGG!! NOOOO!" for instance :-)
     SpeakArrayString(AI_TALK_ON_DEATH);
@@ -143,9 +143,9 @@ void main()
     {
         // We will actually dissapear after 30.0 seconds if not raised.
         int iTime = GetAIInteger(AI_CORPSE_DESTROY_TIME);
-        if(iTime == i0) // Error checking
+        if(iTime == 0) // Error checking
         {
-            iTime = i30;
+            iTime = 30;
         }
         // 64: "[Death] Checking corpse status in " + IntToString(iTime) + " [Killer] " + GetName(oKiller) + " [Times Died Now] " + IntToString(iDeathCounterNew)
         DebugActionSpeakByInt(64, oKiller, iTime, IntToString(iDeathCounterNew));
