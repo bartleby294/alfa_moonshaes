@@ -554,9 +554,9 @@ void main()
     }
 
     int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
-                               "BANDIT_ACTIVITY_LEVEL_2147440") + 1;
+                               "BANDIT_ACTIVITY_LEVEL_2147440");
 
-    bandXPAllocation = bandXPAllocation * (banditActivityLevel/100);
+    bandXPAllocation = bandXPAllocation * (banditActivityLevel/100) + 100;
     int attackChoice = DecideIfAttack(totalEstPCWealth, totalPCLvls, totalPCs,
                         bandSenseMotive, banditActivityLevel, bandXPAllocation);
 
