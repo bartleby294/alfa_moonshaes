@@ -20,18 +20,31 @@ void RandomlyWalkToCorn(){
     }
 }
 
+void MovementDec() {
+    effect eSpeedDown = EffectMovementSpeedDecrease(50);
+    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedDown, OBJECT_SELF);
+}
+
+void MovementReset() {
+    effect eSpeedUp = EffectMovementSpeedIncrease(99);
+    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedUp, OBJECT_SELF);
+}
+
 void main()
 {
     // if there is no danger do your thing.
     if(GetLocalInt(OBJECT_SELF, "perilalert") == 0){
-        if(HasItemInInventory(OBJECT_SELF, "Im_Lazy_OOC_Item_to_slow_NPCS_Do") == 0) {
-            CreateItemOnObject("Im_Lazy_OOC_Item_to_slow_NPCS_Do",
-                OBJECT_SELF, 1);
+        if(GetLocalInt(OBJECT_SELF, "walking") == 0){
+            SetLocalInt(OBJECT_SELF, "walking", 1);
+            MovementDec();
         }
         RandomlyWalkToCorn();
     // else run away
     } else {
-        DestroyItemsInInventory(OBJECT_SELF, "Im_Lazy_OOC_Item_to_slow_NPCS_Do", 1);
+        if(GetLocalInt(OBJECT_SELF, "walking") == 1){
+            SetLocalInt(OBJECT_SELF, "walking", 0);
+            MovementReset();
+        }
         YellRunAway();
         ClearAllActions();
         AssignCommand(OBJECT_SELF,
