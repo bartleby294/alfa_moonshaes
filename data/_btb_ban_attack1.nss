@@ -423,6 +423,12 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
         SendMessageToPC(curPC, pcMsg);
     }
 }
+/** Right now we are just going to make everything the bandit has droppable and
+  * add some gold.  Later we will add more fun loot.
+  */
+void AddLootToBandit(object bandit, string race, string class) {
+    GiveGoldToCreature(bandit, Random(20));
+}
 
 /**
  * Note that we have some exit points I'm not wild about but better to save
@@ -590,7 +596,9 @@ void main()
                 }
             }
             // pick gender (will put in after the rest is tested)
-            string resref = pickRace() + pickClass() + "m_bandit_1";
+            string race = pickRace();
+            string class = pickClass();
+            string resref = race + class + "m_bandit_1";
             writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
             location spawnLoc = pickSpawnLoc(pcVector, pcAngle);
             // Spawn the bandit.
@@ -599,6 +607,7 @@ void main()
             // Level the bandit up.
             while(banditLvl > 1) {
                 LevelUpHenchman(bandit, CLASS_TYPE_INVALID, 1, PACKAGE_INVALID);
+                AddLootToBandit(bandit, race, class);
                 banditLvl--;
             }
             string randomPCStr = GetLocalArrayString(OBJECT_SELF, "pcTarget",

@@ -4,7 +4,8 @@ void main()
     object getAwayLocation = GetNearestObjectByTag("hlf1_xvart_exit", OBJECT_SELF);
     if(GetTag(lastAttacker) == "xvart_raider") {
         AssignCommand(lastAttacker, ActionSpeakString("*Steals Corn*"));
-        CreateItemOnObject("corn", lastAttacker, 1);
+        object corn = CreateItemOnObject("corn", lastAttacker, 1);
+        SetDroppableFlag(corn, TRUE);
         AssignCommand(lastAttacker,
             ActionMoveToObject(getAwayLocation, TRUE, 0.0));
     }

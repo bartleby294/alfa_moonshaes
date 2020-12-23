@@ -40,8 +40,8 @@ void main()
     }
 
     // Drop a scalp
-    CreateObject(OBJECT_TYPE_ITEM, "banditscalp",
-        GetLocation(OBJECT_SELF), FALSE, "banditscalp");
+    //CreateObject(OBJECT_TYPE_ITEM, "banditscalp",
+    //    GetLocation(OBJECT_SELF), FALSE, "banditscalp");
 
     // If we are set to, don't fire this script at all
     if(GetAIInteger(I_AM_TOTALLY_DEAD)) return;
