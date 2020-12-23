@@ -554,7 +554,7 @@ void main()
     }
 
     int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
-                               "BANDIT_ACTIVITY_LEVEL_2147440");
+                               "BANDIT_ACTIVITY_LEVEL_2147440") + 1;
 
     bandXPAllocation = bandXPAllocation * (banditActivityLevel/100);
     int attackChoice = DecideIfAttack(totalEstPCWealth, totalPCLvls, totalPCs,
@@ -574,7 +574,7 @@ void main()
         writeToLog("We are Attacking!");
         vector pcVector = GetPosition(richestPC);
         float pcAngle = GetFacing(richestPC);
-        writeToLog("PC Angle: " + FloatToString(pcAngle));
+        //writeToLog("PC Angle: " + FloatToString(pcAngle));
         setAttackState(oArea, 4);
         int attackYelled = 0;
         while (bandXPAllocation > 0) {
