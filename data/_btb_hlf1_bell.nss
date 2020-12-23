@@ -16,6 +16,7 @@
 */
 
 #include "nwnx_time"
+#include "alfa_ms_config"
 
 int isObjectInArea(string objTag) {
     int objectFound = 0;
@@ -267,7 +268,7 @@ void main()
     // If enough time has elapsed start a raid.
     object oArea = GetArea(OBJECT_SELF);
     int lastRaid = GetCampaignInt("XVART_RAIDS", "XVART_RAID_" + GetTag(oArea));
-    if(NWNX_Time_GetTimeStamp() - lastRaid > 600) {
+    if(NWNX_Time_GetTimeStamp() - lastRaid > FARM_DELAY_SECONDS) {
         SetCampaignInt("XVART_RAIDS", "XVART_RAID_" + GetTag(oArea),
             NWNX_Time_GetTimeStamp());
         startRaid();

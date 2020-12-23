@@ -1,6 +1,7 @@
 #include "alfa_wealth_inc"
 #include "nwnx_time"
 #include "nw_o0_itemmaker"
+#include "alfa_ms_config"
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
@@ -287,8 +288,8 @@ int GetCurrentBanditAttackState(object oArea){
         || curBanditAttackState == 4) {
         int lastStateDateTime = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
                                     "BANDIT_STATE_TIME_" + GetTag(oArea));
-        int hardResetTime = 200;// was 600
-        int softResetTime = 60; // was 300
+        int hardResetTime = BANDIT_DELAY_SECONDS;
+        int softResetTime = BANDIT_SOFT_DELAY_SECONDS;
         int curDateTime = NWNX_Time_GetTimeStamp();
         int elapsedTime = curDateTime - lastStateDateTime;
 

@@ -11,6 +11,8 @@
 
 /* Includes */
 //#include "alfa_include"
+#include "nwnx_time"
+#include "alfa_ms_config"
 
 int isObjectInArea(string objTag) {
     int objectFound = 0;
@@ -49,8 +51,10 @@ void main()
 
 
   /**************** Add Custom Code Here ***************/
+object oArea = GetArea(OBJECT_SELF);
   object xvartBell = GetObjectByTag("hlf_farm1_raid_bell");
-  if(GetLocalInt(xvartBell, "planting_corn") == 0) {
+  int lastRaid = GetCampaignInt("XVART_RAIDS", "XVART_RAID_" + GetTag(oArea));
+  if(NWNX_Time_GetTimeStamp() - lastRaid > FARM_DELAY_SECONDS) {
         SetLocalInt(xvartBell, "planting_corn", 1);
         if(GetLocalInt(xvartBell, "xvart_raids_in_progress") == 0) {
             plantCorn();
