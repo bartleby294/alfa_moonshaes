@@ -1,6 +1,22 @@
 #include "nw_i0_plot"
 #include "_btb_util"
 
+int getXpToGive(int lvl) {
+  switch (lvl) {
+    case 1:
+      return 20;
+    case 2:
+      return 10;
+    case 3:
+      return 5;
+    case 4:
+      return 2;
+    default:
+      return 1;
+  }
+  return 1;
+}
+
 void main() {
   object oPC = GetPCSpeaker();
   AddJournalQuestEntry("k010", 1, oPC, FALSE, FALSE, FALSE);
@@ -14,13 +30,8 @@ void main() {
   for (i = 0; i < (Corn); i++) {
     GiveGoldToCreature(oPC, 5);
     WriteTimestampedLogEntry("PC LVL: " + IntToString(getXPForLevel(GetXP(oPC))));
-    switch (getXPForLevel(GetXP(oPC))) {
-        case 1: GiveXPToCreature(oPC, 20);
-        case 2: GiveXPToCreature(oPC, 10);
-        case 3: GiveGoldToCreature(oPC, 5);
-        case 4: GiveXPToCreature(oPC, 2);
-        default: GiveXPToCreature(oPC, 1);
-    }
+    WriteTimestampedLogEntry("XP: " + IntToString(getXpToGive(getXPForLevel(GetXP(oPC)))));
+    GiveXPToCreature(oPC, getXpToGive(getXPForLevel(GetXP(oPC))));
   }
 
   // Remove items from the player's inventory
