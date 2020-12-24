@@ -30,16 +30,10 @@ int isObjectInArea(string objTag) {
     return objectFound;
 }
 
-void MovementDec() {
-    effect eSpeedDown = EffectMovementSpeedDecrease(50);
-    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedDown, OBJECT_SELF);
-}
-
-void MovementReset() {
+void MovementReset(object farmer) {
     effect eSpeedUp = EffectMovementSpeedIncrease(99);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedUp, OBJECT_SELF);
 }
-
 
 void YellRunAway(object farmer) {
     if(GetTag(farmer) == "clav") {
@@ -54,11 +48,10 @@ void YellRunAway(object farmer) {
 void makeFarmerRunAway(object farmer) {
     if(GetLocalInt(farmer, "walking") == 1){
         SetLocalInt(farmer, "walking", 0);
-        MovementReset();
+        MovementReset(farmer);
     }
     SetLocalInt(OBJECT_SELF, "perilalert", 1);
     YellRunAway(farmer);
-    AssignCommand(farmer, ClearAllActions());
     AssignCommand(farmer,
         ActionMoveToObject(GetObjectByTag("corn_farmer_despawn"), TRUE));
 }

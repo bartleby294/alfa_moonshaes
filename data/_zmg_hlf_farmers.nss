@@ -46,7 +46,6 @@ void main()
             MovementReset();
         }
         YellRunAway();
-        ClearAllActions();
         AssignCommand(OBJECT_SELF,
             ActionMoveToObject(GetObjectByTag("corn_farmer_despawn"), TRUE));
     }
