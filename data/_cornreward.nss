@@ -9,14 +9,17 @@ void main() {
   int Corn = GetNumItems(oPC, "corn");
   int i;
 
+  WriteTimestampedLogEntry("Corn Count: " + IntToString(Corn));
+
   for (i = 0; i < (Corn); i++) {
     GiveGoldToCreature(oPC, 5);
+    WriteTimestampedLogEntry("PC LVL: " + IntToString(getXPForLevel(GetXP(oPC))));
     switch (getXPForLevel(GetXP(oPC))) {
-        case 1:	GiveXPToCreature(oPC, 20);
+        case 1: GiveXPToCreature(oPC, 20);
         case 2: GiveXPToCreature(oPC, 10);
-        case 3:	GiveGoldToCreature(oPC, 5);
-        case 4:	GiveXPToCreature(oPC, 2);
-        default:	GiveXPToCreature(oPC, 1);
+        case 3: GiveGoldToCreature(oPC, 5);
+        case 4: GiveXPToCreature(oPC, 2);
+        default: GiveXPToCreature(oPC, 1);
     }
   }
 
