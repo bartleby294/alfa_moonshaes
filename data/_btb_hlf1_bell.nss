@@ -43,6 +43,8 @@ void YellRunAway(object farmer) {
         AssignCommand(farmer, SpeakString("Bloody things are back!"));
     } else if(GetTag(farmer) == "rolling") {
         AssignCommand(farmer, SpeakString("Hide, dammit, Hide!"));
+    } else if(GetTag(farmer) == "mitchan") {
+        AssignCommand(farmer, SpeakString("Run for the barn!"));
     }
 }
 
@@ -302,6 +304,7 @@ void main()
         makeFarmerRunAway(GetObjectByTag("clav"));
         makeFarmerRunAway(GetObjectByTag("jart"));
         makeFarmerRunAway(GetObjectByTag("rolling"));
+        makeFarmerRunAway(GetObjectByTag("mitchan"));
         startRaid();
     }
 }

@@ -62,6 +62,11 @@ void spawnFarmers() {
                 GetLocation(wp), FALSE, "rolling");
         }
     }
+    object wpMitch = GetWaypointByTag("mitchan_spawn");
+    if(GetObjectByTag("mitchan") == OBJECT_INVALID) {
+       CreateObject(OBJECT_TYPE_CREATURE, "mitchan",
+        GetLocation(wpMitch), FALSE, "mitchan");
+    }
 }
 
 void main()
