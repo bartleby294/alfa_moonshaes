@@ -138,26 +138,26 @@ int getXPTableValueCore(int charLvl) {
 int getLevelXP(int charLvl) {
     switch (charLvl)
     {
-        case 1:	return 0;
+        case 1: return 0;
         case 2: return 1000;
-        case 3:	return	3000;
-        case 4:	return	6000;
-        case 5:	return	10000;
-        case 6:	return	15000;
-        case 7:	return 21000;
-        case 8:	return	28000;
-        case 9:	return	36000;
-        case 10:	return	45000;
-        case 11:	return	55000;
-        case 12:	return	66000;
-        case 13:	return	78000;
-        case 14:	return	91000;
-        case 15:	return	105000;
-        case 16:	return	120000;
-        case 17:	return	136000;
-        case 18:	return	153000;
-        case 19:	return	171000;
-        case 20:	return	190000;
+        case 3: return  3000;
+        case 4: return  6000;
+        case 5: return  10000;
+        case 6: return  15000;
+        case 7: return 21000;
+        case 8: return  28000;
+        case 9: return  36000;
+        case 10:    return  45000;
+        case 11:    return  55000;
+        case 12:    return  66000;
+        case 13:    return  78000;
+        case 14:    return  91000;
+        case 15:    return  105000;
+        case 16:    return  120000;
+        case 17:    return  136000;
+        case 18:    return  153000;
+        case 19:    return  171000;
+        case 20:    return  190000;
         default: return 200000;
     }
 
@@ -187,8 +187,6 @@ int getXPForLevel(int xp) {
     return 1;
 }
 
-/** This must be seeded with GetFirstPCInArea()
- */
 object GetFirstPCInArea(object oAreaTest)
 {
     object oPCTestValid = GetFirstPC();

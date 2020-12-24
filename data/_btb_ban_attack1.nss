@@ -6,7 +6,7 @@
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
-    WriteTimestampedLogEntry(oAreaName + ": " +  str);
+    WriteTimestampedLogEntry("Bandit Ambush: " + oAreaName + ": " +  str);
 }
 
 /**
@@ -58,11 +58,15 @@ int DecideIfAttack(int totalEstPCWealth, int totalPCLvls, int totalPCs,
     writeToLog("lvlDecisionPct: " + IntToString(lvlDecisionPct));
     writeToLog("totalDecisionPct: " + IntToString(totalDecisionPct));
 
-    int decisionNum = Random(100) + 1;
-    writeToLog("decisionNum: " + IntToString(decisionNum));
-    // If we are with in our decision percentage we are good to attack.
-    if(decisionNum <= totalDecisionPct) {
-        return 1;
+    // Do I think i can win? If my total strength is 50% what theirs is maybe.
+    if(lvlDecisionPct > 50) {
+        int decisionNum = Random(100) + 1;
+        writeToLog("I think we can win.");
+        writeToLog("decisionNum: " + IntToString(decisionNum));
+        // If we are with in our decision percentage we are good to attack.
+        if(decisionNum <= totalDecisionPct) {
+            return 1;
+        }
     }
 
     return 0;
@@ -310,6 +314,9 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
   */
 void AddLootToBandit(object bandit, string race, string class) {
     GiveGoldToCreature(bandit, Random(20));
+
+    //object loot = CreateItemOnObject("some_tag", bandit, 1);
+    //SetDroppableFlag(loot, TRUE);
 }
 
 /**
@@ -486,6 +493,8 @@ void main()
             // Spawn the bandit.
             object bandit = CreateObject(OBJECT_TYPE_CREATURE, resref,
                                 spawnLoc, FALSE, resref);
+            object bandRing = CreateItemOnObject("CopperBanditRing", bandit, 1);
+            SetDroppableFlag(bandRing, TRUE);
             // Level the bandit up.
             while(banditLvl > 1) {
                 LevelUpHenchman(bandit, CLASS_TYPE_INVALID, 1, PACKAGE_INVALID);

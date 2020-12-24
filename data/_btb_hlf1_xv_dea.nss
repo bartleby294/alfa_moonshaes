@@ -28,16 +28,22 @@
 // we don't execute the script, else we do. :-P
 void DeathCheck(int iDeaths);
 
+void writeToLog(string str) {
+    string oAreaName = GetName(GetArea(OBJECT_SELF));
+    WriteTimestampedLogEntry("Xvart Corn Raid: " + oAreaName + ": " +  str);
+}
+
 void main()
 {
-    //object invItem = GetFirstItemInInventory(OBJECT_SELF);
-    //while(invItem != OBJECT_INVALID) {
-    //    if(GetTag(invItem) == "corn"){
-    //        CreateObject(OBJECT_TYPE_ITEM, "corn", GetLocation(OBJECT_SELF), FALSE, "corn");
-    //        break;
-    //    }
-    //    invItem = GetNextItemInInventory(OBJECT_SELF);
-    //}
+    object invItem = GetFirstItemInInventory(OBJECT_SELF);
+    while(invItem != OBJECT_INVALID) {
+        if(GetTag(invItem) == "corn"){
+            writeToLog(GetPCPlayerName(GetLastKiller())
+                + " killed a xvart with corn");
+            break;
+        }
+        invItem = GetNextItemInInventory(OBJECT_SELF);
+    }
 
     // If we are set to, don't fire this script at all
     if(GetAIInteger(I_AM_TOTALLY_DEAD)) return;

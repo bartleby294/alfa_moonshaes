@@ -17,6 +17,12 @@
 
 #include "nwnx_time"
 #include "alfa_ms_config"
+#include "_btb_util"
+
+void writeToLog(string str) {
+    string oAreaName = GetName(GetArea(OBJECT_SELF));
+    WriteTimestampedLogEntry("Xvart Corn Raid: " + oAreaName + ": " +  str);
+}
 
 int isObjectInArea(string objTag) {
     int objectFound = 0;
@@ -244,10 +250,10 @@ void spotListenChecks(object curXvartRaidWP, float total_delay) {
 }
 
 void msgToAllPCsInArea(float delay, string message) {
-    object oPC = GetFirstPC();
+    object oPC = GetFirstPCInArea(GetArea(OBJECT_SELF));
     while (oPC != OBJECT_INVALID) {
         DelayCommand(delay, SendMessageToPC(oPC, message));
-        oPC = GetNextPC();
+        oPC = GetNextPCInArea(GetArea(OBJECT_SELF));
     }
 }
 
@@ -264,6 +270,15 @@ void rewardCorn() {
     }
     CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 0),
         cornCnt * 2, "corn");
+    writeToLog(IntToString(cornCnt) + " corn was saved!");
+}
+
+void logPlayers() {
+    object oPC = GetFirstPCInArea(GetArea(OBJECT_SELF));
+    while (oPC != OBJECT_INVALID) {
+        writeToLog(GetPCPlayerName(oPC) + " is defending the farm.");
+        oPC = GetNextPCInArea(GetArea(OBJECT_SELF));
+    }
 }
 
 void startRaid() {
