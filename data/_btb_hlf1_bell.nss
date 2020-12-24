@@ -56,6 +56,7 @@ void makeFarmerRunAway(object farmer) {
         SetLocalInt(farmer, "walking", 0);
         MovementReset();
     }
+    SetLocalInt(OBJECT_SELF, "perilalert", 1);
     YellRunAway(farmer);
     AssignCommand(farmer, ClearAllActions());
     AssignCommand(farmer,
