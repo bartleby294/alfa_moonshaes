@@ -33,7 +33,7 @@ int isObjectInArea(string objTag) {
 void MovementReset(object farmer) {
     WriteTimestampedLogEntry("BELL Resetting Movement");
     effect eSpeedUp = EffectMovementSpeedIncrease(98);
-    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedUp, OBJECT_SELF);
+    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedUp, farmer);
 }
 
 void YellRunAway(object farmer) {
