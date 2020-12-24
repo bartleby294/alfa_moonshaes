@@ -233,7 +233,7 @@ void spotListenChecks(object curXvartRaidWP, float total_delay) {
             }
             if(GetTag(curXvartRaidWP) == "hlf1_xvart_5") {
                 DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
-                    listen_spot_str + " north west."));
+                    listen_spot_str + " north east."));
             }
         } else {
             DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
