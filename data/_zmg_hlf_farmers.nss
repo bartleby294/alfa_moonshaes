@@ -21,11 +21,13 @@ void RandomlyWalkToCorn(){
 }
 
 void MovementDec() {
+    WriteTimestampedLogEntry("FARMER slowing Movement");
     effect eSpeedDown = EffectMovementSpeedDecrease(50);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedDown, OBJECT_SELF);
 }
 
 void MovementReset() {
+    WriteTimestampedLogEntry("FARMER Resetting Movement");
     effect eSpeedUp = EffectMovementSpeedIncrease(99);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedUp, OBJECT_SELF);
 }
@@ -45,6 +47,7 @@ void main()
             SetLocalInt(OBJECT_SELF, "walking", 0);
             MovementReset();
         }
+        AssignCommand(OBJECT_SELF, ClearAllActions());
         YellRunAway();
         AssignCommand(OBJECT_SELF,
             ActionMoveToObject(GetObjectByTag("corn_farmer_despawn"), TRUE));

@@ -31,7 +31,8 @@ int isObjectInArea(string objTag) {
 }
 
 void MovementReset(object farmer) {
-    effect eSpeedUp = EffectMovementSpeedIncrease(99);
+    WriteTimestampedLogEntry("BELL Resetting Movement");
+    effect eSpeedUp = EffectMovementSpeedIncrease(98);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedUp, OBJECT_SELF);
 }
 
@@ -51,6 +52,7 @@ void makeFarmerRunAway(object farmer) {
         MovementReset(farmer);
     }
     SetLocalInt(OBJECT_SELF, "perilalert", 1);
+    AssignCommand(farmer, ClearAllActions());
     YellRunAway(farmer);
     AssignCommand(farmer,
         ActionMoveToObject(GetObjectByTag("corn_farmer_despawn"), TRUE));
