@@ -1,6 +1,6 @@
 void main()
 {
-    if(GetTag(OBJECT_SELF) == "Clav")
+    if(GetTag(OBJECT_SELF) == "clav")
     {
         if(GetLocalInt(OBJECT_SELF, "convolinenum") == 0)
             {
@@ -21,7 +21,7 @@ void main()
             }
     }
 
-    else if(GetTag(OBJECT_SELF) == "Jart")
+    else if(GetTag(OBJECT_SELF) == "jart")
     {
         if(GetLocalInt(OBJECT_SELF, "convolinenum")==0)
             {
@@ -43,7 +43,7 @@ void main()
     }
 
 
-    else if(GetTag(OBJECT_SELF) == "Rolling")
+    else if(GetTag(OBJECT_SELF) == "rolling")
     {
         if(GetLocalInt(OBJECT_SELF, "convolinenum")==0)
             {
