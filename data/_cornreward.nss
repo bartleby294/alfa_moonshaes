@@ -29,15 +29,15 @@ void main() {
 
   for (i = 0; i < (Corn); i++) {
     GiveGoldToCreature(oPC, 5);
-    WriteTimestampedLogEntry("PC LVL: " + IntToString(getXPForLevel(GetXP(oPC))));
-    WriteTimestampedLogEntry("XP: " + IntToString(getXpToGive(getXPForLevel(GetXP(oPC)))));
     GiveXPToCreature(oPC, getXpToGive(getXPForLevel(GetXP(oPC))));
   }
 
-  // Remove items from the player's inventory
-  object oItemToTake = GetItemPossessedBy(oPC, "corn");
-  while(GetIsObjectValid(oItemToTake)) {
-    DestroyObject(oItemToTake);
-    oItemToTake = GetItemPossessedBy(oPC, "corn");
+  // Remove all the corn
+  object curItem = GetFirstItemInInventory(oPC);
+  while(curItem != OBJECT_INVALID) {
+    if(GetTag(curItem) == "corn"){
+       DestroyObject(curItem);
+    }
+    curItem = GetNextItemInInventory(oPC);
   }
 }
