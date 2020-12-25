@@ -319,6 +319,23 @@ void AddLootToBandit(object bandit, string race, string class) {
     //SetDroppableFlag(loot, TRUE);
 }
 
+string getBanditPrefix(int banditLvl){
+    switch (banditLvl)
+    {
+        case 1:
+             return "";
+        case 2:
+             return "Seasoned ";
+        case 3:
+             return "Veteran ";
+        case 4:
+             return "Elite";
+        case 5:
+             return "Chief";
+    }
+    return "Boss ";
+}
+
 /**
  * Note that we have some exit points I'm not wild about but better to save
  * CPU cycles than make things 100% pretty.
@@ -496,11 +513,14 @@ void main()
             object bandRing = CreateItemOnObject("CopperBanditRing", bandit, 1);
             SetDroppableFlag(bandRing, TRUE);
             // Level the bandit up.
-            while(banditLvl > 1) {
+            int curBanditLvl = 1;
+            while(curBanditLvl < banditLvl) {
                 LevelUpHenchman(bandit, CLASS_TYPE_INVALID, 1, PACKAGE_INVALID);
                 AddLootToBandit(bandit, race, class);
-                banditLvl--;
+                curBanditLvl++;
             }
+            // Add prefix to name based on lvl.
+            SetName(bandit, getBanditPrefix(banditLvl) + GetName(bandit));
             string randomPCStr = GetLocalArrayString(OBJECT_SELF, "pcTarget",
                                                    Random(totalPCs));
             object randomPC = StringToObject(randomPCStr);
