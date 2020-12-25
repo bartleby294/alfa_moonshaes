@@ -1,130 +1,12 @@
 #include "alfa_wealth_inc"
 #include "nwnx_time"
 #include "nw_o0_itemmaker"
+#include "alfa_ms_config"
+#include "_btb_util"
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
-    WriteTimestampedLogEntry(oAreaName + ": " +  str);
-}
-
-object GetFirstPCInArea(object oAreaTest)
-{
-    object oPCTestValid = GetFirstPC();
-    while(GetArea(oPCTestValid)!=oAreaTest&&GetIsObjectValid(oPCTestValid))
-        oPCTestValid = GetNextPC();
-    return(oPCTestValid);
-}
-
-object GetNextPCInArea(object oAreaTest)
-{
-    object oPCTestValid = GetNextPC();
-    while(GetArea(oPCTestValid)!=oAreaTest&&GetIsObjectValid(oPCTestValid))
-        oPCTestValid = GetNextPC();
-    return(oPCTestValid);
-}
-
-/**
- * This may need some adjustment right now im using the standard dnd suggested
- * wealth values to start but may need adjustment for alfa evntually.
-*/
-int getWealthTableValue(int charLvl) {
-    switch (charLvl)
-    {
-        case 1:
-             return 500;
-        case 2:
-             return 1000;
-        case 3:
-             return 3000;
-        case 4:
-             return 6000;
-        case 5:
-             return 10000;
-        case 6:
-             return 15000;
-        case 7:
-             return 21000;
-        case 8:
-             return 28000;
-        case 9:
-             return 36000;
-        case 10:
-             return 45000;
-        case 11:
-             return 55000;
-        case 12:
-             return 66000;
-        case 13:
-             return 78000;
-        case 14:
-             return 91000;
-        case 15:
-             return 105000;
-        case 16:
-             return 120000;
-        case 17:
-             return 136000;
-        case 18:
-             return 153000;
-        case 19:
-             return 171000;
-        case 20:
-             return 190000;
-        default:
-             return 1;
-    }
-
-    return 200000;
-}
-
-int getXPTableValue(int charLvl) {
-    switch (charLvl)
-    {
-        case 1:
-             return 300;
-        case 2:
-             return 900;
-        case 3:
-             return 2700;
-        case 4:
-             return 5400;
-        case 5:
-             return 9000;
-        case 6:
-             return 13000;
-        case 7:
-             return 19000;
-        case 8:
-             return 27000;
-        case 9:
-             return 36000;
-        case 10:
-             return 49000;
-        case 11:
-             return 66000;
-        case 12:
-             return 88000;
-        case 13:
-             return 110000;
-        case 14:
-             return 150000;
-        case 15:
-             return 200000;
-        case 16:
-             return 260000;
-        case 17:
-             return 340000;
-        case 18:
-             return 440000;
-        case 19:
-             return 580000;
-        case 20:
-             return 760000;
-        default:
-             return 1;
-    }
-
-    return 1;
+    WriteTimestampedLogEntry("Bandit Ambush: " + oAreaName + ": " +  str);
 }
 
 /**
@@ -165,7 +47,7 @@ int DecideIfAttack(int totalEstPCWealth, int totalPCLvls, int totalPCs,
 
     // Decide if the fight will be worth the trouble.
     int normalWealth = getWealthTableValue(estAvgPCLvl);
-       int estTotalPartyXP = getXPTableValue(estAvgPCLvl) * totalPCs;
+       int estTotalPartyXP = getXPTableValueCore(estAvgPCLvl) * totalPCs;
 
     int wealthDecisionPct = (estAvgPCWealth * 100) / normalWealth;
     int lvlDecisionPct =  (bandXPAllocation * 100) / estTotalPartyXP;
@@ -176,11 +58,15 @@ int DecideIfAttack(int totalEstPCWealth, int totalPCLvls, int totalPCs,
     writeToLog("lvlDecisionPct: " + IntToString(lvlDecisionPct));
     writeToLog("totalDecisionPct: " + IntToString(totalDecisionPct));
 
-    int decisionNum = Random(100) + 1;
-    writeToLog("decisionNum: " + IntToString(decisionNum));
-    // If we are with in our decision percentage we are good to attack.
-    if(decisionNum <= totalDecisionPct) {
-        return 1;
+    // Do I think i can win? If my total strength is 50% what theirs is maybe.
+    if(lvlDecisionPct > 50) {
+        int decisionNum = Random(100) + 1;
+        writeToLog("I think we can win.");
+        writeToLog("decisionNum: " + IntToString(decisionNum));
+        // If we are with in our decision percentage we are good to attack.
+        if(decisionNum <= totalDecisionPct) {
+            return 1;
+        }
     }
 
     return 0;
@@ -287,8 +173,8 @@ int GetCurrentBanditAttackState(object oArea){
         || curBanditAttackState == 4) {
         int lastStateDateTime = GetCampaignInt("BANDIT_ACTIVITY_LEVEL_2147440",
                                     "BANDIT_STATE_TIME_" + GetTag(oArea));
-        int hardResetTime = 200;// was 600
-        int softResetTime = 60; // was 300
+        int hardResetTime = BANDIT_HARD_DELAY_SECONDS;
+        int softResetTime = BANDIT_SOFT_DELAY_SECONDS;
         int curDateTime = NWNX_Time_GetTimeStamp();
         int elapsedTime = curDateTime - lastStateDateTime;
 
@@ -380,11 +266,11 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
             switch (Random(3) + 1)
             {
                 case 1:
-                     pcMsg = "test 1";
+                     pcMsg = "You see a group charge toward you.";
                 case 2:
-                     pcMsg = "test 1";
+                     pcMsg = "You see an arrow catch the light in the distance.";
                 case 3:
-                     pcMsg = "test 1";
+                     pcMsg = "You see a sword hilt catch the light.";
             }
         }
 
@@ -393,11 +279,11 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
             switch (Random(3) + 1)
             {
                 case 1:
-                     pcMsg = "test 1";
+                     pcMsg = "You hear some one yell 'Go!'.";
                 case 2:
-                     pcMsg = "test 1";
+                     pcMsg = "You hear a sword exiting its sheath.";
                 case 3:
-                     pcMsg = "test 1";
+                     pcMsg = "You hear an arrow loose.";
             }
         }
 
@@ -406,11 +292,11 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
             switch (Random(3) + 1)
             {
                 case 1:
-                     pcMsg = "test 1";
+                     pcMsg = "You see and hear an arrow loose in your direction.";
                 case 2:
-                     pcMsg = "test 1";
+                     pcMsg = "You hear some one yell 'Get em!' as you are ambushed.";
                 case 3:
-                     pcMsg = "test 1";
+                     pcMsg = "You see a sword hilt glint in the distance and hear a arrow loose.";
             }
         }
 
@@ -422,6 +308,32 @@ void pcSpotListenCheck(object curPC, int bandHide, int bandMoveSilently,
     if(GetStringLength(pcMsg) > 0) {
         SendMessageToPC(curPC, pcMsg);
     }
+}
+/** Right now we are just going to make everything the bandit has droppable and
+  * add some gold.  Later we will add more fun loot.
+  */
+void AddLootToBandit(object bandit, string race, string class) {
+    GiveGoldToCreature(bandit, Random(20));
+
+    //object loot = CreateItemOnObject("some_tag", bandit, 1);
+    //SetDroppableFlag(loot, TRUE);
+}
+
+string getBanditPrefix(int banditLvl){
+    switch (banditLvl)
+    {
+        case 1:
+             return "";
+        case 2:
+             return "Seasoned ";
+        case 3:
+             return "Veteran ";
+        case 4:
+             return "Elite";
+        case 5:
+             return "Chief";
+    }
+    return "Boss ";
 }
 
 /**
@@ -454,13 +366,14 @@ void main()
     int richestPCValue = 0;
     object curPC = GetFirstPCInArea(oArea);
 
-    int bandSpot = 4;
-    int bandListen = 5;
-    int bandAppraise = 2;
-    int bandHide = 4;
-    int bandMoveSilently = 4;
-    int bandSenseMotive = 3;
-    int bandXPAllocation=2500;
+    int bandSpot = 3;
+    int bandListen = 4;
+    int bandAppraise = 1;
+    int bandHide = 3;
+    int bandMoveSilently = 3;
+    int bandSenseMotive = 2;
+    int bandXPAllocation=1800;
+    int minLvl = 1;
 
     // Get what type of bandit party this is and set specifics for that party.
     // Default above is for bandit_look_sm
@@ -472,8 +385,16 @@ void main()
         bandMoveSilently = 4;
         bandSenseMotive = 3;
         bandXPAllocation=2500;
+        minLvl = 2;
     } else if(GetTag(OBJECT_SELF) == "bandit_look_lg") {
-
+        bandSpot = 6;
+        bandListen = 7;
+        bandAppraise = 4;
+        bandHide = 6;
+        bandMoveSilently = 6;
+        bandSenseMotive = 5;
+        bandXPAllocation=4500;
+        minLvl = 3;
     }
 
     /* Gather Party Information The Bandit Lookout Can See. */
@@ -541,7 +462,7 @@ void main()
     int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
                                "BANDIT_ACTIVITY_LEVEL_2147440");
 
-    bandXPAllocation = bandXPAllocation * (banditActivityLevel/100);
+    bandXPAllocation = bandXPAllocation * (banditActivityLevel/100) + 100;
     int attackChoice = DecideIfAttack(totalEstPCWealth, totalPCLvls, totalPCs,
                         bandSenseMotive, banditActivityLevel, bandXPAllocation);
 
@@ -559,7 +480,7 @@ void main()
         writeToLog("We are Attacking!");
         vector pcVector = GetPosition(richestPC);
         float pcAngle = GetFacing(richestPC);
-        writeToLog("PC Angle: " + FloatToString(pcAngle));
+        //writeToLog("PC Angle: " + FloatToString(pcAngle));
         setAttackState(oArea, 4);
         int attackYelled = 0;
         while (bandXPAllocation > 0) {
@@ -572,8 +493,8 @@ void main()
             } else {
                 // loop till we get a valid lvl pick.
                 while(banditLvl == 0) {
-                    int randCharLvl = Random(5) + 1;
-                    int randCharLvlXP = getXPTableValue(randCharLvl);
+                    int randCharLvl = Random(5) + minLvl;
+                    int randCharLvlXP = getXPTableValueCore(randCharLvl);
                     if(bandXPAllocation - randCharLvlXP > 0) {
                         banditLvl = randCharLvl;
                         bandXPAllocation -= randCharLvlXP;
@@ -581,17 +502,25 @@ void main()
                 }
             }
             // pick gender (will put in after the rest is tested)
-            string resref = pickRace() + pickClass() + "m_bandit_1";
+            string race = pickRace();
+            string class = pickClass();
+            string resref = race + class + "m_bandit_1";
             writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
             location spawnLoc = pickSpawnLoc(pcVector, pcAngle);
             // Spawn the bandit.
             object bandit = CreateObject(OBJECT_TYPE_CREATURE, resref,
                                 spawnLoc, FALSE, resref);
+            object bandRing = CreateItemOnObject("CopperBanditRing", bandit, 1);
+            SetDroppableFlag(bandRing, TRUE);
             // Level the bandit up.
-            while(banditLvl > 1) {
+            int curBanditLvl = 1;
+            while(curBanditLvl < banditLvl) {
                 LevelUpHenchman(bandit, CLASS_TYPE_INVALID, 1, PACKAGE_INVALID);
-                banditLvl--;
+                AddLootToBandit(bandit, race, class);
+                curBanditLvl++;
             }
+            // Add prefix to name based on lvl.
+            SetName(bandit, getBanditPrefix(banditLvl) + GetName(bandit));
             string randomPCStr = GetLocalArrayString(OBJECT_SELF, "pcTarget",
                                                    Random(totalPCs));
             object randomPC = StringToObject(randomPCStr);

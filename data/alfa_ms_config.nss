@@ -1,0 +1,3 @@
+const int FARM_DELAY_SECONDS = 600;
+const int BANDIT_HARD_DELAY_SECONDS = 200;// was 600
+const int BANDIT_SOFT_DELAY_SECONDS = 60; // was 300

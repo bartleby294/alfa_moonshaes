@@ -77,7 +77,7 @@ void ShoutBossShout(object oEnemy)
     if(GetSpawnInCondition(AI_FLAG_OTHER_COMBAT_BOSS_MONSTER_SHOUT, AI_OTHER_COMBAT_MASTER))
     {
         // Get the range (and default to 60.0 M)
-        float fRange = IntToFloat(GetBoundriedAIInteger(AI_BOSS_MONSTER_SHOUT_RANGE, i60, 370));
+        float fRange = IntToFloat(GetBoundriedAIInteger(AI_BOSS_MONSTER_SHOUT_RANGE, 60, 370));
         // We loop through nearest not-seen, not-heard allies and get them
         // to attack the person.
         int Cnt = i1;

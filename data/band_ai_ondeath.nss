@@ -30,6 +30,19 @@ void DeathCheck(int iDeaths);
 
 void main()
 {
+    // if you killed a bandit it goes down.
+    int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
+                                             "BANDIT_ACTIVITY_LEVEL_2147440");
+    if(banditActivityLevel - 1 > 0) {
+        SetCampaignInt("FACTION_ACTIVITY",
+                       "BANDIT_ACTIVITY_LEVEL_2147440",
+                       banditActivityLevel - 1);
+    }
+
+    // Drop a scalp
+    //CreateObject(OBJECT_TYPE_ITEM, "banditscalp",
+    //    GetLocation(OBJECT_SELF), FALSE, "banditscalp");
+
     // If we are set to, don't fire this script at all
     if(GetAIInteger(I_AM_TOTALLY_DEAD)) return;
 
@@ -54,7 +67,7 @@ void main()
         if(!GetLocalTimer(AI_TIMER_DEATH_EFFECT_DEATH))
         {
             // Don't apply effect death to self more then once per 2 seconds.
-            SetLocalTimer(AI_TIMER_DEATH_EFFECT_DEATH, f2);
+            SetLocalTimer(AI_TIMER_DEATH_EFFECT_DEATH, 2.0);
             // This should make the last killer us.
             ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectResurrection(), OBJECT_SELF);
             ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectDamage(GetMaxHitPoints()), OBJECT_SELF);
@@ -99,18 +112,18 @@ void main()
     int iDeathEffect = GetAIConstant(AI_DEATH_VISUAL_EFFECT);
 
     // Valid constants from 0 and up. Apply to our location (not to us, who will go!)
-    if(iDeathEffect >= i0)
+    if(iDeathEffect >= 0)
     {
         ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect(iDeathEffect), GetLocation(OBJECT_SELF));
     }
     // Default Commoner alignment changing. (If the commoner is not evil!)
-    if(GetLevelByClass(CLASS_TYPE_COMMONER) > i0 &&
+    if(GetLevelByClass(CLASS_TYPE_COMMONER) > 0 &&
        GetAlignmentGoodEvil(OBJECT_SELF) != ALIGNMENT_EVIL &&
       !GetSpawnInCondition(AI_FLAG_OTHER_NO_COMMONER_ALIGNMENT_CHANGE, AI_OTHER_MASTER))
     {
         if(GetIsPC(oKiller))
         {
-            AdjustAlignment(oKiller, ALIGNMENT_EVIL, i5);
+            AdjustAlignment(oKiller, ALIGNMENT_EVIL, 5);
         }
         else
         {
@@ -119,12 +132,12 @@ void main()
             object oMaster = GetMaster(oKiller);
             if(GetIsObjectValid(oMaster) && GetIsPC(oMaster))
             {
-                AdjustAlignment(oMaster, ALIGNMENT_EVIL, i5);
+                AdjustAlignment(oMaster, ALIGNMENT_EVIL, 5);
             }
         }
     }
     // Always shout when we are killed. Reactions - Morale penalty, and attack the killer.
-    AISpeakString(I_WAS_KILLED);
+    AISpeakString(AI_SHOUT_I_WAS_KILLED);
 
     // Speaks the set death speak, like "AGGGGGGGGGGGGGGGGGGG!! NOOOO!" for instance :-)
     SpeakArrayString(AI_TALK_ON_DEATH);
@@ -134,9 +147,9 @@ void main()
     {
         // We will actually dissapear after 30.0 seconds if not raised.
         int iTime = GetAIInteger(AI_CORPSE_DESTROY_TIME);
-        if(iTime == i0) // Error checking
+        if(iTime == 0) // Error checking
         {
-            iTime = i30;
+            iTime = 30;
         }
         // 64: "[Death] Checking corpse status in " + IntToString(iTime) + " [Killer] " + GetName(oKiller) + " [Times Died Now] " + IntToString(iDeathCounterNew)
         DebugActionSpeakByInt(64, oKiller, iTime, IntToString(iDeathCounterNew));

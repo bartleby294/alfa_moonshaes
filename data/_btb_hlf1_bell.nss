@@ -16,6 +16,13 @@
 */
 
 #include "nwnx_time"
+#include "alfa_ms_config"
+#include "_btb_util"
+
+void writeToLog(string str) {
+    string oAreaName = GetName(GetArea(OBJECT_SELF));
+    WriteTimestampedLogEntry("Xvart Corn Raid: " + oAreaName + ": " +  str);
+}
 
 int isObjectInArea(string objTag) {
     int objectFound = 0;
@@ -27,6 +34,36 @@ int isObjectInArea(string objTag) {
         obj = GetNextObjectInArea();
     }
     return objectFound;
+}
+
+void MovementReset(object farmer) {
+    WriteTimestampedLogEntry("BELL Resetting Movement");
+    effect eSpeedUp = EffectMovementSpeedIncrease(98);
+    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedUp, farmer);
+}
+
+void YellRunAway(object farmer) {
+    if(GetTag(farmer) == "clav") {
+        AssignCommand(farmer, SpeakString("Here they come, fleeee!"));
+    } else if(GetTag(farmer) == "jart") {
+        AssignCommand(farmer, SpeakString("Bloody things are back!"));
+    } else if(GetTag(farmer) == "rolling") {
+        AssignCommand(farmer, SpeakString("Hide, dammit, Hide!"));
+    } else if(GetTag(farmer) == "mitchan") {
+        AssignCommand(farmer, SpeakString("Run for the barn!"));
+    }
+}
+
+void makeFarmerRunAway(object farmer) {
+    if(GetLocalInt(farmer, "walking") == 1){
+        SetLocalInt(farmer, "walking", 0);
+        MovementReset(farmer);
+    }
+    SetLocalInt(farmer, "perilalert", 1);
+    AssignCommand(farmer, ClearAllActions());
+    YellRunAway(farmer);
+    AssignCommand(farmer,
+        ActionMoveToObject(GetObjectByTag("corn_farmer_despawn"), TRUE));
 }
 
 void createRaidingParty(object xvartRaidSpawnWP) {
@@ -202,7 +239,7 @@ void spotListenChecks(object curXvartRaidWP, float total_delay) {
             }
             if(GetTag(curXvartRaidWP) == "hlf1_xvart_5") {
                 DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
-                    listen_spot_str + " north west."));
+                    listen_spot_str + " north east."));
             }
         } else {
             DelayCommand(total_delay - 4.0, SendMessageToPC(oPC,
@@ -213,10 +250,10 @@ void spotListenChecks(object curXvartRaidWP, float total_delay) {
 }
 
 void msgToAllPCsInArea(float delay, string message) {
-    object oPC = GetFirstPC();
+    object oPC = GetFirstPCInArea(GetArea(OBJECT_SELF));
     while (oPC != OBJECT_INVALID) {
         DelayCommand(delay, SendMessageToPC(oPC, message));
-        oPC = GetNextPC();
+        oPC = GetNextPCInArea(GetArea(OBJECT_SELF));
     }
 }
 
@@ -233,6 +270,15 @@ void rewardCorn() {
     }
     CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 0),
         cornCnt * 2, "corn");
+    writeToLog(IntToString(cornCnt) + " corn was saved!");
+}
+
+void logPlayers() {
+    object oPC = GetFirstPCInArea(GetArea(OBJECT_SELF));
+    while (oPC != OBJECT_INVALID) {
+        writeToLog(GetPCPlayerName(oPC) + " is defending the farm.");
+        oPC = GetNextPCInArea(GetArea(OBJECT_SELF));
+    }
 }
 
 void startRaid() {
@@ -267,9 +313,13 @@ void main()
     // If enough time has elapsed start a raid.
     object oArea = GetArea(OBJECT_SELF);
     int lastRaid = GetCampaignInt("XVART_RAIDS", "XVART_RAID_" + GetTag(oArea));
-    if(NWNX_Time_GetTimeStamp() - lastRaid > 600) {
+    if(NWNX_Time_GetTimeStamp() - lastRaid > FARM_DELAY_SECONDS) {
         SetCampaignInt("XVART_RAIDS", "XVART_RAID_" + GetTag(oArea),
             NWNX_Time_GetTimeStamp());
+        makeFarmerRunAway(GetObjectByTag("clav"));
+        makeFarmerRunAway(GetObjectByTag("jart"));
+        makeFarmerRunAway(GetObjectByTag("rolling"));
+        makeFarmerRunAway(GetObjectByTag("mitchan"));
         startRaid();
     }
 }
