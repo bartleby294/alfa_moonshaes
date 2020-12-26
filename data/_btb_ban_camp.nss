@@ -540,13 +540,30 @@ void mainold()
  *  ===================================================================
  */
 
+int getRandomDimensionOffBorder(int dimension, int buffer) {
+    int doubleBuffer = 2 * buffer;
+    // if you ask for a buffer larger than your dimension its meaningless so
+    // we will just give you a random loction sorry.
+    if(dimension <= doubleBuffer) {
+        return Random(dimension);
+    }
+    return Random(dimension - doubleBuffer) + buffer;
+}
+
 void SetupCamp(object oArea) {
     SetCampaignInt("BANDIT_CAMP", GetTag(oArea) + "campSpawned", 1);
-    int areaHeight = GetAreaSize(AREA_HEIGHT, oArea);
-    int areaWidth = GetAreaSize(AREA_WIDTH, oArea);
+    // each area size if 10m so multiply by 10
+    int areaHeight = GetAreaSize(AREA_HEIGHT, oArea) * 10;
+    int areaWidth = GetAreaSize(AREA_WIDTH, oArea) * 10;
 
-    writeToLog("areaHeight: " + IntToString(areaHeight));
-    writeToLog("areaWidth: " + IntToString(areaWidth));
+    float randX = IntToFloat(getRandomDimensionOffBorder(areaHeight, 100));
+    float randY = IntToFloat(getRandomDimensionOffBorder(areaHeight, 100));
+    float randZ = GetGroundHeight(
+        Location(oArea, Vector(randX, randY, 0.0), 0.0));
+
+    writeToLog("randX: " + FloatToString(randX));
+    writeToLog("randY: " + FloatToString(randY));
+    writeToLog("randZ: " + FloatToString(randY));
 }
 
 void DestroyCamp(object oArea){
@@ -555,7 +572,7 @@ void DestroyCamp(object oArea){
 
 void main()
 {
-    writeToLog("BANDIT CAMP HEARTBEAT");
+    //writeToLog("BANDIT CAMP HEARTBEAT");
     object oArea = GetArea(OBJECT_SELF);
     int lastRaid = GetCampaignInt("BANDIT_CAMP_PC_LAST_OBSERVED",
         "BANDIT_CAMP_PC_LAST_OBSERVED" + GetTag(oArea));
