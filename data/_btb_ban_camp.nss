@@ -578,21 +578,26 @@ void main()
         "BANDIT_CAMP_PC_LAST_OBSERVED" + GetTag(oArea));
     // If camp is already spawned check if we should destroy it.
     if(GetCampaignInt("BANDIT_CAMP", GetTag(oArea) + "campSpawned") == 1) {
+        writeToLog("Camp is currently spawned.");
         // If no one is in the area check if we should destory camp.
         if(NWNX_Area_GetNumberOfPlayersInArea(oArea) == 0) {
+            writeToLog("No players in the area.");
             // If we there are no players in the area and haven't been in
             // the alloted time destory the camp.
             if(NWNX_Time_GetTimeStamp() - lastRaid
                 > BANDIT_CAMP_DESTORY_DELAY_SECONDS) {
+                writeToLog("No players in the area for time limit.");
                 DestroyCamp(oArea);
             }
         // If someone is in the area update the last seen time.
         } else {
+            writeToLog("Player found updating timestamp.");
             SetCampaignInt("BANDIT_CAMP_PC_LAST_OBSERVED",
                 "BANDIT_CAMP_PC_LAST_OBSERVED" + GetTag(oArea),
                 NWNX_Time_GetTimeStamp());
         }
     } else {
+        writeToLog("Setting up camp.");
         SetupCamp(oArea);
     }
 }
