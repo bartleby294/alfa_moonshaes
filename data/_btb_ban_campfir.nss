@@ -4,6 +4,7 @@
 #include "alfa_ms_config"
 #include "_btb_util"
 #include "nwnx_area"
+#include "nwnx_regex"
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
@@ -11,7 +12,14 @@ void writeToLog(string str) {
 }
 
 void DestroyCamp(object oArea){
-    DestroyObject(OBJECT_SELF, 1.0);
+    object obj = GetFirstObjectInArea(oArea);
+    while(GetIsObjectValid(obj)){
+        if(NWNX_Regex_Search(GetTag(obj), "banditcamp")){
+            writeToLog("|Destroying: " + GetTag(obj));
+            DestroyObject(obj, 1.0);
+        }
+        obj = GetNextObjectInArea();
+    }
 }
 
 void main()

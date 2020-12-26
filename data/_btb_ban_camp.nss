@@ -44,6 +44,14 @@ string pickStructureObject() {
     return "";
 }
 
+float getFacing(vector campfireVector, vector possibleStructureVector) {
+
+    vector direction = Vector(possibleStructureVector.x - campfireVector.x,
+                              possibleStructureVector.y - campfireVector.y,
+                              0.0);
+    return VectorToAngle(direction);
+}
+
 /** Create a random bandit strucuture.
  *
  */
@@ -70,7 +78,9 @@ int createBanditStructure(object oArea, location campfireLoc, int circles) {
     float z = GetGroundHeight(possibleStructureLoc);
 
     possibleStructureLoc = Location(oArea,
-        Vector(campfireVector.x + x, campfireVector.y+ y, z), 0.0);
+        Vector(campfireVector.x + x, campfireVector.y+ y, z),
+            getFacing(campfireVector,
+                GetPositionFromLocation(possibleStructureLoc)));
 
     // If we dont have enough room dont spawn and try again.
     object nearestObj = GetNearestObjectToLocation(OBJECT_TYPE_PLACEABLE,
