@@ -555,6 +555,7 @@ void DestroyCamp(object oArea){
 
 void main()
 {
+    writeToLog("BANDIT CAMP HEARTBEAT");
     object oArea = GetArea(OBJECT_SELF);
     int lastRaid = GetCampaignInt("BANDIT_CAMP_PC_LAST_OBSERVED",
         "BANDIT_CAMP_PC_LAST_OBSERVED" + GetTag(oArea));
