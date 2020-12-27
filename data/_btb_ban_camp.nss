@@ -91,7 +91,7 @@ int IsHeightWrong(location possibleStructureLoc){
  *
  */
 int createBanditStructure(object oArea, location campfireLoc, int circles) {
-    int radius = 5 * Random(circles) + 1;
+    int radius = 5 * (Random(circles) + 1);
     int radSqr = radius * radius;
     int xsqr = Random(radSqr);
     int ysqr = radSqr - xsqr;
