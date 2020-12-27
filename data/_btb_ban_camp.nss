@@ -21,7 +21,7 @@ int getRandomDimensionOffBorder(int dimension, int buffer) {
 }
 
 string pickStructureObject() {
-    switch(Random(8) + 1)
+    switch(Random(11) + 1)
     {
         case 1:
             return "banditcampbed1";
@@ -38,6 +38,12 @@ string pickStructureObject() {
         case 7:
             return "banditcamptent3";
         case 8:
+            return "banditcamptent1";
+        case 9:
+            return "banditcamptent2";
+        case 10:
+            return "banditcamptent3";
+        case 11:
             return "banditcampwood1";
     }
 
