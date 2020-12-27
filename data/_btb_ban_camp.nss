@@ -121,7 +121,7 @@ int createBanditStructure(object oArea, location campfireLoc, int circles) {
     object nearestObj = GetNearestObjectToLocation(OBJECT_TYPE_PLACEABLE,
         possibleStructureLoc);
     if(GetDistanceBetweenLocations(GetLocation(nearestObj),
-        possibleStructureLoc) < 2.5) {
+        possibleStructureLoc) < 2.0) {
         writeToLog("Too close.");
         return 0;
     }
@@ -157,11 +157,12 @@ void SetupCamp(object oArea, int maxStructures, int minStructures, int circles){
     CreateObject(OBJECT_TYPE_PLACEABLE, "banditcampfire1", campfireLoc,
         FALSE, "banditcampfire1");
 
+    int cnt = 0;
     int structureCnt = Random(maxStructures - minStructures) + minStructures;
-
-    while(structureCnt > 0) {
+    while(structureCnt > 0 && cnt < 50) {
         structureCnt = structureCnt
             - createBanditStructure(oArea, campfireLoc, circles);
+        cnt++;
     }
 }
 
