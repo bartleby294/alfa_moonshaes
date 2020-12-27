@@ -1,3 +1,12 @@
+/**
+ * Why doesnt this already exist?
+ */
+float absFloat(float value) {
+    if(value < 0.0) {
+        return value * -1.0;
+    }
+    return value;
+}
 
 /** Given a creature and a tag return if it has at least one matching item in
  *  its inventory.  Return 1 for true 0 for false.

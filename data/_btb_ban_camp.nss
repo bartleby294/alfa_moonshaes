@@ -52,11 +52,46 @@ float getFacing(vector campfireVector, vector possibleStructureVector) {
     return VectorToAngle(direction);
 }
 
+int IsHeightWrong(location possibleStructureLoc){
+    vector possibleStructureVec = GetPositionFromLocation(possibleStructureLoc);
+    object oArea = GetAreaFromLocation(possibleStructureLoc);
+
+    float negx = GetGroundHeight(Location(oArea,
+                Vector(possibleStructureVec.x - 1.0,
+                        possibleStructureVec.y, 0.0), 0.0));
+
+    float negy = GetGroundHeight(Location(oArea,
+                Vector(possibleStructureVec.x,
+                        possibleStructureVec.y - 1.0, 0.0), 0.0));
+
+    float posx = GetGroundHeight(Location(oArea,
+            Vector(possibleStructureVec.x + 1.0,
+                    possibleStructureVec.y, 0.0), 0.0));
+
+    float posy = GetGroundHeight(Location(oArea,
+                Vector(possibleStructureVec.x,
+                        possibleStructureVec.y + 1.0, 0.0), 0.0));
+    // GetGroundHeight returns -6.0 for invalid locations.
+    if(negx == -6.0 || negx == -6.0 || negx == -6.0 ||negx == -6.0) {
+        return 1;
+    }
+
+    // if there is too much of a difference in height look for some where else.
+    if(absFloat(possibleStructureVec.z - negx) > 1.0
+        || absFloat(possibleStructureVec.z - negy) > 1.0
+        || absFloat(possibleStructureVec.z - posx) > 1.0
+        || absFloat(possibleStructureVec.z - posy) > 1.0) {
+            return 1;
+        }
+
+    return 0;
+}
+
 /** Create a random bandit strucuture.
  *
  */
 int createBanditStructure(object oArea, location campfireLoc, int circles) {
-    int radius = 5 * circles;
+    int radius = 5 * Random(circles) + 1;
     int radSqr = radius * radius;
     int xsqr = Random(radSqr);
     int ysqr = radSqr - xsqr;
@@ -86,8 +121,13 @@ int createBanditStructure(object oArea, location campfireLoc, int circles) {
     object nearestObj = GetNearestObjectToLocation(OBJECT_TYPE_PLACEABLE,
         possibleStructureLoc);
     if(GetDistanceBetweenLocations(GetLocation(nearestObj),
-        possibleStructureLoc) < 2.0) {
+        possibleStructureLoc) < 2.5) {
         writeToLog("Too close.");
+        return 0;
+    }
+
+    if(IsHeightWrong(possibleStructureLoc)) {
+        writeToLog("Height problem at location.");
         return 0;
     }
 
