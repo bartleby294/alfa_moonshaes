@@ -61,7 +61,7 @@ location getNextWaypoint(object oArea, location campfireLoc,
         randFloat = (Random(4) + 1)/4.0;
         SetLocalFloat(OBJECT_SELF, "randFloat", randFloat);
     }
-    float radius = 5 * (radiusBase + randFloat);
+    float radius = (5 * radiusBase) + randFloat;
     float direction = GetLocalFloat(OBJECT_SELF, "direction");
     string uuid = GetLocalString(OBJECT_SELF, "uuid");
     theta = GetLocalFloat(OBJECT_SELF, "theta");
@@ -78,7 +78,7 @@ location getNextWaypoint(object oArea, location campfireLoc,
         }
     }
 
-    theta = theta + (direction * (50.0/radiusBase));
+    theta = theta + (direction * (60.0/radiusBase));
     if(theta > 360.0) {
         theta = theta - 360;
     }
