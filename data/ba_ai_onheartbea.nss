@@ -54,7 +54,8 @@ void writeToLog(string str) {
  */
 location getNextWaypoint(object oArea, location campfireLoc,
                               int radiusBase) {
-    int radius = 5 * radiusBase;
+    float randFloat = Random(4)/4.0;
+    float radius = 5 * (radiusBase + randFloat);
     float theta = GetLocalFloat(OBJECT_SELF, "theta");
     float direction = GetLocalFloat(OBJECT_SELF, "direction");
     string uuid = GetLocalString(OBJECT_SELF, "uuid");
@@ -71,7 +72,8 @@ location getNextWaypoint(object oArea, location campfireLoc,
         }
     }
 
-    theta = theta + (direction * (20.0/radiusBase));
+    theta = Random(360) / 1.0;
+    theta = theta + (direction * (50.0/radiusBase));
     if(theta > 360.0) {
         theta = theta - 360;
     }
@@ -124,7 +126,7 @@ void main()
                                                "BANDIT_ACTIVITY_LEVEL_2147440");
                 SetCampaignInt("FACTION_ACTIVITY",
                                "BANDIT_ACTIVITY_LEVEL_2147440",
-                               banditActivityLevel + 2);
+                               banditActivityLevel + 1);
                 DestroyObject(OBJECT_SELF, 2.0);
             }
         } else {
@@ -138,7 +140,7 @@ void main()
     // 4) Stand there?
     } else {
         location campfireLoc = GetLocalLocation(OBJECT_SELF, "campfireLoc");
-        int patrolCircle = GetLocalInt(OBJECT_SELF, "circle_max") + 1;
+        int patrolCircle = GetLocalInt(OBJECT_SELF, "circle_max") + 2;
 
         // Patrol around camp parimiter.
         if(myAction == 1) {
