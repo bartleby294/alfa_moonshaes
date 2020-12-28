@@ -50,7 +50,7 @@ void writeToLog(string str) {
 }
 
 /**
- *  Select a random valid Location in camp.
+ *  Select next walk waypoint.
  */
 location getNextWaypoint(object oArea, location campfireLoc,
                               int radiusBase) {
@@ -78,7 +78,7 @@ location getNextWaypoint(object oArea, location campfireLoc,
         }
     }
 
-    theta = theta + (direction * (60.0/radiusBase));
+    theta = theta + (direction * (90.0/radiusBase));
     if(theta > 360.0) {
         theta = theta - 360;
     }
@@ -104,6 +104,22 @@ location getNextWaypoint(object oArea, location campfireLoc,
             getFacing(campfireVector, GetPositionFromLocation(patrolLoc)));
 
     return patrolLoc;
+}
+
+/**
+ *  Select a random valid Location in camp.
+ */
+location getSitWaypoint(object oArea, location campfireLoc) {
+    vector campfireVec = GetPositionFromLocation(campfireLoc);
+    vector banditVec = GetPosition(OBJECT_SELF);
+
+    float x = (banditVec.x + campfireVec.x) / 2;
+    float y = (banditVec.y + campfireVec.y) / 2;
+
+    location sitLocation = Location(oArea, Vector(x, y, 0.0), 0.0);
+    float z = GetGroundHeight(sitLocation);
+
+    return Location(oArea, Vector(x, y, z), 0.0);
 }
 
 void main()
@@ -156,7 +172,10 @@ void main()
         }
         // Sit on the ground near the fire
         if(myAction == 2) {
-
+            location sitWP = getSitWaypoint(oArea, campfireLoc);
+            AssignCommand(OBJECT_SELF, ActionMoveToLocation(sitWP, FALSE));
+            AssignCommand(OBJECT_SELF, ActionPlayAnimation(
+                ANIMATION_LOOPING_SIT_CROSS, 1.0, 9999999.0));
         }
         // Interact with random objects near by.
         if(myAction == 3) {
