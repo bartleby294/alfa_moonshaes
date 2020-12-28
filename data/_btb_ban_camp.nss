@@ -72,15 +72,6 @@ int isTent(object obj){
 
 }
 
-
-float getFacing(vector campfireVector, vector possibleStructureVector) {
-
-    vector direction = Vector(possibleStructureVector.x - campfireVector.x,
-                              possibleStructureVector.y - campfireVector.y,
-                              0.0);
-    return VectorToAngle(direction);
-}
-
 /**
  *  Make sure we have valid heights around the location and that they valid
  *  Locations.
@@ -294,12 +285,15 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         string race = pickRace();
         string class = pickClass();
         string resref = race + class + "m_bandit_1";
-        int banditLvl =Random(circle_max) + 1;
+        int banditLvl = Random(circle_max) + 2;
         writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
         location spawnLoc = selectLocationInCamp(oArea, campfireLoc, circle_min,
                                                  circle_max, 2.0);
         if(GetAreaFromLocation(spawnLoc) != OBJECT_INVALID) {
             bandit = spawnBandit(resref, race, class, spawnLoc, banditLvl);
+            SetLocalLocation(bandit, "campfireLoc", campfireLoc);
+            SetLocalInt(bandit, "circle_max", circle_max);
+            SetLocalInt(bandit, "action", Random(4) + 1);
             banditCnt--;
         }
         cnt++;

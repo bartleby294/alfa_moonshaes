@@ -1,3 +1,11 @@
+float getFacing(vector campfireVector, vector possibleStructureVector) {
+
+    vector direction = Vector(possibleStructureVector.x - campfireVector.x,
+                              possibleStructureVector.y - campfireVector.y,
+                              0.0);
+    return VectorToAngle(direction);
+}
+
 string pickRace() {
 
     int roll = d100();

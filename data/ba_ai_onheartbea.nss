@@ -42,28 +42,106 @@
 
 // - This includes J_Inc_Constants
 #include "nwnx_area"
+#include "_btb_ban_util"
+
+void writeToLog(string str) {
+    string oAreaName = GetName(GetArea(OBJECT_SELF));
+    WriteTimestampedLogEntry("Bandit Camp: " + oAreaName + ": " +  str);
+}
+
+/**
+ *  Select a random valid Location in camp.
+ */
+location getNextWaypoint(object oArea, location campfireLoc,
+                              int radiusBase) {
+    int radius = 5 * radiusBase;
+    float theta = GetLocalFloat(OBJECT_SELF, "theta");
+    float direction = GetLocalFloat(OBJECT_SELF, "direction");
+
+    if(direction == 0.0) {
+        if(Random(1) == 0){
+            SetLocalFloat(OBJECT_SELF, "direction", -1.0);
+        } else {
+            SetLocalFloat(OBJECT_SELF, "direction", 1.0);
+        }
+    }
+
+    theta = theta + (direction * (20/radiusBase));
+    if(theta > 360.0) {
+        theta = theta - 360;
+    }
+    if(theta < -360.0) {
+        theta = theta + 360;
+    }
+
+    float x = radius * cos(theta);
+    float y = radius * sin(theta);
+
+    vector campfireVector = GetPositionFromLocation(campfireLoc);
+    location patrolLoc = Location(oArea,
+        Vector(campfireVector.x + x, campfireVector.y+ y, 0.0), 0.0);
+    float z = GetGroundHeight(patrolLoc);
+
+    patrolLoc = Location(oArea,
+        Vector(campfireVector.x + x, campfireVector.y+ y, z),
+            getFacing(campfireVector, GetPositionFromLocation(patrolLoc)));
+
+    return patrolLoc;
+}
 
 void main()
 {
-    object oArea = GetArea(OBJECT_SELF);
-    int oAreaPlayerNumber = NWNX_Area_GetNumberOfPlayersInArea(oArea);
+    // If were in combat exit.
+    if(GetIsInCombat()){
+        return;
+    }
 
-    if(oAreaPlayerNumber == 0) {
-        //WriteTimestampedLogEntry("No PCs Found");
-        int noPCSeenIn = GetLocalInt(OBJECT_SELF, "NoPCSeenIn");
-        SetLocalInt(OBJECT_SELF, "NoPCSeenIn", noPCSeenIn + 1);
-        // Each time a bandit wins or is run away from they are emboldened.
-        if(noPCSeenIn > 5) {
-            //WriteTimestampedLogEntry("Destroying myself");
-            int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
+    object oArea = GetArea(OBJECT_SELF);
+    int myAction = GetLocalInt(OBJECT_SELF, "action");
+
+    // myAction 0 means no action. So just wait to despawn.
+    if(myAction == 0) {
+        int oAreaPlayerNumber = NWNX_Area_GetNumberOfPlayersInArea(oArea);
+
+        if(oAreaPlayerNumber == 0) {
+            //WriteTimestampedLogEntry("No PCs Found");
+            int noPCSeenIn = GetLocalInt(OBJECT_SELF, "NoPCSeenIn");
+            SetLocalInt(OBJECT_SELF, "NoPCSeenIn", noPCSeenIn + 1);
+            // Each time a bandit wins or is run away from they are emboldened.
+            if(noPCSeenIn > 5) {
+                //WriteTimestampedLogEntry("Destroying myself");
+                int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
                                                "BANDIT_ACTIVITY_LEVEL_2147440");
-            SetCampaignInt("FACTION_ACTIVITY",
-                           "BANDIT_ACTIVITY_LEVEL_2147440",
-                           banditActivityLevel + 1);
-            DestroyObject(OBJECT_SELF, 2.0);
+                SetCampaignInt("FACTION_ACTIVITY",
+                               "BANDIT_ACTIVITY_LEVEL_2147440",
+                               banditActivityLevel + 1);
+                DestroyObject(OBJECT_SELF, 2.0);
+            }
+        } else {
+            SetLocalInt(OBJECT_SELF, "NoPCSeenIn", 0);
+            //WriteTimestampedLogEntry("PCs Found");
         }
+    // Otherwise lets do what we decided.
+    // 1) Patrol around the fire using circle max
+    // 2) Sit on the ground near the fire.
+    // 3) Interact with random objects near by.
+    // 4) Stand there?
     } else {
-        SetLocalInt(OBJECT_SELF, "NoPCSeenIn", 0);
-        //WriteTimestampedLogEntry("PCs Found");
+        location campfireLoc = GetLocalLocation(OBJECT_SELF, "campfireLoc");
+        int patrolCircle = GetLocalInt(OBJECT_SELF, "circle_max") + 1;
+
+        // Patrol around camp parimiter.
+        if(myAction == 1) {
+            location nextWP = getNextWaypoint(oArea, campfireLoc, patrolCircle);
+            AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
+        }
+        // Sit on the ground near the fire
+        if(myAction == 2) {
+
+        }
+        // Interact with random objects near by.
+        if(myAction == 3) {
+
+        }
     }
 }
