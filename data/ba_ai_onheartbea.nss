@@ -54,11 +54,17 @@ void writeToLog(string str) {
  */
 location getNextWaypoint(object oArea, location campfireLoc,
                               int radiusBase) {
-    float randFloat = Random(4)/4.0;
+    float theta = 0.0;
+    float randFloat = GetLocalFloat(OBJECT_SELF, "randFloat");
+    if(randFloat == 0.0) {
+        theta = Random(360) / 1.0;
+        randFloat = (Random(4) + 1)/4.0;
+        SetLocalFloat(OBJECT_SELF, "randFloat", randFloat);
+    }
     float radius = 5 * (radiusBase + randFloat);
-    float theta = GetLocalFloat(OBJECT_SELF, "theta");
     float direction = GetLocalFloat(OBJECT_SELF, "direction");
     string uuid = GetLocalString(OBJECT_SELF, "uuid");
+    theta = GetLocalFloat(OBJECT_SELF, "theta");
 
     if(uuid == "") {
         SetLocalString(OBJECT_SELF, "uuid", GetRandomUUID());
@@ -72,7 +78,6 @@ location getNextWaypoint(object oArea, location campfireLoc,
         }
     }
 
-    theta = Random(360) / 1.0;
     theta = theta + (direction * (50.0/radiusBase));
     if(theta > 360.0) {
         theta = theta - 360;
