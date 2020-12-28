@@ -291,8 +291,9 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
                                                  circle_max, 2.0);
         if(GetAreaFromLocation(spawnLoc) != OBJECT_INVALID) {
             bandit = spawnBandit(resref, race, class, spawnLoc,
-                                 banditLvl, resref + "_banditcamp");
+                                 banditLvl, "banditcamper");
             SetLocalLocation(bandit, "campfireLoc", campfireLoc);
+            SetLocalLocation(bandit, "spawnLoc", spawnLoc);
             SetLocalInt(bandit, "circle_max", circle_max);
             SetLocalInt(bandit, "action", Random(4) + 1);
             banditCnt--;

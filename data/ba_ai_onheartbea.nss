@@ -54,7 +54,7 @@ void writeToLog(string str) {
  */
 location getNextWaypoint(object oArea, location campfireLoc,
                               int radiusBase) {
-    float theta = 0.0;
+    float theta = GetLocalFloat(OBJECT_SELF, "theta");
     float randFloat = GetLocalFloat(OBJECT_SELF, "randFloat");
     if(randFloat == 0.0) {
         theta = Random(360) / 1.0;
@@ -64,7 +64,6 @@ location getNextWaypoint(object oArea, location campfireLoc,
     float radius = (5 * radiusBase) + randFloat;
     float direction = GetLocalFloat(OBJECT_SELF, "direction");
     string uuid = GetLocalString(OBJECT_SELF, "uuid");
-    theta = GetLocalFloat(OBJECT_SELF, "theta");
 
     if(uuid == "") {
         SetLocalString(OBJECT_SELF, "uuid", GetRandomUUID());
@@ -124,10 +123,9 @@ location getSitWaypoint(object oArea, location campfireLoc) {
 
 void main()
 {
-    // If were in combat exit.
-    if(GetIsInCombat()){
-        return;
-    }
+    /* The best way to make ai not look dumb is to try to keep what it does to
+     * minimum.  So I will try to do that here as much as i can.
+     */
 
     object oArea = GetArea(OBJECT_SELF);
     int myAction = GetLocalInt(OBJECT_SELF, "action");
@@ -162,9 +160,48 @@ void main()
     } else {
         location campfireLoc = GetLocalLocation(OBJECT_SELF, "campfireLoc");
         int patrolCircle = GetLocalInt(OBJECT_SELF, "circle_max") + 2;
+        int beenInCombat = GetLocalInt(OBJECT_SELF, "beenInCombat");
+        int hbSinceCombat = GetLocalInt(OBJECT_SELF, "hbSinceCombat");
+
+        // If we're in combat
+        if(GetIsInCombat(OBJECT_SELF)){
+            // Need to call other bandits to help and attack who attacked you.
+            if(!beenInCombat) {
+                int i = 1;
+                object lastAttacker = GetLastAttacker(OBJECT_SELF);
+                for(i; i < Random(4) + 1; i++) {
+                    object bandit = GetNearestObjectByTag("banditcamper",
+                                                           OBJECT_SELF, i);
+                    if(bandit != OBJECT_INVALID && !GetIsInCombat(bandit)) {
+                       AssignCommand(bandit, ActionAttack(lastAttacker));
+                       SetLocalInt(bandit, "beenInCombat", 1);
+                    }
+                }
+                SpeakString("Were under attack!");
+                //AssignCommand(OBJECT_SELF, ActionAttack(lastAttacker));
+                SetLocalInt(OBJECT_SELF, "beenInCombat", 1);
+            }
+            return;
+        // if we are no longer in combat, have been recently, and cool down lapsed.
+        } else if(beenInCombat == 1 && hbSinceCombat > Random(3) + 2) {
+            SetLocalInt(OBJECT_SELF, "action", -1);
+        // if we are no longer in combat, have been recently, and not cooled down.
+        } else if(beenInCombat == 1) {
+            SetLocalInt(OBJECT_SELF, "hbSinceCombat", hbSinceCombat + 1);
+        }
 
         writeToLog("Action Choice: " + IntToString(myAction));
 
+        // Move back to inital location.
+        if(myAction == -1) {
+            location myloc = GetLocation(OBJECT_SELF);
+            location spawnloc = GetLocalLocation(OBJECT_SELF, "spawnLoc");
+            if(GetDistanceBetweenLocations(myloc, spawnloc) < 0.5) {
+                SetLocalInt(OBJECT_SELF, "action", Random(3) + 1);
+            } else {
+                ActionMoveToLocation(spawnloc, TRUE);
+            }
+        }
         // Patrol around camp parimiter.
         if(myAction == 1) {
             location nextWP = getNextWaypoint(oArea, campfireLoc, patrolCircle);
@@ -181,5 +218,6 @@ void main()
         if(myAction == 3) {
 
         }
+
     }
 }
