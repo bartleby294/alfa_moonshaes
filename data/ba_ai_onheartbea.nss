@@ -57,6 +57,11 @@ location getNextWaypoint(object oArea, location campfireLoc,
     int radius = 5 * radiusBase;
     float theta = GetLocalFloat(OBJECT_SELF, "theta");
     float direction = GetLocalFloat(OBJECT_SELF, "direction");
+    string uuid = GetLocalString(OBJECT_SELF, "uuid");
+
+    if(uuid == "") {
+        SetLocalString(OBJECT_SELF, "uuid", GetRandomUUID());
+    }
 
     if(direction == 0.0) {
         if(Random(1) == 0){
@@ -66,13 +71,18 @@ location getNextWaypoint(object oArea, location campfireLoc,
         }
     }
 
-    theta = theta + (direction * (20/radiusBase));
+    theta = theta + (direction * (20.0/radiusBase));
     if(theta > 360.0) {
         theta = theta - 360;
     }
     if(theta < -360.0) {
         theta = theta + 360;
     }
+
+    SetLocalFloat(OBJECT_SELF, "theta", theta);
+
+    writeToLog(uuid + " theta: " + FloatToString(theta) +
+                    " direction " + FloatToString(direction));
 
     float x = radius * cos(theta);
     float y = radius * sin(theta);
@@ -114,7 +124,7 @@ void main()
                                                "BANDIT_ACTIVITY_LEVEL_2147440");
                 SetCampaignInt("FACTION_ACTIVITY",
                                "BANDIT_ACTIVITY_LEVEL_2147440",
-                               banditActivityLevel + 1);
+                               banditActivityLevel + 2);
                 DestroyObject(OBJECT_SELF, 2.0);
             }
         } else {
