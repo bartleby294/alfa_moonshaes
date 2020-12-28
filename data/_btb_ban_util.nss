@@ -72,10 +72,10 @@ string getBanditPrefix(int banditLvl){
 }
 
 object spawnBandit(string resref, string race, string class,
-                    location spawnLoc, int banditLvl){
+                    location spawnLoc, int banditLvl, string tag){
     // Spawn the bandit.
     object bandit = CreateObject(OBJECT_TYPE_CREATURE, resref,
-                        spawnLoc, FALSE, resref);
+                        spawnLoc, FALSE, tag);
     object bandRing = CreateItemOnObject("CopperBanditRing", bandit, 1);
     SetDroppableFlag(bandRing, TRUE);
     // Level the bandit up.

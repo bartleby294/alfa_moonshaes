@@ -142,6 +142,8 @@ void main()
         location campfireLoc = GetLocalLocation(OBJECT_SELF, "campfireLoc");
         int patrolCircle = GetLocalInt(OBJECT_SELF, "circle_max") + 2;
 
+        writeToLog("Action Choice: " + IntToString(myAction));
+
         // Patrol around camp parimiter.
         if(myAction == 1) {
             location nextWP = getNextWaypoint(oArea, campfireLoc, patrolCircle);
