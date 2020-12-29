@@ -42,12 +42,14 @@ void main()
     if(beenInCombat <= 0) {
         writeToLog(" ### new combat");
         int i = 1;
+        int times =  Random(4) + 1;
         object lastAttacker = GetLastAttacker(OBJECT_SELF);
-        for(i; i < Random(4) + 1; i++) {
+        for(i; i < times; i++) {
             object bandit = GetNearestObjectByTag("banditcamper",
                                                    OBJECT_SELF, i);
             if(bandit != OBJECT_INVALID && !GetIsInCombat(bandit)
-                && GetDistanceBetween(OBJECT_SELF, bandit) < 10.0) {
+                && GetDistanceBetween(OBJECT_SELF, bandit) < 50.0) {
+               writeToLog("Called " + GetLocalString(bandit, "uuid") +" for help");
                AssignCommand(bandit, ActionAttack(lastAttacker));
                // 2 out of 3 times they just run to help.
                // 1 out of 3 they call for more too.
