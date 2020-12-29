@@ -35,7 +35,32 @@ void main()
     // AI status check. Is the AI on?
     if(GetAIOff()) return;
 
-    //writeToLog("00000000000000000000000000000000000000000000000000000000000");
+   ///////////////////////////////////////////////////////////////////////////
+   writeToLog(" ****************************************************");
+   int beenInCombat = GetLocalInt(OBJECT_SELF, "beenInCombat");
+    // Need to call other bandits to help and attack who attacked you.
+    if(beenInCombat <= 0) {
+        writeToLog(" ### new combat");
+        int i = 1;
+        object lastAttacker = GetLastAttacker(OBJECT_SELF);
+        for(i; i < Random(4) + 1; i++) {
+            object bandit = GetNearestObjectByTag("banditcamper",
+                                                   OBJECT_SELF, i);
+            if(bandit != OBJECT_INVALID && !GetIsInCombat(bandit)
+                && GetDistanceBetween(OBJECT_SELF, bandit) < 10.0) {
+               AssignCommand(bandit, ActionAttack(lastAttacker));
+               // 2 out of 3 times they just run to help.
+               // 1 out of 3 they call for more too.
+               if(Random(3) > 0) {
+                SetLocalInt(bandit, "beenInCombat", 1);
+               }
+            }
+        }
+        SpeakString("Were under attack!");
+        //AssignCommand(OBJECT_SELF, ActionAttack(lastAttacker));
+        SetLocalInt(OBJECT_SELF, "beenInCombat", 1);
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     // Set up objects.
     object oAttacker = GetLastAttacker();

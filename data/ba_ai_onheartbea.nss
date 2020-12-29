@@ -200,6 +200,7 @@ void main()
         } else if(beenInCombat == 1 && hbSinceCombat > Random(3) + 2) {
             writeToLog(" # Was in combat not anymore");
             SetLocalInt(OBJECT_SELF, "action", -1);
+            SetLocalInt(OBJECT_SELF, "beenInCombat", 0);
         // if we are no longer in combat, have been recently, and not cooled down.
         } else if(beenInCombat == 1) {
             writeToLog(" # Was in combat recently still on gaurd");
