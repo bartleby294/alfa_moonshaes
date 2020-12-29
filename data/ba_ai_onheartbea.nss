@@ -223,11 +223,16 @@ void main()
         }
         // Patrol around camp parimiter. It too close to another bandit wait.
         if(myAction == 1) {
-            if(notTooClose()) {
+            int wait = GetLocalInt(OBJECT_SELF, "turnsWaited");
+            if(notTooClose() && wait == 0) {
                 writeToLog(" # Not to close so next wp");
                 location nextWP = getNextWaypoint(oArea, campfireLoc,
                                                     patrolCircle);
                 AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
+            } else if(wait >= 1) {
+                SetLocalInt(OBJECT_SELF, "turnsWaited", 0);
+            } else {
+                SetLocalInt(OBJECT_SELF, "turnsWaited", 1);
             }
         }
         // Sit on the ground near the fire
