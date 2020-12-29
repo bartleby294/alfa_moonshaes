@@ -21,8 +21,37 @@
 ************************* [On Damaged] ****************************************/
 
 #include "j_inc_other_ai"
+
+void writeToLog(string str) {
+    string oAreaName = GetName(GetArea(OBJECT_SELF));
+    string uuid = GetLocalString(OBJECT_SELF, "uuid");
+    WriteTimestampedLogEntry(uuid + " Bandit Camp: " + oAreaName + ": " +  str);
+}
+
 void main()
 {
+   ///////////////////////////////////////////////////////////////////////////
+   int beenInCombat = GetLocalInt(OBJECT_SELF, "beenInCombat");
+    // Need to call other bandits to help and attack who attacked you.
+    if(!beenInCombat) {
+        writeToLog(" ### new combat");
+        int i = 1;
+        object lastAttacker = GetLastAttacker(OBJECT_SELF);
+        for(i; i < Random(4) + 1; i++) {
+            object bandit = GetNearestObjectByTag("banditcamper",
+                                                   OBJECT_SELF, i);
+            if(bandit != OBJECT_INVALID && !GetIsInCombat(bandit)) {
+               AssignCommand(bandit, ActionAttack(lastAttacker));
+               SetLocalInt(bandit, "beenInCombat", 1);
+            }
+        }
+        SpeakString("Were under attack!");
+        //AssignCommand(OBJECT_SELF, ActionAttack(lastAttacker));
+        SetLocalInt(OBJECT_SELF, "beenInCombat", 1);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+
     // Pre-damaged-event
     if(FireUserEvent(AI_FLAG_UDE_DAMAGED_PRE_EVENT, EVENT_DAMAGED_PRE_EVENT))
         // We may exit if it fires

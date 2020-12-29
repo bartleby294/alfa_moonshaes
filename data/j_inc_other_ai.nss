@@ -80,7 +80,7 @@ void ShoutBossShout(object oEnemy)
         float fRange = IntToFloat(GetBoundriedAIInteger(AI_BOSS_MONSTER_SHOUT_RANGE, 60, 370));
         // We loop through nearest not-seen, not-heard allies and get them
         // to attack the person.
-        int Cnt = i1;
+        int Cnt = 1;
         // Not seen, not heard...
         object oAlly = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_FRIEND,
                                           OBJECT_SELF, Cnt, CREATURE_TYPE_IS_ALIVE, TRUE,
@@ -122,7 +122,7 @@ void TurnOffHiding(object oIntruder)
       (GetObjectSeen(OBJECT_SELF, oIntruder) ||
        GetObjectHeard(OBJECT_SELF, oIntruder)))
     {
-        SetLocalTimer(AI_TIMER_TURN_OFF_HIDE, f18);
+        SetLocalTimer(AI_TIMER_TURN_OFF_HIDE, 18.0);
     }
 }
 
@@ -136,7 +136,7 @@ void HideOrClear()
         GetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH) == FALSE)
     {
         // Need skill or force on
-        if((GetSkillRank(SKILL_HIDE) - i4 >= GetHitDice(OBJECT_SELF)) ||
+        if((GetSkillRank(SKILL_HIDE) - 4 >= GetHitDice(OBJECT_SELF)) ||
             GetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER))
         {
             // Use hide
@@ -228,7 +228,7 @@ void RespondToShout(object oShouter, int nShoutIndex)
 {
     object oIntruder;
     // Ones we don't care about if we are in combat...
-    if(nShoutIndex == i6) // "Attack specific object"
+    if(nShoutIndex == 6) // "Attack specific object"
     {
         // If a leader, we set it as a local object, nothing more
         if(GetSpawnInCondition(AI_FLAG_OTHER_COMBAT_GROUP_LEADER, AI_OTHER_COMBAT_MASTER, oShouter))
@@ -240,12 +240,12 @@ void RespondToShout(object oShouter, int nShoutIndex)
                 // We do not interrupt current acition (EG: Life saving stoneskins!) to re-direct.
                 SetAIObject(AI_ATTACK_SPECIFIC_OBJECT, oIntruder);
                 // 6 second delay.
-                SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, f6);
+                SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, 6.0);
             }
         }
         return;
     }
-    else if(nShoutIndex == i5)// "leader flee now"
+    else if(nShoutIndex == 5)// "leader flee now"
     {
         // If a leader, we set it as a local object, nothing more
         if(GetSpawnInCondition(AI_FLAG_OTHER_COMBAT_GROUP_LEADER, AI_OTHER_COMBAT_MASTER, oShouter))
@@ -256,7 +256,7 @@ void RespondToShout(object oShouter, int nShoutIndex)
             // 70. "[Shout] Reacting To Shout. [ShoutNo.] " + IntToString(iInput) + " [Shouter] " + GetName(oInput)
             DebugActionSpeakByInt(70, oShouter, nShoutIndex);
             SetCurrentAction(AI_SPECIAL_ACTIONS_FLEE);
-            SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, f12);
+            SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, 12.0);
             if(GetIsObjectValid(oIntruder))
             {
                 SetAIObject(AI_FLEE_TO, oIntruder);
@@ -265,14 +265,14 @@ void RespondToShout(object oShouter, int nShoutIndex)
             else // Else, we will just follow our leader!
             {
                 SetAIObject(AI_FLEE_TO, oShouter);
-                ActionForceFollowObject(oShouter, f3);
+                ActionForceFollowObject(oShouter, 3.0);
             }
         }
         return;
     }
     // If the shout is number 8, it is "I was opened" and so can only be a
     // placeable or door.
-    else if(nShoutIndex == i8)// "I was opened"
+    else if(nShoutIndex == 8)// "I was opened"
     {
         // We need somewhat complexe here - to get thier opener.
         int nType = GetObjectType(oShouter);
