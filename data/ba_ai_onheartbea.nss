@@ -46,7 +46,8 @@
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
-    WriteTimestampedLogEntry("Bandit Camp: " + oAreaName + ": " +  str);
+    string uuid = GetLocalString(OBJECT_SELF, "uuid");
+    WriteTimestampedLogEntry(uuid + " Bandit Camp: " + oAreaName + ": " +  str);
 }
 
 /**
@@ -65,7 +66,7 @@ location getNextWaypoint(object oArea, location campfireLoc,
     float direction = GetLocalFloat(OBJECT_SELF, "direction");
     string uuid = GetLocalString(OBJECT_SELF, "uuid");
 
-    if(uuid == "") {
+    if(uuid== "") {
         SetLocalString(OBJECT_SELF, "uuid", GetRandomUUID());
     }
 
@@ -87,7 +88,7 @@ location getNextWaypoint(object oArea, location campfireLoc,
 
     SetLocalFloat(OBJECT_SELF, "theta", theta);
 
-    writeToLog(uuid + " theta: " + FloatToString(theta) +
+    writeToLog(" theta: " + FloatToString(theta) +
                     " direction " + FloatToString(direction));
 
     float x = radius * cos(theta);
@@ -103,6 +104,17 @@ location getNextWaypoint(object oArea, location campfireLoc,
             getFacing(campfireVector, GetPositionFromLocation(patrolLoc)));
 
     return patrolLoc;
+}
+
+int notTooClose() {
+    object bandit = GetNearestObjectByTag("banditcamper", OBJECT_SELF, 1);
+    float distance = GetDistanceBetweenLocations(GetLocation(OBJECT_SELF),
+                                                GetLocation(bandit));
+    if(distance < 1.0) {
+        writeToLog(" # Too close");
+        return 0;
+    }
+    return 1;
 }
 
 /**
@@ -166,7 +178,9 @@ void main()
         // If we're in combat
         if(GetIsInCombat(OBJECT_SELF)){
             // Need to call other bandits to help and attack who attacked you.
+            writeToLog(" # In combat");
             if(!beenInCombat) {
+                writeToLog(" # new combat");
                 int i = 1;
                 object lastAttacker = GetLastAttacker(OBJECT_SELF);
                 for(i; i < Random(4) + 1; i++) {
@@ -184,9 +198,11 @@ void main()
             return;
         // if we are no longer in combat, have been recently, and cool down lapsed.
         } else if(beenInCombat == 1 && hbSinceCombat > Random(3) + 2) {
+            writeToLog(" # Was in combat not anymore");
             SetLocalInt(OBJECT_SELF, "action", -1);
         // if we are no longer in combat, have been recently, and not cooled down.
         } else if(beenInCombat == 1) {
+            writeToLog(" # Was in combat recently still on gaurd");
             SetLocalInt(OBJECT_SELF, "hbSinceCombat", hbSinceCombat + 1);
         }
 
@@ -194,21 +210,29 @@ void main()
 
         // Move back to inital location.
         if(myAction == -1) {
+            writeToLog(" # Was in combat now looking to move back");
             location myloc = GetLocation(OBJECT_SELF);
             location spawnloc = GetLocalLocation(OBJECT_SELF, "spawnLoc");
             if(GetDistanceBetweenLocations(myloc, spawnloc) < 0.5) {
+                writeToLog(" # I moved back now looking to do something new.");
                 SetLocalInt(OBJECT_SELF, "action", Random(3) + 1);
             } else {
+                writeToLog(" # moving back");
                 ActionMoveToLocation(spawnloc, TRUE);
             }
         }
-        // Patrol around camp parimiter.
+        // Patrol around camp parimiter. It too close to another bandit wait.
         if(myAction == 1) {
-            location nextWP = getNextWaypoint(oArea, campfireLoc, patrolCircle);
-            AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
+            if(notTooClose()) {
+                writeToLog(" # Not to close so next wp");
+                location nextWP = getNextWaypoint(oArea, campfireLoc,
+                                                    patrolCircle);
+                AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
+            }
         }
         // Sit on the ground near the fire
         if(myAction == 2) {
+            writeToLog(" # Sit on the groud.");
             location sitWP = getSitWaypoint(oArea, campfireLoc);
             AssignCommand(OBJECT_SELF, ActionMoveToLocation(sitWP, FALSE));
             AssignCommand(OBJECT_SELF, ActionPlayAnimation(
