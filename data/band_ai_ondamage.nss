@@ -41,16 +41,20 @@ void main()
         for(i; i < Random(4) + 1; i++) {
             object bandit = GetNearestObjectByTag("banditcamper",
                                                    OBJECT_SELF, i);
-            if(bandit != OBJECT_INVALID && !GetIsInCombat(bandit)) {
+            if(bandit != OBJECT_INVALID && !GetIsInCombat(bandit)
+                && GetDistanceBetween(OBJECT_SELF, bandit) < 10.0) {
                AssignCommand(bandit, ActionAttack(lastAttacker));
-               SetLocalInt(bandit, "beenInCombat", 1);
+               // 2 out of 3 times they just run to help.
+               // 1 out of 3 they call for more too.
+               if(Random(3) > 0) {
+                SetLocalInt(bandit, "beenInCombat", 1);
+               }
             }
         }
         SpeakString("Were under attack!");
         //AssignCommand(OBJECT_SELF, ActionAttack(lastAttacker));
         SetLocalInt(OBJECT_SELF, "beenInCombat", 1);
     }
-
     ///////////////////////////////////////////////////////////////////////////
 
     // Pre-damaged-event
@@ -68,7 +72,7 @@ void main()
     int iPolymorph = GetAIConstant(AI_POLYMORPH_INTO);
 
     // Polymorph check.
-    if(iPolymorph >= i0)
+    if(iPolymorph >= 0)
     {
         if(!GetHasEffect(EFFECT_TYPE_POLYMORPH))// We won't polymorph if already so
         {
@@ -85,7 +89,7 @@ void main()
         // Set the damage done by it (the last damage)
         // Set to the tag of the AOE, prefixed AI style to be sure.
         // - Note, doesn't matter about things like
-        if(iDamage > i1)
+        if(iDamage > 1)
         {
             // Set it to object to string, which we will delete later anywho.
             SetAIInteger(ObjectToString(oDamager), iDamage);
@@ -107,7 +111,7 @@ void main()
         // This is set for the most damage...so it could be 1 (for a +1 fire weapon, any
         // number of hits) or over 50 (good fireball).
         // Need to have protection single (IE including elemental ones) ready.
-        if(GetSpawnInCondition(AI_VALID_TALENT_BENEFICIAL_PROTECTION_SINGLE, AI_VALID_SPELLS))
+        if(GetSpawnInCondition(0x00001000, AI_VALID_SPELLS))
         {
             // Please make sure | works! By Blind Io!
             int iDamageDone = GetDamageDealtByType(DAMAGE_TYPE_ACID |
@@ -130,12 +134,12 @@ void main()
 
         // Morale: We may get a penalty if it does more than a cirtain amount of HP damage.
         // Other: We set highest damager and amount.
-        if(iDamage > i0)
+        if(iDamage > 0)
         {
             if(!GetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER))
             {
-                int iToDamage = GetBoundriedAIInteger(AI_DAMAGE_AT_ONCE_FOR_MORALE_PENALTY, GetMaxHitPoints()/i6, GetMaxHitPoints(), i1);
-                int iPenalty = GetBoundriedAIInteger(AI_DAMAGE_AT_ONCE_PENALTY, i6, i50, i1);
+                int iToDamage = GetBoundriedAIInteger(AI_DAMAGE_AT_ONCE_FOR_MORALE_PENALTY, GetMaxHitPoints()/6, GetMaxHitPoints(), 1);
+                int iPenalty = GetBoundriedAIInteger(AI_DAMAGE_AT_ONCE_PENALTY, 6, 50, 1);
                 if(iDamage > iToDamage)
                 {
                     // 61: "[Damaged] Morale Penalty for 600 seconds [Penalty]" + IntToString(iPenalty)
@@ -205,7 +209,7 @@ void main()
         }
     }
     // User defined event - for normally immoral creatures.
-    if(GetCurrentHitPoints() == i1)
+    if(GetCurrentHitPoints() == 1)
     {
         // Fire the immortal damaged at 1 HP event.
         FireUserEvent(AI_FLAG_UDE_DAMAGED_AT_1_HP, EVENT_DAMAGED_AT_1_HP);

@@ -35,7 +35,7 @@ void main()
     // AI status check. Is the AI on?
     if(GetAIOff()) return;
 
-    writeToLog("00000000000000000000000000000000000000000000000000000000000");
+    //writeToLog("00000000000000000000000000000000000000000000000000000000000");
 
     // Set up objects.
     object oAttacker = GetLastAttacker();
