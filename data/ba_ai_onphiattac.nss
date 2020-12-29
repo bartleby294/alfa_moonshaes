@@ -17,6 +17,11 @@
 //*************************** ALFA Mod
 #include "alfa_combat"
 //*************************** End ALFA Mod
+void writeToLog(string str) {
+    string oAreaName = GetName(GetArea(OBJECT_SELF));
+    string uuid = GetLocalString(OBJECT_SELF, "uuid");
+    WriteTimestampedLogEntry(uuid + " Bandit Camp: " + oAreaName + ": " +  str);
+}
 
 
 void main()
@@ -28,6 +33,8 @@ void main()
 
     // AI status check. Is the AI on?
     if(GetAIOff()) return;
+
+    writeToLog("00000000000000000000000000000000000000000000000000000000000");
 
     // Set up objects.
     object oAttacker = GetLastAttacker();
