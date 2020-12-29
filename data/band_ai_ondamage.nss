@@ -31,6 +31,7 @@ void writeToLog(string str) {
 void main()
 {
    ///////////////////////////////////////////////////////////////////////////
+   writeToLog(" ****************************************************");
    int beenInCombat = GetLocalInt(OBJECT_SELF, "beenInCombat");
     // Need to call other bandits to help and attack who attacked you.
     if(!beenInCombat) {
