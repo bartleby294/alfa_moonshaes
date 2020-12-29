@@ -16,7 +16,8 @@
 #include "j_inc_other_ai"
 //*************************** ALFA Mod
 #include "alfa_combat"
-//*************************** End ALFA Mod
+//*************************** End ALFA Mod3
+
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
     string uuid = GetLocalString(OBJECT_SELF, "uuid");
@@ -59,9 +60,9 @@ void main()
           (iAttackType == SPECIAL_ATTACK_IMPROVED_KNOCKDOWN ||
            iAttackType == SPECIAL_ATTACK_KNOCKDOWN) &&
           !GetIsImmune(OBJECT_SELF, IMMUNITY_TYPE_KNOCKDOWN) &&
-           GetBaseAttackBonus(oAttacker) + i20 >= GetAC(OBJECT_SELF))
+           GetBaseAttackBonus(oAttacker) + 20 >= GetAC(OBJECT_SELF))
         {
-            SetLocalTimer(AI_TIMER_KNOCKDOWN, f30);
+            SetLocalTimer(AI_TIMER_KNOCKDOWN, 30.0);
         }
 
         // Set last hostile attacker.

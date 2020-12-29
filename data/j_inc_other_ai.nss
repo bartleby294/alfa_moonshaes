@@ -226,6 +226,8 @@ object GetIntruderFromShout(object oShouter)
 
 void RespondToShout(object oShouter, int nShoutIndex)
 {
+    //string AI_PLACEABLE_LAST_OPENED_BY = "AI_PLACEABLE_LAST_OPENED_BY";// Object
+
     object oIntruder;
     // Ones we don't care about if we are in combat...
     if(nShoutIndex == 6) // "Attack specific object"
@@ -282,8 +284,8 @@ void RespondToShout(object oShouter, int nShoutIndex)
         {
             // Now, we assign the placeable/door to set thier opener.
             // - Need to check it works.
-            AssignCommand(oShouter, SetLocalObject(oShouter, PLACEABLE_LAST_OPENED_BY, GetLastOpenedBy()));
-            oIntruder = GetLocalObject(oShouter, PLACEABLE_LAST_OPENED_BY);
+            AssignCommand(oShouter, SetLocalObject(oShouter, "AI_PLACEABLE_LAST_OPENED_BY", GetLastOpenedBy()));
+            oIntruder = GetLocalObject(oShouter, "AI_PLACEABLE_LAST_OPENED_BY");
             if(GetIsObjectValid(oIntruder))
             {
                 // Attack
@@ -296,17 +298,17 @@ void RespondToShout(object oShouter, int nShoutIndex)
     else if(!CannotPerformCombatRound())
     {
         // Call to arms requires nothing special
-        if(nShoutIndex == i3)// "Call to arms"
+        if(nShoutIndex == 3)// "Call to arms"
         {
-            SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, f6);
+            SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, 6.0);
             // 70. "[Shout] Reacting To Shout. [ShoutNo.] " + IntToString(iInput) + " [Shouter] " + GetName(oInput)
             DebugActionSpeakByInt(70, oShouter, nShoutIndex);
             DetermineCombatRound();
         }
         // Ones we can GetIntruderFromShout(oShouter);
-        if(nShoutIndex == i1 || // "I was attacked"
-           nShoutIndex == i4 || // "Help my friend"
-           nShoutIndex == i7)   // "I was killed"
+        if(nShoutIndex == 1 || // "I was attacked"
+           nShoutIndex == 4 || // "Help my friend"
+           nShoutIndex == 7)   // "I was killed"
         {
             // Am not already fighting, and we don't ignore the intruder
             oIntruder = GetIntruderFromShout(oShouter);
@@ -315,13 +317,13 @@ void RespondToShout(object oShouter, int nShoutIndex)
                 return;
             }
         }
-        if(nShoutIndex == i1 ||
-           nShoutIndex == i7)
+        if(nShoutIndex == 1 ||
+           nShoutIndex == 7)
         {
             // Morale penalty if they were killed
-            if(nShoutIndex == i7)
+            if(nShoutIndex == 7)
             {
-                SetMoralePenalty((GetHitDice(oShouter)/i4), f18);
+                SetMoralePenalty((GetHitDice(oShouter)/4), 18.0);
             }
             // Get intruder
             // 70. "[Shout] Reacting To Shout. [ShoutNo.] " + IntToString(iInput) + " [Shouter] " + GetName(oInput)
@@ -330,9 +332,9 @@ void RespondToShout(object oShouter, int nShoutIndex)
             {
                 // Stop, and attack, if we can see them!
                 ClearAllActions();
-                SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, f9);
+                SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, 9.0);
                 DetermineCombatRound(oIntruder);
-                DelayCommand(f2, AISpeakString(I_WAS_ATTACKED));
+                DelayCommand(2.0, AISpeakString("I_WAS_ATTACKED"));
             }
             else // Else the enemy is not seen
             {
@@ -340,20 +342,20 @@ void RespondToShout(object oShouter, int nShoutIndex)
                 // stop what I am doing, and move to the attacker.
                 // - 1.3 change. They move to the attackers location (IE directed by ally)
                 ClearAllActions();
-                SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, f6);
+                SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, 6.0);
                 // This will move to oIntruder if nothing else
                 DetermineCombatRound(oIntruder);
                 // Shout to other allies, after a second.
-                DelayCommand(f2, AISpeakString(HELP_MY_FRIEND));
+                DelayCommand(2.0, AISpeakString("HELP_MY_FRIEND"));
             }
         }
-        else if(nShoutIndex == i4)// "Help my friend"
+        else if(nShoutIndex == 4)// "Help my friend"
         {
             // We move to where the runner/shouter wants us.
             location lMoveTo = GetLocalLocation(oShouter, AI_HELP_MY_FRIEND_LOCATION);
             // 70. "[Shout] Reacting To Shout. [ShoutNo.] " + IntToString(iInput) + " [Shouter] " + GetName(oInput)
             DebugActionSpeakByInt(70, oShouter, nShoutIndex);
-            SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, f6);
+            SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, 6.0);
             if(GetIsObjectValid(GetAreaFromLocation(lMoveTo)))
             {
                 ActionMoveToLocation(lMoveTo, TRUE);
@@ -364,7 +366,7 @@ void RespondToShout(object oShouter, int nShoutIndex)
                 // If we do not know of the friend attacker, we will follow them
                 ClearAllActions();
                 SetSpawnInCondition(AI_FLAG_COMBAT_FLAG_FAST_BUFF_ENEMY, AI_COMBAT_MASTER);
-                ActionForceFollowObject(oShouter, f3);
+                ActionForceFollowObject(oShouter, 3.0);
                 ActionDoCommand(DetermineCombatRound());
             }
         }
@@ -374,13 +376,13 @@ void RespondToShout(object oShouter, int nShoutIndex)
 void SearchDispells(object oPlaceable)
 {
     // No dispelling at low intelligence.
-    if(GetBoundriedAIInteger(AI_INTELLIGENCE) < i5) return;
+    if(GetBoundriedAIInteger(AI_INTELLIGENCE) < 5) return;
     location lPlace = GetLocation(oPlaceable);
     // Move closer if not seen.
     if(!GetObjectSeen(oPlaceable))
     {
         // Move nearer - 6 M is out of the dispell range
-        ActionMoveToObject(oPlaceable, TRUE, f6);
+        ActionMoveToObject(oPlaceable, TRUE, 6.0);
     }
     // Dispell if we have any - at the location of oPlaceable.
     if(GetHasSpell(SPELL_LESSER_DISPEL))
@@ -478,10 +480,10 @@ int PerceptionFleeFrom(object oEnemy)
         // Valid run from target
         if(!GetIsObjectValid(oRunTarget))
         {
-            oRunTarget = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, OBJECT_SELF, i1, CREATURE_TYPE_PERCEPTION, PERCEPTION_SEEN, CREATURE_TYPE_IS_ALIVE, TRUE);
+            oRunTarget = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, OBJECT_SELF, 1, CREATURE_TYPE_PERCEPTION, PERCEPTION_SEEN, CREATURE_TYPE_IS_ALIVE, TRUE);
             if(!GetIsObjectValid(oRunTarget))
             {
-                oRunTarget = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, OBJECT_SELF, i1, CREATURE_TYPE_PERCEPTION, PERCEPTION_HEARD, CREATURE_TYPE_IS_ALIVE, TRUE);
+                oRunTarget = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, OBJECT_SELF, 1, CREATURE_TYPE_PERCEPTION, PERCEPTION_HEARD, CREATURE_TYPE_IS_ALIVE, TRUE);
                 if(!GetIsObjectValid(oRunTarget))
                 {
                     oRunTarget = GetLastHostileActor();
@@ -495,7 +497,7 @@ int PerceptionFleeFrom(object oEnemy)
         }
         // Run from enemy
         ClearAllActions();
-        ActionMoveAwayFromObject(oRunTarget, TRUE, f50);
+        ActionMoveAwayFromObject(oRunTarget, TRUE, 50.0);
         return TRUE;
     }
     // 0 or more morale.
