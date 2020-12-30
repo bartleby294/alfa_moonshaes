@@ -217,6 +217,7 @@ void main()
 
         // If we're in combat
         if(GetIsInCombat(OBJECT_SELF)){
+            writeToLog(" # Is in combat");
             onAttackActions();
             return;
         // if we are no longer in combat, have been recently, and cool down lapsed.
@@ -232,12 +233,14 @@ void main()
 
         // Search near where the attack occured
         if(myAction == BANDIT_ATTACK_SEARCH_ACTION) {
+            writeToLog(" # BANDIT_ATTACK_SEARCH_ACTION");
             location attakerLoc = GetLocalLocation(OBJECT_SELF, "attackerLoc");
             patrolAroundHostileArea(oArea, attakerLoc, hbSinceCombat);
         }
 
         // Patrol an increased range.
         if(myAction == BANDIT_ATTACK_PATROL_ACTION) {
+            writeToLog(" # BANDIT_ATTACK_PATROL_ACTION");
             patrolAroundCamp(oArea, campfireLoc, patrolCircle + 10);
         }
 
@@ -245,14 +248,17 @@ void main()
 
         // Move back to inital location.
         if(myAction == BANDIT_RETURN_ACTION) {
+            writeToLog(" # BANDIT_RETURN_ACTION");
             returnToStartLoc();
         }
         // Patrol around camp parimiter. It too close to another bandit wait.
         if(myAction == BANDIT_PATROL_ACTION) {
+            writeToLog(" # BANDIT_PATROL_ACTION");
             patrolAroundCamp(oArea, campfireLoc, patrolCircle);
         }
         // Sit on the ground near the fire
         if(myAction == BANDIT_SIT_ACTION) {
+            writeToLog(" # BANDIT_SIT_ACTION");
             sitOnTheGround(oArea, campfireLoc);
         }
         // Sleep near the fire.
