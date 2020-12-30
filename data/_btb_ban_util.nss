@@ -116,7 +116,8 @@ void onAttackActions() {
         object bandit = GetNearestObjectByTag("banditcamper", OBJECT_SELF, 1);
         while(bandit != OBJECT_INVALID) {
             if(!GetIsInCombat(bandit)) {
-                if(GetDistanceBetween(OBJECT_SELF, bandit) < 20.0) {
+                AssignCommand(bandit, ClearAllActions());
+                if(GetDistanceBetween(OBJECT_SELF, bandit) < 50.0) {
                     writeToLog("Called " + GetLocalString(bandit, "uuid")
                                     + " for help");
                     AssignCommand(bandit, ActionAttack(lastAttacker));
