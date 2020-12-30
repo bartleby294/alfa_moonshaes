@@ -43,12 +43,7 @@
 // - This includes J_Inc_Constants
 #include "nwnx_area"
 #include "_btb_ban_util"
-
-void writeToLog(string str) {
-    string oAreaName = GetName(GetArea(OBJECT_SELF));
-    string uuid = GetLocalString(OBJECT_SELF, "uuid");
-    WriteTimestampedLogEntry(uuid + " Bandit Camp: " + oAreaName + ": " +  str);
-}
+#include "ba_consts"
 
 /**
  *  Select next walk waypoint.
@@ -133,6 +128,57 @@ location getSitWaypoint(object oArea, location campfireLoc) {
     return Location(oArea, Vector(x, y, z), 0.0);
 }
 
+void returnToStartLoc() {
+    writeToLog(" # Was in combat now looking to move back");
+    location myloc = GetLocation(OBJECT_SELF);
+    location spawnloc = GetLocalLocation(OBJECT_SELF, "spawnLoc");
+    if(GetDistanceBetweenLocations(myloc, spawnloc) < 0.5) {
+        writeToLog(" # I moved back now looking to do something new.");
+        SetLocalInt(OBJECT_SELF, "action", Random(3) + 1);
+    } else {
+        writeToLog(" # moving back");
+        ActionMoveToLocation(spawnloc, TRUE);
+    }
+}
+
+void patrolAroundCamp(object oArea, location campfireLoc, int patrolCircle) {
+    int wait = GetLocalInt(OBJECT_SELF, "turnsWaited");
+    if(notTooClose() && wait == 0) {
+        //writeToLog(" # Not to close so next wp");
+        location nextWP = getNextWaypoint(oArea, campfireLoc,
+                                            patrolCircle);
+        AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
+        } else if(wait >= 1) {
+            SetLocalInt(OBJECT_SELF, "turnsWaited", 0);
+        } else {
+            SetLocalInt(OBJECT_SELF, "turnsWaited", 1);
+    }
+}
+
+void patrolAroundHostileArea(object oArea, location patrolLoc, int circle) {
+    int wait = GetLocalInt(OBJECT_SELF, "turnsWaited");
+    if(notTooClose() && wait == 0) {
+        location nextWP = getNextWaypoint(oArea, patrolLoc, circle);
+        AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
+        } else if(wait >= 1) {
+            SetLocalInt(OBJECT_SELF, "turnsWaited", 0);
+        } else {
+            SetLocalInt(OBJECT_SELF, "turnsWaited", 1);
+    }
+}
+
+void sitOnTheGround(object oArea, location campfireLoc) {
+    //writeToLog(" # Sit on the groud.");
+    location sitWP = getSitWaypoint(oArea, campfireLoc);
+    AssignCommand(OBJECT_SELF, ActionMoveToLocation(sitWP, FALSE));
+    AssignCommand(OBJECT_SELF, ActionPlayAnimation(
+        ANIMATION_LOOPING_SIT_CROSS, 1.0, 9999999.0));
+}
+
+void sleepByTheFire() {
+
+}
+
 void main()
 {
     /* The best way to make ai not look dumb is to try to keep what it does to
@@ -143,9 +189,8 @@ void main()
     int myAction = GetLocalInt(OBJECT_SELF, "action");
 
     // myAction 0 means no action. So just wait to despawn.
-    if(myAction == 0) {
+    if(myAction == BANDIT_NO_ACTION) {
         int oAreaPlayerNumber = NWNX_Area_GetNumberOfPlayersInArea(oArea);
-
         if(oAreaPlayerNumber == 0) {
             //WriteTimestampedLogEntry("No PCs Found");
             int noPCSeenIn = GetLocalInt(OBJECT_SELF, "NoPCSeenIn");
@@ -164,11 +209,6 @@ void main()
             SetLocalInt(OBJECT_SELF, "NoPCSeenIn", 0);
             //WriteTimestampedLogEntry("PCs Found");
         }
-    // Otherwise lets do what we decided.
-    // 1) Patrol around the fire using circle max
-    // 2) Sit on the ground near the fire.
-    // 3) Interact with random objects near by.
-    // 4) Stand there?
     } else {
         location campfireLoc = GetLocalLocation(OBJECT_SELF, "campfireLoc");
         int patrolCircle = GetLocalInt(OBJECT_SELF, "circle_max") + 2;
@@ -177,75 +217,50 @@ void main()
 
         // If we're in combat
         if(GetIsInCombat(OBJECT_SELF)){
-            // Need to call other bandits to help and attack who attacked you.
-            writeToLog(" # In combat");
-            if(!beenInCombat) {
-                writeToLog(" # new combat");
-                int i = 1;
-                object lastAttacker = GetLastAttacker(OBJECT_SELF);
-                for(i; i < Random(4) + 1; i++) {
-                    object bandit = GetNearestObjectByTag("banditcamper",
-                                                           OBJECT_SELF, i);
-                    if(bandit != OBJECT_INVALID && !GetIsInCombat(bandit)) {
-                       AssignCommand(bandit, ActionAttack(lastAttacker));
-                       SetLocalInt(bandit, "beenInCombat", 1);
-                    }
-                }
-                SpeakString("Were under attack!");
-                //AssignCommand(OBJECT_SELF, ActionAttack(lastAttacker));
-                SetLocalInt(OBJECT_SELF, "beenInCombat", 1);
-            }
+            onAttackActions();
             return;
         // if we are no longer in combat, have been recently, and cool down lapsed.
-        } else if(beenInCombat == 1 && hbSinceCombat > Random(3) + 2) {
+        } else if(myAction < 0 && hbSinceCombat > Random(3) + 15) {
             writeToLog(" # Was in combat not anymore");
-            SetLocalInt(OBJECT_SELF, "action", -1);
-            SetLocalInt(OBJECT_SELF, "beenInCombat", 0);
+            SetLocalInt(OBJECT_SELF, "hbSinceCombat", 0);
+            SetLocalInt(OBJECT_SELF, "action", BANDIT_RETURN_ACTION);
         // if we are no longer in combat, have been recently, and not cooled down.
-        } else if(beenInCombat == 1) {
+        } else if(myAction < 0) {
             writeToLog(" # Was in combat recently still on gaurd");
             SetLocalInt(OBJECT_SELF, "hbSinceCombat", hbSinceCombat + 1);
+        }
+
+        // Search near where the attack occured
+        if(myAction == BANDIT_ATTACK_SEARCH_ACTION) {
+            location attakerLoc = GetLocalLocation(OBJECT_SELF, "attackerLoc");
+            patrolAroundHostileArea(oArea, attakerLoc, hbSinceCombat);
+        }
+
+        // Patrol an increased range.
+        if(myAction == BANDIT_PATROL_ACTION) {
+            patrolAroundCamp(oArea, campfireLoc, patrolCircle * 2);
         }
 
         writeToLog("Action Choice: " + IntToString(myAction));
 
         // Move back to inital location.
-        if(myAction == -1) {
-            writeToLog(" # Was in combat now looking to move back");
-            location myloc = GetLocation(OBJECT_SELF);
-            location spawnloc = GetLocalLocation(OBJECT_SELF, "spawnLoc");
-            if(GetDistanceBetweenLocations(myloc, spawnloc) < 0.5) {
-                writeToLog(" # I moved back now looking to do something new.");
-                SetLocalInt(OBJECT_SELF, "action", Random(3) + 1);
-            } else {
-                writeToLog(" # moving back");
-                ActionMoveToLocation(spawnloc, TRUE);
-            }
+        if(myAction == BANDIT_RETURN_ACTION) {
+            returnToStartLoc();
         }
         // Patrol around camp parimiter. It too close to another bandit wait.
-        if(myAction == 1) {
-            int wait = GetLocalInt(OBJECT_SELF, "turnsWaited");
-            if(notTooClose() && wait == 0) {
-                writeToLog(" # Not to close so next wp");
-                location nextWP = getNextWaypoint(oArea, campfireLoc,
-                                                    patrolCircle);
-                AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
-            } else if(wait >= 1) {
-                SetLocalInt(OBJECT_SELF, "turnsWaited", 0);
-            } else {
-                SetLocalInt(OBJECT_SELF, "turnsWaited", 1);
-            }
+        if(myAction == BANDIT_PATROL_ACTION) {
+            patrolAroundCamp(oArea, campfireLoc, patrolCircle);
         }
         // Sit on the ground near the fire
-        if(myAction == 2) {
-            writeToLog(" # Sit on the groud.");
-            location sitWP = getSitWaypoint(oArea, campfireLoc);
-            AssignCommand(OBJECT_SELF, ActionMoveToLocation(sitWP, FALSE));
-            AssignCommand(OBJECT_SELF, ActionPlayAnimation(
-                ANIMATION_LOOPING_SIT_CROSS, 1.0, 9999999.0));
+        if(myAction == BANDIT_SIT_ACTION) {
+            sitOnTheGround(oArea, campfireLoc);
+        }
+        // Sleep near the fire.
+        if(myAction == BANDIT_SLEEP_ACTION) {
+
         }
         // Interact with random objects near by.
-        if(myAction == 3) {
+        if(myAction == BANDIT_INTERACT_ACTION) {
 
         }
 

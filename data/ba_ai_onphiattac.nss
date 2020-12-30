@@ -17,13 +17,8 @@
 //*************************** ALFA Mod
 #include "alfa_combat"
 //*************************** End ALFA Mod3
-
-void writeToLog(string str) {
-    string oAreaName = GetName(GetArea(OBJECT_SELF));
-    string uuid = GetLocalString(OBJECT_SELF, "uuid");
-    WriteTimestampedLogEntry(uuid + " Bandit Camp: " + oAreaName + ": " +  str);
-}
-
+#include "_btb_ban_util"
+#include "ba_consts"
 
 void main()
 {
@@ -35,33 +30,8 @@ void main()
     // AI status check. Is the AI on?
     if(GetAIOff()) return;
 
-   ///////////////////////////////////////////////////////////////////////////
-   writeToLog(" ****************************************************");
-   int beenInCombat = GetLocalInt(OBJECT_SELF, "beenInCombat");
-    // Need to call other bandits to help and attack who attacked you.
-    if(beenInCombat <= 0) {
-        writeToLog(" ### new combat");
-        int i = 1;
-        int times =  Random(4) + 1;
-        object lastAttacker = GetLastAttacker(OBJECT_SELF);
-        for(i; i < times; i++) {
-            object bandit = GetNearestObjectByTag("banditcamper",
-                                                   OBJECT_SELF, i);
-            if(bandit != OBJECT_INVALID && !GetIsInCombat(bandit)
-                && GetDistanceBetween(OBJECT_SELF, bandit) < 50.0) {
-               writeToLog("Called " + GetLocalString(bandit, "uuid") +" for help");
-               AssignCommand(bandit, ActionAttack(lastAttacker));
-               // 2 out of 3 times they just run to help.
-               // 1 out of 3 they call for more too.
-               if(Random(3) > 0) {
-                SetLocalInt(bandit, "beenInCombat", 1);
-               }
-            }
-        }
-        SpeakString("Were under attack!");
-        //AssignCommand(OBJECT_SELF, ActionAttack(lastAttacker));
-        SetLocalInt(OBJECT_SELF, "beenInCombat", 1);
-    }
+    ///////////////////////////////////////////////////////////////////////////
+    onAttackActions();
     ///////////////////////////////////////////////////////////////////////////
 
     // Set up objects.

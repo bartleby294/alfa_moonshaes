@@ -1,3 +1,11 @@
+#include "ba_consts"
+
+void writeToLog(string str) {
+    string oAreaName = GetName(GetArea(OBJECT_SELF));
+    string uuid = GetLocalString(OBJECT_SELF, "uuid");
+    WriteTimestampedLogEntry(uuid + " Bandit Camp: " + oAreaName + ": " +  str);
+}
+
 float getFacing(vector campfireVector, vector possibleStructureVector) {
 
     vector direction = Vector(possibleStructureVector.x - campfireVector.x,
@@ -89,3 +97,41 @@ object spawnBandit(string resref, string race, string class,
     SetName(bandit, getBanditPrefix(banditLvl) + GetName(bandit));
     return bandit;
 }
+
+void onAttackActions() {
+   int myAction = GetLocalInt(OBJECT_SELF, "action");
+    // Need to call other bandits to help and attack who attacked you.
+    if(myAction > 0) {
+        writeToLog(" new combat PA");
+        int i = 1;
+        object lastAttacker = GetLastAttacker(OBJECT_SELF);
+        location lastAttackerLoc = GetLocation(lastAttacker);
+        object bandit = GetNearestObjectByTag("banditcamper", OBJECT_SELF, 1);
+        while(bandit != OBJECT_INVALID) {
+            if(!GetIsInCombat(bandit)) {
+                if(GetDistanceBetween(OBJECT_SELF, bandit) < 20.0) {
+                    writeToLog("Called " + GetLocalString(bandit, "uuid")
+                                    + " for help");
+                    AssignCommand(bandit, ActionAttack(lastAttacker));
+                    SetLocalInt(bandit, "action", BANDIT_ATTACK_ACTION);
+                } else {
+                    int actionChoice = Random(2) + 1;
+                    if(actionChoice == 1) {
+                        SetLocalInt(bandit, "action",
+                                        BANDIT_ATTACK_PATROL_ACTION);
+                        SetLocalLocation(bandit, "attackerLoc",lastAttackerLoc);
+                    }
+                    if(actionChoice == 2) {
+                        SetLocalInt(bandit, "action",
+                                        BANDIT_ATTACK_SEARCH_ACTION);
+                    }
+                }
+            }
+            i++;
+            bandit = GetNearestObjectByTag("banditcamper", OBJECT_SELF, i);
+        }
+        SpeakString("Were under attack!");
+        SetLocalInt(OBJECT_SELF, "action", BANDIT_ATTACK_ACTION);
+    }
+}
+
