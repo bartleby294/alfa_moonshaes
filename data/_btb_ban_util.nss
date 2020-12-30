@@ -115,6 +115,7 @@ void onAttackActions() {
         location lastAttackerLoc = GetLocation(lastAttacker);
         object bandit = GetNearestObjectByTag("banditcamper", OBJECT_SELF, 1);
         while(bandit != OBJECT_INVALID) {
+            SetLocalLocation(bandit, "attackerLoc", lastAttackerLoc);
             if(!GetIsInCombat(bandit)) {
                 AssignCommand(bandit, ClearAllActions());
                 if(GetDistanceBetween(OBJECT_SELF, bandit) < 50.0) {
@@ -131,7 +132,6 @@ void onAttackActions() {
                     if(actionChoice == 2) {
                         SetLocalInt(bandit, "action",
                                         BANDIT_ATTACK_SEARCH_ACTION);
-                        SetLocalLocation(bandit, "attackerLoc",lastAttackerLoc);
                     }
                 }
             }

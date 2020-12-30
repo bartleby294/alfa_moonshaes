@@ -231,6 +231,15 @@ void main()
             SetLocalInt(OBJECT_SELF, "hbSinceCombat", hbSinceCombat + 1);
         }
 
+        if(myAction == BANDIT_ATTACK_ACTION) {
+            if(!GetIsInCombat(OBJECT_SELF)){
+                location lastAttackerLoc =
+                                   GetLocalLocation(OBJECT_SELF, "attackerLoc");
+                AssignCommand(OBJECT_SELF,
+                                ActionMoveToLocation(lastAttackerLoc , TRUE));
+            }
+        }
+
         // Search near where the attack occured
         if(myAction == BANDIT_ATTACK_SEARCH_ACTION) {
             writeToLog(" # BANDIT_ATTACK_SEARCH_ACTION");
