@@ -278,7 +278,6 @@ void SortInventory(object oTarget)
         if(GetIsObjectValid(oItem))
         {
             CurrentItemType = GetBaseItemType(oItem);
-            SetAmmoCounters(oTarget);
             CurrentItemSize = GetWeaponSize(oItem);
             CurrentItemDamage = FALSE;// Reset
             if(CurrentItemSize)

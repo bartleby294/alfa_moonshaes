@@ -57,9 +57,9 @@ void main()
           (iAttackType == SPECIAL_ATTACK_IMPROVED_KNOCKDOWN ||
            iAttackType == SPECIAL_ATTACK_KNOCKDOWN) &&
           !GetIsImmune(OBJECT_SELF, IMMUNITY_TYPE_KNOCKDOWN) &&
-           GetBaseAttackBonus(oAttacker) + 20 >= GetAC(OBJECT_SELF))
+           GetBaseAttackBonus(oAttacker) + i20 >= GetAC(OBJECT_SELF))
         {
-            SetLocalTimer(AI_TIMER_KNOCKDOWN, 30.0);
+            SetLocalTimer(AI_TIMER_KNOCKDOWN, f30);
         }
 
         // Set last hostile attacker.
@@ -111,3 +111,4 @@ void main()
     //****************************** End ALFA Mod
 
 }
+
