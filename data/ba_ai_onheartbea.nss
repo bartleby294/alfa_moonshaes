@@ -237,8 +237,8 @@ void main()
         }
 
         // Patrol an increased range.
-        if(myAction == BANDIT_PATROL_ACTION) {
-            patrolAroundCamp(oArea, campfireLoc, patrolCircle * 2);
+        if(myAction == BANDIT_ATTACK_PATROL_ACTION) {
+            patrolAroundCamp(oArea, campfireLoc, patrolCircle + 10);
         }
 
         writeToLog("Action Choice: " + IntToString(myAction));
