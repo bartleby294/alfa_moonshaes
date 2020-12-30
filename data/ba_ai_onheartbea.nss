@@ -83,8 +83,8 @@ location getNextWaypoint(object oArea, location campfireLoc,
 
     SetLocalFloat(OBJECT_SELF, "theta", theta);
 
-    writeToLog(" theta: " + FloatToString(theta) +
-                    " direction " + FloatToString(direction));
+    //writeToLog(" theta: " + FloatToString(theta) +
+    //                " direction " + FloatToString(direction));
 
     float x = radius * cos(theta);
     float y = radius * sin(theta);
@@ -129,11 +129,11 @@ location getSitWaypoint(object oArea, location campfireLoc) {
 }
 
 void returnToStartLoc() {
-    writeToLog(" # Was in combat now looking to move back");
+    //writeToLog(" # Was in combat now looking to move back");
     location myloc = GetLocation(OBJECT_SELF);
     location spawnloc = GetLocalLocation(OBJECT_SELF, "spawnLoc");
-    if(GetDistanceBetweenLocations(myloc, spawnloc) < 0.5) {
-        writeToLog(" # I moved back now looking to do something new.");
+    if(GetDistanceBetweenLocations(myloc, spawnloc) < 1.0) {
+        //writeToLog(" # I moved back now looking to do something new.");
         SetLocalInt(OBJECT_SELF, "action", Random(3) + 1);
     } else {
         writeToLog(" # moving back");
@@ -145,8 +145,7 @@ void patrolAroundCamp(object oArea, location campfireLoc, int patrolCircle) {
     int wait = GetLocalInt(OBJECT_SELF, "turnsWaited");
     if(notTooClose() && wait == 0 && locatonIsValid(campfireLoc)) {
         //writeToLog(" # Not to close so next wp");
-        location nextWP = getNextWaypoint(oArea, campfireLoc,
-                                            patrolCircle);
+        location nextWP = getNextWaypoint(oArea, campfireLoc, patrolCircle);
         AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
         } else if(wait >= 1) {
             SetLocalInt(OBJECT_SELF, "turnsWaited", 0);
@@ -218,6 +217,7 @@ void main()
         // If we're in combat
         if(GetIsInCombat(OBJECT_SELF)){
             writeToLog(" # Is in combat");
+            SetLocalInt(OBJECT_SELF, "hbSinceCombat", 0);
             onAttackActions();
             return;
         // if we are no longer in combat, have been recently, and cool down lapsed.
