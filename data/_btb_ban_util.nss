@@ -118,7 +118,8 @@ void onAttackActions() {
         while(bandit != OBJECT_INVALID) {
             SetLocalLocation(bandit, "attackerLoc", lastAttackerLoc);
             if(!GetIsInCombat(bandit)) {
-                if(GetDistanceBetween(OBJECT_SELF, bandit) < 50.0) {
+                //if(GetDistanceBetween(OBJECT_SELF, bandit) < 50.0) {
+                if(TRUE){
                     writeToLog("Called " + GetLocalString(bandit, "uuid")
                                     + " for help");
                     AssignCommand(bandit, ActionAttack(lastAttacker));
