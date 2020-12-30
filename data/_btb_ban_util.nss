@@ -6,6 +6,13 @@ void writeToLog(string str) {
     WriteTimestampedLogEntry(uuid + " Bandit Camp: " + oAreaName + ": " +  str);
 }
 
+int locatonIsValid(location loc) {
+    if(GetAreaFromLocation(loc) != OBJECT_INVALID){
+        return TRUE;
+    }
+    return FALSE;
+}
+
 float getFacing(vector campfireVector, vector possibleStructureVector) {
 
     vector direction = Vector(possibleStructureVector.x - campfireVector.x,
@@ -119,11 +126,11 @@ void onAttackActions() {
                     if(actionChoice == 1) {
                         SetLocalInt(bandit, "action",
                                         BANDIT_ATTACK_PATROL_ACTION);
-                        SetLocalLocation(bandit, "attackerLoc",lastAttackerLoc);
                     }
                     if(actionChoice == 2) {
                         SetLocalInt(bandit, "action",
                                         BANDIT_ATTACK_SEARCH_ACTION);
+                        SetLocalLocation(bandit, "attackerLoc",lastAttackerLoc);
                     }
                 }
             }

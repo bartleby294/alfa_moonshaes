@@ -143,7 +143,7 @@ void returnToStartLoc() {
 
 void patrolAroundCamp(object oArea, location campfireLoc, int patrolCircle) {
     int wait = GetLocalInt(OBJECT_SELF, "turnsWaited");
-    if(notTooClose() && wait == 0) {
+    if(notTooClose() && wait == 0 && locatonIsValid(campfireLoc)) {
         //writeToLog(" # Not to close so next wp");
         location nextWP = getNextWaypoint(oArea, campfireLoc,
                                             patrolCircle);
@@ -157,7 +157,7 @@ void patrolAroundCamp(object oArea, location campfireLoc, int patrolCircle) {
 
 void patrolAroundHostileArea(object oArea, location patrolLoc, int circle) {
     int wait = GetLocalInt(OBJECT_SELF, "turnsWaited");
-    if(notTooClose() && wait == 0) {
+    if(notTooClose() && wait == 0 && locatonIsValid(patrolLoc)) {
         location nextWP = getNextWaypoint(oArea, patrolLoc, circle);
         AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
         } else if(wait >= 1) {
