@@ -108,6 +108,7 @@ object spawnBandit(string resref, string race, string class,
 void onAttackActions() {
    int myAction = GetLocalInt(OBJECT_SELF, "action");
     // Need to call other bandits to help and attack who attacked you.
+    AssignCommand(bandit, ClearAllActions());
     if(myAction > 0) {
         writeToLog(" new combat PA");
         int i = 1;
@@ -117,7 +118,6 @@ void onAttackActions() {
         while(bandit != OBJECT_INVALID) {
             SetLocalLocation(bandit, "attackerLoc", lastAttackerLoc);
             if(!GetIsInCombat(bandit)) {
-                AssignCommand(bandit, ClearAllActions());
                 if(GetDistanceBetween(OBJECT_SELF, bandit) < 50.0) {
                     writeToLog("Called " + GetLocalString(bandit, "uuid")
                                     + " for help");
