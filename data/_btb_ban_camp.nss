@@ -290,7 +290,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalLocation(bandit, "campfireLoc", campfireLoc);
             SetLocalLocation(bandit, "spawnLoc", spawnLoc);
             SetLocalInt(bandit, "circle_max", circle_max);
-            SetLocalInt(bandit, "action", Random(BANDIT_MAX_ACTION) + 1);
+            SetLocalInt(bandit, "action", Random(4) + 1);
             banditCnt--;
         }
         cnt++;
