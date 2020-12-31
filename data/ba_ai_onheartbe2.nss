@@ -175,8 +175,17 @@ void sitOnTheGround(object oArea, location campfireLoc) {
         ANIMATION_LOOPING_SIT_CROSS, 1.0, 9999999.0));
 }
 
-void sleepByTheFire() {
-
+void sleepByTheFire(object oArea, location campfireLoc) {
+    //writeToLog(" # Sleep on the groud.");
+    location sitWP = getSitWaypoint(oArea, campfireLoc);
+    if(GetDistanceBetweenLocations(GetLocation(OBJECT_SELF), sitWP) > 1.0) {
+        AssignCommand(OBJECT_SELF, ActionMoveToLocation(sitWP, FALSE));
+    } else {
+        effect eLieDown = EffectSleep();
+        effect eSnore = EffectVisualEffect (VFX_IMP_SLEEP);
+        effect eSleep = EffectLinkEffects (eLieDown, eSnore);
+        ApplyEffectToObject (DURATION_TYPE_PERMANENT, eSleep, OBJECT_SELF);
+    }
 }
 
 void customActions(object oArea, int myAction) {
@@ -229,7 +238,7 @@ void customActions(object oArea, int myAction) {
 
     writeToLog("Action Choice: " + IntToString(myAction));
 
-    // Move back to inital location.
+    // Move back to inital location. Or just stand gaurd.
     if(myAction == BANDIT_RETURN_ACTION) {
         writeToLog(" # BANDIT_RETURN_ACTION");
         returnToStartLoc();
@@ -246,12 +255,13 @@ void customActions(object oArea, int myAction) {
     }
     // Sleep near the fire.
     if(myAction == BANDIT_SLEEP_ACTION) {
-
+        writeToLog(" # BANDIT_SLEEP_ACTION");
+        sleepByTheFire(oArea, campfireLoc);
     }
     // Interact with random objects near by.
-    if(myAction == BANDIT_INTERACT_ACTION) {
-
-    }
+    //if(myAction == BANDIT_INTERACT_ACTION) {
+    //
+    //}
 }
 
 void main()

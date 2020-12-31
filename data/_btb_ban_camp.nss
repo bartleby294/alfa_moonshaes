@@ -6,11 +6,6 @@
 #include "nwnx_area"
 #include "_btb_ban_util"
 
-void writeToLog(string str) {
-    string oAreaName = GetName(GetArea(OBJECT_SELF));
-    WriteTimestampedLogEntry("Bandit Camp: " + oAreaName + ": " +  str);
-}
-
 int getRandomDimensionOffBorder(int dimension, int buffer) {
     int doubleBuffer = 2 * buffer;
     // if you ask for a buffer larger than your dimension its meaningless so
@@ -295,7 +290,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalLocation(bandit, "campfireLoc", campfireLoc);
             SetLocalLocation(bandit, "spawnLoc", spawnLoc);
             SetLocalInt(bandit, "circle_max", circle_max);
-            SetLocalInt(bandit, "action", Random(4) + 1);
+            SetLocalInt(bandit, "action", Random(BANDIT_MAX_ACTION) + 1);
             banditCnt--;
         }
         cnt++;
