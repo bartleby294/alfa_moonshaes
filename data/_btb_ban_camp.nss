@@ -344,6 +344,12 @@ void main()
         writeToLog("Camp is currently spawned.");
     } else {
         writeToLog("Setting up camp.");
+        writeToLog("maxStructures = " + IntToString(maxStructures));
+        writeToLog("minStructures = " + IntToString(minStructures));
+        writeToLog("min_traps = " + IntToString(min_traps));
+        writeToLog("max_traps = " + IntToString(max_traps));
+        writeToLog("circle_min = " + IntToString(circle_min));
+        writeToLog("circle_max = " + IntToString(circle_max));
         SetupCamp(oArea, maxStructures, minStructures, min_traps, max_traps,
                    circle_min, circle_max);
     }

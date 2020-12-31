@@ -24,14 +24,14 @@ void DestroyCamp(object oArea){
 
 void main()
 {
-    writeToLog("===================================");
-    writeToLog("|BANDIT CAMPFIRE HEARTBEAT");
+    //writeToLog("===================================");
+    //writeToLog("|BANDIT CAMPFIRE HEARTBEAT");
     object oArea = GetArea(OBJECT_SELF);
     int lastRaid = GetCampaignInt("BANDIT_CAMP_PC_LAST_OBSERVED",
         "BANDIT_CAMP_PC_LAST_OBSERVED" + GetTag(oArea));
     // If no one is in the area check if we should destory camp.
     if(NWNX_Area_GetNumberOfPlayersInArea(oArea) == 0) {
-        writeToLog("|No players in the area.");
+        //writeToLog("|No players in the area.");
         // If we there are no players in the area and haven't been in
         // the alloted time destory the camp.
         if(NWNX_Time_GetTimeStamp() - lastRaid
@@ -41,7 +41,7 @@ void main()
         }
     // If someone is in the area update the last seen time.
     } else {
-        writeToLog("|Player found updating timestamp.");
+        //writeToLog("|Player found updating timestamp.");
         SetCampaignInt("BANDIT_CAMP_PC_LAST_OBSERVED",
             "BANDIT_CAMP_PC_LAST_OBSERVED" + GetTag(oArea),
             NWNX_Time_GetTimeStamp());
