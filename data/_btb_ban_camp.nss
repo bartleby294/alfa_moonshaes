@@ -319,14 +319,14 @@ void main()
     int circle_max = 1;
     // Get what type of bandit party this is and set specifics for that party.
     // Default above is for bandit_look_sm
-    if(GetTag(OBJECT_SELF) == "bandit_look_md") {
+    if(GetTag(OBJECT_SELF) == "bandit_camp_md") {
         maxStructures = 10;
         minStructures = 7;
         int min_traps = 4;
         int max_traps = 6;
         circle_min = 1;
         circle_max = 2;
-    } else if(GetTag(OBJECT_SELF) == "bandit_look_lg") {
+    } else if(GetTag(OBJECT_SELF) == "bandit_camp_lg") {
         maxStructures = 15;
         minStructures = 9;
         int min_traps = 5;
