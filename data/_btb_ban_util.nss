@@ -6,6 +6,65 @@ void writeToLog(string str) {
     WriteTimestampedLogEntry(uuid + " Bandit Camp: " + oAreaName + ": " +  str);
 }
 
+int GetBaseGroup(int nItem) {
+    // 0 - Non-equippable items
+    // 1 - Shields
+    // 2 - One handed weapons
+    // 3 - Two handed weapons
+    int nValue = 0;
+    switch (nItem ) {
+    //Shield group - usable in off hand only.
+    case BASE_ITEM_SMALLSHIELD:
+    case BASE_ITEM_TOWERSHIELD:
+    case BASE_ITEM_LARGESHIELD:
+        nValue = 1;
+        break;
+    //One handed weapons
+    case BASE_ITEM_BASTARDSWORD:
+    case BASE_ITEM_BATTLEAXE:
+    case BASE_ITEM_CLUB:
+    case BASE_ITEM_DAGGER:
+    case BASE_ITEM_DART:
+    case BASE_ITEM_HANDAXE:
+    case BASE_ITEM_KAMA:
+    case BASE_ITEM_KATANA:
+    case BASE_ITEM_KUKRI:
+    case BASE_ITEM_LIGHTFLAIL:
+    case BASE_ITEM_LIGHTHAMMER:
+    case BASE_ITEM_LIGHTMACE:
+    case BASE_ITEM_LONGSWORD:
+    case BASE_ITEM_RAPIER:
+    case BASE_ITEM_SCIMITAR:
+    case BASE_ITEM_SHORTSWORD:
+    case BASE_ITEM_MORNINGSTAR:
+    case BASE_ITEM_SHURIKEN:
+    case BASE_ITEM_SICKLE:
+    case BASE_ITEM_SLING:
+    case BASE_ITEM_THROWINGAXE:
+    case BASE_ITEM_WARHAMMER:
+        nValue = 2;
+        break;
+    //Two Handed Weapons
+    case BASE_ITEM_GREATSWORD:
+    case BASE_ITEM_LIGHTCROSSBOW:
+    case BASE_ITEM_SHORTBOW:
+    case BASE_ITEM_DIREMACE:
+    case BASE_ITEM_DOUBLEAXE:
+    case BASE_ITEM_GREATAXE:
+    case BASE_ITEM_HALBERD:
+    case BASE_ITEM_HEAVYCROSSBOW:
+    case BASE_ITEM_HEAVYFLAIL:
+    case BASE_ITEM_LONGBOW:
+    case BASE_ITEM_QUARTERSTAFF:
+    case BASE_ITEM_SCYTHE:
+    case BASE_ITEM_SHORTSPEAR:
+    case BASE_ITEM_TWOBLADEDSWORD:
+        nValue = 3;
+        break;
+    }
+    return nValue;
+}
+
 int locatonIsValid(location loc) {
     if(GetAreaFromLocation(loc) != OBJECT_INVALID){
         return TRUE;
@@ -142,5 +201,54 @@ void onAttackActions() {
         SpeakString("Were under attack!");
         SetLocalInt(OBJECT_SELF, "action", BANDIT_ATTACK_ACTION);
     }
+}
+
+void putWeaponAway() {
+    object objInHand = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND);
+    if(GetBaseGroup(GetBaseItemType(objInHand)) == 2
+        || GetBaseGroup(GetBaseItemType(objInHand)) == 3)
+    {
+        ActionUnequipItem(objInHand);
+    }
+    objInHand = GetItemInSlot(INVENTORY_SLOT_LEFTHAND);
+    if(GetBaseGroup(GetBaseItemType(objInHand)) == 2
+        || GetBaseGroup(GetBaseItemType(objInHand)) == 1)
+    {
+        DelayCommand(0.1, ActionUnequipItem(objInHand));
+    }
+    return;
+}
+
+/**
+ *  Select a random valid Location in camp around the fire.
+ */
+location selectLocationAroundFire(object oArea, location campfireLoc,
+                              int radius) {
+    int radSqr = radius * radius;
+    int xsqr = Random(radSqr);
+    int ysqr = radSqr - xsqr;
+
+    float x = sqrt(IntToFloat(xsqr));
+    float y = sqrt(IntToFloat(ysqr));
+
+    if(Random(2) == 1) {
+        x = x * -1;
+    }
+
+    if(Random(2) == 1) {
+        y = y * -1;
+    }
+
+    vector campfireVector = GetPositionFromLocation(campfireLoc);
+    location possibleStructureLoc = Location(oArea,
+        Vector(campfireVector.x + x, campfireVector.y+ y, 0.0), 0.0);
+    float z = GetGroundHeight(possibleStructureLoc);
+
+    possibleStructureLoc = Location(oArea,
+        Vector(campfireVector.x + x, campfireVector.y+ y, z),
+            getFacing(campfireVector,
+                GetPositionFromLocation(possibleStructureLoc)));
+
+    return possibleStructureLoc;
 }
 

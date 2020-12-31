@@ -169,7 +169,8 @@ void patrolAroundHostileArea(object oArea, location patrolLoc, int circle) {
 
 void sitOnTheGround(object oArea, location campfireLoc) {
     //writeToLog(" # Sit on the groud.");
-    location sitWP = getSitWaypoint(oArea, campfireLoc);
+    int offset = (GetLocalInt(OBJECT_SELF, "circle_max") - 1) * 5;
+    location sitWP = selectLocationAroundFire(oArea, campfireLoc, offset + 1);
     AssignCommand(OBJECT_SELF, ActionMoveToLocation(sitWP, FALSE));
     AssignCommand(OBJECT_SELF, ActionPlayAnimation(
         ANIMATION_LOOPING_SIT_CROSS, 1.0, 9999999.0));
@@ -177,15 +178,13 @@ void sitOnTheGround(object oArea, location campfireLoc) {
 
 void sleepByTheFire(object oArea, location campfireLoc) {
     //writeToLog(" # Sleep on the groud.");
-    location sitWP = getSitWaypoint(oArea, campfireLoc);
-    if(GetDistanceBetweenLocations(GetLocation(OBJECT_SELF), sitWP) > 1.0) {
-        AssignCommand(OBJECT_SELF, ActionMoveToLocation(sitWP, FALSE));
-    } else {
-        effect eLieDown = EffectSleep();
-        effect eSnore = EffectVisualEffect (VFX_IMP_SLEEP);
-        effect eSleep = EffectLinkEffects (eLieDown, eSnore);
-        ApplyEffectToObject (DURATION_TYPE_PERMANENT, eSleep, OBJECT_SELF);
-    }
+    int offset = (GetLocalInt(OBJECT_SELF, "circle_max") - 1) * 5;
+    location sleepWP = selectLocationAroundFire(oArea, campfireLoc, offset + 2);
+    AssignCommand(OBJECT_SELF, ActionMoveToLocation(sleepWP, FALSE));
+    putWeaponAway();
+    AssignCommand(OBJECT_SELF, ActionPlayAnimation(
+        ANIMATION_LOOPING_SIT_CROSS, 1.0, 9999999.0));
+
 }
 
 void customActions(object oArea, int myAction) {
