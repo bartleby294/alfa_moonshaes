@@ -203,8 +203,8 @@ object createBanditTrap(object oArea, location campfireLoc, int circle_min,
                             int circle_max, object bandit) {
 
     location possibleTrapLoc =
-                selectLocationInCamp(oArea, campfireLoc,circle_min,
-                                     circle_max, 2.0);
+                selectLocationInCamp(oArea, campfireLoc, circle_max + 1,
+                                     circle_max + 2, 2.0);
 
     // Check if we got a valid location back
     if(GetAreaFromLocation(possibleTrapLoc) == OBJECT_INVALID) {
@@ -323,8 +323,8 @@ void main()
 {
     int maxStructures = 6;
     int minStructures = 4;
-    int min_traps = 3;
-    int max_traps = 5;
+    int min_traps = 4;
+    int max_traps = 6;
     int circle_min = 1;
     int circle_max = 1;
     // Get what type of bandit party this is and set specifics for that party.
@@ -332,15 +332,15 @@ void main()
     if(GetTag(OBJECT_SELF) == "bandit_camp_md") {
         maxStructures = 10;
         minStructures = 7;
-        int min_traps = 4;
-        int max_traps = 6;
+        int min_traps = 6;
+        int max_traps = 10;
         circle_min = 1;
         circle_max = 2;
     } else if(GetTag(OBJECT_SELF) == "bandit_camp_lg") {
         maxStructures = 15;
         minStructures = 9;
-        int min_traps = 5;
-        int max_traps = 8;
+        int min_traps = 8;
+        int max_traps = 16;
         circle_min = 1;
         circle_max = 3;
     }

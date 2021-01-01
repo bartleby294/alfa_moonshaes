@@ -169,6 +169,7 @@ void patrolAroundHostileArea(object oArea, location patrolLoc, int circle) {
 
 void sitOnTheGround(object oArea, location campfireLoc) {
     //writeToLog(" # Sit on the groud.");
+    putWeaponAway();
     int offset = (Random(GetLocalInt(OBJECT_SELF, "circle_max"))) * 5;
     location sitWP = selectLocationAroundFire(oArea, campfireLoc, offset + 1);
     AssignCommand(OBJECT_SELF, ActionMoveToLocation(sitWP, FALSE));

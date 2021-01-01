@@ -247,7 +247,7 @@ object spawnBandit(string resref, string race, string class,
     return bandit;
 }
 
-void onAttackActions() {
+void onAttackActions(string yellString) {
    int myAction = GetLocalInt(OBJECT_SELF, "action");
     // Need to call other bandits to help and attack who attacked you.
     AssignCommand(OBJECT_SELF, ClearAllActions());
@@ -281,7 +281,7 @@ void onAttackActions() {
             i++;
             bandit = GetNearestObjectByTag("banditcamper", OBJECT_SELF, i);
         }
-        SpeakString("Were under attack!");
+        SpeakString(yellString);
         SetLocalInt(OBJECT_SELF, "action", BANDIT_ATTACK_ACTION);
     }
 }

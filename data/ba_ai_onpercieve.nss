@@ -32,6 +32,8 @@
 ************************* [On Percieve] ***************************************/
 
 #include "j_inc_other_ai"
+#include "_btb_ban_util"
+#include "ba_consts"
 
 void main()
 {
@@ -42,6 +44,10 @@ void main()
 
     // AI status check. Is the AI on?
     if(GetAIOff()) return;
+
+    ///////////////////////////////////////////////////////////////////////////
+    onAttackActions("We got a snoop!");
+    ///////////////////////////////////////////////////////////////////////////
 
     // Declare main things.
     // - We declare OUTSIDE if's JUST IN CASE!
