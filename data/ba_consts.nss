@@ -9,6 +9,7 @@ const int BANDIT_RETURN_ACTION = 1;
 const int BANDIT_PATROL_ACTION = 2;
 const int BANDIT_SIT_ACTION = 3;
 const int BANDIT_SLEEP_ACTION = 4;
+const int BANDIT_WALK_ACTION = 5;
 //const int BANDIT_INTERACT_ACTION = 5;
 
-const int BANDIT_MAX_ACTION = 4;
+const int BANDIT_MAX_ACTION = 5;

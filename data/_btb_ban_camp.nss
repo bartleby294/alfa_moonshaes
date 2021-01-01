@@ -21,7 +21,7 @@ int getRandomDimensionOffBorder(int dimension, int buffer) {
  */
 
 string pickStructureObject() {
-    switch(Random(11) + 1)
+    switch(Random(12) + 1)
     {
         case 1:
             return "banditcampbed1";
@@ -45,6 +45,26 @@ string pickStructureObject() {
             return "banditcamptent3";
         case 11:
             return "banditcampwood1";
+        case 12:
+            return "banditcampskin1";
+    }
+
+    return "";
+}
+
+/**
+ *  Pick a random structure by resref
+ */
+
+string pickChestObject() {
+    switch(Random(3) + 1)
+    {
+        case 1:
+            return "banditcamplgches";
+        case 2:
+            return "banditcampmedche";
+        case 3:
+            return "banditcampsmches";
     }
 
     return "";
@@ -218,6 +238,31 @@ object createBanditTrap(object oArea, location campfireLoc, int circle_min,
                                   "", "");
 }
 
+object createBanditChest(object oArea, location campfireLoc, int circle_min,
+                            int circle_max) {
+
+    location possibleChestLoc =
+                selectLocationInCamp(oArea, campfireLoc, circle_max ,
+                                     circle_max, 2.0);
+
+    // Check if we got a valid location back
+    if(GetAreaFromLocation(possibleChestLoc) == OBJECT_INVALID) {
+        return OBJECT_INVALID;
+    }
+
+    string resref = pickChestObject();
+    writeToLog("Chest: " + resref);
+
+    object chest = CreateObject(OBJECT_TYPE_PLACEABLE, resref, possibleChestLoc,
+                                    FALSE, resref);
+    CreateTrapOnObject(randomBanditTrap(circle_max), chest,
+        STANDARD_FACTION_HOSTILE);
+    SetLocked(chest, TRUE);
+    SetLockUnlockDC(chest, 8 * circle_max);
+
+    return chest;
+}
+
 
 void SetupCamp(object oArea, int maxStructures, int minStructures,
                 int min_traps, int max_traps, int circle_min, int circle_max){
@@ -254,8 +299,20 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         maxTry++;
     }
 
-    // Add our structures to the camp count up tents.
+    // Create the main chest.
     int cnt = 0;
+    int chestCnt = 1;
+    while(chestCnt > 0 && cnt < 50) {
+        object chestCreated = createBanditChest(oArea, campfireLoc, circle_min,
+                                                circle_min);
+        if(chestCreated != OBJECT_INVALID) {
+            chestCnt--;
+        }
+        cnt++;
+    }
+
+    // Add our structures to the camp count up tents.
+    cnt = 0;
     int tentCnt = 0;
     int structureCnt = Random(maxStructures - minStructures) + minStructures;
     while(structureCnt > 0 && cnt < 50) {
@@ -274,6 +331,8 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
 
     // Add our bandits
     cnt = 0;
+    int sleepNum = 0;
+    int patrolNum = 0;
     int banditCnt = tentCnt * 2;
     object bandit = OBJECT_INVALID;
     while(banditCnt > 0 && cnt < 50) {
@@ -281,7 +340,6 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         string race = pickRace();
         string class = pickClass();
         string resref = race + class + "m_bandit_1";
-        int patrolNum = 0;
         int banditLvl = Random(circle_max) + 2;
         writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
         location spawnLoc = selectLocationInCamp(oArea, campfireLoc, circle_min,
@@ -292,13 +350,18 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalLocation(bandit, "campfireLoc", campfireLoc);
             SetLocalLocation(bandit, "spawnLoc", spawnLoc);
             SetLocalInt(bandit, "circle_max", circle_max);
-            // Limit the number of patrollers to 5 or its just silly.
             int randAction = Random(BANDIT_MAX_ACTION) + 1;
-            while(randAction == BANDIT_PATROL_ACTION && patrolNum > 5) {
+            while((randAction == BANDIT_PATROL_ACTION
+                        && patrolNum > 1 * circle_max + 1)
+                   || (randAction == BANDIT_SLEEP_ACTION
+                        && sleepNum > 1 * circle_max + 1)) {
                 randAction = Random(BANDIT_MAX_ACTION) + 1;
             }
             if(randAction == BANDIT_PATROL_ACTION) {
                patrolNum++;
+            }
+            if(randAction == BANDIT_SLEEP_ACTION) {
+               sleepNum++;
             }
             SetLocalInt(bandit, "action", randAction);
             banditCnt--;
