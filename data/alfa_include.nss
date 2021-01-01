@@ -48,7 +48,7 @@
 #include "pfp_inc"
 
 /* Horse System */
-#include "acr_horse_i"
+//#include "acr_horse_i"
 
 /* Forward declarations */
 void ALFA_CheckAnimations(object oPC);
@@ -95,7 +95,7 @@ object oPC = GetPCItemLastUnequippedBy();
 
 //Fires the vfx effects for equipment
 ExecuteScript("alfa_unequiping", oItem);
-ALFA_HorseOnUnequipItem();
+//ALFA_HorseOnUnequipItem();
 }
 
 /*
@@ -129,7 +129,7 @@ void ALFA_OnAcquireItem()
     }
 
   ALFA_AcquireItem( oItem );
-  ALFA_HorseOnAcquireItem();
+  //ALFA_HorseOnAcquireItem();
   SignalEvent( OBJECT_SELF, EventUserDefined(ALFA_EVENT_MODULE_ON_ACQUIRE) );
 }
 
@@ -256,7 +256,7 @@ void DetermineSubduedOrDead()
 void ALFA_OnPlayerDeath()
 {
   object oPC = GetLastPlayerDied();
-  ALFA_MountedDying(oPC);
+  //ALFA_MountedDying(oPC);
   AssignCommand(oPC, DetermineSubduedOrDead());
   AC_OnPlayerDeath(oPC);
 }
@@ -269,7 +269,7 @@ void ALFA_OnPlayerDying()
 {
   object oPC = GetLastPlayerDying();
 
-  ALFA_MountedDying(oPC);
+  //ALFA_MountedDying(oPC);
 
   // Kill familiars who were possessed.
   if ( GetIsPC( oPC ) == TRUE
@@ -392,7 +392,7 @@ void ALFA_OnClientEnter()
       AssignCommand(oPC, ExecuteScript("alfa_gold_hb", OBJECT_SELF));
 
   /* Horse System */
-  ALFA_OnHorseOwnerEnter(GetEnteringObject());
+  //ALFA_OnHorseOwnerEnter(GetEnteringObject());
 
   /* Animations and Maneuvers */
   DelayCommand(30.0f, ALFA_CheckAnimations(oPC));
@@ -414,7 +414,7 @@ void ALFA_OnHeartbeat()
 
   object oPC = GetFirstPC();
   while(oPC != OBJECT_INVALID) {
-    ALFA_HorseOnHeartbeat(oPC);
+    //ALFA_HorseOnHeartbeat(oPC);
     oPC = GetNextPC();
   }
 
@@ -454,7 +454,7 @@ void ALFA_OnClientLeave()
   ExecuteScript( "alfa_1984_leave", OBJECT_SELF );
 
   // Horse system
-  ALFA_OnHorseOwnerLeave();
+  //ALFA_OnHorseOwnerLeave();
 
   /* User Defined */
   SignalEvent( OBJECT_SELF, EventUserDefined(ALFA_EVENT_MODULE_ON_LEAVE) );
@@ -589,7 +589,7 @@ void ALFA_OnRest()
   SignalEvent( OBJECT_SELF, EventUserDefined(ALFA_EVENT_MODULE_ON_REST) );
 
   /* Horse System */
-  ALFA_MountedRest(oPC);
+  //ALFA_MountedRest(oPC);
 
   /* Spell Tracking System */
   if(nRestEvent == REST_EVENTTYPE_REST_CANCELLED)
@@ -651,7 +651,7 @@ void ALFA_OnUnacquireItem()
     }
 
   // Horse system.
-  ALFA_HorseOnUnacquireItem();
+  //ALFA_HorseOnUnacquireItem();
 
   /* User Defined */
   SignalEvent( OBJECT_SELF, EventUserDefined(ALFA_EVENT_MODULE_ON_UNACQUIRE) );
