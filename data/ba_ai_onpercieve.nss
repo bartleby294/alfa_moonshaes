@@ -45,10 +45,6 @@ void main()
     // AI status check. Is the AI on?
     if(GetAIOff()) return;
 
-    ///////////////////////////////////////////////////////////////////////////
-    onAttackActions("We got a snoop!");
-    ///////////////////////////////////////////////////////////////////////////
-
     // Declare main things.
     // - We declare OUTSIDE if's JUST IN CASE!
     object oPerceived = GetLastPerceived();
@@ -142,6 +138,9 @@ void main()
                     // - Turns it off in it too
                     // - Variable range On Spawn
                     ShoutBossShout(oPerceived);
+                    ////////////////////////////////////////////////////////////
+                    onAttackActions("We got a snoop!");
+                    ////////////////////////////////////////////////////////////
 
                     // Warn others
                     AISpeakString(I_WAS_ATTACKED);
