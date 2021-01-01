@@ -21,6 +21,10 @@ void main()
   writeToLog("---------------------");
   writeToLog("_place_stool_04");
   writeToLog("useablestool01");
+  writeToLog("oArea: " + GetTag(oArea));
+  writeToLog("oItem: " + GetTag(oItem));
+  writeToLog("ChairLocFinal: " + GetTag(GetAreaFromLocation(ChairLocFinal)));
+  writeToLog("oPC: " + GetPCPlayerName(oPC));
   writeToLog("---------------------");
 
     //signCommand(oPC, ActionSpeakString("*Sets up stool.*"));
