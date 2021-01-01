@@ -65,6 +65,89 @@ int GetBaseGroup(int nItem) {
     return nValue;
 }
 
+int randomBanditTrap(int circle_max) {
+
+    if(circle_max == 1) {
+        switch(Random(10) + 1)
+        {
+            case 1:
+                return TRAP_BASE_TYPE_MINOR_ACID;
+            case 2:
+                return TRAP_BASE_TYPE_MINOR_ACID_SPLASH;
+            case 3:
+                return TRAP_BASE_TYPE_MINOR_ELECTRICAL;
+            case 4:
+                return TRAP_BASE_TYPE_MINOR_FIRE;
+            case 5:
+                return TRAP_BASE_TYPE_MINOR_FROST;
+            case 6:
+                return TRAP_BASE_TYPE_MINOR_GAS;
+            case 7:
+                return TRAP_BASE_TYPE_MINOR_NEGATIVE;
+            case 8:
+                return TRAP_BASE_TYPE_MINOR_SONIC;
+            case 9:
+                return TRAP_BASE_TYPE_MINOR_SPIKE;
+            case 10:
+                return TRAP_BASE_TYPE_MINOR_TANGLE;
+        }
+    }
+
+    if(circle_max == 2) {
+        switch(Random(10) + 1)
+        {
+            case 1:
+                return TRAP_BASE_TYPE_AVERAGE_ACID;
+            case 2:
+                return TRAP_BASE_TYPE_AVERAGE_ACID_SPLASH;
+            case 3:
+                return TRAP_BASE_TYPE_AVERAGE_ELECTRICAL;
+            case 4:
+                return TRAP_BASE_TYPE_AVERAGE_FIRE;
+            case 5:
+                return TRAP_BASE_TYPE_AVERAGE_FROST;
+            case 6:
+                return TRAP_BASE_TYPE_AVERAGE_GAS;
+            case 7:
+                return TRAP_BASE_TYPE_AVERAGE_NEGATIVE;
+            case 8:
+                return TRAP_BASE_TYPE_AVERAGE_SONIC;
+            case 9:
+                return TRAP_BASE_TYPE_AVERAGE_SPIKE;
+            case 10:
+                return TRAP_BASE_TYPE_AVERAGE_TANGLE;
+        }
+    }
+
+    if(circle_max == 3) {
+        switch(Random(10) + 1)
+        {
+            case 1:
+                return TRAP_BASE_TYPE_STRONG_ACID;
+            case 2:
+                return TRAP_BASE_TYPE_STRONG_ACID_SPLASH;
+            case 3:
+                return TRAP_BASE_TYPE_STRONG_ELECTRICAL;
+            case 4:
+                return TRAP_BASE_TYPE_STRONG_FIRE;
+            case 5:
+                return TRAP_BASE_TYPE_STRONG_FROST;
+            case 6:
+                return TRAP_BASE_TYPE_STRONG_GAS;
+            case 7:
+                return TRAP_BASE_TYPE_STRONG_NEGATIVE;
+            case 8:
+                return TRAP_BASE_TYPE_STRONG_SONIC;
+            case 9:
+                return TRAP_BASE_TYPE_STRONG_SPIKE;
+            case 10:
+                return TRAP_BASE_TYPE_STRONG_TANGLE;
+        }
+    }
+
+    return TRAP_BASE_TYPE_MINOR_ACID;
+}
+
 int locatonIsValid(location loc) {
     if(GetAreaFromLocation(loc) != OBJECT_INVALID){
         return TRUE;

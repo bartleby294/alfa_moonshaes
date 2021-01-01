@@ -156,35 +156,13 @@ location selectLocationInCamp(object oArea, location campfireLoc,
 }
 
 /**
- *  Create a random bandit traps.
- */
-object createBanditTrap(object oArea, location campfireLoc,
-                            int circle_min, int circle_max) {
-
-    location possibleStructureLoc =
-                selectLocationInCamp(oArea, campfireLoc,circle_min,
-                                     circle_max, 2.0);
-
-    // Check if we got a valid location back
-    if(GetAreaFromLocation(possibleStructureLoc) == OBJECT_INVALID) {
-        return OBJECT_INVALID;
-    }
-
-    string resref = pickStructureObject();
-    writeToLog("Create: " + resref);
-    return CreateObject(OBJECT_TYPE_PLACEABLE, resref, possibleStructureLoc,
-                         FALSE, resref);
-}
-
-
-/**
  *  Create a random bandit strucuture.
  */
 object createBanditStructure(object oArea, location campfireLoc,
                             int circle_min, int circle_max) {
 
     location possibleStructureLoc =
-                selectLocationInCamp(oArea, campfireLoc,circle_min,
+                selectLocationInCamp(oArea, campfireLoc, circle_min,
                                      circle_max, 2.0);
 
     // Check if we got a valid location back
@@ -217,6 +195,29 @@ int campfireLocationGood(location campfireLoc) {
 
     return 1;
 }
+
+/**
+ *  Create a random bandit traps.
+ */
+object createBanditTrap(object oArea, location campfireLoc, int circle_min,
+                            int circle_max, object bandit) {
+
+    location possibleTrapLoc =
+                selectLocationInCamp(oArea, campfireLoc,circle_min,
+                                     circle_max, 2.0);
+
+    // Check if we got a valid location back
+    if(GetAreaFromLocation(possibleTrapLoc) == OBJECT_INVALID) {
+        return OBJECT_INVALID;
+    }
+
+    string resref = pickStructureObject();
+    writeToLog("Trap: " + resref);
+    return CreateTrapAtLocation(randomBanditTrap(circle_max), possibleTrapLoc,
+                                  2.0, "bandit_trap", STANDARD_FACTION_HOSTILE,
+                                  "", "");
+}
+
 
 void SetupCamp(object oArea, int maxStructures, int minStructures,
                 int min_traps, int max_traps, int circle_min, int circle_max){
@@ -280,6 +281,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         string race = pickRace();
         string class = pickClass();
         string resref = race + class + "m_bandit_1";
+        int patrolNum = 0;
         int banditLvl = Random(circle_max) + 2;
         writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
         location spawnLoc = selectLocationInCamp(oArea, campfireLoc, circle_min,
@@ -290,23 +292,31 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalLocation(bandit, "campfireLoc", campfireLoc);
             SetLocalLocation(bandit, "spawnLoc", spawnLoc);
             SetLocalInt(bandit, "circle_max", circle_max);
-            SetLocalInt(bandit, "action", Random(4) + 1);
+            // Limit the number of patrollers to 5 or its just silly.
+            int randAction = Random(BANDIT_MAX_ACTION) + 1;
+            while(randAction == BANDIT_PATROL_ACTION && patrolNum > 5) {
+                randAction = Random(BANDIT_MAX_ACTION) + 1;
+            }
+            if(randAction == BANDIT_PATROL_ACTION) {
+               patrolNum++;
+            }
+            SetLocalInt(bandit, "action", randAction);
             banditCnt--;
         }
         cnt++;
     }
 
     // Add traps to the camp
-    /*cnt = 0;
+    cnt = 0;
     int trapCnt = Random(max_traps - min_traps) + min_traps;
     while(trapCnt > 0 && cnt < 50) {
-        object trapCreated = createBanditTrap(oArea, campfireLoc,
-                                              circle_min, circle_max);
+        object trapCreated = createBanditTrap(oArea, campfireLoc, circle_min,
+                                                circle_max, bandit);
         if(trapCreated != OBJECT_INVALID) {
             trapCnt--;
         }
         cnt++;
-    }*/
+    }
 }
 
 void main()

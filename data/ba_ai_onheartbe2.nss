@@ -135,7 +135,7 @@ void returnToStartLoc() {
     location spawnloc = GetLocalLocation(OBJECT_SELF, "spawnLoc");
     if(GetDistanceBetweenLocations(myloc, spawnloc) < 1.0) {
         //writeToLog(" # I moved back now looking to do something new.");
-        SetLocalInt(OBJECT_SELF, "action", Random(3) + 1);
+        SetLocalInt(OBJECT_SELF, "action", Random(BANDIT_MAX_ACTION) + 1);
     } else {
         writeToLog(" # moving back");
         ActionMoveToLocation(spawnloc, TRUE);
@@ -169,7 +169,7 @@ void patrolAroundHostileArea(object oArea, location patrolLoc, int circle) {
 
 void sitOnTheGround(object oArea, location campfireLoc) {
     //writeToLog(" # Sit on the groud.");
-    int offset = (GetLocalInt(OBJECT_SELF, "circle_max") - 1) * 5;
+    int offset = (Random(GetLocalInt(OBJECT_SELF, "circle_max"))) * 5;
     location sitWP = selectLocationAroundFire(oArea, campfireLoc, offset + 1);
     AssignCommand(OBJECT_SELF, ActionMoveToLocation(sitWP, FALSE));
     AssignCommand(OBJECT_SELF, ActionPlayAnimation(
@@ -178,12 +178,17 @@ void sitOnTheGround(object oArea, location campfireLoc) {
 
 void sleepByTheFire(object oArea, location campfireLoc) {
     //writeToLog(" # Sleep on the groud.");
-    int offset = (GetLocalInt(OBJECT_SELF, "circle_max") - 1) * 5;
+    int offset = (Random(GetLocalInt(OBJECT_SELF, "circle_max"))) * 5;
     location sleepWP = selectLocationAroundFire(oArea, campfireLoc, offset + 2);
     AssignCommand(OBJECT_SELF, ActionMoveToLocation(sleepWP, FALSE));
     putWeaponAway();
-    AssignCommand(OBJECT_SELF, ActionPlayAnimation(
-        ANIMATION_LOOPING_SIT_CROSS, 1.0, 9999999.0));
+    if(Random(2) < 1) {
+        AssignCommand(OBJECT_SELF, ActionPlayAnimation(
+           ANIMATION_LOOPING_DEAD_BACK, 1.0, 9999999.0));
+    } else {
+        AssignCommand(OBJECT_SELF, ActionPlayAnimation(
+           ANIMATION_LOOPING_DEAD_FRONT, 1.0, 9999999.0));
+    }
 
 }
 
