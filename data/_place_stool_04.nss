@@ -1,5 +1,6 @@
 #include "nw_i0_2q4luskan"
 #include "x0_i0_position"
+#include "_btb_writeToLog"
 
 void main()
 {
@@ -16,6 +17,11 @@ void main()
     vector ChairVec = GetPositionFromLocation(ChairLoc);
 
     location ChairLocFinal = Location(oArea, ChairVec, oPCfacing);
+
+  writeToLog("---------------------");
+  writeToLog("_place_stool_04");
+  writeToLog("useablestool01");
+  writeToLog("---------------------");
 
     //signCommand(oPC, ActionSpeakString("*Sets up stool.*"));
     CreateObjectVoid(OBJECT_TYPE_PLACEABLE , "useablestool01", ChairLocFinal, FALSE);

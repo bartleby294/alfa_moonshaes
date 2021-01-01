@@ -1,8 +1,13 @@
+#include "_btb_writeToLog"
+
 void MoonshaesCustom()
 {
    object  oPC = OBJECT_SELF;
    object oItem = GetItemActivated();
 
+  writeToLog("---------------------");
+  writeToLog(GetTag(oItem));
+  writeToLog("---------------------");
 
    //regular tent
    if(GetTag(oItem) == "Tent")

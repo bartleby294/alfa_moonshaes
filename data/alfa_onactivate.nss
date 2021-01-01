@@ -13,21 +13,19 @@
 /* Includes */
 #include "alfa_include_fix"
 #include "_mooncustonact"
-
-void writeToLog(string str) {
-    string oAreaName = GetName(GetArea(OBJECT_SELF));
-    string uuid = GetLocalString(OBJECT_SELF, "uuid");
-    WriteTimestampedLogEntry(uuid + " Bandit Camp: " + oAreaName + ": " +  str);
-}
+#include "_btb_writeToLog"
 
 void main()
 {
   // This adds the moonshaes specific special items ((tents shovels drums etc))
   // otherwise exactly the same as standard
   writeToLog("---------------------");
-  writeToLog("MoonshaesCustom");
+  writeToLog("MoonshaesCustom Before");
   writeToLog("---------------------");
   MoonshaesCustom();
+  writeToLog("---------------------");
+  writeToLog("MoonshaesCustom After");
+  writeToLog("---------------------");
   ALFA_OnActivateItem();
 
   /**************** Add Custom Code Here ***************/
