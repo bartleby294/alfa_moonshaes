@@ -22,7 +22,7 @@ void main()
   writeToLog("---------------------");
   writeToLog("MoonshaesCustom Before");
   writeToLog("---------------------");
-  MoonshaesCustom();
+  MoonshaesCustom(GetItemActivator());
   writeToLog("---------------------");
   writeToLog("MoonshaesCustom After");
   writeToLog("---------------------");
