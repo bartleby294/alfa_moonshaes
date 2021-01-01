@@ -13,19 +13,12 @@
 /* Includes */
 #include "alfa_include_fix"
 #include "_mooncustonact"
-#include "_btb_writeToLog"
 
 void main()
 {
   // This adds the moonshaes specific special items ((tents shovels drums etc))
   // otherwise exactly the same as standard
-  writeToLog("---------------------");
-  writeToLog("MoonshaesCustom Before");
-  writeToLog("---------------------");
   MoonshaesCustom(GetItemActivator());
-  writeToLog("---------------------");
-  writeToLog("MoonshaesCustom After");
-  writeToLog("---------------------");
   ALFA_OnActivateItem();
 
   /**************** Add Custom Code Here ***************/
