@@ -170,10 +170,44 @@ float floatAbs(float val) {
     return  val;
 }
 
+float getFacing(vector campfireVector, vector possibleStructureVector) {
+
+    vector direction = Vector(possibleStructureVector.x - campfireVector.x,
+                              possibleStructureVector.y - campfireVector.y,
+                              0.0);
+    return VectorToAngle(direction);
+}
+
 /**
     Return a location some units of distance away on a straight line.
  */
 location pickSpawnLoc(object oPC, object point, float offset, float rotation) {
+
+    vector pointVector = GetPosition(point);
+    vector pcVector = GetPosition(oPC);
+
+    float x1 = pcVector.x - pointVector.x;
+    float y1 = pcVector.y - pointVector.y;
+
+    float angle = VectorToAngle(Vector(x1,  y1, 0.0));
+    float x = offset * cos(angle + rotation);
+    float y = offset * sin(angle + rotation);
+
+    location loc = Location(GetArea(oPC),
+        Vector(pointVector.x + x, pointVector.y+ y, 0.0), 0.0);
+    float z = GetGroundHeight(loc);
+
+    loc = Location(GetArea(oPC),
+        Vector(pointVector.x + x, pointVector.y + y, z),
+            getFacing(pointVector, GetPositionFromLocation(loc)));
+
+    return loc;
+}
+
+/**
+    Return a location some units of distance away on a straight line.
+ */
+location pickSpawnLoc2(object oPC, object point, float offset, float rotation) {
 
     vector pointVector = GetPosition(point);
     vector pcVector = GetPosition(oPC);
