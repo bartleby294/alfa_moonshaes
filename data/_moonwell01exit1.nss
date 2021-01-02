@@ -206,10 +206,16 @@ void main() {
     object oPC = GetExitingObject();
 
     location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 0.0);
+    location Druid01SpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 90.0);
+    location Druid02SpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 270.0);
+    location Druid03SpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 0.0);
+    location Druid04SpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 0.0);
 
-    //logLocation(GetLocation(oPC), "oPCLoc: ");
-    //logLocation(GetLocation(moonwell), "moonwellLoc: ");
-    //logLocation(HighDruidSpawnLoc, "HighDruidSpawnLoc: ");
+    logLocation(GetLocation(oPC), "oPCLoc: ");
+    logLocation(GetLocation(moonwell), "moonwellLoc: ");
+    logLocation(HighDruidSpawnLoc, "HighDruidSpawnLoc: ");
+    logLocation(Druid01SpawnLoc, "Druid01SpawnLoc: ");
+    logLocation(Druid02SpawnLoc, "Druid02SpawnLoc: ");
 
     object HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
                                     pickSpawnLoc(oPC, moonwell, 6.0, 180.0),
