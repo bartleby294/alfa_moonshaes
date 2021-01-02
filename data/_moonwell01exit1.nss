@@ -220,11 +220,11 @@ void main() {
     object Druid02 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid002",
                                     pickSpawnLoc(oPC, moonwell, 6.0, 270.0),
                                     FALSE, "moonwelldruid002");
-    object Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
-                                    pickSpawnLoc(oPC, moonwell, 6.0, 225.0),
-                                    FALSE, "moonwelldruid003");
-    object Druid04 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid004",
-                                    pickSpawnLoc(oPC, moonwell, 6.0, 135.0),
-                                    FALSE, "moonwelldruid004");
+    //object Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
+    //                                pickSpawnLoc(oPC, moonwell, 6.0, 225.0),
+    //                                FALSE, "moonwelldruid003");
+    //object Druid04 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid004",
+    //                                pickSpawnLoc(oPC, moonwell, 6.0, 135.0),
+    //                                FALSE, "moonwelldruid004");
 
 }
