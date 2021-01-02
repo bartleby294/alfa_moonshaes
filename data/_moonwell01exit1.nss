@@ -203,7 +203,7 @@ void main() {
     object moonwell = GetObjectByTag("ABoomingVoice2");
     object oPC = GetExitingObject();
 
-    location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 2.0, 0.0);
+    location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 0.0);
 
     //logLocation(GetLocation(oPC), "oPCLoc: ");
     //logLocation(GetLocation(moonwell), "moonwellLoc: ");
@@ -211,5 +211,13 @@ void main() {
 
     object HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
                                     HighDruidSpawnLoc);
+    object Druid01 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid001",
+                                    pickSpawnLoc(oPC, moonwell, 6.0, 90.0));
+    object Druid02 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid002",
+                                    pickSpawnLoc(oPC, moonwell, 6.0, 270.0));
+    object Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
+                                    pickSpawnLoc(oPC, moonwell, 6.0, 45.0));
+    object Druid04 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid004",
+                                    pickSpawnLoc(oPC, moonwell, 6.0, 315.0));
 
 }
