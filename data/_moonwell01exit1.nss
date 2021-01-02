@@ -205,11 +205,11 @@ void main() {
     object moonwell = GetObjectByTag("ABoomingVoice2");
     object oPC = GetExitingObject();
 
-    location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 0.0);
-    location Druid01SpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 90.0);
-    location Druid02SpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 270.0);
-    location Druid03SpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 0.0);
-    location Druid04SpawnLoc = pickSpawnLoc(oPC, moonwell, 6.0, 0.0);
+    location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 180.0);
+    location Druid01SpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 90.0);
+    location Druid02SpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 270.0);
+    location Druid03SpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 0.0);
+    location Druid04SpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 0.0);
 
     logLocation(GetLocation(oPC), "oPCLoc: ");
     logLocation(GetLocation(moonwell), "moonwellLoc: ");
