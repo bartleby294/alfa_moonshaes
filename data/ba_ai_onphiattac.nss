@@ -16,8 +16,9 @@
 #include "j_inc_other_ai"
 //*************************** ALFA Mod
 #include "alfa_combat"
-//*************************** End ALFA Mod
-
+//*************************** End ALFA Mod3
+#include "_btb_ban_util"
+#include "ba_consts"
 
 void main()
 {
@@ -28,6 +29,10 @@ void main()
 
     // AI status check. Is the AI on?
     if(GetAIOff()) return;
+
+    ///////////////////////////////////////////////////////////////////////////
+    onAttackActions("Were under attack!");
+    ///////////////////////////////////////////////////////////////////////////
 
     // Set up objects.
     object oAttacker = GetLastAttacker();
@@ -106,3 +111,4 @@ void main()
     //****************************** End ALFA Mod
 
 }
+

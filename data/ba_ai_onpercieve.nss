@@ -32,6 +32,8 @@
 ************************* [On Percieve] ***************************************/
 
 #include "j_inc_other_ai"
+#include "_btb_ban_util"
+#include "ba_consts"
 
 void main()
 {
@@ -136,6 +138,9 @@ void main()
                     // - Turns it off in it too
                     // - Variable range On Spawn
                     ShoutBossShout(oPerceived);
+                    ////////////////////////////////////////////////////////////
+                    onAttackActions("We got a snoop!");
+                    ////////////////////////////////////////////////////////////
 
                     // Warn others
                     AISpeakString(I_WAS_ATTACKED);

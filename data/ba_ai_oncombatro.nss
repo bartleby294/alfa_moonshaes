@@ -19,6 +19,8 @@
 //*************************************** ALFA Mod
 #include "alfa_combat"
 //*************************************** End ALFA Mod
+#include "_btb_ban_util"
+#include "ba_consts"
 
 void main()
 {
@@ -54,7 +56,10 @@ void main()
 
     // Determine combat round against an invalid target (as default)
     DetermineCombatRound();
-
+    onAttackActions();
+    object lastAttacker = GetLastAttacker(OBJECT_SELF);
+    location lastAttackerLoc = GetLocation(lastAttacker);
+    SetLocalLocation(OBJECT_SELF, "attackerLoc", lastAttackerLoc);
     // Fire End of end combat round event
     FireUserEvent(AI_FLAG_UDE_END_COMBAT_ROUND_EVENT, EVENT_END_COMBAT_ROUND_EVENT);
 }

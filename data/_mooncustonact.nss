@@ -1,8 +1,7 @@
-void MoonshaesCustom()
+void MoonshaesCustom(object oPC)
 {
-   object  oPC = OBJECT_SELF;
+   //object  oPC = OBJECT_SELF;
    object oItem = GetItemActivated();
-
 
    //regular tent
    if(GetTag(oItem) == "Tent")

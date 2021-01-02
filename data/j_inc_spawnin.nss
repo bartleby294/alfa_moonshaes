@@ -52,9 +52,7 @@ void AI_SetUpSpells();
 void SpawnWalkWayPoints(int nRun = FALSE, float fPause = 1.0);
 
 // Sets up what we will listen to (everything!)
-//******************** ALFA Mod - Puppet Master Mod
-void AI_SetListeningPatterns(int nSetListening = TRUE);
-//******************** End ALFA Mod
+void AI_SetListeningPatterns();
 // This will set what creature to create OnDeath.
 void AI_SetDeathResRef(string sResRef);
 // This will set the string, sNameOfValue, to sValue. Array size of 1.
@@ -444,19 +442,11 @@ void AI_CreateRandomOther(int iHPMin, int iHPMax, int iReflexSaveMin = 0, int iR
     Changed a lot. added in "**" (all) listening, for hearing enemies.
 //::////////////////////////////////////////////*/
 
-void AI_SetListeningPatterns(int nSetListening = TRUE)
+void AI_SetListeningPatterns()
 {
     // Lag check
     if(GetSpawnInCondition(AI_FLAG_OTHER_LAG_NO_LISTENING, AI_OTHER_MASTER)) return;
-
-    // ***************** ALFA Mod
-    // Old line: SetListening(OBJECT_SELF, TRUE);
-    if (nSetListening)
-    {
-        SetListening(OBJECT_SELF, TRUE);
-    }
-    // ***************** End ALFA Mod
-
+    SetListening(OBJECT_SELF, TRUE);
 //  Anyone that can hear it, and is not fighting, comes and helps
     SetListenPattern(OBJECT_SELF, I_WAS_ATTACKED, i1);
     //Set a custom listening pattern for the creature so that placables with

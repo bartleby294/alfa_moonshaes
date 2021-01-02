@@ -11,14 +11,14 @@
  ******************************************************************/
 
 /* Includes */
-#include "alfa_include"
+#include "alfa_include_fix"
 #include "_mooncustonact"
 
 void main()
 {
   // This adds the moonshaes specific special items ((tents shovels drums etc))
   // otherwise exactly the same as standard
-  MoonshaesCustom();
+  MoonshaesCustom(GetItemActivator());
   ALFA_OnActivateItem();
 
   /**************** Add Custom Code Here ***************/

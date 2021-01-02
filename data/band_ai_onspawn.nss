@@ -72,7 +72,7 @@ void main()
 /************************ [Important Spawn Settings] **************************/
     SetAIInteger(AI_INTELLIGENCE, 10);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
-    SetAIInteger(AI_MORALE, 5);
+    SetAIInteger(AI_MORALE, 10);
         // Will save (See readme). Remember: -1 or below means they always flee.
     //SetCustomAIFileName("CUSTOM_AI_FILE");
         // Sets our custom AI file. Really, only animation settings will apply when this is set.
@@ -93,7 +93,7 @@ void main()
         // We go straight for mages/sorcerors. Nearest one.
     //SetSpawnInCondition(AI_FLAG_TARGETING_LIKE_ARCHERS, AI_TARGETING_FLEE_MASTER);
         // We go for the nearest enemy with a ranged weapon equipped.
-    //SetSpawnInCondition(AI_FLAG_TARGETING_LIKE_PCS, AI_TARGETING_FLEE_MASTER);
+    SetSpawnInCondition(AI_FLAG_TARGETING_LIKE_PCS, AI_TARGETING_FLEE_MASTER);
         // We go for the nearest seen PC enemy.
 
     //SetAIConstant(AI_FAVOURED_ENEMY_RACE, RACIAL_TYPE_HUMAN);
@@ -163,7 +163,7 @@ void main()
     //SetSpawnInCondition(AI_FLAG_FLEEING_TURN_OFF_GROUP_MORALE, AI_TARGETING_FLEE_MASTER);
         // This turns OFF any sort of group morale bonuses.
 
-    //SetAIInteger(AMOUNT_OF_HD_DIFFERENCE_TO_CHECK, -2);
+    SetAIInteger(AMOUNT_OF_HD_DIFFERENCE_TO_CHECK, -2);
         // If enemy is within this amount of HD, we do not check morale.
     //SetAIInteger(BASE_MORALE_SAVE, 20);
         // Base DC of the will save. It is set to 20 + HD difference - Morale - Group morale mod.
@@ -178,7 +178,7 @@ void main()
     //SetAIInteger(AI_DAMAGE_AT_ONCE_PENALTY, 6);
         // Penalty for the above, set for some time to negativly affect morale. Added to save DC for fleeing.
 
-    //SetSpawnInCondition(AI_FLAG_FLEEING_FLEE_TO_NEAREST_NONE_SEEN, AI_TARGETING_FLEE_MASTER);
+    SetSpawnInCondition(AI_FLAG_FLEEING_FLEE_TO_NEAREST_NONE_SEEN, AI_TARGETING_FLEE_MASTER);
         // If set, just runs to nearest non-seen ally, and removes the loop for a good group of allies to run to.
 
     //SetSpawnInCondition(AI_FLAG_FLEEING_FLEE_TO_OBJECT, AI_TARGETING_FLEE_MASTER);
@@ -529,11 +529,11 @@ void main()
     // Event-driven.
     AI_SetSpawnInSpeakArray(AI_TALK_ON_PERCIEVE_ENEMY, 70, 6, "Drop your gold and run!", "I am ready for violence!", "CHARGE!", "Time you died!");
         // This is said when they see/hear a new enemy, and start attacking them.
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_DAMAGED, 20, 2, "Ouch, damn you!", "Haha! Nothing will stop me!");
+    AI_SetSpawnInSpeakArray(AI_TALK_ON_DAMAGED, 20, 2, "Ouch, damn you!", "Haha! Nothing will stop me!");
         // A random value is set to speak when damaged, and may fire same time as below ones.
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_PHISICALLY_ATTACKED, 20, 2, "Hah! Mear weapons won't defeat me!", "Pah! You cannot defeat me with such rubbish!");
+    AI_SetSpawnInSpeakArray(AI_TALK_ON_PHISICALLY_ATTACKED, 20, 2, "Hah! Mear weapons won't defeat me!", "Pah! You cannot defeat me with such rubbish!");
         // This is said when an enemy attacks the creature with a melee/ranged weapon.
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_HOSTILE_SPELL_CAST_AT, 20, 2, "No one spell will stop me!", "Is that all you have!?!");
+    AI_SetSpawnInSpeakArray(AI_TALK_ON_HOSTILE_SPELL_CAST_AT, 20, 2, "No one spell will stop me!", "Is that all you have!?!");
         // This is said when an enemy attacks the creature with a hostile spell.
     AI_SetSpawnInSpeakValue(AI_TALK_ON_DEATH, "Agggggg!");
         // This will ALWAYS be said, whenever the creature dies.
