@@ -173,13 +173,15 @@ float floatAbs(float val) {
 /**
     Return a location some units of distance away on a straight line.
  */
-location pickSpawnLoc(object oPC, object point, float offset) {
+location pickSpawnLoc(object oPC, object point, float offset, float rotation) {
 
     vector pointVector = GetPosition(point);
     vector pcVector = GetPosition(oPC);
 
     float x = floatAbs(pcVector.x - pointVector.x);
     float y = floatAbs(pcVector.y - pointVector.y);
+    x = cos(rotation) * x - sin(rotation) * y;
+    y = sin(rotation) * x + cos(rotation) * y;
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
     float spawnX = pointVector.x + (offset * norm.x);
@@ -201,11 +203,11 @@ void main() {
     object moonwell = GetObjectByTag("ABoomingVoice2");
     object oPC = GetExitingObject();
 
-    location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 2.0);
+    location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 2.0, 0.0);
 
-    logLocation(GetLocation(oPC), "oPCLoc: ");
-    logLocation(GetLocation(moonwell), "moonwellLoc: ");
-    logLocation(HighDruidSpawnLoc, "HighDruidSpawnLoc: ");
+    //logLocation(GetLocation(oPC), "oPCLoc: ");
+    //logLocation(GetLocation(moonwell), "moonwellLoc: ");
+    //logLocation(HighDruidSpawnLoc, "HighDruidSpawnLoc: ");
 
     object HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
                                     HighDruidSpawnLoc);
