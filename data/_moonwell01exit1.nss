@@ -198,7 +198,7 @@ void logLocation(location loc, string str){
 
 void main() {
 
-    object moonwell = GetObjectByTag("ABoomingVoice");
+    object moonwell = GetObjectByTag("ABoomingVoice2");
     object oPC = GetExitingObject();
 
     location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 2.0);
