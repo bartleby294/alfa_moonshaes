@@ -1,4 +1,4 @@
-void main()
+void mainOld()
 {
     object oPC = GetExitingObject();
 
@@ -161,7 +161,34 @@ void main()
 
 
     }
+}
 
+/**
+    Return a location some units of distance away on a straight line.
+ */
+location pickSpawnLoc(object oPC, object point, float offset) {
 
+    vector pointVector = GetPosition(point);
+    vector pcVector = GetPosition(oPC);
+
+    float x = pcVector.x - pointVector.x;
+    float y = pcVector.y - pointVector.y;
+
+    vector norm = VectorNormalize(Vector(x, y, 0.0));
+    float spawnX = pointVector.x + (offset * norm.x);
+    float spawnY = pointVector.y + (offset * norm.y);
+
+    return Location(GetArea(oPC), Vector(spawnX, spawnY, 0.0), 0.0);
+}
+
+void main() {
+
+    object moonwell = GetObjectByTag("ABoomingVoice");
+    object oPC = GetExitingObject();
+
+    location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0);
+
+    object HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
+                                    HighDruidSpawnLoc);
 
 }
