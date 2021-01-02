@@ -178,8 +178,10 @@ location pickSpawnLoc(object oPC, object point, float offset, float rotation) {
     vector pointVector = GetPosition(point);
     vector pcVector = GetPosition(oPC);
 
-    float x = floatAbs(pcVector.x - pointVector.x);
-    float y = floatAbs(pcVector.y - pointVector.y);
+    //float x = floatAbs(pcVector.x - pointVector.x);
+    //float y = floatAbs(pcVector.y - pointVector.y);
+    float x = pcVector.x - pointVector.x;
+    float y = pcVector.y - pointVector.y;
     x = cos(rotation) * x - sin(rotation) * y;
     y = sin(rotation) * x + cos(rotation) * y;
 
