@@ -181,12 +181,23 @@ location pickSpawnLoc(object oPC, object point, float offset) {
     return Location(GetArea(oPC), Vector(spawnX, spawnY, 0.0), 0.0);
 }
 
+void logLocation(location loc, string str){
+    str = str + "Location area: " + GetTag(GetAreaFromLocation(loc));
+    str = str + " x: " + FloatToString(GetPositionFromLocation(loc).x);
+    str = str + " y: " + FloatToString(GetPositionFromLocation(loc).y);
+    str = str + " z: " + FloatToString(GetPositionFromLocation(loc).z);
+    WriteTimestampedLogEntry(str);
+}
+
 void main() {
 
     object moonwell = GetObjectByTag("ABoomingVoice");
     object oPC = GetExitingObject();
 
     location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0);
+
+    logLocation(HighDruidSpawnLoc, "HighDruidSpawnLoc: ");
+    logLocation(GetLocation(oPC), "oPCLoc: ");
 
     object HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
                                     HighDruidSpawnLoc);
