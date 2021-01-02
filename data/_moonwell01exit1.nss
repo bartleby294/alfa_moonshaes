@@ -188,8 +188,9 @@ location pickSpawnLoc(object oPC, object point, float offset, float rotation) {
     vector norm = VectorNormalize(Vector(x, y, 0.0));
     float spawnX = pointVector.x + (offset * norm.x);
     float spawnY = pointVector.y + (offset * norm.y);
-
-    return Location(GetArea(oPC), Vector(spawnX, spawnY, 0.0), 0.0);
+    float spawnZ = GetGroundHeight(Location(GetArea(oPC),
+                                    Vector(spawnX, spawnY, 0.0), 0.0));
+    return Location(GetArea(oPC), Vector(spawnX, spawnY, spawnZ), 0.0);
 }
 
 void logLocation(location loc, string str){
@@ -218,14 +219,12 @@ void main() {
     logLocation(Druid02SpawnLoc, "Druid02SpawnLoc: ");
 
     object HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
-                                    pickSpawnLoc(oPC, moonwell, 6.0, 180.0),
+                                    HighDruidSpawnLoc,
                                     FALSE, "moonwelldruid");
     object Druid01 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid001",
-                                    pickSpawnLoc(oPC, moonwell, 6.0, 90.0),
-                                    FALSE, "moonwelldruid001");
+                                    Druid01SpawnLoc, FALSE, "moonwelldruid001");
     object Druid02 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid002",
-                                    pickSpawnLoc(oPC, moonwell, 6.0, 270.0),
-                                    FALSE, "moonwelldruid002");
+                                    Druid02SpawnLoc, FALSE, "moonwelldruid002");
     //object Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
     //                                pickSpawnLoc(oPC, moonwell, 6.0, 225.0),
     //                                FALSE, "moonwelldruid003");
