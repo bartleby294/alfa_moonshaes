@@ -212,7 +212,8 @@ void main() {
     //logLocation(HighDruidSpawnLoc, "HighDruidSpawnLoc: ");
 
     object HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
-                                    HighDruidSpawnLoc, FALSE, "moonwelldruid");
+                                    pickSpawnLoc(oPC, moonwell, 6.0, 180.0),
+                                    FALSE, "moonwelldruid");
     object Druid01 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid001",
                                     pickSpawnLoc(oPC, moonwell, 6.0, 90.0),
                                     FALSE, "moonwelldruid001");
@@ -220,10 +221,10 @@ void main() {
                                     pickSpawnLoc(oPC, moonwell, 6.0, 270.0),
                                     FALSE, "moonwelldruid002");
     object Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
-                                    pickSpawnLoc(oPC, moonwell, 6.0, 45.0),
+                                    pickSpawnLoc(oPC, moonwell, 6.0, 225.0),
                                     FALSE, "moonwelldruid003");
     object Druid04 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid004",
-                                    pickSpawnLoc(oPC, moonwell, 6.0, 315.0),
+                                    pickSpawnLoc(oPC, moonwell, 6.0, 135.0),
                                     FALSE, "moonwelldruid004");
 
 }
