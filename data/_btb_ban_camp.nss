@@ -324,6 +324,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
 
         if(isTent(objCreated)) {
             tentCnt++;
+            SetLocalInt(objCreated, "circle_max", circle_max);
         }
 
         cnt++;
