@@ -79,13 +79,6 @@ void attack(object highDruid, object oPC) {
 
 void startConversation(int state, object oPC, object highDruid) {
     object partyDruid = highestLevelKnownDruid(oPC);
-
-    if(highDruid != OBJECT_INVALID) {
-        SendMessageToPC(oPC, "highDruid != OBJECT_INVALID");
-    } else {
-        SendMessageToPC(oPC, "highDruid == OBJECT_INVALID");
-    }
-
     AssignCommand(highDruid, ClearAllActions());
     effect Walk = EffectMovementSpeedDecrease(40);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);

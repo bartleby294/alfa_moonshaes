@@ -4,6 +4,14 @@ void main()
     object obHbObj = GetNearestObjectByTag("moonwell01onhbob");
     object light = GetLocalObject(obHbObj, "lightobject");
 
+    if(obHbObj == OBJECT_INVALID) {
+        SendMessageToPC(oPC, "highDruid == OBJECT_INVALID");
+    }
+
+    if(light == OBJECT_INVALID) {
+        SendMessageToPC(oPC, "light == OBJECT_INVALID");
+    }
+
     DestroyObject(light, 1.0);
 
     object highDruid = GetNearestObjectByTag("moonwelldruid");
