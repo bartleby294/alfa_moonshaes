@@ -51,6 +51,7 @@ void main() {
     location Druid03SpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 135.0);
     location Druid04SpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 225.0);
     location LightSpawnLoc = pickSpawnLoc(oPC, moonwell, 7.0, 0.0);
+    location WalkLoc = pickSpawnLoc(oPC, moonwell, 7.0, 90.0);
 
     location HighDruidStandLoc = pickSpawnLoc(oPC, moonwell, 12.0, 180.0);
     location Druid01StandLoc = pickSpawnLoc(oPC, moonwell, 12.0, 90.0);
@@ -67,6 +68,7 @@ void main() {
     SetLocalLocation(obHbObj, "Druid02DespawnLoc", Druid02DespawnLoc);
     SetLocalLocation(obHbObj, "Druid03DespawnLoc", Druid03DespawnLoc);
     SetLocalLocation(obHbObj, "Druid04DespawnLoc", Druid04DespawnLoc);
+    SetLocalLocation(obHbObj, "WalkLoc", WalkLoc);
 
     // Create our actors and props
     object HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
