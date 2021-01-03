@@ -46,7 +46,7 @@ void main()
     WriteTimestampedLogEntry("State: " + IntToString(state));
     object highDruid = GetNearestObjectByTag("MoonwellHighDruid");
     // if a dm has disabled the scene or its not in progress skip out.
-    if(state = DM_DISABLED_STATE || state == NO_STATE) {
+    if(state = DM_DISABLED_STATE || state != NO_STATE) {
         return;
     // if the trigger has been tripped start interogating.
     } else if(state == INTEROGATION_STATE) {
