@@ -57,11 +57,11 @@ void main() {
     location Druid01StandLoc = pickSpawnLoc(oPC, moonwell, 12.0, 90.0);
     location Druid02StandLoc = pickSpawnLoc(oPC, moonwell, 12.0, 270.0);
 
-    location HighDruidDespawnLoc = pickSpawnLoc(oPC, moonwell, 18.0, 180.0);
-    location Druid01DespawnLoc = pickSpawnLoc(oPC, moonwell, 18.0, 90.0);
-    location Druid02DespawnLoc = pickSpawnLoc(oPC, moonwell, 18.0, 270.0);
-    location Druid03DespawnLoc = pickSpawnLoc(oPC, moonwell, 18.0, 135.0);
-    location Druid04DespawnLoc = pickSpawnLoc(oPC, moonwell, 18.0, 225.0);
+    location HighDruidDespawnLoc = pickSpawnLoc(oPC, moonwell, 25.0, 180.0);
+    location Druid01DespawnLoc = pickSpawnLoc(oPC, moonwell, 25.0, 90.0);
+    location Druid02DespawnLoc = pickSpawnLoc(oPC, moonwell, 25.0, 270.0);
+    location Druid03DespawnLoc = pickSpawnLoc(oPC, moonwell, 25.0, 135.0);
+    location Druid04DespawnLoc = pickSpawnLoc(oPC, moonwell, 25.0, 225.0);
 
     SetLocalLocation(obHbObj, "HighDruidDespawnLoc", HighDruidDespawnLoc);
     SetLocalLocation(obHbObj, "Druid01DespawnLoc", Druid01DespawnLoc);

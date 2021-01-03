@@ -20,14 +20,14 @@ void main()
     location Druid03DespawnLoc = GetLocalLocation(obHbObj, "Druid03DespawnLoc");
     location Druid04DespawnLoc = GetLocalLocation(obHbObj, "Druid04DespawnLoc");
 
-    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, FALSE));
+    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));
     AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc, FALSE));
     AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc, FALSE));
     AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc, FALSE));
     AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc, FALSE));
     AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc, FALSE));
 
-    DestroyObject(highDruid, 25.0);
+    DestroyObject(highDruid, 30.0);
     DestroyObject(Druid01, 16.0);
     DestroyObject(Druid02, 16.0);
     DestroyObject(Druid03, 16.0);
