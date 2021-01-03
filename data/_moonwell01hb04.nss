@@ -116,12 +116,23 @@ void startConversation(int state, object oPC, object highDruid) {
                             "_moonpool01con01", FALSE, FALSE));
 }
 
+void logStr(string str) {
+    string uuid = GetLocalString(OBJECT_SELF, "uuid");
+    WriteTimestampedLogEntry(uuid + ": " + str);
+}
+
 void main()
 {
+    string uuid = GetLocalString(OBJECT_SELF, "uuid");
+
+    if(uuid== "") {
+        SetLocalString(OBJECT_SELF, "uuid", GetRandomUUID());
+    }
+
     int state = GetLocalInt(OBJECT_SELF, "state");
     object oPC = GetLocalObject(OBJECT_SELF, "oPC");
     object light = GetLocalObject(OBJECT_SELF, "lightobject");
-    WriteTimestampedLogEntry("State: " + IntToString(state));
+    logStr("State: " + IntToString(state));
     object highDruid = GetLocalObject(OBJECT_SELF, "highDruid");
     // if a dm has disabled the scene or its not in progress skip out.
     if(state == DM_DISABLED_STATE || state == NO_STATE) {
