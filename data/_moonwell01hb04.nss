@@ -77,13 +77,13 @@ void attack(object highDruid, object oPC) {
     SetLocalInt(OBJECT_SELF, "state", ATTACKING_STATE);
 }
 
-void startConversation(object obHbObj, int state, object oPC,object highDruid) {
+void startConversation(int state, object oPC, object highDruid) {
     object partyDruid = highestLevelKnownDruid(oPC);
 
     AssignCommand(highDruid, ClearAllActions());
     effect Walk = EffectMovementSpeedDecrease(50);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);
-    SetLocalInt(obHbObj, "state", CONVERSATION_STATE);
+    SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
     //This goes through to see if there is a druid in the party
     //If there is the High druid will address the druid of the party
     //It will also check to see if he knows the druid or other char if he does then another convo will trigger.
@@ -123,8 +123,8 @@ void main()
     // if the trigger has been tripped start interogating.
     } else if(state == INTEROGATION_STATE) {
          // the pc steped into the light
-         if(GetDistanceBetween(light, oPC) < 0.2) {
-            startConversation(OBJECT_SELF, state, oPC, highDruid);
+         if(GetDistanceBetween(light, oPC) < 0.4) {
+            startConversation(state, oPC, highDruid);
          } else {
             // get the timeer and do its thing.
             int timer = GetLocalInt(OBJECT_SELF, "timer");
