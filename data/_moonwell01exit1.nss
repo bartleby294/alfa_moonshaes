@@ -63,13 +63,6 @@ void main() {
     location Druid03DespawnLoc = pickSpawnLoc(oPC, moonwell, 18.0, 135.0);
     location Druid04DespawnLoc = pickSpawnLoc(oPC, moonwell, 18.0, 225.0);
 
-    SetLocalLocation(obHbObj, "HighDruidDespawnLoc", HighDruidDespawnLoc);
-    SetLocalLocation(obHbObj, "Druid01DespawnLoc", Druid01DespawnLoc);
-    SetLocalLocation(obHbObj, "Druid02DespawnLoc", Druid02DespawnLoc);
-    SetLocalLocation(obHbObj, "Druid03DespawnLoc", Druid03DespawnLoc);
-    SetLocalLocation(obHbObj, "Druid04DespawnLoc", Druid04DespawnLoc);
-    SetLocalLocation(obHbObj, "WalkLoc", WalkLoc);
-
     // Create our actors and props
     object HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
                                     HighDruidSpawnLoc,
@@ -85,6 +78,19 @@ void main() {
     object Light = CreateObject(OBJECT_TYPE_PLACEABLE, "alfa_shaftligt6",
                                     LightSpawnLoc, FALSE, "alfa_shaftligt6");
 
+    SetLocalObject(obHbObj, "HighDruid", HighDruid);
+    SetLocalObject(obHbObj, "Druid01", Druid01);
+    SetLocalObject(obHbObj, "Druid02", Druid02);
+    SetLocalObject(obHbObj, "Druid03", Druid03);
+    SetLocalObject(obHbObj, "Druid04", Druid04);
+
+    SetLocalLocation(obHbObj, "HighDruidDespawnLoc", HighDruidDespawnLoc);
+    SetLocalLocation(obHbObj, "Druid01DespawnLoc", Druid01DespawnLoc);
+    SetLocalLocation(obHbObj, "Druid02DespawnLoc", Druid02DespawnLoc);
+    SetLocalLocation(obHbObj, "Druid03DespawnLoc", Druid03DespawnLoc);
+    SetLocalLocation(obHbObj, "Druid04DespawnLoc", Druid04DespawnLoc);
+    SetLocalLocation(obHbObj, "WalkLoc", WalkLoc);
+
     // Move toward the moonwell.
     AssignCommand(HighDruid, ActionMoveToLocation(HighDruidStandLoc, FALSE));
     AssignCommand(Druid01, ActionMoveToLocation(Druid01StandLoc, FALSE));
@@ -93,7 +99,6 @@ void main() {
     // Speak
     SetLocalObject(obHbObj, "lightobject", Light);
     SetLocalObject(obHbObj, "oPC", oPC);
-    SetLocalObject(obHbObj, "highDruid", HighDruid);
     SetLocalInt(obHbObj, "state", INTEROGATION_STATE);
     AssignCommand(HighDruid, DelayCommand(1.0,
                         SpeakString("Step Into The Light!",

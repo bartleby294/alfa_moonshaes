@@ -6,18 +6,18 @@ void main()
 
     DestroyObject(light, 1.0);
 
-    object highDruid = GetNearestObjectByTag("moonwelldruid");
-    object Druid01 = GetNearestObjectByTag("moonwelldruid001");
-    object Druid02 = GetNearestObjectByTag("moonwelldruid002");
-    object Druid03 = GetNearestObjectByTag("moonwelldruid003");
-    object Druid04 = GetNearestObjectByTag("moonwelldruid004");
-
     location HighDruidDespawnLoc = GetLocalLocation(obHbObj,
                                                         "HighDruidDespawnLoc");
     location Druid01DespawnLoc = GetLocalLocation(obHbObj, "Druid01DespawnLoc");
     location Druid02DespawnLoc = GetLocalLocation(obHbObj, "Druid02DespawnLoc");
     location Druid03DespawnLoc = GetLocalLocation(obHbObj, "Druid03DespawnLoc");
     location Druid04DespawnLoc = GetLocalLocation(obHbObj, "Druid04DespawnLoc");
+
+    object highDruid = GetLocalObject(obHbObj, "HighDruid");
+    object Druid01 = GetLocalObject(obHbObj, "Druid01");
+    object Druid02 = GetLocalObject(obHbObj, "Druid02");
+    object Druid03 = GetLocalObject(obHbObj, "Druid03");
+    object Druid04 = GetLocalObject(obHbObj, "Druid04");
 
     AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc, FALSE));
     AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc, FALSE));
