@@ -1,6 +1,0 @@
-//Chest OnClose
-
-void main()
-{
-
-}
