@@ -83,7 +83,6 @@ void startConversation(int state, object oPC, object highDruid) {
     effect Walk = EffectMovementSpeedDecrease(50);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);
     SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
-    SetLocalObject(oPC, "moonwell01hbobj", OBJECT_SELF);
     location WalkLoc = GetLocalLocation(OBJECT_SELF, "WalkLoc");
     location LightSpawnLoc = GetLocalLocation(OBJECT_SELF, "LightSpawnLoc");
     AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));

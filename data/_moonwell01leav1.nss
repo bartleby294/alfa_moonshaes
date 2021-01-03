@@ -1,7 +1,9 @@
+#include "_moonwell01const"
+
 void main()
 {
     object oPC = GetPCSpeaker();
-    object obHbObj = GetLocalObject(oPC, "moonwell01hbobj");
+    object obHbObj = GetObjectByTag("moonwell01onhbob");
     object light = GetLocalObject(obHbObj, "lightobject");
 
     DestroyObject(light, 1.0);
@@ -43,4 +45,6 @@ void main()
                                         SpeakString("Disapears into forest")));
     DelayCommand(15.0, AssignCommand(Druid04,
                                         SpeakString("Disapears into forest")));
+
+    SetLocalInt(obHbObj, "state", DONE_STATE);
 }
