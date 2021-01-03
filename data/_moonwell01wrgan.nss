@@ -1,10 +1,9 @@
+#include "_moonwell01const"
+
 void main()
 {
-    object OnHBObj = GetNearestObjectByTag("Moonwell01OnHBObj");
-    SetLocalInt(OnHBObj, "Moonwell01HBTimer", 3);
-    object HighDruid = GetNearestObjectByTag("MoonwellHighDruid");
-
-    AssignCommand(HighDruid, ClearAllActions());
-    effect Walk2 = EffectMovementSpeedIncrease(99);
-    ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk2, HighDruid);
+    object obHbObj = GetNearestObjectByTag("moonwell01onhbob");
+    DelayCommand(6.0, SetLocalInt(obHbObj, "state", WARN_STATE));
+    object light = GetLocalObject(obHbObj, "lightobject");
+    DestroyObject(light, 1.0);
 }
