@@ -23,9 +23,8 @@ string getDruidString(int timer){
     return "";
 }
 
-void attack(object highDruid) {
+void attack(object highDruid, object oPC) {
     SetLocalInt(OBJECT_SELF, "state", ATTACK_STATE);
-    object oPC = GetLocalObject(OBJECT_SELF, "oPC");
     object Druid01 = GetNearestObjectByTag("moonwelldruid001");
     object Druid02 = GetNearestObjectByTag("moonwelldruid002");
     object Druid03 = GetNearestObjectByTag("moonwelldruid003");
@@ -43,10 +42,11 @@ void attack(object highDruid) {
 void main()
 {
     int state = GetLocalInt(OBJECT_SELF, "state");
+    object oPC = GetLocalObject(OBJECT_SELF, "oPC");
     WriteTimestampedLogEntry("State: " + IntToString(state));
     object highDruid = GetNearestObjectByTag("MoonwellHighDruid");
     // if a dm has disabled the scene or its not in progress skip out.
-    if(state = DM_DISABLED_STATE || state != NO_STATE) {
+    if(state == DM_DISABLED_STATE || state == NO_STATE) {
         return;
     // if the trigger has been tripped start interogating.
     } else if(state == INTEROGATION_STATE) {
@@ -57,10 +57,11 @@ void main()
             string druidStr = getDruidString(timer);
             if(druidStr != "") {
                 AssignCommand(highDruid, SpeakString(druidStr));
+                SendMessageToPC(oPC, "High Druid: " + druidStr);
             }
         // they said they were going to attack.
         } else {
-            attack(highDruid);
+            attack(highDruid, oPC);
         }
 
         SetLocalInt(OBJECT_SELF, "timer", timer + 1);
@@ -74,13 +75,14 @@ void main()
             oPC = GetNextPCInArea(GetArea(OBJECT_SELF));
         }
         if(attackBool == TRUE) {
-            attack(highDruid);
+            attack(highDruid, oPC);
         } else {
             SetLocalInt(OBJECT_SELF, "state", LEAVING_STATE);
         }
     } else if (state == WARN_STATE) {
-        AssignCommand(highDruid, SpeakString(
-                                    "Leave now this is your final warning!"));
+        string warnStr = "Leave now this is your final warning!";
+        AssignCommand(highDruid, SpeakString(warnStr));
+        SendMessageToPC(oPC, "High Druid: " + warnStr);
         SetLocalInt(OBJECT_SELF, "state", ATTACK_STATE);
     } else if (state == LEAVING_STATE) {
         object Druid01 = GetNearestObjectByTag("MoonwellDruid01");

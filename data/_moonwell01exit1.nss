@@ -97,6 +97,7 @@ void main() {
     AssignCommand(HighDruid, DelayCommand(1.0,
                         SpeakString("Step Into The Light!",
                         TALKVOLUME_SILENT_SHOUT)));
+    SendMessageToPC(oPC, "High Druid: Step Into The Light!");
     return;
 
 }
