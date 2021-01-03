@@ -23,7 +23,7 @@ void main()
     location Druid04DespawnLoc = GetLocalLocation(obHbObj, "Druid04DespawnLoc");
 
     AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));
-    AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc, FALSE));
+    AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc, TRUE));
     AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc, FALSE));
     AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc, FALSE));
     AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc, FALSE));
