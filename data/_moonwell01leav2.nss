@@ -6,7 +6,7 @@ void main()
     object HighDruidSpawnWP = GetNearestObjectByTag("High_Druid_Spawn01");
     object Druid01SpawnWP = GetNearestObjectByTag("Druid01_Spawn01");
     object Druid02SpawnWP = GetNearestObjectByTag("Druid02_Spawn01");
-    object OnHBObj = GetNearestObjectByTag("moonwell01VarStorage");
+    object OnHBObj = GetNearestObjectByTag("moonwell01onhbob");
 
     object Light = GetLocalObject(OnHBObj, "lightobject");
     DestroyObject(Light, 1.0);
