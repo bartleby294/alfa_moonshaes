@@ -1,7 +1,7 @@
 void main()
 {
     object oPC = GetPCSpeaker();
-    object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
+    object obHbObj = GetLocalObject(oPC, "moonwell01hbobj");
     object light = GetLocalObject(obHbObj, "lightobject");
 
     if(obHbObj == OBJECT_INVALID) {
