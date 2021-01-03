@@ -1,0 +1,9 @@
+const int NO_STATE = 0;
+const int INTEROGATION_STATE = 1;
+const int CONVERSATION_STATE = 2;
+const int WARN_STATE = 3;
+const int ATTACK_STATE = 4;
+const int ATTACKING_STATE = 5;
+const int LEAVING_STATE = 6;
+const int DONE_STATE = 7;
+const int DM_DISABLED_STATE = 8;
