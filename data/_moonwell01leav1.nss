@@ -29,21 +29,21 @@ void main()
     AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc, FALSE));
     AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc, FALSE));
 
-    DestroyObject(highDruid, 30.0);
-    DestroyObject(Druid01, 16.0);
-    DestroyObject(Druid02, 16.0);
-    DestroyObject(Druid03, 16.0);
-    DestroyObject(Druid04, 16.0);
+    DestroyObject(highDruid, 15.0);
+    DestroyObject(Druid01, 12.0);
+    DestroyObject(Druid02, 12.0);
+    DestroyObject(Druid03, 12.0);
+    DestroyObject(Druid04, 12.0);
 
-    DelayCommand(24.0, AssignCommand(highDruid,
+    DelayCommand(14.0, AssignCommand(highDruid,
                                         SpeakString("Disapears into forest")));
-    DelayCommand(15.0, AssignCommand(Druid01,
+    DelayCommand(11.0, AssignCommand(Druid01,
                                         SpeakString("Disapears into forest")));
-    DelayCommand(15.0, AssignCommand(Druid02,
+    DelayCommand(11.0, AssignCommand(Druid02,
                                         SpeakString("Disapears into forest")));
-    DelayCommand(15.0, AssignCommand(Druid03,
+    DelayCommand(11.0, AssignCommand(Druid03,
                                         SpeakString("Disapears into forest")));
-    DelayCommand(15.0, AssignCommand(Druid04,
+    DelayCommand(11.0, AssignCommand(Druid04,
                                         SpeakString("Disapears into forest")));
 
     SetLocalInt(obHbObj, "state", DONE_STATE);
