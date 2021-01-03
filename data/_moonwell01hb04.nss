@@ -80,11 +80,11 @@ void attack(object highDruid, object oPC) {
 void startConversation(int state, object oPC, object highDruid) {
     object partyDruid = highestLevelKnownDruid(oPC);
     AssignCommand(highDruid, ClearAllActions());
-    effect Walk = EffectMovementSpeedDecrease(40);
+    effect Walk = EffectMovementSpeedDecrease(50);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);
     SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
     location WalkLoc = GetLocalLocation(OBJECT_SELF, "WalkLoc");
-    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, FALSE));
+    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, True));
     //This goes through to see if there is a druid in the party
     //If there is the High druid will address the druid of the party
     //It will also check to see if he knows the druid or other char if he does then another convo will trigger.

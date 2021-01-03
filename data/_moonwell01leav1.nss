@@ -5,16 +5,26 @@ void main()
     object light = GetLocalObject(obHbObj, "lightobject");
 
     if(obHbObj == OBJECT_INVALID) {
-        SendMessageToPC(oPC, "highDruid == OBJECT_INVALID");
+        SendMessageToPC(oPC, "obHbObj == OBJECT_INVALID");
     }
 
     if(light == OBJECT_INVALID) {
         SendMessageToPC(oPC, "light == OBJECT_INVALID");
     }
 
+
+
     DestroyObject(light, 1.0);
 
     object highDruid = GetNearestObjectByTag("moonwelldruid");
+    if(highDruid == OBJECT_INVALID) {
+        SendMessageToPC(oPC, "highDruid 1 == OBJECT_INVALID");
+    }
+    highDruid = GetLastSpeaker();
+    if(highDruid == OBJECT_INVALID) {
+        SendMessageToPC(oPC, "highDruid 2 == OBJECT_INVALID");
+    }
+
     object Druid01 = GetNearestObjectByTag("moonwelldruid001");
     object Druid02 = GetNearestObjectByTag("moonwelldruid002");
     object Druid03 = GetNearestObjectByTag("moonwelldruid003");
