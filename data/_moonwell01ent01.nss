@@ -40,7 +40,7 @@ object highestLevelKnownDruid(object oPC) {
 
 void main()
 {
-    object obHbObj = GetNearestObjectByTag("moonwell01onhbob");
+    object obHbObj = GetNearestObjectByTag("moonwell01VarStorage");
     int state = GetLocalInt(obHbObj, "state");
     // if a dm has disabled the scene or its not the right time exit.
     if(state != INTEROGATION_STATE) {
