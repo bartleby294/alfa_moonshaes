@@ -84,7 +84,9 @@ void startConversation(int state, object oPC, object highDruid) {
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);
     SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
     location WalkLoc = GetLocalLocation(OBJECT_SELF, "WalkLoc");
-    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, True));
+    location LightSpawnLoc = GetLocalLocation(OBJECT_SELF, "LightSpawnLoc");
+    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));
+    AssignCommand(highDruid, ActionMoveToLocation(LightSpawnLoc, TRUE));
     //This goes through to see if there is a druid in the party
     //If there is the High druid will address the druid of the party
     //It will also check to see if he knows the druid or other char if he does then another convo will trigger.
@@ -96,21 +98,21 @@ void startConversation(int state, object oPC, object highDruid) {
         if(GetLocalInt(partyDruid, "Moonwell01Known") == 1)
         {
            //Execute I know you Druid Hello
-            DelayCommand(5.0, AssignCommand(highDruid,
+            AssignCommand(highDruid,
                 ActionStartConversation(partyDruid,
-                "_moonpool01con02", FALSE, FALSE)));
+                "_moonpool01con02", FALSE, FALSE));
             return;
         }
 
         //Execute Generic Druid Hello
-        DelayCommand(5.0, AssignCommand(highDruid,
+        AssignCommand(highDruid,
             ActionStartConversation(partyDruid,
-            "_moonpool01con03", FALSE, FALSE)));
+            "_moonpool01con03", FALSE, FALSE));
         return;
     }
 
-    DelayCommand(5.0, AssignCommand(highDruid, ActionStartConversation(oPC,
-                            "_moonpool01con01", FALSE, FALSE)));
+    AssignCommand(highDruid, ActionStartConversation(oPC,
+                            "_moonpool01con01", FALSE, FALSE));
 }
 
 void main()

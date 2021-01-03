@@ -14,7 +14,7 @@ void main()
 
     DestroyObject(light, 1.0);
 
-    object highDruid = GetNearestObjectByTag("moonwelldruid");
+    object highDruid = GetNearestObjectByTag("moonwelldruid000");
     if(highDruid == OBJECT_INVALID) {
         SendMessageToPC(oPC, "highDruid 1 == OBJECT_INVALID");
     }
@@ -22,6 +22,12 @@ void main()
     if(highDruid == OBJECT_INVALID) {
         SendMessageToPC(oPC, "highDruid 2 == OBJECT_INVALID");
     }
+    highDruid = GetLocalObject(obHbObj, "highDruid");
+    if(highDruid == OBJECT_INVALID) {
+        SendMessageToPC(oPC, "highDruid 3 == OBJECT_INVALID");
+    }
+
+    SendMessageToPC(oPC, "State: " + IntToString(GetLocalInt(OBJECT_SELF, "state")));
 
     object Druid01 = GetNearestObjectByTag("moonwelldruid001");
     object Druid02 = GetNearestObjectByTag("moonwelldruid002");

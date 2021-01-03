@@ -68,12 +68,14 @@ void main() {
     SetLocalLocation(obHbObj, "Druid02DespawnLoc", Druid02DespawnLoc);
     SetLocalLocation(obHbObj, "Druid03DespawnLoc", Druid03DespawnLoc);
     SetLocalLocation(obHbObj, "Druid04DespawnLoc", Druid04DespawnLoc);
+    SetLocalLocation(obHbObj, "LightSpawnLoc", LightSpawnLoc);
     SetLocalLocation(obHbObj, "WalkLoc", WalkLoc);
+    SetLocalObject(obHbObj, "oPC", oPC);
 
     // Create our actors and props
     object HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
                                     HighDruidSpawnLoc,
-                                    FALSE, "moonwelldruid");
+                                    FALSE, "moonwelldruid000");
     object Druid01 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid001",
                                     Druid01SpawnLoc, FALSE, "moonwelldruid001");
     object Druid02 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid002",
@@ -91,10 +93,9 @@ void main() {
     AssignCommand(Druid02, ActionMoveToLocation(Druid02StandLoc, FALSE));
 
     // Speak
-    SetLocalObject(obHbObj, "lightobject", Light);
-    SetLocalObject(obHbObj, "oPC", oPC);
-    SetLocalObject(obHbObj, "highDruid", HighDruid);
     SetLocalInt(obHbObj, "state", INTEROGATION_STATE);
+    SetLocalObject(obHbObj, "lightobject", Light);
+    SetLocalObject(obHbObj, "highDruid", HighDruid);
     AssignCommand(HighDruid, DelayCommand(1.0,
                         SpeakString("Step Into The Light!",
                         TALKVOLUME_SILENT_SHOUT)));
