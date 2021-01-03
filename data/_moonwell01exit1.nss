@@ -82,8 +82,6 @@ void main() {
                                     Druid04SpawnLoc, FALSE, "moonwelldruid004");
     object Light = CreateObject(OBJECT_TYPE_PLACEABLE, "alfa_shaftligt6",
                                     LightSpawnLoc, FALSE, "alfa_shaftligt6");
-    object trigger = CreateObject(OBJECT_TYPE_TRIGGER, "MoonwellTrigger02",
-                                    LightSpawnLoc, FALSE, "MoonwellTrigger02");
 
     // Move toward the moonwell.
     AssignCommand(HighDruid, ActionMoveToLocation(HighDruidStandLoc, FALSE));

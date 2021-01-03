@@ -2,6 +2,44 @@
 #include "nw_i0_generic"
 #include "_moonwell01const"
 
+int druidLevel(object oPC) {
+    int i = 1;
+    for(i; i < 4; i++) {
+        if(GetClassByPosition(i, oPC) == CLASS_TYPE_DRUID) {
+            return i;
+        }
+    }
+    return 0;
+}
+
+object highestLevelKnownDruid(object oPC) {
+    int highestDruidLvl = 0;
+    int highestKnownDruidLvl = 0;
+    object highestDruid = OBJECT_INVALID;
+    object highestDruidKnown = OBJECT_INVALID;
+    object partyMember = GetFactionLeader(oPC);
+
+    while(partyMember != OBJECT_INVALID) {
+        int druidLvls = druidLevel(partyMember);
+        int knownDruid = GetLocalInt(partyMember, "Moonwell01Known");
+        if(druidLvls > highestDruidLvl) {
+            highestDruidLvl = druidLvls;
+            highestDruid = partyMember;
+        }
+        if(knownDruid == 1 && druidLvls > highestKnownDruidLvl) {
+            highestKnownDruidLvl = druidLvls;
+            highestDruidKnown = partyMember;
+        }
+        partyMember = GetNextFactionMember(partyMember, TRUE);
+    }
+
+    if(highestDruidKnown != OBJECT_INVALID) {
+        return highestDruidKnown;
+    }
+
+    return highestDruid;
+}
+
 string getDruidString(int timer){
     switch(timer)
     {
@@ -39,10 +77,44 @@ void attack(object highDruid, object oPC) {
     SetLocalInt(OBJECT_SELF, "state", ATTACKING_STATE);
 }
 
+void startConversation(object obHbObj, int state, object oPC,object highDruid) {
+    object partyDruid = highestLevelKnownDruid(oPC);
+
+    AssignCommand(highDruid, ClearAllActions());
+    effect Walk = EffectMovementSpeedDecrease(50);
+    ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);
+    SetLocalInt(obHbObj, "state", CONVERSATION_STATE);
+    //This goes through to see if there is a druid in the party
+    //If there is the High druid will address the druid of the party
+    //It will also check to see if he knows the druid or other char if he does then another convo will trigger.
+    // convo state = 0 -> no instructions
+    // convo state = 1 -> theres a druid convo
+    // convo state = 2 -> theres a druid i know convo
+    // convo state = 3 -> theres someone that isnt a druid and i dont know them.
+    if(partyDruid != OBJECT_INVALID) {
+        if(GetLocalInt(partyDruid, "Moonwell01Known") == 1)
+        {
+           //Execute I know you Druid Hello
+            AssignCommand(highDruid, ActionStartConversation(partyDruid,
+                                            "_moonpool01con02", FALSE, FALSE));
+            return;
+        }
+
+        //Execute Generic Druid Hello
+        AssignCommand(highDruid, ActionStartConversation(partyDruid,
+                                    "_moonpool01con03", FALSE, FALSE));
+        return;
+    }
+
+    AssignCommand(highDruid, ActionStartConversation(oPC,
+                            "_moonpool01con01", FALSE, FALSE));
+}
+
 void main()
 {
     int state = GetLocalInt(OBJECT_SELF, "state");
     object oPC = GetLocalObject(OBJECT_SELF, "oPC");
+    object light = GetLocalObject(OBJECT_SELF, "lightobject");
     WriteTimestampedLogEntry("State: " + IntToString(state));
     object highDruid = GetNearestObjectByTag("MoonwellHighDruid");
     // if a dm has disabled the scene or its not in progress skip out.
@@ -50,21 +122,25 @@ void main()
         return;
     // if the trigger has been tripped start interogating.
     } else if(state == INTEROGATION_STATE) {
-        // get the timeer and do its thing.
-        int timer = GetLocalInt(OBJECT_SELF, "timer");
-        // if less than 7 keep warning.
-        if(timer < 7) {
-            string druidStr = getDruidString(timer);
-            if(druidStr != "") {
-                AssignCommand(highDruid, SpeakString(druidStr));
-                SendMessageToPC(oPC, "High Druid: " + druidStr);
+         // the pc steped into the light
+         if(GetDistanceBetween(light, oPC) < 0.2) {
+            startConversation(OBJECT_SELF, state, oPC, highDruid);
+         } else {
+            // get the timeer and do its thing.
+            int timer = GetLocalInt(OBJECT_SELF, "timer");
+            // if less than 7 keep warning.
+            if(timer < 7) {
+                string druidStr = getDruidString(timer);
+                if(druidStr != "") {
+                    AssignCommand(highDruid, SpeakString(druidStr));
+                    SendMessageToPC(oPC, "High Druid: " + druidStr);
+                }
+            // they said they were going to attack.
+            } else {
+                attack(highDruid, oPC);
             }
-        // they said they were going to attack.
-        } else {
-            attack(highDruid, oPC);
+            SetLocalInt(OBJECT_SELF, "timer", timer + 1);
         }
-
-        SetLocalInt(OBJECT_SELF, "timer", timer + 1);
     } else if (state == ATTACK_STATE) {
         object oPC = GetFirstPCInArea(GetArea(OBJECT_SELF));
         int attackBool = FALSE;
