@@ -41,7 +41,6 @@ void attack(object highDruid, object oPC) {
 
 void main()
 {
-    return;
     int state = GetLocalInt(OBJECT_SELF, "state");
     object oPC = GetLocalObject(OBJECT_SELF, "oPC");
     WriteTimestampedLogEntry("State: " + IntToString(state));
