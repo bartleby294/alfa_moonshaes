@@ -1,5 +1,6 @@
 void main()
 {
+    return;
     DestroyObject(GetObjectByTag("moonwelldruid"), 0.1);
     DestroyObject(GetObjectByTag("moonwelldruid001"), 0.1);
     DestroyObject(GetObjectByTag("moonwelldruid002"), 0.1);

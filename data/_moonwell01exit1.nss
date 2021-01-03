@@ -93,9 +93,10 @@ void main() {
     // Speak
     SetLocalObject(obHbObj, "lightobject", Light);
     SetLocalObject(obHbObj, "oPC", oPC);
-
+    SetLocalInt(obHbObj, "state", INTEROGATION_STATE);
     AssignCommand(HighDruid, DelayCommand(1.0,
-                        SpeakString("Step Into The Light!")));
+                        SpeakString("Step Into The Light!",
+                        TALKVOLUME_SILENT_SHOUT)));
     return;
 
 }
