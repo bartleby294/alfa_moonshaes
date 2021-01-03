@@ -4,36 +4,15 @@ void main()
     object obHbObj = GetLocalObject(oPC, "moonwell01hbobj");
     object light = GetLocalObject(obHbObj, "lightobject");
 
-    if(obHbObj == OBJECT_INVALID) {
-        SendMessageToPC(oPC, "obHbObj == OBJECT_INVALID");
-    }
-
-    if(light == OBJECT_INVALID) {
-        SendMessageToPC(oPC, "light == OBJECT_INVALID");
-    }
-
     DestroyObject(light, 1.0);
 
-    object highDruid = GetNearestObjectByTag("moonwelldruid000");
-    if(highDruid == OBJECT_INVALID) {
-        SendMessageToPC(oPC, "highDruid 1 == OBJECT_INVALID");
-    }
-    highDruid = GetLastSpeaker();
-    if(highDruid == OBJECT_INVALID) {
-        SendMessageToPC(oPC, "highDruid 2 == OBJECT_INVALID");
-    }
-    highDruid = GetLocalObject(obHbObj, "highDruid");
-    if(highDruid == OBJECT_INVALID) {
-        SendMessageToPC(oPC, "highDruid 3 == OBJECT_INVALID");
-    }
-
-    SendMessageToPC(oPC, "State: " + IntToString(GetLocalInt(OBJECT_SELF, "state")));
-
+    object highDruid = GetLocalObject(obHbObj, "highDruid");
     object Druid01 = GetNearestObjectByTag("moonwelldruid001");
     object Druid02 = GetNearestObjectByTag("moonwelldruid002");
     object Druid03 = GetNearestObjectByTag("moonwelldruid003");
     object Druid04 = GetNearestObjectByTag("moonwelldruid004");
 
+    location WalkLoc = GetLocalLocation(obHbObj, "WalkLoc");
     location HighDruidDespawnLoc = GetLocalLocation(obHbObj,
                                                         "HighDruidDespawnLoc");
     location Druid01DespawnLoc = GetLocalLocation(obHbObj, "Druid01DespawnLoc");
@@ -41,19 +20,20 @@ void main()
     location Druid03DespawnLoc = GetLocalLocation(obHbObj, "Druid03DespawnLoc");
     location Druid04DespawnLoc = GetLocalLocation(obHbObj, "Druid04DespawnLoc");
 
+    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, FALSE));
     AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc, FALSE));
     AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc, FALSE));
     AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc, FALSE));
     AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc, FALSE));
     AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc, FALSE));
 
-    DestroyObject(highDruid, 16.0);
+    DestroyObject(highDruid, 25.0);
     DestroyObject(Druid01, 16.0);
     DestroyObject(Druid02, 16.0);
     DestroyObject(Druid03, 16.0);
     DestroyObject(Druid04, 16.0);
 
-    DelayCommand(15.0, AssignCommand(highDruid,
+    DelayCommand(24.0, AssignCommand(highDruid,
                                         SpeakString("Disapears into forest")));
     DelayCommand(15.0, AssignCommand(Druid01,
                                         SpeakString("Disapears into forest")));
