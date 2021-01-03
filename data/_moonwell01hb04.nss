@@ -63,10 +63,10 @@ string getDruidString(int timer){
 
 void attack(object highDruid, object oPC) {
     SetLocalInt(OBJECT_SELF, "state", ATTACK_STATE);
-    object Druid01 = GetNearestObjectByTag("moonwelldruid001");
-    object Druid02 = GetNearestObjectByTag("moonwelldruid002");
-    object Druid03 = GetNearestObjectByTag("moonwelldruid003");
-    object Druid04 = GetNearestObjectByTag("moonwelldruid004");
+    object Druid01 = GetObjectByTag("moonwelldruid001");
+    object Druid02 = GetObjectByTag("moonwelldruid002");
+    object Druid03 = GetObjectByTag("moonwelldruid003");
+    object Druid04 = GetObjectByTag("moonwelldruid004");
     AssignCommand(highDruid, SpeakString(
                 "**Frowns and signals the other druids to attack**"));
     AssignCommand(Druid01, ActionAttack(oPC, TRUE));
@@ -178,10 +178,10 @@ void main()
         SendMessageToPC(oPC, "High Druid: " + warnStr);
         SetLocalInt(OBJECT_SELF, "state", ATTACK_STATE);
     } else if (state == LEAVING_STATE) {
-        object Druid01 = GetNearestObjectByTag("MoonwellDruid01");
-        object Druid02 = GetNearestObjectByTag("MoonwellDruid02");
-        object Druid03 = GetNearestObjectByTag("MoonwellDruid03");
-        object Druid04 = GetNearestObjectByTag("MoonwellDruid04");
+        object Druid01 = GetObjectByTag("MoonwellDruid01");
+        object Druid02 = GetObjectByTag("MoonwellDruid02");
+        object Druid03 = GetObjectByTag("MoonwellDruid03");
+        object Druid04 = GetObjectByTag("MoonwellDruid04");
 
         location HighDruidDespawnLoc = GetLocalLocation(OBJECT_SELF,
                                                          "HighDruidDespawnLoc");

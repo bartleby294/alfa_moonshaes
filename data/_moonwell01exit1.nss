@@ -35,7 +35,7 @@ location pickSpawnLoc(object oPC, object point, float offset, float rotation) {
 void main() {
 
     object oPC = GetExitingObject();
-    object obHbObj = GetNearestObjectByTag("moonwell01onhbob");
+    object obHbObj = GetObjectByTag("moonwell01onhbob");
     int state = GetLocalInt(obHbObj, "state");
     // if a dm has disabled the scene or its in progress skip out.
     if(state > NO_STATE || !GetIsPC(oPC)) {

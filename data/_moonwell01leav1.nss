@@ -7,10 +7,10 @@ void main()
     DestroyObject(light, 1.0);
 
     object highDruid = GetLocalObject(obHbObj, "highDruid");
-    object Druid01 = GetNearestObjectByTag("moonwelldruid001");
-    object Druid02 = GetNearestObjectByTag("moonwelldruid002");
-    object Druid03 = GetNearestObjectByTag("moonwelldruid003");
-    object Druid04 = GetNearestObjectByTag("moonwelldruid004");
+    object Druid01 = GetObjectByTag("moonwelldruid001");
+    object Druid02 = GetObjectByTag("moonwelldruid002");
+    object Druid03 = GetObjectByTag("moonwelldruid003");
+    object Druid04 = GetObjectByTag("moonwelldruid004");
 
     location WalkLoc = GetLocalLocation(obHbObj, "WalkLoc");
     location HighDruidDespawnLoc = GetLocalLocation(obHbObj,
