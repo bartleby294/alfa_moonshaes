@@ -40,7 +40,7 @@ void main() {
     if(state > NO_STATE) {
         return;
     }
-
+    SetLocalInt(obHbObj, "state", INTEROGATION_STATE);
     object moonwell = GetObjectByTag("ABoomingVoice2");
     object oPC = GetExitingObject();
 
@@ -93,7 +93,6 @@ void main() {
     AssignCommand(Druid02, ActionMoveToLocation(Druid02StandLoc, FALSE));
 
     // Speak
-    SetLocalInt(obHbObj, "state", INTEROGATION_STATE);
     SetLocalObject(obHbObj, "lightobject", Light);
     SetLocalObject(obHbObj, "highDruid", HighDruid);
     AssignCommand(HighDruid, DelayCommand(1.0,
