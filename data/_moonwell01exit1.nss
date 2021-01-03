@@ -34,15 +34,15 @@ location pickSpawnLoc(object oPC, object point, float offset, float rotation) {
 
 void main() {
 
-    object obHbObj = GetNearestObjectByTag("moonwell01onhbob");
+    object oPC = GetExitingObject();
+    object obHbObj = GetNearestObjectByTag("moonwell01VarStorage");
     int state = GetLocalInt(obHbObj, "state");
     // if a dm has disabled the scene or its in progress skip out.
-    if(state > NO_STATE) {
+    if(state > NO_STATE || !GetIsPC(oPC)) {
         return;
     }
     SetLocalInt(obHbObj, "state", INTEROGATION_STATE);
     object moonwell = GetObjectByTag("ABoomingVoice2");
-    object oPC = GetExitingObject();
 
     // sort out all our locations.
     location HighDruidSpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 180.0);
