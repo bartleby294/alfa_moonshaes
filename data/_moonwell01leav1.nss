@@ -1,42 +1,44 @@
 void main()
 {
     object oPC = GetPCSpeaker();
+    object obHbObj = GetNearestObjectByTag("Moonwell01OnHBObj");
+    object light = GetLocalObject(obHbObj, "lightobject");
 
+    DestroyObject(light, 1.0);
 
-    object HighDruidSpawnWP = GetNearestObjectByTag("High_Druid_Spawn01");
-    object Druid01SpawnWP = GetNearestObjectByTag("Druid01_Spawn01");
-    object Druid02SpawnWP = GetNearestObjectByTag("Druid02_Spawn01");
-    object OnHBObj = GetNearestObjectByTag("Moonwell01OnHBObj");
-
-    object Light = GetLocalObject(OnHBObj, "lightobject");
-    DestroyObject(Light, 1.0);
-
-    SetLocalInt(OnHBObj, "Moonwell01HBTimer", 4);
-
-    //object HighDruid = GetNearestObjectByTag("MoonwellHighDruid");
+    object highDruid = GetNearestObjectByTag("MoonwellHighDruid");
     object Druid01 = GetNearestObjectByTag("MoonwellDruid01");
     object Druid02 = GetNearestObjectByTag("MoonwellDruid02");
     object Druid03 = GetNearestObjectByTag("MoonwellDruid03");
     object Druid04 = GetNearestObjectByTag("MoonwellDruid04");
 
-    //AssignCommand(HighDruid, ClearAllActions());
-    //effect Walk2 = EffectMovementSpeedIncrease(99);
-    //ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk2, HighDruid);
+    location HighDruidDespawnLoc = GetLocalLocation(obHbObj,
+                                                        "HighDruidDespawnLoc");
+    location Druid01DespawnLoc = GetLocalLocation(obHbObj, "Druid01DespawnLoc");
+    location Druid02DespawnLoc = GetLocalLocation(obHbObj, "Druid02DespawnLoc");
+    location Druid03DespawnLoc = GetLocalLocation(obHbObj, "Druid03DespawnLoc");
+    location Druid04DespawnLoc = GetLocalLocation(obHbObj, "Druid04DespawnLoc");
 
-    //AssignCommand(HighDruid, ActionMoveToObject(HighDruidSpawnWP, FALSE,1.0));
-    AssignCommand(Druid01, ActionMoveToObject(Druid01SpawnWP, FALSE,1.0));
-    AssignCommand(Druid02, ActionMoveToObject(Druid02SpawnWP, FALSE,1.0));
+    AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc, FALSE));
+    AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc, FALSE));
+    AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc, FALSE));
+    AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc, FALSE));
+    AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc, FALSE));
 
-    //DestroyObject(HighDruid, 16.0);
+    DestroyObject(highDruid, 16.0);
     DestroyObject(Druid01, 16.0);
     DestroyObject(Druid02, 16.0);
     DestroyObject(Druid03, 16.0);
     DestroyObject(Druid04, 16.0);
 
-
-    //DelayCommand(15.0, AssignCommand(HighDruid, SpeakString("Disapears into forest")));
-    DelayCommand(15.0, AssignCommand(Druid01, SpeakString("Disapears into forest")));
-    DelayCommand(15.0, AssignCommand(Druid02, SpeakString("Disapears into forest")));
-    DelayCommand(15.0, AssignCommand(Druid03, SpeakString("Disapears into forest")));
-    DelayCommand(15.0, AssignCommand(Druid04, SpeakString("Disapears into forest")));
+    DelayCommand(15.0, AssignCommand(highDruid,
+                                        SpeakString("Disapears into forest")));
+    DelayCommand(15.0, AssignCommand(Druid01,
+                                        SpeakString("Disapears into forest")));
+    DelayCommand(15.0, AssignCommand(Druid02,
+                                        SpeakString("Disapears into forest")));
+    DelayCommand(15.0, AssignCommand(Druid03,
+                                        SpeakString("Disapears into forest")));
+    DelayCommand(15.0, AssignCommand(Druid04,
+                                        SpeakString("Disapears into forest")));
 }
