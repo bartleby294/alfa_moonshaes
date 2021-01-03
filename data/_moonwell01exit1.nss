@@ -50,7 +50,7 @@ void main() {
     location Druid02SpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 270.0);
     location Druid03SpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 135.0);
     location Druid04SpawnLoc = pickSpawnLoc(oPC, moonwell, 15.0, 225.0);
-    location LightSpawnLoc = pickSpawnLoc(oPC, moonwell, 3.0, 0.0);
+    location LightSpawnLoc = pickSpawnLoc(oPC, moonwell, 5.0, 0.0);
 
     location HighDruidStandLoc = pickSpawnLoc(oPC, moonwell, 12.0, 180.0);
     location Druid01StandLoc = pickSpawnLoc(oPC, moonwell, 12.0, 90.0);

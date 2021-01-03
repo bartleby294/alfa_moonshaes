@@ -43,6 +43,7 @@ void attack(object highDruid) {
 void main()
 {
     int state = GetLocalInt(OBJECT_SELF, "state");
+    WriteTimestampedLogEntry("State: " + IntToString(state));
     object highDruid = GetNearestObjectByTag("MoonwellHighDruid");
     // if a dm has disabled the scene or its not in progress skip out.
     if(state = DM_DISABLED_STATE || state == NO_STATE) {
