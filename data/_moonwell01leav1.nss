@@ -1,7 +1,7 @@
 void main()
 {
     object oPC = GetPCSpeaker();
-    object obHbObj = GetNearestObjectByTag("moonwell01onhbob");
+    object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
     object light = GetLocalObject(obHbObj, "lightobject");
 
     if(obHbObj == OBJECT_INVALID) {
@@ -11,8 +11,6 @@ void main()
     if(light == OBJECT_INVALID) {
         SendMessageToPC(oPC, "light == OBJECT_INVALID");
     }
-
-
 
     DestroyObject(light, 1.0);
 
