@@ -80,6 +80,12 @@ void attack(object highDruid, object oPC) {
 void startConversation(int state, object oPC, object highDruid) {
     object partyDruid = highestLevelKnownDruid(oPC);
 
+    if(highDruid != OBJECT_INVALID) {
+        SendMessageToPC(oPC, "highDruid != OBJECT_INVALID");
+    } else {
+        SendMessageToPC(oPC, "highDruid == OBJECT_INVALID");
+    }
+
     AssignCommand(highDruid, ClearAllActions());
     effect Walk = EffectMovementSpeedDecrease(50);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);
@@ -120,7 +126,7 @@ void main()
     object oPC = GetLocalObject(OBJECT_SELF, "oPC");
     object light = GetLocalObject(OBJECT_SELF, "lightobject");
     WriteTimestampedLogEntry("State: " + IntToString(state));
-    object highDruid = GetNearestObjectByTag("MoonwellHighDruid");
+    object highDruid = GetLocalObject(OBJECT_SELF, "highDruid");
     // if a dm has disabled the scene or its not in progress skip out.
     if(state == DM_DISABLED_STATE || state == NO_STATE) {
         return;
