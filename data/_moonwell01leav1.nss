@@ -1,16 +1,16 @@
 void main()
 {
     object oPC = GetPCSpeaker();
-    object obHbObj = GetNearestObjectByTag("Moonwell01OnHBObj");
+    object obHbObj = GetNearestObjectByTag("moonwell01onhbob");
     object light = GetLocalObject(obHbObj, "lightobject");
 
     DestroyObject(light, 1.0);
 
-    object highDruid = GetNearestObjectByTag("MoonwellHighDruid");
-    object Druid01 = GetNearestObjectByTag("MoonwellDruid01");
-    object Druid02 = GetNearestObjectByTag("MoonwellDruid02");
-    object Druid03 = GetNearestObjectByTag("MoonwellDruid03");
-    object Druid04 = GetNearestObjectByTag("MoonwellDruid04");
+    object highDruid = GetNearestObjectByTag("moonwelldruid");
+    object Druid01 = GetNearestObjectByTag("moonwelldruid001");
+    object Druid02 = GetNearestObjectByTag("moonwelldruid002");
+    object Druid03 = GetNearestObjectByTag("moonwelldruid003");
+    object Druid04 = GetNearestObjectByTag("moonwelldruid004");
 
     location HighDruidDespawnLoc = GetLocalLocation(obHbObj,
                                                         "HighDruidDespawnLoc");

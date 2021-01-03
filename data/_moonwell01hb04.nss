@@ -87,7 +87,7 @@ void startConversation(int state, object oPC, object highDruid) {
     }
 
     AssignCommand(highDruid, ClearAllActions());
-    effect Walk = EffectMovementSpeedDecrease(50);
+    effect Walk = EffectMovementSpeedDecrease(40);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);
     SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
     location WalkLoc = GetLocalLocation(OBJECT_SELF, "WalkLoc");
