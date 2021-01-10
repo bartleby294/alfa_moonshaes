@@ -12,12 +12,13 @@
 
 /* Includes */
 #include "alfa_include"
+#include "ms_on_load"
 
 void main()
 {
   ALFA_OnModuleLoad();
 
   /**************** Add Custom Code Here ***************/
-
+    msOnLoad();
   /*****************************************************/
 }

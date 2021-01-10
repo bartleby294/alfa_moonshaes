@@ -155,7 +155,7 @@ location selectLocationInCamp(object oArea, location campfireLoc,
 
     possibleStructureLoc = Location(oArea,
         Vector(campfireVector.x + x, campfireVector.y+ y, z),
-            getFacing(campfireVector,
+            getBanditFacing(campfireVector,
                 GetPositionFromLocation(possibleStructureLoc)));
 
     // If we dont have enough room dont spawn and try again.
@@ -220,7 +220,7 @@ int campfireLocationGood(location campfireLoc) {
  *  Create a random bandit traps.
  */
 object createBanditTrap(object oArea, location campfireLoc, int circle_min,
-                            int circle_max, object bandit) {
+                            int circle_max, object bandit, int difficulty_lvl) {
 
     location possibleTrapLoc =
                 selectLocationInCamp(oArea, campfireLoc, circle_max + 1,
@@ -233,9 +233,9 @@ object createBanditTrap(object oArea, location campfireLoc, int circle_min,
 
     string resref = pickStructureObject();
     writeToLog("Trap: " + resref);
-    return CreateTrapAtLocation(randomBanditTrap(circle_max), possibleTrapLoc,
-                                  2.0, "bandit_trap", STANDARD_FACTION_HOSTILE,
-                                  "", "");
+    return CreateTrapAtLocation(randomBanditTrap(difficulty_lvl),
+                                  possibleTrapLoc, 2.0, "bandit_trap",
+                                  STANDARD_FACTION_HOSTILE, "", "");
 }
 
 object createBanditChest(object oArea, location campfireLoc, int circle_min,
@@ -265,7 +265,8 @@ object createBanditChest(object oArea, location campfireLoc, int circle_min,
 
 
 void SetupCamp(object oArea, int maxStructures, int minStructures,
-                int min_traps, int max_traps, int circle_min, int circle_max){
+                int min_traps, int max_traps, int circle_min, int circle_max,
+                int difficulty_lvl){
     // each area size if 10m so multiply by 10
     int areaHeight = GetAreaSize(AREA_HEIGHT, oArea) * 10;
     int areaWidth = GetAreaSize(AREA_WIDTH, oArea) * 10;
@@ -341,7 +342,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         string race = pickRace();
         string class = pickClass();
         string resref = race + class + "m_bandit_1";
-        int banditLvl = Random(circle_max) + 2;
+        int banditLvl = Random(difficulty_lvl) + 2;
         writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
         location spawnLoc = selectLocationInCamp(oArea, campfireLoc, circle_min,
                                                  circle_max, 2.0);
@@ -375,7 +376,8 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
     int trapCnt = Random(max_traps - min_traps) + min_traps;
     while(trapCnt > 0 && cnt < 50) {
         object trapCreated = createBanditTrap(oArea, campfireLoc, circle_min,
-                                                circle_max, bandit);
+                                                circle_max, bandit,
+                                                difficulty_lvl);
         if(trapCreated != OBJECT_INVALID) {
             trapCnt--;
         }
@@ -391,6 +393,7 @@ void main()
     int max_traps = 6;
     int circle_min = 1;
     int circle_max = 1;
+    int difficulty_lvl = 1;
     // Get what type of bandit party this is and set specifics for that party.
     // Default above is for bandit_look_sm
     if(GetTag(OBJECT_SELF) == "bandit_camp_md") {
@@ -400,6 +403,7 @@ void main()
         int max_traps = 10;
         circle_min = 1;
         circle_max = 2;
+        difficulty_lvl = 2;
     } else if(GetTag(OBJECT_SELF) == "bandit_camp_lg") {
         maxStructures = 15;
         minStructures = 9;
@@ -407,6 +411,7 @@ void main()
         int max_traps = 16;
         circle_min = 1;
         circle_max = 3;
+        difficulty_lvl = 3;
     }
 
     writeToLog("===================================");
@@ -425,6 +430,6 @@ void main()
         writeToLog("circle_min = " + IntToString(circle_min));
         writeToLog("circle_max = " + IntToString(circle_max));
         SetupCamp(oArea, maxStructures, minStructures, min_traps, max_traps,
-                   circle_min, circle_max);
+                   circle_min, circle_max, difficulty_lvl);
     }
 }
