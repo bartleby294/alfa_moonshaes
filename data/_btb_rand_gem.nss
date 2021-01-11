@@ -357,8 +357,29 @@ string getRandomGem() {
 /**
  * Returns a random gem taking weighted cost into consideration.
  */
-string getWeightedRandomGem(int gemLvl){
-    int maxGemValue = getHighestGemPrice();
-    int randSelection = d100() * gemLvl;
+string getWeightedRandomGem(int gemLvl, int maxGemValue){
+    int mostExpensiveGem = getHighestGemPrice();
+    // get a random percentage scaled by most expensive gem inflate it by gemlvl
+    float randSelection = (d100() * gemLvl * mostExpensiveGem * 1.0) / 100.0;
 
+    int breakout = 0;
+    string gemStr = getRandomGem();
+    int gemPrice = getItemCostFromTag(gemStr);
+    float gemPriceCeiling = gemPrice - (gemPrice * 0.05);
+
+    /* Keep going till we have an acceptable gem that is not too expensive.*/
+    while(randSelection < gemPriceCeiling
+            && maxGemValue <= gemPrice
+            && breakout < 65) {
+        gemStr = getRandomGem();
+        gemPrice = getItemCostFromTag(gemStr);
+        gemPriceCeiling = gemPrice - (gemPrice * 0.05);
+        breakout = breakout + 1;
+    }
+
+    if(randSelection < gemPriceCeiling && maxGemValue <= gemPrice) {
+        return gemStr;
+    }
+
+    return "";
 }

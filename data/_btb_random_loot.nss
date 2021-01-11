@@ -5,20 +5,20 @@
 #include "_btb_rand_jewelr"
 #include "_btb_util"
 
-int createPotionInChest(object chest, int goldAmount) {
-    string randPotionResref = getRandomPotion();
+int createPotionInChest(object chest, int goldAmount, int difficulty_lvl) {
+    string randPotionResref = getWeightedRandomPotion(difficulty_lvl, goldAmount);
     int iCost = getItemCostFromTag(GetStringUpperCase(randPotionResref));
-    if(iCost <= goldAmount) {
+    if(iCost != 0 && iCost <= goldAmount) {
         goldAmount = goldAmount - iCost;
         CreateItemOnObject(randPotionResref, chest);
     }
     return goldAmount;
 }
 
-int createGemInChest(object chest, int goldAmount) {
-    string randGemTag = getRandomGem();
+int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
+    string randGemTag = getWeightedRandomGem(difficulty_lvl, goldAmount);
     int iCost = getItemCostFromTag(randGemTag);
-    if(iCost <= goldAmount) {
+    if(iCost != 0 && iCost <= goldAmount) {
         goldAmount = goldAmount - iCost;
         CreateItemOnObject(randGemTag, chest);
     }
@@ -28,27 +28,54 @@ int createGemInChest(object chest, int goldAmount) {
 int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
     string randArmorResref = getRandomBaseArmor();
     int iCost = getItemCostFromTag(GetStringUpperCase(randArmorResref));
-    if(iCost <= goldAmount) {
+    if(iCost != 0 && iCost <= goldAmount) {
         //goldAmount = goldAmount - iCost;
         object item = CreateItemOnObject(randArmorResref, chest);
-        int quality = d100();
-        // chance its magic
-        if(quality) {
+        float quality = d100() * difficulty_lvl * 1.0;
+        float threshold = difficulty_lvl * 90.0;
+        // 10% * difficulty_lvl chance its magic
+        if(quality > threshold) {
 
         }
-
-
     }
     return goldAmount;
 }
 
+int createWeaponInChest(object chest, int goldAmount, int difficulty_lvl) {
+    string randWeaponResref = getRandomBaseWeapon();
+    int iCost = getItemCostFromTag(GetStringUpperCase(randWeaponResref));
+    if(iCost != 0 && iCost <= goldAmount) {
+        //goldAmount = goldAmount - iCost;
+        object item = CreateItemOnObject(randWeaponResref, chest);
+        float quality = d100() * difficulty_lvl * 1.0;
+        float threshold = difficulty_lvl * 90.0;
+        // 10% * difficulty_lvl chance its magic
+        if(quality > threshold) {
+
+        }
+    }
+    return goldAmount;
+}
+
+int createJewelryInChest(object chest, int goldAmount, int difficulty_lvl) {
+    string randJewelryResref = getRandomJewelry();
+    int iCost = getItemCostFromTag(GetStringUpperCase(randJewelryResref));
+    if(iCost != 0 && iCost <= goldAmount) {
+        //goldAmount = goldAmount - iCost;
+        object item = CreateItemOnObject(randJewelryResref, chest);
+        float quality = d100() * difficulty_lvl * 1.0;
+        float threshold = difficulty_lvl * 90.0;
+        // 10% * difficulty_lvl chance its magic
+        if(quality > threshold) {
+
+        }
+    }
+    return goldAmount;
+}
 
 //void fillChest(object chest, int goldAmount, int difficulty_lvl)
-void main()
+void generateLoot(int goldAmount, object chest, int difficulty_lvl)
 {
-    object chest;
-    int goldAmount;
-    int difficulty_lvl;
     int goldToAddToChest = 0;
     while(goldAmount > 0) {
         int randChance = d100();
@@ -65,19 +92,21 @@ void main()
             }
         // %15 chance its a potion
         } else if(randChance >= 30 && randChance < 45) {
-            goldAmount = createPotionInChest(chest, goldAmount);
+            goldAmount = createPotionInChest(chest, goldAmount, difficulty_lvl);
         // %10 chance its an armor
         } else if(randChance >= 45 && randChance < 55) {
             goldAmount = createArmorInChest(chest, goldAmount, difficulty_lvl);
         // %20 chance its a gem
         } else if(randChance >= 55 && randChance < 75) {
-            goldAmount = createPotionInChest(chest, goldAmount);
+            goldAmount = createGemInChest(chest, goldAmount, difficulty_lvl);
         // %15 chance its jewelery
         } else if(randChance >= 75 && randChance < 90) {
-            string randJewelryTag = GetStringUpperCase(getRandomJewelry());
+            goldAmount = createJewelryInChest(chest, goldAmount, difficulty_lvl);
         // %10 chance its a weapon
         } else if(randChance >= 90 && randChance <= 100) {
-            string randWeaponTag = GetStringUpperCase(getRandomBaseWeapon());
+            goldAmount = createWeaponInChest(chest, goldAmount, difficulty_lvl);
         }
+
+
     }
 }

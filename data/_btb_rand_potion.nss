@@ -1,3 +1,44 @@
+#include "_btb_util"
+
+int higherPotionPrice(string tag, int curPrice) {
+    int potionPrice = getItemCostFromTag(tag);
+    if(potionPrice > curPrice) {
+        return potionPrice;
+    }
+    return curPrice;
+}
+
+int getHighestPotionPrice() {
+
+    int highestPrice = 0;
+    highestPrice = higherPotionPrice("nw_it_mpotion016", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion006", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion005", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion009", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion015", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion014", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion007", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion003", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion001", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion020", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion002", highestPrice);
+    highestPrice = higherPotionPrice("x2_it_mpotion002", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion010", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion013", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion017", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion012", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion008", highestPrice);
+    highestPrice = higherPotionPrice("x2_it_mpotion001", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion011", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion019", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion018", highestPrice);
+    highestPrice = higherPotionPrice("nw_it_mpotion004", highestPrice);
+
+    return highestPrice;
+
+}
+
+
 //////////POTIONS//////////
 string getRandomPotion()
 {
@@ -70,5 +111,36 @@ string getRandomPotion()
             // Potion of Speed
             return "nw_it_mpotion004";
     }
+    return "";
+}
+
+/**
+ * Returns a random potion taking weighted cost into consideration.
+ */
+string getWeightedRandomPotion(int potionLvl, int maxPotionValue){
+    int mostExpensivePotion = getHighestPotionPrice();
+    // get a random percentage scaled by most expensive potion inflate it by
+    // potionlvl
+    float randSelection = (d100() * potionLvl * mostExpensivePotion * 1.0) / 100.0;
+
+    int breakout = 0;
+    string potionStr = getRandomPotion();
+    int potionPrice = getItemCostFromTag(potionStr);
+    float potionPriceCeiling = potionPrice - (potionPrice * 0.05);
+
+    /* Keep going till we have an acceptable potion that is not too expensive.*/
+    while(randSelection < potionPriceCeiling
+            && maxPotionValue <= potionPrice
+            && breakout < 65) {
+        potionStr = getRandomPotion();
+        potionPrice = getItemCostFromTag(potionStr);
+        potionPriceCeiling = potionPrice - (potionPrice * 0.05);
+        breakout = breakout + 1;
+    }
+
+    if(randSelection < potionPriceCeiling && maxPotionValue <= potionPrice) {
+        return potionStr;
+    }
+
     return "";
 }
