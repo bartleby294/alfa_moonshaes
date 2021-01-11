@@ -18,7 +18,7 @@ int createPotionInChest(object chest, int goldAmount, int difficulty_lvl) {
 int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
     string randGemTag = getRandomGem();
     int iCost = getItemCostFromTag(randGemTag);
-    string say1 = "randGemTag: " + IntToString(randGemTag);
+    string say1 = "randGemTag: " + randGemTag;
     string say2 = "iCost: " + IntToString(iCost);
     AssignCommand(chest, ActionSpeakString(say1));
     AssignCommand(chest, ActionSpeakString(say2));
