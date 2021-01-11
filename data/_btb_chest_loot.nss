@@ -16,6 +16,8 @@ void main()
 
     if(GetLocalInt(chest, "loot_generated") == 0) {
         SetLocalInt(chest, "loot_generated", 1);
+        SpeakString("Gold Value: " + IntToString(lootGP));
+        SpeakString("Level Value: " + IntToString(lootLvl));
         generateLoot(lootGP, chest, lootLvl);
     }
 }

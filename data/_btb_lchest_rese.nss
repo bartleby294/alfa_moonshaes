@@ -1,6 +1,6 @@
 void main()
 {
-    object chest = GetObjectByTag("randlootchesttes");
+    object chest = GetNearestObjectByTag("randlootchesttes");
     object oItem = GetFirstItemInInventory(chest);
 
     while (oItem != OBJECT_INVALID) {
