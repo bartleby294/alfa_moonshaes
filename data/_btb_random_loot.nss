@@ -37,6 +37,7 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
         if(quality > threshold) {
 
         }
+        goldAmount = goldAmount - iCost;
     }
     return goldAmount;
 }
@@ -53,6 +54,7 @@ int createWeaponInChest(object chest, int goldAmount, int difficulty_lvl) {
         if(quality > threshold) {
 
         }
+        goldAmount = goldAmount - iCost;
     }
     return goldAmount;
 }
@@ -69,6 +71,7 @@ int createJewelryInChest(object chest, int goldAmount, int difficulty_lvl) {
         if(quality > threshold) {
 
         }
+        goldAmount = goldAmount - iCost;
     }
     return goldAmount;
 }
