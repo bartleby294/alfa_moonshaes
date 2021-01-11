@@ -18,6 +18,8 @@ int createPotionInChest(object chest, int goldAmount, int difficulty_lvl) {
 int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
     string randGemTag = getRandomGem();
     int iCost = getItemCostFromTag(randGemTag);
+    string say = "iCost: " + IntToString(iCost);
+    AssignCommand(chest, ActionSpeakString(say));
     if(iCost != 0 && iCost <= goldAmount) {
         goldAmount = goldAmount - iCost;
         CreateItemOnObject(randGemTag, chest);
