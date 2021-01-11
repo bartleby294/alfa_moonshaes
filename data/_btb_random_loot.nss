@@ -6,7 +6,7 @@
 #include "_btb_util"
 
 int createPotionInChest(object chest, int goldAmount, int difficulty_lvl) {
-    string randPotionResref = getWeightedRandomPotion(difficulty_lvl, goldAmount);
+    string randPotionResref = getRandomPotion();
     int iCost = getItemCostFromTag(GetStringUpperCase(randPotionResref));
     if(iCost != 0 && iCost <= goldAmount) {
         goldAmount = goldAmount - iCost;
@@ -16,7 +16,7 @@ int createPotionInChest(object chest, int goldAmount, int difficulty_lvl) {
 }
 
 int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
-    string randGemTag = getWeightedRandomGem(difficulty_lvl, goldAmount);
+    string randGemTag = getRandomGem();
     int iCost = getItemCostFromTag(randGemTag);
     if(iCost != 0 && iCost <= goldAmount) {
         goldAmount = goldAmount - iCost;
