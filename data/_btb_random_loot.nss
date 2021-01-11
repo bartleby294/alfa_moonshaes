@@ -107,6 +107,8 @@ void generateLoot(int goldAmount, object chest, int difficulty_lvl)
             goldAmount = createWeaponInChest(chest, goldAmount, difficulty_lvl);
         }
 
-
+        if(goldToAddToChest > 0) {
+            CreateItemOnObject("nw_it_gold001", chest, goldToAddToChest);
+        }
     }
 }
