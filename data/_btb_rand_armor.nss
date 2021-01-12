@@ -14,8 +14,10 @@ object randomizeStyle(object oArmor, object chest){
 
     string say1 = "acValue: " + IntToString(acValue);
     string say2 = "oNewArmor acValue: " + IntToString(GetItemACValue(oNewArmor));
+    string say3 = "randChest: " + IntToString(randChest);
     AssignCommand(chest, ActionSpeakString(say1));
     AssignCommand(chest, ActionSpeakString(say2));
+    AssignCommand(chest, ActionSpeakString(say3));
 
     while(GetItemACValue(oNewArmor) != acValue) {
         DestroyObject(oNewArmor);
