@@ -5,12 +5,12 @@ object randomizeStyle(object oArmor, object chest){
 
     int acValue = GetItemACValue(oArmor);
 
-    int randChest = IPGetRandomArmorAppearanceType(oArmor,
-                                                   ITEM_APPR_ARMOR_MODEL_TORSO);
+    int randChest = Random(103);//IPGetRandomArmorAppearanceType(oArmor,
+                                                  //ITEM_APPR_ARMOR_MODEL_TORSO);
     object oNewArmor = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                          ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
                                          TRUE);
-    DestroyObject(oArmor);
+    //DestroyObject(oArmor);
 
     string say1 = "acValue: " + IntToString(acValue);
     string say2 = "oNewArmor acValue: " + IntToString(GetItemACValue(oNewArmor));
@@ -20,9 +20,10 @@ object randomizeStyle(object oArmor, object chest){
     AssignCommand(chest, ActionSpeakString(say3));
 
     while(GetItemACValue(oNewArmor) != acValue) {
+
+        randChest = Random(103);//IPGetRandomArmorAppearanceType(oNewArmor,
+                                                   //ITEM_APPR_ARMOR_MODEL_TORSO);
         DestroyObject(oNewArmor);
-        randChest = IPGetRandomArmorAppearanceType(oArmor,
-                                                   ITEM_APPR_ARMOR_MODEL_TORSO);
         oNewArmor = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
                                       TRUE);
