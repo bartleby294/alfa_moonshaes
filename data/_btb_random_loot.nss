@@ -35,7 +35,7 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
     if(iCost != 0 && iCost <= goldAmount) {
         //goldAmount = goldAmount - iCost;
         object item = CreateItemOnObject(randArmorResref, chest);
-       `object item2 = randomizeStyle(item);
+       `object item2 = randomizeStyle(item, chest);
         ActionGiveItem(item2, chest);
         float quality = d100() * difficulty_lvl * 1.0;
         float threshold = difficulty_lvl * 90.0;

@@ -1,7 +1,7 @@
 #include "x2_inc_itemprop"
 
 ///////ARMOR///////
-object randomizeStyle(object oArmor){
+object randomizeStyle(object oArmor, object chest){
 
     int acValue = GetItemACValue(oArmor);
 
@@ -11,6 +11,11 @@ object randomizeStyle(object oArmor){
                                          ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
                                          TRUE);
     DestroyObject(oArmor);
+
+    string say1 = "acValue: " + IntToString(acValue);
+    string say2 = "oNewArmor acValue: " + IntToString(GetItemACValue(oNewArmor));
+    AssignCommand(chest, ActionSpeakString(say1));
+    AssignCommand(chest, ActionSpeakString(say2));
 
     while(GetItemACValue(oNewArmor) != acValue) {
         DestroyObject(oNewArmor);
