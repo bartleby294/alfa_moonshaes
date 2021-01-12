@@ -3,6 +3,24 @@
 ///////ARMOR///////
 object randomizeStyle(object oArmor){
 
+    int acValue = GetItemACValue(oArmor);
+
+    int randChest = IPGetRandomArmorAppearanceType(oArmor,
+                                                   ITEM_APPR_ARMOR_MODEL_TORSO);
+    object oNewArmor = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+                                         ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
+                                         TRUE);
+    DestroyObject(oArmor);
+
+    while(GetItemACValue(oNewArmor) != acValue) {
+        DestroyObject(oNewArmor);
+        randChest = IPGetRandomArmorAppearanceType(oArmor,
+                                                   ITEM_APPR_ARMOR_MODEL_TORSO);
+        oNewArmor = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+                                      ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
+                                      TRUE);
+    }
+/*
     int randBicept = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LBICEP);
     int randFoot = IPGetRandomArmorAppearanceType(
@@ -17,15 +35,17 @@ object randomizeStyle(object oArmor){
                                        oArmor, ITEM_APPR_ARMOR_MODEL_LSHOULDER);
     int randThigh = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LTHIGH);
-    int randChest = IPGetRandomArmorAppearanceType(
-                                          oArmor, ITEM_APPR_ARMOR_MODEL_TORSO);
+
 
     oArmor = IPGetModifiedArmor(oArmor, ITEM_APPR_ARMOR_MODEL_BELT, X2_IP_ARMORTYPE_RANDOM, TRUE);
-    object oNewItem = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL, ITEM_APPR_ARMOR_MODEL_TORSO, Random(12)+1, TRUE);
-    DestroyObject(oArmor);
+*/
+
+
+
+
     //object oNewItem = CopyItemAndModify(oItem, ITEM_APPR_TYPE_ARMOR_MODEL, iToModify, iNewApp, TRUE);
 
-    return oNewItem;
+    return oNewArmor;
 }
 
 string getRandomBaseArmor() {
