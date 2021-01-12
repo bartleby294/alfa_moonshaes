@@ -21,7 +21,7 @@ object randomizeStyle(object oArmor){
                                           oArmor, ITEM_APPR_ARMOR_MODEL_TORSO);
 
     oArmor = IPGetModifiedArmor(oArmor, ITEM_APPR_ARMOR_MODEL_BELT, X2_IP_ARMORTYPE_RANDOM, TRUE);
-    object oNewItem = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL, ITEM_APPR_ARMOR_MODEL_TORSO, randChest, TRUE);
+    object oNewItem = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL, Random(12) + 1, randChest, TRUE);
     DestroyObject(oArmor);
     //object oNewItem = CopyItemAndModify(oItem, ITEM_APPR_TYPE_ARMOR_MODEL, iToModify, iNewApp, TRUE);
 
