@@ -1,6 +1,35 @@
+#include "x2_inc_itemprop"
+
 ///////ARMOR///////
+object randomizeStyle(object oArmor){
+
+    int randBicept = IPGetRandomArmorAppearanceType(
+                                          oArmor, ITEM_APPR_ARMOR_MODEL_LBICEP);
+    int randFoot = IPGetRandomArmorAppearanceType(
+                                          oArmor, ITEM_APPR_ARMOR_MODEL_LFOOT);
+    int randForearm = IPGetRandomArmorAppearanceType(
+                                        oArmor, ITEM_APPR_ARMOR_MODEL_LFOREARM);
+    int randHand = IPGetRandomArmorAppearanceType(
+                                          oArmor, ITEM_APPR_ARMOR_MODEL_LHAND);
+    int randShin = IPGetRandomArmorAppearanceType(
+                                          oArmor, ITEM_APPR_ARMOR_MODEL_LSHIN);
+    int randShoulder = IPGetRandomArmorAppearanceType(
+                                       oArmor, ITEM_APPR_ARMOR_MODEL_LSHOULDER);
+    int randThigh = IPGetRandomArmorAppearanceType(
+                                          oArmor, ITEM_APPR_ARMOR_MODEL_LTHIGH);
+    int randChest = IPGetRandomArmorAppearanceType(
+                                          oArmor, ITEM_APPR_ARMOR_MODEL_TORSO);
+
+    oArmor = IPGetModifiedArmor(oArmor, ITEM_APPR_ARMOR_MODEL_BELT, X2_IP_ARMORTYPE_RANDOM, TRUE);
+    object oNewItem = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL, ITEM_APPR_ARMOR_MODEL_TORSO, randChest, TRUE);
+    DestroyObject(oArmor);
+    //object oNewItem = CopyItemAndModify(oItem, ITEM_APPR_TYPE_ARMOR_MODEL, iToModify, iNewApp, TRUE);
+
+    return oNewItem;
+}
+
 string getRandomBaseArmor() {
-    switch (Random(18)) {
+    switch (Random(16)) {
         // Clothing
         case 0:
             return "nw_cloth022";
@@ -14,55 +43,46 @@ string getRandomBaseArmor() {
             // Splint Mail
         case 3:
             return "nw_aarcl005";
-
-            /*HEAD*/
-            // Helmet
-        case 4:
-            return "050_helm";
-            // Hood
-        case 5:
-            return "043_hoodblue_01";
-
             /*LIGHT ARMOR*/
             // Chain Shirt
-        case 6:
+        case 4:
             return "nw_aarcl012";
             // Leather Armor
-        case 7:
+        case 5:
             return "nw_aarcl001";
             // Padded Armor
-        case 8:
+        case 6:
             return "nw_aarcl009";
             // Studded Leather
-        case 9:
+        case 7:
             return "nw_aarcl002";
 
             /*MEDIUM ARMOR*/
             // Breast Plate
-        case 10:
+        case 8:
             return "nw_aarcl010";
             // Chainmail
-        case 11:
+        case 9:
             return "nw_aarcl004";
             // Hide Armor
-        case 12:
+        case 10:
             return "nw_aarcl008";
             // Scale Mail
-        case 13:
+        case 11:
             return "nw_aarcl003";
 
             /*SHEILDS*/
             // Heavy Sheild
-        case 14:
+        case 12:
             return "it_iwoodshldl001";
             // Large Sheild
-        case 15:
+        case 13:
             return "nw_ashlw001";
             // Small Sheild
-        case 16:
+        case 14:
             return "nw_ashsw001";
             // Tower Sheilld
-        case 17:
+        case 15:
             return "nw_ashto001";
     }
     // Clothing
