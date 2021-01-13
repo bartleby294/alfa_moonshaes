@@ -20,7 +20,7 @@ object randomizeStyle(object oArmor, object chest){
 
         randChest = Random(103);
         DestroyObject(oNewArmor);
-        oNewArmor = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+        oNewArmor = CopyItemAndModify(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
                                       TRUE);
     }
