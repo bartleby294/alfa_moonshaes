@@ -11,6 +11,19 @@ object randomizeStyle(object oArmor, object chest){
                                          ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
                                          TRUE);
     //DestroyObject(oArmor);
+    while(GetItemACValue(oNewArmor) != acValue) {
+
+        int test = IPGetRandomArmorAppearanceType(oNewArmor,
+                                                   ITEM_APPR_ARMOR_MODEL_TORSO);
+        string say1 = "test: " + IntToString(test);
+        AssignCommand(chest, ActionSpeakString(say1));
+
+        randChest = Random(103);
+        DestroyObject(oNewArmor);
+        oNewArmor = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+                                      ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
+                                      TRUE);
+    }
 
     string say1 = "acValue: " + IntToString(acValue);
     string say2 = "oNewArmor acValue: " + IntToString(GetItemACValue(oNewArmor));
@@ -18,16 +31,6 @@ object randomizeStyle(object oArmor, object chest){
     AssignCommand(chest, ActionSpeakString(say1));
     AssignCommand(chest, ActionSpeakString(say2));
     AssignCommand(chest, ActionSpeakString(say3));
-
-    while(GetItemACValue(oNewArmor) != acValue) {
-
-        randChest = Random(103);//IPGetRandomArmorAppearanceType(oNewArmor,
-                                                   //ITEM_APPR_ARMOR_MODEL_TORSO);
-        DestroyObject(oNewArmor);
-        oNewArmor = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
-                                      ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
-                                      TRUE);
-    }
 /*
     int randBicept = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LBICEP);
