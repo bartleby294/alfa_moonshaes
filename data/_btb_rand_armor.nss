@@ -10,6 +10,7 @@ object randomizeStyle(object oArmor, object chest){
     object oNewArmor = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                          ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
                                          TRUE);
+    DestroyObject(oArmor);
     //DestroyObject(oArmor);
     while(GetItemACValue(oNewArmor) != acValue) {
 
