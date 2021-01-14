@@ -32,9 +32,10 @@ int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
 int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
                        object tempInvObj) {
     string randArmorResref = getRandomBaseArmor();
+    WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
     int iCost = getItemCostFromTag(GetStringUpperCase(randArmorResref));
     if(iCost != 0 && iCost <= goldAmount) {
-        WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
+
         randomizeStyle(CreateItemOnObject(randArmorResref, chest));
         float quality = d100() * difficulty_lvl * 1.0;
         float threshold = difficulty_lvl * 90.0;
