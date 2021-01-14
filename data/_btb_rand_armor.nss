@@ -9,31 +9,101 @@ object UpdateArmorAppearance(object oItem, int nType, int nIndex, int nNewValue,
     return oNew;
 }
 
-object getRandomTorso(object oArmor) {
-    int breakout = 0;
-    int acValue = GetItemACValue(oArmor);
-    int randChest = Random(103);
-    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
-                                   ITEM_APPR_ARMOR_MODEL_TORSO, randChest);
+int isValidTorsoId(int id) {
+    if( id == 9 || id == 10 || id == 60 || id == 61 || id == 62 || id == 63
+                || id == 65 || id == 71 || id == 93 || id == 94 || id == 95
+                || id == 96 || id == 100 || id == 106) {
+        return FALSE;
+    }
+    return TRUE;
+}
 
-    while(GetItemACValue(oArmor) != acValue) {
-        randChest = Random(103);
-        oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
-                                   ITEM_APPR_ARMOR_MODEL_TORSO, randChest);
-        WriteTimestampedLogEntry("-----------------------");
-        WriteTimestampedLogEntry("randChest: " + IntToString(randChest));
-        WriteTimestampedLogEntry("Orig AC: " + IntToString(acValue));
-        WriteTimestampedLogEntry("New  AC: " + IntToString(GetItemACValue(oArmor)));
-        breakout = breakout + 1;
-        if(breakout > 50) {
-            WriteTimestampedLogEntry("Break Out");
-            WriteTimestampedLogEntry("-----------------------");
-            return OBJECT_INVALID;
+int getRandomTorsoId(int ac) {
+    if(ac == 0) {
+        int random = Random(41);
+        if(isValidTorsoId(random)){
+            return random;
         }
-        WriteTimestampedLogEntry("-----------------------");
+    }
+    if(ac == 1) {
+        int random = Random(3) + 42;
+        if(isValidTorsoId(random)){
+            return random;
+        }
+    }
+    if(ac == 2) {
+        int random = Random(7) + 45;
+        if(isValidTorsoId(random)){
+            return random;
+        }
+    }
+    if(ac == 3) {
+        int random = Random(4) + 52;
+        if(isValidTorsoId(random)){
+            return random;
+        }
+    }
+    if(ac == 4) {
+        int random = Random(15) + 56;
+        if(isValidTorsoId(random)){
+            return random;
+        }
+    }
+    if(ac == 5) {
+        int random = Random(6) +71;
+        if(isValidTorsoId(random)){
+            return random;
+        }
+    }
+    if(ac == 6) {
+        int random = Random(6) + 77;
+        if(isValidTorsoId(random)){
+            return random;
+        }
+    }
+    if(ac == 7) {
+        int random = Random(5) + 83;
+        if(isValidTorsoId(random)){
+            return random;
+        }
+    }
+    if(ac == 8) {
+        int random = Random(11) + 88;
+        if(isValidTorsoId(random)){
+            return random;
+        }
+    }
+    if(ac == 9) {
+        return 99;
+    }
+    if(ac == 10) {
+        int random = Random(2) + 101;
+        if(isValidTorsoId(random)){
+            return random;
+        }
+    }
+    if(ac == 11) {
+        return 103;
+    }
+    if(ac == 12) {
+        return 104;
+    }
+    if(ac == 13) {
+        return 105;
+    }
+    return -1;
+}
+
+object getRandomTorso(object oArmor) {
+    int acValue = GetItemACValue(oArmor);
+    int randChest = getRandomTorsoId(acValue);
+
+    while (randChest < 0) {
+        randChest = getRandomTorsoId(acValue);
     }
 
-    return oArmor;
+    return UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+                                   ITEM_APPR_ARMOR_MODEL_TORSO, randChest);
 }
 
 object randomizeStyle(object oArmor) {
