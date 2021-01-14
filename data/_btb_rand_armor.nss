@@ -19,10 +19,17 @@ object getRandomTorso(object oArmor) {
     while(GetItemACValue(oArmor) != acValue) {
         oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                    ITEM_APPR_ARMOR_MODEL_TORSO, randChest);
+        WriteTimestampedLogEntry("-----------------------");
+        WriteTimestampedLogEntry("Orig AC: " + IntToString(acValue));
+        WriteTimestampedLogEntry("New  AC: " + IntToString(GetItemACValue(oArmor)));
+
         breakout = breakout + 1;
         if(breakout > 50) {
+            WriteTimestampedLogEntry("Break Out");
+            WriteTimestampedLogEntry("-----------------------");
             return OBJECT_INVALID;
         }
+        WriteTimestampedLogEntry("-----------------------");
     }
 
     return oArmor;
@@ -38,7 +45,7 @@ object randomizeStyle(object oArmor) {
         DestroyObject(oFallbackArmor);
     }
 
-    int randBicept = IPGetRandomArmorAppearanceType(
+    /*int randBicept = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LBICEP);
     int randFoot = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LFOOT);
@@ -97,7 +104,7 @@ object randomizeStyle(object oArmor) {
     oNewArmor = IPGetModifiedArmor(oNewArmor, ITEM_APPR_ARMOR_MODEL_NECK,
                                     X2_IP_ARMORTYPE_RANDOM, TRUE);
     oNewArmor = IPGetModifiedArmor(oNewArmor, ITEM_APPR_ARMOR_MODEL_PELVIS,
-                                    X2_IP_ARMORTYPE_RANDOM, TRUE);
+                                    X2_IP_ARMORTYPE_RANDOM, TRUE);*/
 
     return oNewArmor;
 }

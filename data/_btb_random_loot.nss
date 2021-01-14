@@ -33,6 +33,7 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
     string randArmorResref = getRandomBaseArmor();
     int iCost = getItemCostFromTag(GetStringUpperCase(randArmorResref));
     if(iCost != 0 && iCost <= goldAmount) {
+        WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
         object item = randomizeStyle(CreateItemOnObject(randArmorResref,chest));
         ActionGiveItem(item, chest);
         float quality = d100() * difficulty_lvl * 1.0;
