@@ -37,6 +37,7 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
         WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
         object item = randomizeStyle(CreateItemOnObject(randArmorResref,
                                      tempInvObj));
+        WriteTimestampedLogEntry("new acValue: " + IntToString(GetItemACValue(item)));
         ActionGiveItem(item, chest);
         float quality = d100() * difficulty_lvl * 1.0;
         float threshold = difficulty_lvl * 90.0;

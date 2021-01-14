@@ -102,6 +102,10 @@ object getRandomTorso(object oArmor) {
         randChest = getRandomTorsoId(acValue);
     }
 
+    WriteTimestampedLogEntry("acValue: " + IntToString(acValue));
+    WriteTimestampedLogEntry("randChest: " + IntToString(randChest));
+    //WriteTimestampedLogEntry(": " + IntToString(acValue));
+    //WriteTimestampedLogEntry(": " + IntToString(acValue));
     return UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                    ITEM_APPR_ARMOR_MODEL_TORSO, randChest);
 }
