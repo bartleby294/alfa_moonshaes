@@ -21,9 +21,9 @@ object getRandomTorso(object oArmor) {
         oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                    ITEM_APPR_ARMOR_MODEL_TORSO, randChest);
         WriteTimestampedLogEntry("-----------------------");
+        WriteTimestampedLogEntry("randChest: " + IntToString(randChest));
         WriteTimestampedLogEntry("Orig AC: " + IntToString(acValue));
         WriteTimestampedLogEntry("New  AC: " + IntToString(GetItemACValue(oArmor)));
-
         breakout = breakout + 1;
         if(breakout > 50) {
             WriteTimestampedLogEntry("Break Out");
