@@ -17,6 +17,7 @@ object getRandomTorso(object oArmor) {
                                    ITEM_APPR_ARMOR_MODEL_TORSO, randChest);
 
     while(GetItemACValue(oArmor) != acValue) {
+        randChest = Random(103);
         oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                    ITEM_APPR_ARMOR_MODEL_TORSO, randChest);
         WriteTimestampedLogEntry("-----------------------");
