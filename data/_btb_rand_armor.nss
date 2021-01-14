@@ -1,16 +1,39 @@
 #include "x2_inc_itemprop"
 
 ///////ARMOR///////
-object randomizeStyle(object oArmor, object chest){
-
+object getRandomTorso(object oArmor) {
     int acValue = GetItemACValue(oArmor);
-
-    int randChest = Random(103);//IPGetRandomArmorAppearanceType(oArmor,
-                                                  //ITEM_APPR_ARMOR_MODEL_TORSO);
+    int randChest = Random(103);
     object oNewArmor = CopyItemAndModify(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                          ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
                                          TRUE);
     DestroyObject(oArmor);
+    while(GetItemACValue(oNewArmor) != acValue) {
+        randChest = Random(103);
+        object loopArmor = CopyItemAndModify(oNewArmor,
+                                             ITEM_APPR_TYPE_ARMOR_MODEL,
+                                             ITEM_APPR_ARMOR_MODEL_TORSO,
+                                             randChest,
+                                             TRUE);
+        if(GetItemACValue(oNewArmor) == acValue) {
+            DestroyObject(loopArmor);
+            return loopArmor;
+        } else {
+            DestroyObject(loopArmor);
+        }
+    }
+
+    return oNewArmor;
+}
+
+object randomizeStyle(object oArmor, object chest){
+
+
+
+    //IPGetRandomArmorAppearanceType(oArmor,
+                                                  //ITEM_APPR_ARMOR_MODEL_TORSO);
+
+
     //DestroyObject(oArmor);
     while(GetItemACValue(oNewArmor) != acValue) {
 
