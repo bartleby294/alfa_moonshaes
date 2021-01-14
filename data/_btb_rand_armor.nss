@@ -15,8 +15,9 @@ object getRandomTorso(object oArmor) {
                                              ITEM_APPR_ARMOR_MODEL_TORSO,
                                              randChest,
                                              TRUE);
+        DestroyObject(oNewArmor);
+        oNewArmor = loopArmor;
         if(GetItemACValue(oNewArmor) == acValue) {
-            DestroyObject(loopArmor);
             return loopArmor;
         } else {
             DestroyObject(loopArmor);
@@ -26,35 +27,8 @@ object getRandomTorso(object oArmor) {
     return oNewArmor;
 }
 
-object randomizeStyle(object oArmor, object chest){
-
-
-
-    //IPGetRandomArmorAppearanceType(oArmor,
-                                                  //ITEM_APPR_ARMOR_MODEL_TORSO);
-
-
-    //DestroyObject(oArmor);
-    while(GetItemACValue(oNewArmor) != acValue) {
-
-        int test = IPGetRandomArmorAppearanceType(oNewArmor,
-                                                   ITEM_APPR_ARMOR_MODEL_TORSO);
-        string say1 = "test: " + IntToString(test);
-        AssignCommand(chest, ActionSpeakString(say1));
-
-        randChest = Random(103);
-        DestroyObject(oNewArmor);
-        oNewArmor = CopyItemAndModify(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
-                                      ITEM_APPR_ARMOR_MODEL_TORSO, randChest,
-                                      TRUE);
-    }
-
-    string say1 = "acValue: " + IntToString(acValue);
-    string say2 = "oNewArmor acValue: " + IntToString(GetItemACValue(oNewArmor));
-    string say3 = "randChest: " + IntToString(randChest);
-    AssignCommand(chest, ActionSpeakString(say1));
-    AssignCommand(chest, ActionSpeakString(say2));
-    AssignCommand(chest, ActionSpeakString(say3));
+object randomizeStyle(object oArmor, object chest) {
+    object oNewArmor = getRandomTorso(oArmor);
 /*
     int randBicept = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LBICEP);
@@ -74,10 +48,6 @@ object randomizeStyle(object oArmor, object chest){
 
     oArmor = IPGetModifiedArmor(oArmor, ITEM_APPR_ARMOR_MODEL_BELT, X2_IP_ARMORTYPE_RANDOM, TRUE);
 */
-
-
-
-
     //object oNewItem = CopyItemAndModify(oItem, ITEM_APPR_TYPE_ARMOR_MODEL, iToModify, iNewApp, TRUE);
 
     return oNewArmor;
