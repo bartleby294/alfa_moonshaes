@@ -112,15 +112,7 @@ object getRandomTorso(object oArmor) {
 
 object randomizeStyle(object oArmor) {
 
-    object oFallbackArmor = oArmor;
-    object oNewArmor = getRandomTorso(oArmor);
-    if(oNewArmor == OBJECT_INVALID) {
-        return oFallbackArmor;
-    } else {
-        DestroyObject(oFallbackArmor);
-    }
-
-    /*int randBicept = IPGetRandomArmorAppearanceType(
+    int randBicept = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LBICEP);
     int randFoot = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LFOOT);
@@ -135,56 +127,71 @@ object randomizeStyle(object oArmor) {
     int randThigh = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LTHIGH);
 
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_LBICEP, randBicept);
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_RBICEP, randBicept);
 
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_LFOOT, randFoot);
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_RFOOT, randFoot);
 
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_LFOREARM,
                                       randForearm);
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_RFOREARM,
                                       randForearm);
 
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_LHAND, randHand);
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_RHAND, randHand);
 
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_LSHIN, randShin);
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_RSHIN, randShin);
 
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_LSHOULDER,
                                       randShoulder);
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_RSHOULDER,
                                       randShoulder);
 
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_LTHIGH, randThigh);
-    oNewArmor = UpdateArmorAppearance(oNewArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
+    oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_RTHIGH, randThigh);
 
-    oNewArmor = IPGetModifiedArmor(oNewArmor, ITEM_APPR_ARMOR_MODEL_BELT,
+    oArmor = IPGetModifiedArmor(oArmor, ITEM_APPR_ARMOR_MODEL_BELT,
                                     X2_IP_ARMORTYPE_RANDOM, TRUE);
-    oNewArmor = IPGetModifiedArmor(oNewArmor, ITEM_APPR_ARMOR_MODEL_NECK,
+    oArmor = IPGetModifiedArmor(oArmor, ITEM_APPR_ARMOR_MODEL_NECK,
                                     X2_IP_ARMORTYPE_RANDOM, TRUE);
-    oNewArmor = IPGetModifiedArmor(oNewArmor, ITEM_APPR_ARMOR_MODEL_PELVIS,
-                                    X2_IP_ARMORTYPE_RANDOM, TRUE);*/
+    oArmor = IPGetModifiedArmor(oArmor, ITEM_APPR_ARMOR_MODEL_PELVIS,
+                                    X2_IP_ARMORTYPE_RANDOM, TRUE);
 
-    return oNewArmor;
+    return oArmor;
 }
 
 string getRandomBaseArmor() {
+
+    int randArmor = Random(99);
+    string resRef = "gen_armor_0";
+    while(!isValidTorsoId(randArmor)) {
+        randArmor = Random(99);
+    }
+
+    if(randArmor < 10) {
+        resRef = resRef + "0";
+    }
+
+    return resRef + IntToString(randArmor);
+}
+
+string getRandomBaseArmorOLD() {
     switch (Random(16)) {
         // Clothing
         case 0:

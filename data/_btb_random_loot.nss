@@ -35,6 +35,24 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
     int iCost = getItemCostFromTag(GetStringUpperCase(randArmorResref));
     if(iCost != 0 && iCost <= goldAmount) {
         WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
+        randomizeStyle(CreateItemOnObject(randArmorResref, chest));
+        float quality = d100() * difficulty_lvl * 1.0;
+        float threshold = difficulty_lvl * 90.0;
+        // 10% * difficulty_lvl chance its magic
+        if(quality > threshold) {
+
+        }
+        goldAmount = goldAmount - iCost;
+    }
+    return goldAmount;
+}
+
+int createArmorInChestOLD(object chest, int goldAmount, int difficulty_lvl,
+                       object tempInvObj) {
+    string randArmorResref = getRandomBaseArmor();
+    int iCost = getItemCostFromTag(GetStringUpperCase(randArmorResref));
+    if(iCost != 0 && iCost <= goldAmount) {
+        WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
         object item = randomizeStyle(CreateItemOnObject(randArmorResref,
                                      tempInvObj));
         WriteTimestampedLogEntry("new acValue: " + IntToString(GetItemACValue(item)));
