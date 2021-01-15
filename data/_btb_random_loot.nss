@@ -36,13 +36,12 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
     WriteTimestampedLogEntry("###################");
     WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
     object oArmor = CreateItemOnObject(randArmorResref, tempInvObj);
-    NWNX_Object_AcquireItem(chest, oArmor);
     int iCost = GetGoldPieceValue(oArmor);
     WriteTimestampedLogEntry("iCost: " + IntToString(iCost));
     WriteTimestampedLogEntry("goldAmount: " + IntToString(goldAmount));
     if(iCost != 0 && iCost <= goldAmount) {
         WriteTimestampedLogEntry("+====================");
-        randomizeStyle(oArmor);
+        NWNX_Object_AcquireItem(chest, randomizeStyle(oArmor));
         WriteTimestampedLogEntry("-====================");
         float quality = d100() * difficulty_lvl * 1.0;
         float threshold = difficulty_lvl * 90.0;
