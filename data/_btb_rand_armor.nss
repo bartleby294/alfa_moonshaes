@@ -112,6 +112,7 @@ object getRandomTorso(object oArmor) {
 
 object randomizeStyle(object oArmor) {
 
+    WriteTimestampedLogEntry("randomizeStyle:");
     int randBicept = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LBICEP);
     int randFoot = IPGetRandomArmorAppearanceType(
@@ -126,6 +127,11 @@ object randomizeStyle(object oArmor) {
                                        oArmor, ITEM_APPR_ARMOR_MODEL_LSHOULDER);
     int randThigh = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LTHIGH);
+
+    WriteTimestampedLogEntry("randBicept:" + IntToString(randBicept));
+    WriteTimestampedLogEntry("randFoot:"   + IntToString(randFoot));
+    WriteTimestampedLogEntry("randForearm:" + IntToString(randForearm));
+    WriteTimestampedLogEntry("randFoot:"   + IntToString(randFoot));
 
     oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_LBICEP, randBicept);
@@ -172,6 +178,11 @@ object randomizeStyle(object oArmor) {
                                     X2_IP_ARMORTYPE_RANDOM, TRUE);
     oArmor = IPGetModifiedArmor(oArmor, ITEM_APPR_ARMOR_MODEL_PELVIS,
                                     X2_IP_ARMORTYPE_RANDOM, TRUE);
+    WriteTimestampedLogEntry("acValue: " + IntToString(GetItemACValue(oArmor)));
+    WriteTimestampedLogEntry("randHand:" + IntToString(randHand));
+    WriteTimestampedLogEntry("randShin:"   + IntToString(randShin));
+    WriteTimestampedLogEntry("randShoulder:" + IntToString(randShoulder));
+    WriteTimestampedLogEntry("randThigh:"   + IntToString(randThigh));
 
     return oArmor;
 }
@@ -187,6 +198,8 @@ string getRandomBaseArmor() {
     if(randArmor < 10) {
         resRef = resRef + "0";
     }
+
+    WriteTimestampedLogEntry("randArmorResref2: " + resRef + IntToString(randArmor));
 
     return resRef + IntToString(randArmor);
 }

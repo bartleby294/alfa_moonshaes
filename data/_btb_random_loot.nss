@@ -35,8 +35,10 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
     WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
     int iCost = getItemCostFromTag(GetStringUpperCase(randArmorResref));
     if(iCost != 0 && iCost <= goldAmount) {
-
-        randomizeStyle(CreateItemOnObject(randArmorResref, chest));
+        object oArmor = CreateItemOnObject(randArmorResref, chest);
+        WriteTimestampedLogEntry("+====================");
+        randomizeStyle(oArmor);
+        WriteTimestampedLogEntry("-====================");
         float quality = d100() * difficulty_lvl * 1.0;
         float threshold = difficulty_lvl * 90.0;
         // 10% * difficulty_lvl chance its magic
