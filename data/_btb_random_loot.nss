@@ -51,12 +51,19 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
 }
 
 int createWeaponInChest(object chest, int goldAmount, int difficulty_lvl) {
+    object tempInvObj = CreateObject(OBJECT_TYPE_PLACEABLE, "tempinventoryobj",
+                                     GetLocation(chest));
     string randWeaponResref = getRandomBaseWeapon();
+    object oWeapon = CreateItemOnObject(randWeaponResref, tempInvObj);
+    string serializeWeapon = NWNX_Object_Serialize(RandomizeWeapon(oWeapon));
     int iCost = getItemCostFromTag(GetStringUpperCase(randWeaponResref));
+    DestroyObject(oWeapon);
+    DestroyObject(tempInvObj);
+
     if(iCost != 0 && iCost <= goldAmount) {
         //goldAmount = goldAmount - iCost;
-        object item = CreateItemOnObject(randWeaponResref, chest);
-        RandomizeWeapon(item);
+
+        NWNX_Object_AcquireItem(chest, NWNX_Object_Deserialize(serializeWeapon));
         float quality = d100() * difficulty_lvl * 1.0;
         float threshold = difficulty_lvl * 90.0;
         // 10% * difficulty_lvl chance its magic
