@@ -30,44 +30,18 @@ int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
     return goldAmount;
 }
 
-int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
-                       object tempInvObj) {
+int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
+    object tempInvObj = CreateObject(OBJECT_TYPE_PLACEABLE, "tempinventoryobj",
+                                     GetLocation(chest));
     string randArmorResref = getRandomBaseArmor();
-    WriteTimestampedLogEntry("###################");
-    WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
     object oArmor = CreateItemOnObject(randArmorResref, tempInvObj);
+    string serializedArmor = NWNX_Object_Serialize(randomizeStyle(oArmor));
     int iCost = GetGoldPieceValue(oArmor);
-    WriteTimestampedLogEntry("iCost: " + IntToString(iCost));
-    WriteTimestampedLogEntry("goldAmount: " + IntToString(goldAmount));
+    DestroyObject(oArmor);
+    DestroyObject(tempInvObj);
+
     if(iCost != 0 && iCost <= goldAmount) {
-        WriteTimestampedLogEntry("+====================");
-        string serializedArmor = NWNX_Object_Serialize(randomizeStyle(oArmor));
         NWNX_Object_AcquireItem(chest, NWNX_Object_Deserialize(serializedArmor));
-        WriteTimestampedLogEntry("-====================");
-        float quality = d100() * difficulty_lvl * 1.0;
-        float threshold = difficulty_lvl * 90.0;
-        // 10% * difficulty_lvl chance its magic
-        if(quality > threshold) {
-
-        }
-        goldAmount = goldAmount - iCost;
-    } else {
-        DestroyObject(oArmor);
-    }
-    WriteTimestampedLogEntry("###################");
-    return goldAmount;
-}
-
-int createArmorInChestOLD(object chest, int goldAmount, int difficulty_lvl,
-                       object tempInvObj) {
-    string randArmorResref = getRandomBaseArmor();
-    int iCost = getItemCostFromTag(GetStringUpperCase(randArmorResref));
-    if(iCost != 0 && iCost <= goldAmount) {
-        WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
-        object item = randomizeStyle(CreateItemOnObject(randArmorResref,
-                                     tempInvObj));
-        WriteTimestampedLogEntry("new acValue: " + IntToString(GetItemACValue(item)));
-        AssignCommand(tempInvObj, ActionGiveItem(item, chest));
         float quality = d100() * difficulty_lvl * 1.0;
         float threshold = difficulty_lvl * 90.0;
         // 10% * difficulty_lvl chance its magic
@@ -76,6 +50,7 @@ int createArmorInChestOLD(object chest, int goldAmount, int difficulty_lvl,
         }
         goldAmount = goldAmount - iCost;
     }
+
     return goldAmount;
 }
 
@@ -117,8 +92,7 @@ int createJewelryInChest(object chest, int goldAmount, int difficulty_lvl) {
 void generateLoot(int goldAmount, object chest, int difficulty_lvl)
 {
     int goldToAddToChest = 0;
-    object tempInvObj = CreateObject(OBJECT_TYPE_PLACEABLE, "tempinventoryobj",
-                                     GetLocation(chest));
+
     while(goldAmount > 0) {
         int randChance = d100();
         // 30% chance its gold
@@ -137,7 +111,7 @@ void generateLoot(int goldAmount, object chest, int difficulty_lvl)
             goldAmount = createPotionInChest(chest, goldAmount, difficulty_lvl);
         // %10 chance its an armor
         } else if(randChance >= 45 && randChance < 55) {
-            goldAmount = createArmorInChest(chest, goldAmount, difficulty_lvl, tempInvObj);
+            goldAmount = createArmorInChest(chest, goldAmount, difficulty_lvl);
         // %20 chance its a gem
         } else if(randChance >= 55 && randChance < 75) {
             goldAmount = createGemInChest(chest, goldAmount, difficulty_lvl);
@@ -153,6 +127,4 @@ void generateLoot(int goldAmount, object chest, int difficulty_lvl)
     if(goldToAddToChest > 0) {
         CreateItemOnObject("nw_it_gold001", chest, goldToAddToChest);
     }
-
-    DestroyObject(tempInvObj);
 }
