@@ -41,7 +41,8 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
     WriteTimestampedLogEntry("goldAmount: " + IntToString(goldAmount));
     if(iCost != 0 && iCost <= goldAmount) {
         WriteTimestampedLogEntry("+====================");
-        NWNX_Object_AcquireItem(chest, randomizeStyle(oArmor));
+        string serializedArmor = NWNX_Object_Serialize(randomizeStyle(oArmor));
+        NWNX_Object_AcquireItem(chest, NWNX_Object_Deserialize(serializedArmor));
         WriteTimestampedLogEntry("-====================");
         float quality = d100() * difficulty_lvl * 1.0;
         float threshold = difficulty_lvl * 90.0;
