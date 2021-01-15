@@ -32,8 +32,11 @@ int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
 int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
                        object tempInvObj) {
     string randArmorResref = getRandomBaseArmor();
+    WriteTimestampedLogEntry("###################");
     WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
     int iCost = getItemCostFromTag(GetStringUpperCase(randArmorResref));
+    WriteTimestampedLogEntry("iCost: " + IntToString(iCost));
+    WriteTimestampedLogEntry("goldAmount: " + IntToString(goldAmount));
     if(iCost != 0 && iCost <= goldAmount) {
         object oArmor = CreateItemOnObject(randArmorResref, chest);
         WriteTimestampedLogEntry("+====================");
@@ -47,6 +50,7 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
         }
         goldAmount = goldAmount - iCost;
     }
+    WriteTimestampedLogEntry("###################");
     return goldAmount;
 }
 
