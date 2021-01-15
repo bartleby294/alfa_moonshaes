@@ -19,10 +19,6 @@ int createPotionInChest(object chest, int goldAmount, int difficulty_lvl) {
 int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
     string randGemTag = getRandomGem();
     int iCost = getItemCostFromTag(randGemTag);
-    //string say1 = "randGemTag: " + randGemTag;
-    //string say2 = "iCost: " + IntToString(iCost);
-    //AssignCommand(chest, ActionSpeakString(say1));
-    //AssignCommand(chest, ActionSpeakString(say2));
     if(iCost != 0 && iCost <= goldAmount) {
         goldAmount = goldAmount - iCost;
         CreateItemOnObject(randGemTag, chest);
@@ -60,6 +56,7 @@ int createWeaponInChest(object chest, int goldAmount, int difficulty_lvl) {
     if(iCost != 0 && iCost <= goldAmount) {
         //goldAmount = goldAmount - iCost;
         object item = CreateItemOnObject(randWeaponResref, chest);
+        RandomizeWeapon(item);
         float quality = d100() * difficulty_lvl * 1.0;
         float threshold = difficulty_lvl * 90.0;
         // 10% * difficulty_lvl chance its magic

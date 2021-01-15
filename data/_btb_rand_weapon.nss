@@ -1,4 +1,16 @@
+#include "x2_inc_itemprop"
+
 ///////Weapons///////
+object RandomizeWeapon(object oWeapon){
+    oWeapon = IPGetModifiedWeapon(oWeapon, ITEM_APPR_WEAPON_MODEL_BOTTOM,
+                                X2_IP_WEAPONTYPE_RANDOM, TRUE);
+    oWeapon = IPGetModifiedWeapon(oWeapon, ITEM_APPR_WEAPON_MODEL_MIDDLE,
+                                X2_IP_WEAPONTYPE_RANDOM, TRUE);
+    oWeapon = IPGetModifiedWeapon(oWeapon, ITEM_APPR_WEAPON_MODEL_BOTTOM,
+                                ITEM_APPR_WEAPON_MODEL_TOP, TRUE);
+    return oWeapon;
+}
+
 string getRandomBaseWeapon() {
     switch (Random(29)) {
             /*AMMUNITION*/
