@@ -34,7 +34,7 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
     string randArmorResref = getRandomBaseArmor();
     WriteTimestampedLogEntry("###################");
     WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
-    int iCost = getItemCostFromTag(GetStringUpperCase(randArmorResref));
+    int iCost = getItemCostFromTag(randArmorResref);
     WriteTimestampedLogEntry("iCost: " + IntToString(iCost));
     WriteTimestampedLogEntry("goldAmount: " + IntToString(goldAmount));
     if(iCost != 0 && iCost <= goldAmount) {
