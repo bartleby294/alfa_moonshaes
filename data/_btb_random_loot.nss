@@ -4,6 +4,7 @@
 #include "_btb_rand_weapon"
 #include "_btb_rand_jewelr"
 #include "_btb_util"
+#include "nwnx_object"
 
 int createPotionInChest(object chest, int goldAmount, int difficulty_lvl) {
     string randPotionResref = getRandomPotion();
@@ -34,7 +35,8 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl,
     string randArmorResref = getRandomBaseArmor();
     WriteTimestampedLogEntry("###################");
     WriteTimestampedLogEntry("randArmorResref: " + randArmorResref);
-    object oArmor = CreateItemOnObject(randArmorResref, chest);
+    object oArmor = CreateItemOnObject(randArmorResref, tempInvObj);
+    NWNX_Object_AcquireItem(chest, oArmor);
     int iCost = GetGoldPieceValue(oArmor);
     WriteTimestampedLogEntry("iCost: " + IntToString(iCost));
     WriteTimestampedLogEntry("goldAmount: " + IntToString(goldAmount));
