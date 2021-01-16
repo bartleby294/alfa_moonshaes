@@ -37,13 +37,34 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
     DestroyObject(tempInvObj);
 
     if(iCost != 0 && iCost <= goldAmount) {
-        NWNX_Object_AcquireItem(chest, NWNX_Object_Deserialize(serializedArmor));
-        float quality = d100() * difficulty_lvl * 1.0;
-        float threshold = difficulty_lvl * 90.0;
+        object randArmor = NWNX_Object_Deserialize(serializedArmor);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        int quality = d100();
+        int threshold = 100 - (difficulty_lvl * 10);
         // 10% * difficulty_lvl chance its magic
         if(quality > threshold) {
+            int chance = difficulty_lvl - 1;
+            if(chance > 0) {
+                int i = 0;
+                int properties = Random(chance);
+                for(i = 0; i < properties; ++i) {
 
+                }
+            }
         }
+        NWNX_Object_AcquireItem(chest, randArmor);
         goldAmount = goldAmount - iCost;
     }
 
