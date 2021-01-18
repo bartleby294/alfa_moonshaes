@@ -39,29 +39,16 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
     if(iCost != 0 && iCost <= goldAmount) {
         object randArmor = NWNX_Object_Deserialize(serializedArmor);
 
-
-
-
-
-
-
-
-
-
-
-
-
-        int quality = d100();
-        int threshold = 100 - (difficulty_lvl * 10);
-        // 10% * difficulty_lvl chance its magic
-        if(quality > threshold) {
-            int chance = difficulty_lvl - 1;
-            if(chance > 0) {
-                int i = 0;
-                int properties = Random(chance);
-                for(i = 0; i < properties; ++i) {
-
-                }
+        // Drives how many properties. ADJUST THIS EVENTUALLY!!!!
+        int i;
+        int maxMagic = difficulty_lvl - 1;
+        int properties = Random(maxMagic);
+        for(i = 0; i < properties; ++i) {
+            int magicChance = d100();
+            int magicThreshold = 100 - (difficulty_lvl * 10);
+            // 10% * difficulty_lvl chance its magic(NOT FINAL)
+            if(magicChance > magicThreshold) {
+                randArmor = AddRandomMagicArmorProperty(randArmor);
             }
         }
         NWNX_Object_AcquireItem(chest, randArmor);

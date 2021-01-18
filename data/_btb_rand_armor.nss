@@ -1,6 +1,10 @@
 #include "x2_inc_itemprop"
 
 ///////ARMOR///////
+object AddRandomMagicArmorProperty(object oArmor) {
+    return oArmor;
+}
+
 object UpdateArmorAppearance(object oItem, int nType, int nIndex, int nNewValue,
                              int bCopyVars=FALSE, int nDestroySource=TRUE) {
     object oNew = CopyItemAndModify(oItem, nType, nIndex, nNewValue, bCopyVars);
