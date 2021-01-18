@@ -4,6 +4,10 @@ float getFacing(vector centerPoint, vector otherPoint) {
                                 0.0));
 }
 
+int getItemCostFromTag(string tag) {
+    return GetGoldPieceValue(GetObjectByTag(tag));
+}
+
 /**
     Return a location some units of distance away on a straight line taking
     rotations into account.

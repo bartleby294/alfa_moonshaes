@@ -155,7 +155,7 @@ int locatonIsValid(location loc) {
     return FALSE;
 }
 
-float getFacing(vector campfireVector, vector possibleStructureVector) {
+float getBanditFacing(vector campfireVector, vector possibleStructureVector) {
 
     vector direction = Vector(possibleStructureVector.x - campfireVector.x,
                               possibleStructureVector.y - campfireVector.y,
