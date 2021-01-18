@@ -3,7 +3,7 @@ void openDoor(object oDoor){
     SetLocked(oDoor, FALSE);
     AssignCommand(oDoor, ActionOpenDoor(oDoor));
     // Lock the door after 30 second.
-    DelayCommand(30.0, ActionLockObject(oDoor));
+    DelayCommand(30.0, SetLocked(oDoor, TRUE));
 }
 
 void main()
