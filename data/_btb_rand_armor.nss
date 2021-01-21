@@ -99,6 +99,11 @@ object randomizeStyle(object oArmor) {
                                     X2_IP_ARMORTYPE_RANDOM, TRUE);
     oArmor = IPGetModifiedArmor(oArmor, ITEM_APPR_ARMOR_MODEL_PELVIS,
                                     X2_IP_ARMORTYPE_RANDOM, TRUE);
+    // Select Colors
+    int nColorType;
+    for(nColorType = 0; nColorType < 6; nColorType++) {
+        oArmor = IPDyeArmor(oArmor, nColorType, Random(64));
+    }
 
     return oArmor;
 }
