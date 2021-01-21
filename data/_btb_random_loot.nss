@@ -48,7 +48,8 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
             int magicThreshold = 100 - (difficulty_lvl * 10);
             // 10% * difficulty_lvl chance its magic(NOT FINAL)
             if(magicChance > magicThreshold) {
-                randArmor = AddRandomMagicArmorProperty(randArmor);
+                randArmor = AddRandomMagicArmorProperty(randArmor,
+                    difficulty_lvl);
             }
         }
         NWNX_Object_AcquireItem(chest, randArmor);

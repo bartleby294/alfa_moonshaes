@@ -1,10 +1,7 @@
 #include "x2_inc_itemprop"
+#include "_btb_rloot_util"
 
 ///////ARMOR///////
-object AddRandomMagicArmorProperty(object oArmor) {
-    return oArmor;
-}
-
 object UpdateArmorAppearance(object oItem, int nType, int nIndex, int nNewValue,
                              int bCopyVars=FALSE, int nDestroySource=TRUE) {
     object oNew = CopyItemAndModify(oItem, nType, nIndex, nNewValue, bCopyVars);
@@ -21,6 +18,13 @@ int isValidTorsoId(int id) {
         return FALSE;
     }
     return TRUE;
+}
+
+int isBareTorso(int id) {
+    if( id == 0 || id == 30 || id == 32 || id == 34 || id == 35) {
+        return TRUE;
+    }
+    return FALSE;
 }
 
 object randomizeStyle(object oArmor) {
@@ -40,6 +44,15 @@ object randomizeStyle(object oArmor) {
                                        oArmor, ITEM_APPR_ARMOR_MODEL_LSHOULDER);
     int randThigh = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LTHIGH);
+
+    int armorTorso = IPGetArmorAppearanceType(oArmor,
+                                              ITEM_APPR_ARMOR_MODEL_TORSO,
+                                              X2_IP_ARMORTYPE_NEXT);
+    if(isBareTorso(armorTorso) == TRUE) {
+        randHand = 0;
+        randForearm = 0;
+        randBicept = 0;
+    }
 
     oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_LBICEP, randBicept);
@@ -102,7 +115,8 @@ string getRandomBaseArmor() {
         resRef = resRef + "0";
     }
 
-    WriteTimestampedLogEntry("randArmorResref2: " + resRef + IntToString(randArmor));
+    WriteTimestampedLogEntry("randArmorResref2: " + resRef
+                              + IntToString(randArmor));
 
     return resRef + IntToString(randArmor);
 }
@@ -255,3 +269,21 @@ string getRandomBaseArmorOLD() {
     // Clothing
     return "nw_cloth022";
 }
+
+object AddRandomMagicArmorProperty(object oArmor, int difficulty_lvl) {
+    // NOT FINAL RATIOS TESTING ONLY
+    int randChance = Random(3);
+
+    if(randChance == 0) {
+        oArmor = RandomSkillBoost(oArmor);
+    }
+    if(randChance == 1) {
+        oArmor = RandomSavingThrowBoost(oArmor);
+    }
+    if(randChance == 2) {
+        oArmor = RandomAbilityBoost(oArmor);
+    }
+    return oArmor;
+}
+
+
