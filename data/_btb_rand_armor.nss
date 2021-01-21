@@ -277,16 +277,49 @@ string getRandomBaseArmorOLD() {
 
 object AddRandomMagicArmorProperty(object oArmor, int difficulty_lvl) {
     // NOT FINAL RATIOS TESTING ONLY
-    int randChance = Random(3);
+    int randChance = Random(100) + 1;
 
-    if(randChance == 0) {
-        oArmor = RandomSkillBoost(oArmor);
-    }
-    if(randChance == 1) {
-        oArmor = RandomSavingThrowBoost(oArmor);
-    }
-    if(randChance == 2) {
-        oArmor = RandomAbilityBoost(oArmor);
+    if(difficulty_lvl < 3) {
+        // 60% skill
+        if(randChance > 0 && randChance < 60) {
+            oArmor = RandomSkillBoost(oArmor);
+        } else {
+            oArmor = RandomSavingThrowBoost(oArmor);
+        }
+    } else {
+        // 30% skill
+        if(randChance > 0 && randChance < 30) {
+            oArmor = RandomSkillBoost(oArmor);
+        }
+        // 30% saving throw
+        if(randChance >= 30 && randChance < 60) {
+            oArmor = RandomSavingThrowBoost(oArmor);
+        }
+        // 10% abilities boost
+        if(randChance >= 60 && randChance < 70) {
+            oArmor = RandomAbilityBoost(oArmor);
+        }
+        // 20% AC Boost
+        if(randChance >= 70 && randChance < 90) {
+            int choice = Random(3);
+            if(choice == 0) {
+                oArmor = ACBoostVsAlign(oArmor);
+            }
+            if(choice == 1) {
+                oArmor = ACBoostVsDmgType(oArmor);
+            }
+            if(choice == 2) {
+                oArmor = ACBoostVsRace(oArmor);
+            }
+        }
+        // 10% AC Boost
+        if(randChance >= 90 && randChance < 100) {
+            oArmor = ACBoostVsRace(oArmor);
+        }
+
+        if(difficulty_lvl > 7 && randChance == 100) {
+            // insert specal properties here.
+        }
     }
     return oArmor;
 }
