@@ -31,19 +31,26 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
                                      GetLocation(chest));
     string randArmorResref = getRandomBaseArmor();
     object oArmor = CreateItemOnObject(randArmorResref, tempInvObj);
+    WriteTimestampedLogEntry("serializedArmor");
     string serializedArmor = NWNX_Object_Serialize(randomizeStyle(oArmor));
+    WriteTimestampedLogEntry("GetGoldPieceValue");
     int iCost = GetGoldPieceValue(oArmor);
+    WriteTimestampedLogEntry("DestroyObject");
     DestroyObject(oArmor);
+    WriteTimestampedLogEntry("DestroyObject");
     DestroyObject(tempInvObj);
 
     if(iCost != 0 && iCost <= goldAmount) {
+        WriteTimestampedLogEntry("NWNX_Object_Deserialize");
         object randArmor = NWNX_Object_Deserialize(serializedArmor);
 
         // Drives how many properties. ADJUST THIS EVENTUALLY!!!!
         int i;
         int maxMagic = difficulty_lvl - 1;
         int properties = Random(maxMagic);
+        WriteTimestampedLogEntry("properties: " + IntToString(properties));
         for(i = 0; i < properties; ++i) {
+            WriteTimestampedLogEntry("i: " + IntToString(i));
             int magicChance = d100();
             int magicThreshold = 100 - (difficulty_lvl * 10);
             // 10% * difficulty_lvl chance its magic(NOT FINAL)
