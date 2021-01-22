@@ -31,8 +31,10 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
                                      GetLocation(chest));
     string randArmorResref = getRandomBaseArmor();
     object oArmor = CreateItemOnObject(randArmorResref, tempInvObj);
+    WriteTimestampedLogEntry("randomizeStyle");
+    object randArmor = randomizeStyle(oArmor);
     WriteTimestampedLogEntry("serializedArmor");
-    string serializedArmor = NWNX_Object_Serialize(randomizeStyle(oArmor));
+    string serializedArmor = NWNX_Object_Serialize(randArmor);
     WriteTimestampedLogEntry("GetGoldPieceValue");
     int iCost = GetGoldPieceValue(oArmor);
     WriteTimestampedLogEntry("DestroyObject");
