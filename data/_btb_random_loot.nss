@@ -63,8 +63,17 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
                 //WriteTimestampedLogEntry("add property end");
             }
         }
-        NWNX_Object_AcquireItem(chest, randArmor);
-        goldAmount = goldAmount - iCost;
+
+        // If we can aford magic add magic else add mundane.
+        int iCostRand = GetGoldPieceValue(randArmor);
+        if(iCostRand != 0 && iCostRand <= goldAmount) {
+            NWNX_Object_AcquireItem(chest, randArmor);
+            goldAmount = goldAmount - iCostRand;
+        } else {
+            object oArmorMundane = NWNX_Object_Deserialize(serializedArmor);
+            NWNX_Object_AcquireItem(chest, oArmorMundane);
+            goldAmount = goldAmount - iCost;
+        }
     }
 
     return goldAmount;
@@ -81,28 +90,36 @@ int createWeaponInChest(object chest, int goldAmount, int difficulty_lvl) {
     DestroyObject(tempInvObj);
 
     if(iCost != 0 && iCost <= goldAmount) {
-        WriteTimestampedLogEntry("Weapon NWNX_Object_Deserialize");
+        //WriteTimestampedLogEntry("Weapon NWNX_Object_Deserialize");
         object randWeapon = NWNX_Object_Deserialize(serializeWeapon);
 
         // Drives how many properties. ADJUST THIS EVENTUALLY!!!!
         int i;
         int maxMagic = difficulty_lvl - 1;
         int properties = Random(maxMagic);
-        WriteTimestampedLogEntry("properties: " + IntToString(properties));
+        //WriteTimestampedLogEntry("properties: " + IntToString(properties));
         for(i = 0; i < properties; ++i) {
-            WriteTimestampedLogEntry("i: " + IntToString(i));
+            //WriteTimestampedLogEntry("i: " + IntToString(i));
             int magicChance = d100();
             int magicThreshold = 100 - (difficulty_lvl * 10);
             // 10% * difficulty_lvl chance its magic(NOT FINAL)
             if(magicChance > magicThreshold) {
-                WriteTimestampedLogEntry("add property");
+                //WriteTimestampedLogEntry("add property");
                 randWeapon = AddRandomMagicWeaponProperty(randWeapon,
                     difficulty_lvl);
-                WriteTimestampedLogEntry("add property end");
+                //WriteTimestampedLogEntry("add property end");
             }
         }
-        NWNX_Object_AcquireItem(chest, randWeapon);
-        goldAmount = goldAmount - iCost;
+                // If we can aford magic add magic else add mundane.
+        int iCostRand = GetGoldPieceValue(randWeapon);
+        if(iCostRand != 0 && iCostRand <= goldAmount) {
+            NWNX_Object_AcquireItem(chest, randWeapon);
+            goldAmount = goldAmount - iCostRand;
+        } else {
+            object oWeaponMundane = NWNX_Object_Deserialize(serializeWeapon);
+            NWNX_Object_AcquireItem(chest, oWeaponMundane);
+            goldAmount = goldAmount - iCost;
+        }
     }
 
     /*if(iCost != 0 && iCost <= goldAmount) {
