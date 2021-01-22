@@ -11,6 +11,7 @@ int GetItemTypeBonusAmount(object oItem, int type, int nSubType)
                 return GetItemPropertyCostTable(ip);
             }
         }
+        ip = GetNextItemProperty(oItem);
     }
 
     return 0;
@@ -25,6 +26,7 @@ int GetItemBonusAmount(object oItem, int type)
         if (GetItemPropertyType(ip) == type) {
             return GetItemPropertyCostTable(ip);
         }
+        ip = GetNextItemProperty(oItem);
     }
 
     return 0;
