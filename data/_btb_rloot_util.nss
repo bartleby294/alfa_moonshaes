@@ -1,5 +1,14 @@
 #include "x2_inc_itemprop"
 
+int square(int base, int power) {
+    int rv = 1;
+    while(power > 0){
+        rv = rv * base;
+        power = power - 1;
+    }
+    return rv;
+}
+
 int GetItemTypeBonusAmount(object oItem, int type, int nSubType)
 {
     itemproperty ip = GetFirstItemProperty(oItem);
@@ -133,6 +142,112 @@ object ACBoost(object obj) {
     // Check if we already have some of that ability
     IPSafeAddItemProperty(obj,
                            ItemPropertyACBonus(acAmt),
+                           0.0, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    return obj;
+}
+
+object AttackBonusVsAlign(object obj) {
+    // Pick a random alignment
+    int alignBoostNum = Random(5) + 1;
+    //WriteTimestampedLogEntry("alignBoostNum: " + IntToString(alignBoostNum));
+    int alignBoostAmt = GetItemTypeBonusAmount(obj,
+                                      ITEM_PROPERTY_ATTACK_BONUS_VS_ALIGNMENT_GROUP,
+                                      alignBoostNum) + 1;
+    //WriteTimestampedLogEntry("alignBoostAmt: " + IntToString(alignBoostAmt));
+    // Check if we already have some of that ability
+    IPSafeAddItemProperty(obj, ItemPropertyAttackBonusVsAlign(alignBoostNum,
+                           alignBoostAmt), 0.0,
+                           X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    return obj;
+}
+
+object AttackBonusVsRace(object obj) {
+    // Pick a random Race
+    int raceBoostNum = Random(25);
+    //WriteTimestampedLogEntry("raceBoostNum: " + IntToString(raceBoostNum));
+    int raceBoostAmt = GetItemTypeBonusAmount(obj,
+                                      ITEM_PROPERTY_ATTACK_BONUS_VS_RACIAL_GROUP,
+                                      raceBoostNum) + 1;
+    //WriteTimestampedLogEntry("raceBoostAmt: " + IntToString(raceBoostAmt));
+    // Check if we already have some of that ability
+    IPSafeAddItemProperty(obj,
+                           ItemPropertyAttackBonusVsRace(raceBoostNum,
+                           raceBoostAmt), 0.0,
+                           X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    return obj;
+}
+
+object AttackBonus(object obj) {
+    int attackAmt = GetItemBonusAmount(obj, ITEM_PROPERTY_ATTACK_BONUS) + 1;
+    //WriteTimestampedLogEntry("acAmt: " + IntToString(acAmt));
+    // Check if we already have some of that ability
+    IPSafeAddItemProperty(obj,
+                           ItemPropertyAttackBonus(attackAmt),
+                           0.0, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    return obj;
+}
+
+object DmgBonusVsAlign(object obj) {
+    // Pick a random alignment
+    int dmgBoostNum = Random(5) + 1;
+    int dmgType = square(2, Random(13));
+    //WriteTimestampedLogEntry("dmgBoostNum: " + IntToString(dmgBoostNum));
+    int dmgBoostAmt = GetItemTypeBonusAmount(obj,
+                                      ITEM_PROPERTY_DAMAGE_BONUS_VS_ALIGNMENT_GROUP,
+                                      dmgBoostNum) + 1;
+    //WriteTimestampedLogEntry("dmgBoostAmt: " + IntToString(dmgBoostAmt));
+    // Check if we already have some of that ability
+    IPSafeAddItemProperty(obj,
+                           ItemPropertyDamageBonusVsAlign(dmgBoostNum,
+                           dmgType, dmgBoostAmt), 0.0,
+                           X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    return obj;
+}
+
+object DmgBonusVsRace(object obj) {
+    // Pick a random Race
+    int raceBoostNum = Random(25);
+    int dmgType = square(2, Random(13));
+    //WriteTimestampedLogEntry("raceBoostNum: " + IntToString(raceBoostNum));
+    int raceBoostAmt = GetItemTypeBonusAmount(obj,
+                                      ITEM_PROPERTY_DAMAGE_BONUS_VS_RACIAL_GROUP,
+                                      raceBoostNum) + 1;
+    //WriteTimestampedLogEntry("dmgBoostAmt: " + IntToString(dmgBoostAmt));
+    // Check if we already have some of that ability
+    IPSafeAddItemProperty(obj,
+                           ItemPropertyDamageBonusVsRace(raceBoostNum,
+                           dmgType, raceBoostAmt), 0.0,
+                           X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    return obj;
+}
+
+object DmgBonus(object obj) {
+    // Pick a random alignment
+    int dmgBoostNum = square(2, Random(13));
+    //WriteTimestampedLogEntry("dmgBoostNum: " + IntToString(dmgBoostNum));
+    int dmgBoostAmt = GetItemTypeBonusAmount(obj,
+                                      ITEM_PROPERTY_DAMAGE_BONUS,
+                                      dmgBoostNum) + 1;
+    //WriteTimestampedLogEntry("dmgBoostAmt: " + IntToString(dmgBoostAmt));
+    // Check if we already have some of that ability
+    IPSafeAddItemProperty(obj,
+                           ItemPropertyDamageBonus(dmgBoostNum,
+                           dmgBoostAmt), 0.0,
+                           X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    return obj;
+}
+
+object EnchantmentBonus(object obj) {
+    int enchantAmt = GetItemBonusAmount(obj, ITEM_PROPERTY_ENHANCEMENT_BONUS) + 1;
+    //WriteTimestampedLogEntry("acAmt: " + IntToString(acAmt));
+    // Check if we already have some of that ability
+    // NOTHING HIGHER THAN +2!!!!!
+    if(enchantAmt > 2) {
+        return obj;
+    }
+
+    IPSafeAddItemProperty(obj,
+                           ItemPropertyEnhancementBonus(enchantAmt),
                            0.0, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
     return obj;
 }

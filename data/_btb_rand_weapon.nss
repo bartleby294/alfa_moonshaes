@@ -1,4 +1,5 @@
 #include "x2_inc_itemprop"
+#include "_btb_rloot_util"
 
 ///////Weapons///////
 object RandomizeWeapon(object oWeapon){
@@ -8,6 +9,80 @@ object RandomizeWeapon(object oWeapon){
                                 X2_IP_WEAPONTYPE_RANDOM, TRUE);
     oWeapon = IPGetModifiedWeapon(oWeapon, ITEM_APPR_WEAPON_MODEL_BOTTOM,
                                 ITEM_APPR_WEAPON_MODEL_TOP, TRUE);
+    return oWeapon;
+}
+
+object AddRandomMagicWeaponProperty(object oWeapon, int difficulty_lvl) {
+    // NOT FINAL RATIOS TESTING ONLY
+    int randChance = Random(100) + 1;
+
+    if(difficulty_lvl < 3) {
+        // 60% skill
+        if(randChance > 0 && randChance < 60) {
+            //WriteTimestampedLogEntry("RandomSkillBoost");
+            oWeapon = RandomSkillBoost(oWeapon);
+        } else {
+            //WriteTimestampedLogEntry("RandomSavingThrowBoost");
+            oWeapon = RandomSavingThrowBoost(oWeapon);
+        }
+    } else {
+        // 10% skill
+        if(randChance > 0 && randChance < 10) {
+            //WriteTimestampedLogEntry("RandomSkillBoost");
+            oWeapon = RandomSkillBoost(oWeapon);
+        }
+        // 10% saving throw
+        if(randChance >= 10 && randChance < 20) {
+            //WriteTimestampedLogEntry("RandomSavingThrowBoost");
+            oWeapon = RandomSavingThrowBoost(oWeapon);
+        }
+        // 10% abilities boost
+        if(randChance >= 20 && randChance < 30) {
+            //WriteTimestampedLogEntry("RandomAbilityBoost");
+            oWeapon = RandomAbilityBoost(oWeapon);
+        }
+        // 30% Attack  Boost
+        if(randChance >= 30 && randChance < 60) {
+            int choice = Random(3);
+            if(choice == 0) {
+                //WriteTimestampedLogEntry("AttackBonusVsAlign");
+                oWeapon = AttackBonusVsAlign(oWeapon);
+            }
+            if(choice == 1) {
+                //WriteTimestampedLogEntry("AttackBonusVsRace");
+                oWeapon = AttackBonusVsRace(oWeapon);
+            }
+            if(choice == 2) {
+                //WriteTimestampedLogEntry("AttackBonus");
+                oWeapon = AttackBonus(oWeapon);
+            }
+        }
+        // 30% Dmg  Boost
+        if(randChance >= 60 && randChance < 90) {
+            int choice = Random(3);
+            if(choice == 0) {
+                //WriteTimestampedLogEntry("DmgBonusVsAlign");
+                oWeapon = DmgBonusVsAlign(oWeapon);
+            }
+            if(choice == 1) {
+                //WriteTimestampedLogEntry("DmgBonusVsRace");
+                oWeapon = DmgBonusVsRace(oWeapon);
+            }
+            if(choice == 2) {
+                //WriteTimestampedLogEntry("DmgBonus");
+                oWeapon = DmgBonus(oWeapon);
+            }
+        }
+        // 10% Enchanted
+        if(randChance >= 90 && randChance < 100) {
+            //WriteTimestampedLogEntry("ACBoostVsRace");
+            oWeapon = EnchantmentBonus(oWeapon);
+        }
+
+        if(difficulty_lvl > 7 && randChance == 100) {
+            // insert specal properties here.
+        }
+    }
     return oWeapon;
 }
 
