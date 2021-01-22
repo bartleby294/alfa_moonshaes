@@ -81,6 +81,31 @@ int createWeaponInChest(object chest, int goldAmount, int difficulty_lvl) {
     DestroyObject(tempInvObj);
 
     if(iCost != 0 && iCost <= goldAmount) {
+        //WriteTimestampedLogEntry("NWNX_Object_Deserialize");
+        object randWeapon = NWNX_Object_Deserialize(serializeWeapon);
+
+        // Drives how many properties. ADJUST THIS EVENTUALLY!!!!
+        int i;
+        int maxMagic = difficulty_lvl - 1;
+        int properties = Random(maxMagic);
+        //WriteTimestampedLogEntry("properties: " + IntToString(properties));
+        for(i = 0; i < properties; ++i) {
+            //WriteTimestampedLogEntry("i: " + IntToString(i));
+            int magicChance = d100();
+            int magicThreshold = 100 - (difficulty_lvl * 10);
+            // 10% * difficulty_lvl chance its magic(NOT FINAL)
+            if(magicChance > magicThreshold) {
+                //WriteTimestampedLogEntry("add property");
+                randWeapon = AddRandomMagicWeaponProperty(randWeapon,
+                    difficulty_lvl);
+                //WriteTimestampedLogEntry("add property end");
+            }
+        }
+        NWNX_Object_AcquireItem(chest, randWeapon);
+        goldAmount = goldAmount - iCost;
+    }
+
+    /*if(iCost != 0 && iCost <= goldAmount) {
         //goldAmount = goldAmount - iCost;
 
         NWNX_Object_AcquireItem(chest, NWNX_Object_Deserialize(serializeWeapon));
@@ -91,7 +116,7 @@ int createWeaponInChest(object chest, int goldAmount, int difficulty_lvl) {
 
         }
         goldAmount = goldAmount - iCost;
-    }
+    }*/
     return goldAmount;
 }
 
