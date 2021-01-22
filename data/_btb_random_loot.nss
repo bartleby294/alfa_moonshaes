@@ -31,36 +31,36 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
                                      GetLocation(chest));
     string randArmorResref = getRandomBaseArmor();
     object oArmor = CreateItemOnObject(randArmorResref, tempInvObj);
-    WriteTimestampedLogEntry("randomizeStyle");
+    //WriteTimestampedLogEntry("randomizeStyle");
     object randArmor = randomizeStyle(oArmor);
-    WriteTimestampedLogEntry("serializedArmor");
+    //WriteTimestampedLogEntry("serializedArmor");
     string serializedArmor = NWNX_Object_Serialize(randArmor);
-    WriteTimestampedLogEntry("GetGoldPieceValue");
+    //WriteTimestampedLogEntry("GetGoldPieceValue");
     int iCost = GetGoldPieceValue(oArmor);
-    WriteTimestampedLogEntry("DestroyObject");
+    //WriteTimestampedLogEntry("DestroyObject");
     DestroyObject(oArmor);
-    WriteTimestampedLogEntry("DestroyObject");
+    //WriteTimestampedLogEntry("DestroyObject");
     DestroyObject(tempInvObj);
 
     if(iCost != 0 && iCost <= goldAmount) {
-        WriteTimestampedLogEntry("NWNX_Object_Deserialize");
+        //WriteTimestampedLogEntry("NWNX_Object_Deserialize");
         object randArmor = NWNX_Object_Deserialize(serializedArmor);
 
         // Drives how many properties. ADJUST THIS EVENTUALLY!!!!
         int i;
         int maxMagic = difficulty_lvl - 1;
         int properties = Random(maxMagic);
-        WriteTimestampedLogEntry("properties: " + IntToString(properties));
+        //WriteTimestampedLogEntry("properties: " + IntToString(properties));
         for(i = 0; i < properties; ++i) {
-            WriteTimestampedLogEntry("i: " + IntToString(i));
+            //WriteTimestampedLogEntry("i: " + IntToString(i));
             int magicChance = d100();
             int magicThreshold = 100 - (difficulty_lvl * 10);
             // 10% * difficulty_lvl chance its magic(NOT FINAL)
             if(magicChance > magicThreshold) {
-                WriteTimestampedLogEntry("add property");
+                //WriteTimestampedLogEntry("add property");
                 randArmor = AddRandomMagicArmorProperty(randArmor,
                     difficulty_lvl);
-                WriteTimestampedLogEntry("add property end");
+                //WriteTimestampedLogEntry("add property end");
             }
         }
         NWNX_Object_AcquireItem(chest, randArmor);
@@ -133,34 +133,34 @@ void generateLoot(int goldAmount, object chest, int difficulty_lvl)
             }
         // %15 chance its a potion
         } else if(randChance >= 30 && randChance < 45) {
-           WriteTimestampedLogEntry("createPotionInChest");
+           //WriteTimestampedLogEntry("createPotionInChest");
            goldAmount = createPotionInChest(chest, goldAmount, difficulty_lvl);
-           WriteTimestampedLogEntry("createPotionInChest - end");
+           //WriteTimestampedLogEntry("createPotionInChest - end");
         // %10 chance its an armor
         } else if(randChance >= 45 && randChance < 55) {
-            WriteTimestampedLogEntry("createArmorInChest");
+            //WriteTimestampedLogEntry("createArmorInChest");
             goldAmount = createArmorInChest(chest, goldAmount, difficulty_lvl);
-            WriteTimestampedLogEntry("createArmorInChest - end");
+            //WriteTimestampedLogEntry("createArmorInChest - end");
         // %20 chance its a gem
         } else if(randChance >= 55 && randChance < 75) {
-            WriteTimestampedLogEntry("createGemInChest");
+            //WriteTimestampedLogEntry("createGemInChest");
             goldAmount = createGemInChest(chest, goldAmount, difficulty_lvl);
-            WriteTimestampedLogEntry("createGemInChest - end");
+            //WriteTimestampedLogEntry("createGemInChest - end");
         // %15 chance its jewelery
         } else if(randChance >= 75 && randChance < 90) {
-            WriteTimestampedLogEntry("createJewelryInChest");
+            //WriteTimestampedLogEntry("createJewelryInChest");
             goldAmount = createJewelryInChest(chest, goldAmount, difficulty_lvl);
-            WriteTimestampedLogEntry("createJewelryInChest - end");
+            //WriteTimestampedLogEntry("createJewelryInChest - end");
         // %10 chance its a weapon
         } else if(randChance >= 90 && randChance <= 100) {
-            WriteTimestampedLogEntry("createWeaponInChest");
+            //WriteTimestampedLogEntry("createWeaponInChest");
             goldAmount = createWeaponInChest(chest, goldAmount, difficulty_lvl);
-            WriteTimestampedLogEntry("createWeaponInChest - end");
+            //WriteTimestampedLogEntry("createWeaponInChest - end");
         }
 
         tries = tries + 1;
     }
-    WriteTimestampedLogEntry("The End");
+    //WriteTimestampedLogEntry("The End");
     if(goldToAddToChest > 0) {
         CreateItemOnObject("nw_it_gold001", chest, goldToAddToChest);
     }

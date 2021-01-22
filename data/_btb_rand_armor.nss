@@ -29,7 +29,7 @@ int isBareTorso(int id) {
 
 object randomizeStyle(object oArmor) {
 
-    WriteTimestampedLogEntry("randomizeStyle: start");
+    //WriteTimestampedLogEntry("randomizeStyle: start");
     int randBicept = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LBICEP);
     int randFoot = IPGetRandomArmorAppearanceType(
@@ -104,7 +104,7 @@ object randomizeStyle(object oArmor) {
     for(nColorType = 0; nColorType < 6; nColorType++) {
         oArmor = IPDyeArmor(oArmor, nColorType, Random(64));
     }
-    WriteTimestampedLogEntry("randomizeStyle: end");
+    //WriteTimestampedLogEntry("randomizeStyle: end");
     return oArmor;
 }
 
@@ -120,8 +120,8 @@ string getRandomBaseArmor() {
         resRef = resRef + "0";
     }
 
-    WriteTimestampedLogEntry("randArmorResref2: " + resRef
-                              + IntToString(randArmor));
+    //WriteTimestampedLogEntry("randArmorResref2: " + resRef
+    //                         + IntToString(randArmor));
 
     return resRef + IntToString(randArmor);
 }
@@ -282,47 +282,47 @@ object AddRandomMagicArmorProperty(object oArmor, int difficulty_lvl) {
     if(difficulty_lvl < 3) {
         // 60% skill
         if(randChance > 0 && randChance < 60) {
-            WriteTimestampedLogEntry("RandomSkillBoost");
+            //WriteTimestampedLogEntry("RandomSkillBoost");
             oArmor = RandomSkillBoost(oArmor);
         } else {
-            WriteTimestampedLogEntry("RandomSavingThrowBoost");
+            //WriteTimestampedLogEntry("RandomSavingThrowBoost");
             oArmor = RandomSavingThrowBoost(oArmor);
         }
     } else {
         // 30% skill
         if(randChance > 0 && randChance < 30) {
-            WriteTimestampedLogEntry("RandomSkillBoost");
+            //WriteTimestampedLogEntry("RandomSkillBoost");
             oArmor = RandomSkillBoost(oArmor);
         }
         // 30% saving throw
         if(randChance >= 30 && randChance < 60) {
-            WriteTimestampedLogEntry("RandomSavingThrowBoost");
+            //WriteTimestampedLogEntry("RandomSavingThrowBoost");
             oArmor = RandomSavingThrowBoost(oArmor);
         }
         // 10% abilities boost
         if(randChance >= 60 && randChance < 70) {
-            WriteTimestampedLogEntry("RandomAbilityBoost");
+            //WriteTimestampedLogEntry("RandomAbilityBoost");
             oArmor = RandomAbilityBoost(oArmor);
         }
         // 20% AC Boost
         if(randChance >= 70 && randChance < 90) {
             int choice = Random(3);
             if(choice == 0) {
-                WriteTimestampedLogEntry("ACBoostVsAlign");
+                //WriteTimestampedLogEntry("ACBoostVsAlign");
                 oArmor = ACBoostVsAlign(oArmor);
             }
             if(choice == 1) {
-                WriteTimestampedLogEntry("ACBoostVsDmgType");
+                //WriteTimestampedLogEntry("ACBoostVsDmgType");
                 oArmor = ACBoostVsDmgType(oArmor);
             }
             if(choice == 2) {
-                WriteTimestampedLogEntry("ACBoostVsRace");
+                //WriteTimestampedLogEntry("ACBoostVsRace");
                 oArmor = ACBoostVsRace(oArmor);
             }
         }
         // 10% AC Boost
         if(randChance >= 90 && randChance < 100) {
-            WriteTimestampedLogEntry("ACBoostVsRace");
+            //WriteTimestampedLogEntry("ACBoostVsRace");
             oArmor = ACBoostVsRace(oArmor);
         }
 
