@@ -124,22 +124,27 @@ void generateLoot(int goldAmount, object chest, int difficulty_lvl)
         } else if(randChance >= 30 && randChance < 45) {
            WriteTimestampedLogEntry("createPotionInChest");
            goldAmount = createPotionInChest(chest, goldAmount, difficulty_lvl);
+           WriteTimestampedLogEntry("createPotionInChest - end");
         // %10 chance its an armor
         } else if(randChance >= 45 && randChance < 55) {
             WriteTimestampedLogEntry("createArmorInChest");
             goldAmount = createArmorInChest(chest, goldAmount, difficulty_lvl);
+            WriteTimestampedLogEntry("createArmorInChest - end");
         // %20 chance its a gem
         } else if(randChance >= 55 && randChance < 75) {
             WriteTimestampedLogEntry("createGemInChest");
             goldAmount = createGemInChest(chest, goldAmount, difficulty_lvl);
+            WriteTimestampedLogEntry("createGemInChest - end");
         // %15 chance its jewelery
         } else if(randChance >= 75 && randChance < 90) {
             WriteTimestampedLogEntry("createJewelryInChest");
             goldAmount = createJewelryInChest(chest, goldAmount, difficulty_lvl);
+            WriteTimestampedLogEntry("createJewelryInChest - end");
         // %10 chance its a weapon
         } else if(randChance >= 90 && randChance <= 100) {
             WriteTimestampedLogEntry("createWeaponInChest");
             goldAmount = createWeaponInChest(chest, goldAmount, difficulty_lvl);
+            WriteTimestampedLogEntry("createWeaponInChest - end");
         }
 
         tries = tries + 1;
