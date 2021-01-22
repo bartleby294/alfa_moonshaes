@@ -29,7 +29,7 @@ int isBareTorso(int id) {
 
 object randomizeStyle(object oArmor) {
 
-    WriteTimestampedLogEntry("randomizeStyle:");
+    WriteTimestampedLogEntry("randomizeStyle: start");
     int randBicept = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LBICEP);
     int randFoot = IPGetRandomArmorAppearanceType(
@@ -104,7 +104,7 @@ object randomizeStyle(object oArmor) {
     for(nColorType = 0; nColorType < 6; nColorType++) {
         oArmor = IPDyeArmor(oArmor, nColorType, Random(64));
     }
-
+    WriteTimestampedLogEntry("randomizeStyle: end");
     return oArmor;
 }
 
