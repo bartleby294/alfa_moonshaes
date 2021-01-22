@@ -105,8 +105,9 @@ int createJewelryInChest(object chest, int goldAmount, int difficulty_lvl) {
 void generateLoot(int goldAmount, object chest, int difficulty_lvl)
 {
     int goldToAddToChest = 0;
+    int tries = 0;
 
-    while(goldAmount > 0) {
+    while(goldAmount > 0 && tries < 30) {
         int randChance = d100();
         // 30% chance its gold
         if(randChance >= 0 && randChance < 30) {
@@ -135,6 +136,8 @@ void generateLoot(int goldAmount, object chest, int difficulty_lvl)
         } else if(randChance >= 90 && randChance <= 100) {
             goldAmount = createWeaponInChest(chest, goldAmount, difficulty_lvl);
         }
+
+        tries = tries + 1;
     }
 
     if(goldToAddToChest > 0) {

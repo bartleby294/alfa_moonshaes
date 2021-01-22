@@ -10,4 +10,6 @@ void main()
 
     SetLocalInt(chest, "loot_generated", 0);
 
+    SpeakString("Big Bucks No Whammys");
+
 }
