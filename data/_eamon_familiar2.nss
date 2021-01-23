@@ -6,6 +6,10 @@ void main()
     string last;
     string oPCName = GetName(oPC);
 
+    if(!GetIsPC(oPC)) {
+        return;
+    }
+
     int stringcutoff = FindSubString(oPCName, " ");
 
     string oPCFirstName = GetStringLeft(oPCName, stringcutoff);
