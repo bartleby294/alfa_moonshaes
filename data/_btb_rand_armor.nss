@@ -323,7 +323,7 @@ object AddRandomMagicArmorProperty(object oArmor, int difficulty_lvl) {
         // 10% AC Boost
         if(randChance >= 90 && randChance < 100) {
             //WriteTimestampedLogEntry("ACBoostVsRace");
-            oArmor = ACBoostVsRace(oArmor);
+            oArmor = ACBoost(oArmor);
         }
 
         if(difficulty_lvl > 7 && randChance == 100) {

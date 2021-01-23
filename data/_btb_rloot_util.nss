@@ -1,4 +1,5 @@
 #include "x2_inc_itemprop"
+#include "_btb_rloot_spell"
 
 int square(int base, int power) {
     int rv = 1;
@@ -251,3 +252,26 @@ object EnchantmentBonus(object obj) {
                            0.0, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
     return obj;
 }
+
+object MagicCharge(object obj, int difficulty_lvl) {
+
+    int spellLvl = Random(difficulty_lvl - 3);
+    int spellChoice = IP_CONST_CASTSPELL_LIGHT_5;
+
+    if(spellLvl == 0) {
+        spellChoice = RandomLvlZeroSpell();
+    } else if(spellLvl == 1) {
+        spellChoice =RandomLvlOneSpell();
+    } else {
+        spellChoice = RandomLvlTwoSpell();
+    }
+
+    itemproperty spell = ItemPropertyCastSpell(spellChoice,
+                                   IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE);
+
+    IPSafeAddItemProperty(obj, spell, 0.0,
+                                         X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    return obj;
+}
+
+

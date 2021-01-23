@@ -20,57 +20,46 @@ object AddRandomMagicJewelryProperty2(object oJewelry, int difficulty_lvl) {
             oJewelry = RandomSavingThrowBoost(oJewelry);
         }
     } else {
-        // 10% skill
-        if(randChance > 0 && randChance < 10) {
+        // 20% skill
+        if(randChance > 0 && randChance < 20) {
             //WriteTimestampedLogEntry("RandomSkillBoost");
             oJewelry = RandomSkillBoost(oJewelry);
         }
         // 20% saving throw
-        if(randChance >= 10 && randChance < 20) {
+        if(randChance >= 20 && randChance < 40) {
             //WriteTimestampedLogEntry("RandomSavingThrowBoost");
             oJewelry = RandomSavingThrowBoost(oJewelry);
         }
         // 20% abilities boost
-        if(randChance >= 20 && randChance < 30) {
+        if(randChance >= 40 && randChance < 60) {
             //WriteTimestampedLogEntry("RandomAbilityBoost");
             oJewelry = RandomAbilityBoost(oJewelry);
         }
-        // 20% Attack  Boost
-        if(randChance >= 30 && randChance < 60) {
+        // 15% AC Boost
+        if(randChance >= 60 && randChance < 75) {
             int choice = Random(3);
             if(choice == 0) {
-                //WriteTimestampedLogEntry("AttackBonusVsAlign");
-                oJewelry = AttackBonusVsAlign(oJewelry);
+                //WriteTimestampedLogEntry("ACBoostVsAlign");
+                oJewelry = ACBoostVsAlign(oJewelry);
             }
             if(choice == 1) {
-                //WriteTimestampedLogEntry("AttackBonusVsRace");
-                oJewelry = AttackBonusVsRace(oJewelry);
+                //WriteTimestampedLogEntry("ACBoostVsDmgType");
+                oJewelry = ACBoostVsDmgType(oJewelry);
             }
             if(choice == 2) {
-                //WriteTimestampedLogEntry("AttackBonus");
-                oJewelry = AttackBonus(oJewelry);
+                //WriteTimestampedLogEntry("ACBoostVsRace");
+                oJewelry = ACBoostVsRace(oJewelry);
             }
         }
-        // 20% Dmg  Boost
-        if(randChance >= 60 && randChance < 90) {
-            int choice = Random(3);
-            if(choice == 0) {
-                //WriteTimestampedLogEntry("DmgBonusVsAlign");
-                oJewelry = DmgBonusVsAlign(oJewelry);
-            }
-            if(choice == 1) {
-                //WriteTimestampedLogEntry("DmgBonusVsRace");
-                oJewelry = DmgBonusVsRace(oJewelry);
-            }
-            if(choice == 2) {
-                //WriteTimestampedLogEntry("DmgBonus");
-                oJewelry = DmgBonus(oJewelry);
-            }
-        }
-        // 10% Enchanted
-        if(randChance >= 90 && randChance < 100) {
+        // 20% AC Boost
+        if(randChance >= 75 && randChance < 95) {
             //WriteTimestampedLogEntry("ACBoostVsRace");
-            oJewelry = EnchantmentBonus(oJewelry);
+            oJewelry = ACBoost(oJewelry);
+        }
+        // 5% Magic Charges
+        if(randChance >= 95 && randChance <= 100) {
+            //WriteTimestampedLogEntry("ACBoostVsRace");
+            oJewelry = MagicCharge(oJewelry, difficulty_lvl);
         }
 
         if(difficulty_lvl > 7 && randChance == 100) {
