@@ -266,9 +266,9 @@ object MagicCharge(object obj, int difficulty_lvl) {
         spellChoice = RandomLvlTwoSpell();
     }
 
+    SetItemCharges(obj, (spellLvl + 1) * Random(10));
     itemproperty spell = ItemPropertyCastSpell(spellChoice,
                                    IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE);
-
     IPSafeAddItemProperty(obj, spell, 0.0,
                                          X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
     return obj;
