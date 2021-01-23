@@ -12,7 +12,7 @@ void main()
     } else {
         SetLocalInt(OBJECT_SELF, "ship_state", 1);
         SpeakString("Hide Ship");
-        TLChangeAreaGroundTiles(oArea, X2_TL_GROUNDTILE_WATER, 10, 21, -0.92f);
-        TLChangeAreaGroundTiles(oArea, X2_TL_GROUNDTILE_WATER,  9, 21, -0.92f);
+        TLChangeAreaGroundTiles(oArea, X2_TL_GROUNDTILE_GRASS, 10, 21, 3.0f);
+        TLChangeAreaGroundTiles(oArea, X2_TL_GROUNDTILE_WATER,  9, 21, 2.0f);
     }
 }
