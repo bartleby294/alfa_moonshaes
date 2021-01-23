@@ -3,10 +3,6 @@
 
 //////////JEWLERY//////////
 object AddRandomMagicJewelryProperty(object oJewelry, int difficulty_lvl) {
-    return oJewelry;
-}
-
-object AddRandomMagicJewelryProperty2(object oJewelry, int difficulty_lvl) {
     // NOT FINAL RATIOS TESTING ONLY
     int randChance = Random(100) + 1;
 
