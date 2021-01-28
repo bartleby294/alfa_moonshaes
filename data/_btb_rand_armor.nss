@@ -1,10 +1,7 @@
 #include "x2_inc_itemprop"
+#include "_btb_rloot_util"
 
 ///////ARMOR///////
-object AddRandomMagicArmorProperty(object oArmor) {
-    return oArmor;
-}
-
 object UpdateArmorAppearance(object oItem, int nType, int nIndex, int nNewValue,
                              int bCopyVars=FALSE, int nDestroySource=TRUE) {
     object oNew = CopyItemAndModify(oItem, nType, nIndex, nNewValue, bCopyVars);
@@ -23,9 +20,16 @@ int isValidTorsoId(int id) {
     return TRUE;
 }
 
+int isBareTorso(int id) {
+    if( id == 0 || id == 30 || id == 32 || id == 34 || id == 35) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
 object randomizeStyle(object oArmor) {
 
-    WriteTimestampedLogEntry("randomizeStyle:");
+    //WriteTimestampedLogEntry("randomizeStyle: start");
     int randBicept = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LBICEP);
     int randFoot = IPGetRandomArmorAppearanceType(
@@ -40,6 +44,15 @@ object randomizeStyle(object oArmor) {
                                        oArmor, ITEM_APPR_ARMOR_MODEL_LSHOULDER);
     int randThigh = IPGetRandomArmorAppearanceType(
                                           oArmor, ITEM_APPR_ARMOR_MODEL_LTHIGH);
+
+    int armorTorso = IPGetArmorAppearanceType(oArmor,
+                                              ITEM_APPR_ARMOR_MODEL_TORSO,
+                                              X2_IP_ARMORTYPE_NEXT);
+    if(isBareTorso(armorTorso) == TRUE) {
+        randHand = 0;
+        randForearm = 0;
+        randBicept = 0;
+    }
 
     oArmor = UpdateArmorAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL,
                                       ITEM_APPR_ARMOR_MODEL_LBICEP, randBicept);
@@ -86,7 +99,12 @@ object randomizeStyle(object oArmor) {
                                     X2_IP_ARMORTYPE_RANDOM, TRUE);
     oArmor = IPGetModifiedArmor(oArmor, ITEM_APPR_ARMOR_MODEL_PELVIS,
                                     X2_IP_ARMORTYPE_RANDOM, TRUE);
-
+    // Select Colors
+    int nColorType;
+    for(nColorType = 0; nColorType < 6; nColorType++) {
+        oArmor = IPDyeArmor(oArmor, nColorType, Random(64));
+    }
+    //WriteTimestampedLogEntry("randomizeStyle: end");
     return oArmor;
 }
 
@@ -102,7 +120,8 @@ string getRandomBaseArmor() {
         resRef = resRef + "0";
     }
 
-    WriteTimestampedLogEntry("randArmorResref2: " + resRef + IntToString(randArmor));
+    //WriteTimestampedLogEntry("randArmorResref2: " + resRef
+    //                         + IntToString(randArmor));
 
     return resRef + IntToString(randArmor);
 }
@@ -255,3 +274,63 @@ string getRandomBaseArmorOLD() {
     // Clothing
     return "nw_cloth022";
 }
+
+object AddRandomMagicArmorProperty(object oArmor, int difficulty_lvl) {
+    // NOT FINAL RATIOS TESTING ONLY
+    int randChance = Random(100) + 1;
+
+    if(difficulty_lvl < 3) {
+        // 60% skill
+        if(randChance > 0 && randChance < 60) {
+            //WriteTimestampedLogEntry("RandomSkillBoost");
+            oArmor = RandomSkillBoost(oArmor);
+        } else {
+            //WriteTimestampedLogEntry("RandomSavingThrowBoost");
+            oArmor = RandomSavingThrowBoost(oArmor);
+        }
+    } else {
+        // 30% skill
+        if(randChance > 0 && randChance < 30) {
+            //WriteTimestampedLogEntry("RandomSkillBoost");
+            oArmor = RandomSkillBoost(oArmor);
+        }
+        // 30% saving throw
+        if(randChance >= 30 && randChance < 60) {
+            //WriteTimestampedLogEntry("RandomSavingThrowBoost");
+            oArmor = RandomSavingThrowBoost(oArmor);
+        }
+        // 10% abilities boost
+        if(randChance >= 60 && randChance < 70) {
+            //WriteTimestampedLogEntry("RandomAbilityBoost");
+            oArmor = RandomAbilityBoost(oArmor);
+        }
+        // 20% AC Boost
+        if(randChance >= 70 && randChance < 90) {
+            int choice = Random(3);
+            if(choice == 0) {
+                //WriteTimestampedLogEntry("ACBoostVsAlign");
+                oArmor = ACBoostVsAlign(oArmor);
+            }
+            if(choice == 1) {
+                //WriteTimestampedLogEntry("ACBoostVsDmgType");
+                oArmor = ACBoostVsDmgType(oArmor);
+            }
+            if(choice == 2) {
+                //WriteTimestampedLogEntry("ACBoostVsRace");
+                oArmor = ACBoostVsRace(oArmor);
+            }
+        }
+        // 10% AC Boost
+        if(randChance >= 90 && randChance < 100) {
+            //WriteTimestampedLogEntry("ACBoostVsRace");
+            oArmor = ACBoost(oArmor);
+        }
+
+        if(difficulty_lvl > 7 && randChance == 100) {
+            // insert specal properties here.
+        }
+    }
+    return oArmor;
+}
+
+

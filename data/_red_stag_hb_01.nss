@@ -98,6 +98,26 @@ void main()
             return;
         }
 
+        while(z < 15)
+        {
+            if(Chair != OBJECT_INVALID && !GetIsObjectValid(GetSittingCreature(Chair)))
+            {
+               effect Walk = EffectMovementSpeedDecrease(50);
+               ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, OBJECT_SELF);
+
+               AssignCommand(OBJECT_SELF, ActionInteractObject(Chair));
+               SetLocalInt(OBJECT_SELF, "PosState",4);
+               z = 1;
+               //SpeakString("Chair found");
+               //SpeakString(IntToString(x));
+               return;
+            }
+            x = d6(1);
+            object Chair = GetNearestObjectByTag("Chair_redstag", OBJECT_SELF, x);
+            //SpeakString("Chair not found");
+            z = z + 1;
+        }
+        /*
         while(z != 1)
         {
             if(Chair != OBJECT_INVALID && !GetIsObjectValid(GetSittingCreature(Chair)))
@@ -115,7 +135,7 @@ void main()
                 x = d6(1);
                 object Chair = GetNearestObjectByTag("Chair_redstag", OBJECT_SELF, x);
                 //SpeakString("Chair not found");
-        }
+        } */
     }
 
     if(PosState == 4)

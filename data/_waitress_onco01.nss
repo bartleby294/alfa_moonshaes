@@ -32,6 +32,7 @@ void main()
     if(nMatch2 == 2001)
     {
         SpeakString("Be right there.");
+        ClearAllActions();
         DelayCommand(0.50, ActionStartConversation(GetLastSpeaker(), "", FALSE, FALSE));
 
     }

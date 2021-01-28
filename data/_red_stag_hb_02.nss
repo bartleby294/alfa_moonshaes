@@ -20,6 +20,14 @@ void main()
     object WP5 = GetNearestObjectByTag("RedStag_WP5");
     object WP6 = GetNearestObjectByTag("RedStag_WP6");
 
+    int UNINITALIZED = 0;
+    int GOING_TO_WP_1 = 1;
+    int GOING_TO_WP_2 = 2;
+    int DECIDE_TO_SIT_OR_LEAVE = 3;
+    int FINDING_CHAIR = 4;
+    int SITTING_OR_DOOR = 5;
+    int WALKING_TO_WP4 = 6;
+    int WALKING_TO_WP5 = 7;
 
     /*
     PosState Var Values
@@ -35,7 +43,7 @@ void main()
     int PosState = GetLocalInt(OBJECT_SELF, "PosState");
     int StateTime6 = GetLocalInt(OBJECT_SELF, "StateTime6");
 
-    if(PosState == 0)
+    if(PosState == UNINITALIZED)
     {
         if(GetDistanceBetween(OBJECT_SELF, WP6) > 5.0)
         {
@@ -51,7 +59,7 @@ void main()
         return;
     }
 
-    if(PosState == 1)
+    if(PosState == GOING_TO_WP_1)
     {
         //SpeakString("PosState == 1");
         if(GetDistanceBetween(OBJECT_SELF, WP3) > 2.0)
@@ -67,7 +75,7 @@ void main()
         }
     }
 
-    if(PosState == 2)
+    if(PosState == GOING_TO_WP_2)
     {
         //SpeakString("PosState == 2");
       if(GetDistanceBetween(OBJECT_SELF, WP2) > 2.0)
@@ -82,7 +90,7 @@ void main()
         }
     }
 
-    if(PosState == 3)
+    if(PosState == DECIDE_TO_SIT_OR_LEAVE)
     {
         //SpeakString("PosState == 3");
         ClearAllActions();
@@ -97,7 +105,7 @@ void main()
             return;
         }
 
-        while(z != 1)
+        while(z < 15)
         {
             if(Chair != OBJECT_INVALID && !GetIsObjectValid(GetSittingCreature(Chair)))
             {
@@ -111,13 +119,14 @@ void main()
                //SpeakString(IntToString(x));
                return;
             }
-                x = d6(1);
-                object Chair = GetNearestObjectByTag("Chair_redstag", OBJECT_SELF, x);
-                //SpeakString("Chair not found");
+            x = d6(1);
+            object Chair = GetNearestObjectByTag("Chair_redstag", OBJECT_SELF, x);
+            //SpeakString("Chair not found");
+            z = z + 1;
         }
     }
 
-    if(PosState == 4)
+    if(PosState == FINDING_CHAIR)
     {
        //SpeakString("PosState == 4");
        int Time = GetLocalInt(OBJECT_SELF,"ChairLookingTime");
@@ -146,7 +155,7 @@ void main()
 
     }
 
-    if(PosState == 5)
+    if(PosState == SITTING_OR_DOOR)
     {
         int SittingTime = GetLocalInt(OBJECT_SELF,"ChairSittingTime");
         int randTime = d100(1);
@@ -186,7 +195,7 @@ void main()
 
     }
 
-    if(PosState == 6)
+    if(PosState == WALKING_TO_WP4)
     {
         //SpeakString("PosState == 6");
         object WP4 = GetLocalObject(OBJECT_SELF, "NewChairWP");
@@ -227,7 +236,7 @@ void main()
         }
     }
 
-    if(PosState == 7)
+    if(PosState == WALKING_TO_WP5)
     {
        ClearAllActions();
        if(GetDistanceBetween(OBJECT_SELF, WP2) > 2.0)
