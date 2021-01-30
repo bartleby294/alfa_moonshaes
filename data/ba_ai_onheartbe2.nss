@@ -97,7 +97,7 @@ location getNextWaypoint(object oArea, location campfireLoc,
 
     patrolLoc = Location(oArea,
         Vector(campfireVector.x + x, campfireVector.y+ y, z),
-            getFacing(campfireVector, GetPositionFromLocation(patrolLoc)));
+            GetFacing(campfireVector, GetPositionFromLocation(patrolLoc)));
 
     return patrolLoc;
 }
