@@ -29,6 +29,10 @@ void main()
 
     if(GetDistanceToObject(curWP) < 1.5) {
         atCurWp = TRUE;
+        // We have arived and there are no more wps to move to.
+        if(nextWP == OBJECT_INVALID) {
+            DestroyObject(OBJECT_SELF, 3.0f);
+        }
     }
 
     if(GetDistanceBetween(GetNearestPC(), curWP) < 2.5){
