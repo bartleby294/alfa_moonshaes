@@ -408,7 +408,8 @@ void main()
     // If we havent reached camp respawn dont set up a camp.
     object oArea = GetArea(OBJECT_SELF);
     int lastcamp = GetCampaignInt("BANDIT_CAMP","BANDIT_CAMP_" + GetTag(oArea));
-    if(NWNX_Time_GetTimeStamp() - lastcamp < BANDIT_CAMP_RESPAWN_DELAY_SECONDS){
+    if(lastcamp != 0 && NWNX_Time_GetTimeStamp() - lastcamp
+                                < BANDIT_CAMP_RESPAWN_DELAY_SECONDS){
         return;
     }
 
