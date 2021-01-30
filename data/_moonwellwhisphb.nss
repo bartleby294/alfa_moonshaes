@@ -35,7 +35,7 @@ void main()
         }
     }
 
-    if(GetDistanceBetween(GetNearestPC(), curWP) < 2.5){
+    if(GetDistanceBetween(GetNearestPC(), curWP) < 5.0){
         pcAtCurWp = TRUE;
     }
 
