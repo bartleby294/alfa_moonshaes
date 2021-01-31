@@ -410,6 +410,7 @@ void main()
     int lastcamp = GetCampaignInt("BANDIT_CAMP","BANDIT_CAMP_" + GetTag(oArea));
     if(lastcamp != 0 && NWNX_Time_GetTimeStamp() - lastcamp
                                 < BANDIT_CAMP_RESPAWN_DELAY_SECONDS){
+        writeToLog("NOT Setting up camp.");
         return;
     }
 
@@ -447,7 +448,7 @@ void main()
                 NWNX_Time_GetTimeStamp());
         }
     } else {
-        //writeToLog("Setting up camp.");
+        writeToLog("Setting up camp.");
         //writeToLog("maxStructures = " + IntToString(maxStructures));
         //writeToLog("minStructures = " + IntToString(minStructures));
         //writeToLog("min_traps = " + IntToString(min_traps));
