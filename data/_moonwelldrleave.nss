@@ -6,6 +6,8 @@ void moonwellDruidsLeave()
     object obHbObj = GetObjectByTag("moonwell01onhbob");
     object light = GetLocalObject(obHbObj, "lightobject");
 
+    SetLocalInt(obHbObj, "state", LEAVING_STATE);
+
     DestroyObject(light, 1.0);
 
     object highDruid = GetLocalObject(obHbObj, "highDruid");
@@ -29,6 +31,7 @@ void moonwellDruidsLeave()
     AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc, FALSE));
     AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc, FALSE));
 
+    /*
     DestroyObject(highDruid, 15.0);
     DestroyObject(Druid01, 12.0);
     DestroyObject(Druid02, 12.0);
@@ -46,5 +49,5 @@ void moonwellDruidsLeave()
     DelayCommand(11.0, AssignCommand(Druid04,
                                         SpeakString("Disapears into forest")));
 
-    SetLocalInt(obHbObj, "state", DONE_STATE);
+    SetLocalInt(obHbObj, "state", DONE_STATE); */
 }

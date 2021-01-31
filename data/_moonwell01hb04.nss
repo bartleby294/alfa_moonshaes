@@ -177,10 +177,17 @@ void main()
         SendMessageToPC(oPC, "High Druid: " + warnStr);
         SetLocalInt(OBJECT_SELF, "state", ATTACK_STATE);
     } else if (state == LEAVING_STATE) {
-        object Druid01 = GetObjectByTag("MoonwellDruid01");
-        object Druid02 = GetObjectByTag("MoonwellDruid02");
-        object Druid03 = GetObjectByTag("MoonwellDruid03");
-        object Druid04 = GetObjectByTag("MoonwellDruid04");
+        object Druid01 = GetNearestObjectByTag("MoonwellDruid01");
+        object Druid02 = GetNearestObjectByTag("MoonwellDruid02");
+        object Druid03 = GetNearestObjectByTag("MoonwellDruid03");
+        object Druid04 = GetNearestObjectByTag("MoonwellDruid04");
+
+        if(Druid01 == OBJECT_INVALID && Druid02 == OBJECT_INVALID
+            && Druid03 == OBJECT_INVALID && Druid04 == OBJECT_INVALID
+            && highDruid == OBJECT_INVALID) {
+            SetLocalInt(OBJECT_SELF, "state", DONE_STATE);
+            return;
+        }
 
         location HighDruidDespawnLoc = GetLocalLocation(OBJECT_SELF,
                                                          "HighDruidDespawnLoc");
@@ -200,22 +207,39 @@ void main()
         AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc, FALSE));
         AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc, FALSE));
 
-        DestroyObject(highDruid, 16.0);
-        DestroyObject(Druid01, 16.0);
-        DestroyObject(Druid02, 16.0);
-        DestroyObject(Druid03, 16.0);
-        DestroyObject(Druid04, 16.0);
+        if(GetDistanceBetweenLocations(
+            GetLocation(Druid01), Druid01DespawnLoc) < 2.0) {
+            DelayCommand(1.0, AssignCommand(highDruid,
+                                         SpeakString("Disapears into forest")));
+            DestroyObject(Druid01, 3.0);
+        }
 
-        DelayCommand(15.0, AssignCommand(highDruid,
+        if(GetDistanceBetweenLocations(
+            GetLocation(Druid02), Druid02DespawnLoc) < 2.0) {
+            DelayCommand(1.0, AssignCommand(Druid02,
                                          SpeakString("Disapears into forest")));
-        DelayCommand(15.0, AssignCommand(Druid01,
+            DestroyObject(Druid01, 3.0);
+        }
+
+        if(GetDistanceBetweenLocations(
+            GetLocation(Druid03), Druid03DespawnLoc) < 2.0) {
+            DelayCommand(1.0, AssignCommand(Druid03,
                                          SpeakString("Disapears into forest")));
-        DelayCommand(15.0, AssignCommand(Druid02,
+            DestroyObject(Druid01, 3.0);
+        }
+
+        if(GetDistanceBetweenLocations(
+            GetLocation(Druid04), Druid04DespawnLoc) < 2.0) {
+            DelayCommand(1.0, AssignCommand(Druid04,
                                          SpeakString("Disapears into forest")));
-        DelayCommand(15.0, AssignCommand(Druid03,
+            DestroyObject(Druid01, 3.0);
+        }
+
+        if(GetDistanceBetweenLocations(
+            GetLocation(highDruid), HighDruidDespawnLoc) < 2.0) {
+            DelayCommand(1.0, AssignCommand(highDruid,
                                          SpeakString("Disapears into forest")));
-        DelayCommand(15.0, AssignCommand(Druid04,
-                                        SpeakString("Disapears into forest")));
-        SetLocalInt(OBJECT_SELF, "state", DONE_STATE);
+            DestroyObject(Druid01, 3.0);
+        }
     }
 }
