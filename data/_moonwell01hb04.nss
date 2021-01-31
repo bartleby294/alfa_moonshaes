@@ -88,26 +88,32 @@ void startConversation(int state, object oPC, object highDruid) {
     location WalkLoc = GetLocalLocation(OBJECT_SELF, "WalkLoc");
     location highDruidLoc = GetLocation(highDruid);
     location playerToTalkToLoc = GetLocation(playerToTalkTo);
+
     // Decide where to walk to.
-    float pcAngel = GetAngleBetweenLocations(highDruidLoc, playerToTalkToLoc);
-    float walkAngel = GetAngleBetweenLocations(highDruidLoc, WalkLoc);
-
     float pcDist = GetDistanceBetweenLocations(highDruidLoc, playerToTalkToLoc);
+    float walkDist=GetDistanceBetweenLocations(highDruidLoc, playerToTalkToLoc);
 
-    // if the abs of the diff in angels is less than 55 its in front enough
-    if(absFloat(pcAngel - walkAngel) < 55.0) {
-        float walkDist = GetDistanceBetweenLocations(highDruidLoc, WalkLoc);
-        AssignCommand(highDruid, ClearAllActions());
-        if(walkDist < pcDist) {
-            AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));
+    if(walkDist < 0.5) {
+        AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc, TRUE));
+    } else {
+        float pcAngel =GetAngleBetweenLocations(highDruidLoc,playerToTalkToLoc);
+        float walkAngel = GetAngleBetweenLocations(highDruidLoc, WalkLoc);
+
+        // if the abs of the diff in angels is less than 55 its in front enough
+        if(absFloat(pcAngel - walkAngel) < 55.0) {
+            float walkDist = GetDistanceBetweenLocations(highDruidLoc, WalkLoc);
+            AssignCommand(highDruid, ClearAllActions());
+            if(walkDist < pcDist) {
+                AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));
+            } else {
+                AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc,
+                                                                         TRUE));
+            }
+        // else if its not in front of us just move to player.
         } else {
             AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc,
                                                                          TRUE));
         }
-    // else if its not in front of us just move to player.
-    } else {
-        AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc,
-                                                                         TRUE));
     }
 
     //This goes through to see if there is a druid in the party
