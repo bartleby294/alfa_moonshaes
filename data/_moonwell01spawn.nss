@@ -1,9 +1,9 @@
-#include "_moonwell01const"
+ #include "_moonwell01const"
 #include "_btb_util"
 
 void moonwellSpawn(object oPC) {
 
-    object obHbObj = GetObjectByTag("moonwell01onhbob");
+    object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
     int state = GetLocalInt(obHbObj, "state");
     // if a dm has disabled the scene or its in progress skip out.
     if(state > NO_STATE || !GetIsPC(oPC)) {
@@ -40,16 +40,16 @@ void moonwellSpawn(object oPC) {
     SetLocalLocation(obHbObj, "WalkLoc", WalkLoc);
     SetLocalObject(obHbObj, "oPC", oPC);
 
-    //object HighDruid = GetNearestObjectByTag("moonwelldruid");
-    //object Druid01 = GetNearestObjectByTag("moonwelldruid001");
-    //object Druid02 = GetNearestObjectByTag("moonwelldruid002");
-    //object Druid03 = GetNearestObjectByTag("moonwelldruid003");
-    //object Druid04 = GetNearestObjectByTag("moonwelldruid004");
-    object HighDruid = GetLocalObject(obHbObj, "highDruid");
-    object Druid01 = GetLocalObject(obHbObj, "Druid01");
-    object Druid02 = GetLocalObject(obHbObj, "Druid02");
-    object Druid03 = GetLocalObject(obHbObj, "Druid03");
-    object Druid04 = GetLocalObject(obHbObj, "Druid04");
+    object HighDruid = GetNearestObjectByTag("moonwelldruid", oPC);
+    object Druid01 = GetNearestObjectByTag("moonwelldruid001ingame", oPC);
+    object Druid02 = GetNearestObjectByTag("moonwelldruid002ingame", oPC);
+    object Druid03 = GetNearestObjectByTag("moonwelldruid003ingame", oPC);
+    object Druid04 = GetNearestObjectByTag("moonwelldruid004ingame", oPC);
+    //object HighDruid = GetLocalObject(obHbObj, "highDruid");
+    //object Druid01 = GetLocalObject(obHbObj, "Druid01");
+    //object Druid02 = GetLocalObject(obHbObj, "Druid02");
+    //object Druid03 = GetLocalObject(obHbObj, "Druid03");
+    //object Druid04 = GetLocalObject(obHbObj, "Druid04");
     DestroyObject(GetNearestObjectByTag("alfa_shaftligt6"), 0.1);
 
     // Create our actors and props if they dont already exist.
@@ -62,19 +62,19 @@ void moonwellSpawn(object oPC) {
     }
     if(Druid01 == OBJECT_INVALID) {
         Druid01 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid001",
-                                    Druid01SpawnLoc, FALSE, "moonwelldruid001");
+                              Druid01SpawnLoc, FALSE, "moonwelldruid001ingame");
     }
     if(Druid02 == OBJECT_INVALID) {
         Druid02 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid002",
-                                    Druid02SpawnLoc, FALSE, "moonwelldruid002");
+                              Druid02SpawnLoc, FALSE, "moonwelldruid002ingame");
     }
     if(Druid03 == OBJECT_INVALID) {
         Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
-                                    Druid03SpawnLoc, FALSE, "moonwelldruid003");
+                              Druid03SpawnLoc, FALSE, "moonwelldruid003ingame");
     }
     if(Druid04 == OBJECT_INVALID) {
         Druid04 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid004",
-                                    Druid04SpawnLoc, FALSE, "moonwelldruid004");
+                              Druid04SpawnLoc, FALSE, "moonwelldruid004ingame");
     }
 
     object Light = CreateObject(OBJECT_TYPE_PLACEABLE, "alfa_shaftligt6",
