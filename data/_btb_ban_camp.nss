@@ -390,7 +390,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
     }
 
     // Add loot to chest
-    int halfMaxLootGP = totalBanditLvl * 200;
+    int halfMaxLootGP = totalBanditLvl * 100;
     int lootGP = halfMaxLootGP + Random(halfMaxLootGP);
     generateLoot(lootGP, chestCreated, difficulty_lvl);
 }
