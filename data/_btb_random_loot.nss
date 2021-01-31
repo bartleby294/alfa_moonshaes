@@ -27,14 +27,8 @@ int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
 }
 
 int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
-
-    location chestLoc = GetLocation(chest);
-    vector chestVec = GetPosition(chest);
-    object oArea = GetAreaFromLocation(chestLoc);
-    vector invChestVec = Vector(chestVec.x, chestVec.y + 4.0, chestVec.z);
-    location invChestLoc = Location(oArea, invChestVec, 0.0);
     object tempInvObj = CreateObject(OBJECT_TYPE_PLACEABLE, "tempinventoryobj",
-                                                                   invChestLoc);
+                                                            GetLocation(chest));
     string randArmorResref = getRandomBaseArmor();
     object oArmor = CreateItemOnObject(randArmorResref, tempInvObj);
     //WriteTimestampedLogEntry("randomizeStyle");
@@ -44,14 +38,10 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
     //WriteTimestampedLogEntry("GetGoldPieceValue");
     int iCost = GetGoldPieceValue(oArmor);
     //WriteTimestampedLogEntry("DestroyObject");
-    DestroyObject(oArmor, 1.0);
+    DestroyObject(oArmor, 0.1);
     //WriteTimestampedLogEntry("DestroyObject");
-    object oItem = GetFirstItemInInventory(tempInvObj);
-    while (oItem != OBJECT_INVALID) {
-        DestroyObject(oItem);
-        oItem = GetNextItemInInventory(tempInvObj);
-    }
-    DestroyObject(tempInvObj, 2.0);
+    emptyChest(tempInvObj);
+    DestroyObject(tempInvObj, 1.0);
 
     if(iCost != 0 && iCost <= goldAmount) {
         //WriteTimestampedLogEntry("NWNX_Object_Deserialize");
@@ -97,8 +87,9 @@ int createWeaponInChest(object chest, int goldAmount, int difficulty_lvl) {
     object oWeapon = CreateItemOnObject(randWeaponResref, tempInvObj);
     string serializeWeapon = NWNX_Object_Serialize(RandomizeWeapon(oWeapon));
     int iCost = getItemCostFromTag(GetStringUpperCase(randWeaponResref));
-    DestroyObject(oWeapon, 1.0);
-    DestroyObject(tempInvObj, 2.0);
+    DestroyObject(oWeapon, 0.1);
+    emptyChest(tempInvObj);
+    DestroyObject(tempInvObj, 1.0);
 
     if(iCost != 0 && iCost <= goldAmount) {
         //WriteTimestampedLogEntry("Weapon NWNX_Object_Deserialize");

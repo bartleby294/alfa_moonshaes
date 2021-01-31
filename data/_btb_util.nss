@@ -8,6 +8,14 @@ int getItemCostFromTag(string tag) {
     return GetGoldPieceValue(GetObjectByTag(tag));
 }
 
+void emptyChest(object oChest) {
+    object oItem = GetFirstItemInInventory(oChest);
+    while (oItem != OBJECT_INVALID) {
+        DestroyObject(oItem);
+        oItem = GetNextItemInInventory(oChest);
+    }
+}
+
 /**
     Return a location some units of distance away on a straight line taking
     rotations into account.
