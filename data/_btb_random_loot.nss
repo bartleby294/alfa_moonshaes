@@ -27,8 +27,14 @@ int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
 }
 
 int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
+
+    location chestLoc = GetLocation(chest);
+    vector chestVec = GetPosition(chest);
+    object oArea = GetAreaFromLocation(chestLoc);
+    vector invChestVec = Vector(chestVec.x, chestVec.y + 4.0, chestVec.z);
+    location invChestLoc = Location(oArea, invChestVec, 0.0);
     object tempInvObj = CreateObject(OBJECT_TYPE_PLACEABLE, "tempinventoryobj",
-                                     GetLocation(chest));
+                                                                   invChestLoc);
     string randArmorResref = getRandomBaseArmor();
     object oArmor = CreateItemOnObject(randArmorResref, tempInvObj);
     //WriteTimestampedLogEntry("randomizeStyle");
