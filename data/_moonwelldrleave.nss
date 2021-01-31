@@ -24,30 +24,10 @@ void moonwellDruidsLeave()
     location Druid03DespawnLoc = GetLocalLocation(obHbObj, "Druid03DespawnLoc");
     location Druid04DespawnLoc = GetLocalLocation(obHbObj, "Druid04DespawnLoc");
 
-    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));
-    AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc, TRUE));
-    AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc, FALSE));
-    AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc, FALSE));
-    AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc, FALSE));
-    AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc, FALSE));
-
-    /*
-    DestroyObject(highDruid, 15.0);
-    DestroyObject(Druid01, 12.0);
-    DestroyObject(Druid02, 12.0);
-    DestroyObject(Druid03, 12.0);
-    DestroyObject(Druid04, 12.0);
-
-    DelayCommand(14.0, AssignCommand(highDruid,
-                                        SpeakString("Disapears into forest")));
-    DelayCommand(11.0, AssignCommand(Druid01,
-                                        SpeakString("Disapears into forest")));
-    DelayCommand(11.0, AssignCommand(Druid02,
-                                        SpeakString("Disapears into forest")));
-    DelayCommand(11.0, AssignCommand(Druid03,
-                                        SpeakString("Disapears into forest")));
-    DelayCommand(11.0, AssignCommand(Druid04,
-                                        SpeakString("Disapears into forest")));
-
-    SetLocalInt(obHbObj, "state", DONE_STATE); */
+    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc));
+    AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc));
+    AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc));
+    AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc));
+    AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc));
+    AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc));
 }

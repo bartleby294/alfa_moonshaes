@@ -256,12 +256,11 @@ void main()
         location Druid04DespawnLoc = GetLocalLocation(OBJECT_SELF,
                                                            "Druid04DespawnLoc");
 
-        AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc,
-                                                                       FALSE));
-        AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc, FALSE));
-        AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc, FALSE));
-        AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc, FALSE));
-        AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc, FALSE));
+        AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc));
+        AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc));
+        AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc));
+        AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc));
+        AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc));
 
         if(GetDistanceBetweenLocations(
             GetLocation(Druid01), Druid01DespawnLoc) < 2.0) {
