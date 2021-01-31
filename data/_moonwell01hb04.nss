@@ -2,6 +2,7 @@
 #include "nw_i0_generic"
 #include "_moonwell01const"
 #include "x0_i0_position"
+#include "_moonwell01spawn"
 
 int druidLevel(object oPC) {
     int i = 1;
@@ -205,6 +206,8 @@ void main()
     // if a dm has disabled the scene or its not in progress skip out.
     if(state == DM_DISABLED_STATE || state == NO_STATE) {
         return;
+    } else if(state == SPAWN_STATE) {
+        moonwellSpawn(oPC);
     // if the trigger has been tripped start interogating.
     } else if(state == INTEROGATION_STATE) {
          // the pc steped into the light

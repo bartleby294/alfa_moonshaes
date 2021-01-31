@@ -1,6 +1,9 @@
 #include "_moonwell01spawn"
+#include "_moonwell01const"
 
 void main() {
     object oPC = GetExitingObject();
-    moonwellSpawn(oPC);
+    object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
+    SetLocalInt(obHbObj, "state", SPAWN_STATE);
+    //moonwellSpawn(oPC);
 }
