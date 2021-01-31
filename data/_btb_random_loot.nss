@@ -38,9 +38,9 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
     //WriteTimestampedLogEntry("GetGoldPieceValue");
     int iCost = GetGoldPieceValue(oArmor);
     //WriteTimestampedLogEntry("DestroyObject");
-    DestroyObject(oArmor);
+    DestroyObject(oArmor, 1.0);
     //WriteTimestampedLogEntry("DestroyObject");
-    DestroyObject(tempInvObj);
+    DestroyObject(tempInvObj, 2.0);
 
     if(iCost != 0 && iCost <= goldAmount) {
         //WriteTimestampedLogEntry("NWNX_Object_Deserialize");
@@ -86,8 +86,8 @@ int createWeaponInChest(object chest, int goldAmount, int difficulty_lvl) {
     object oWeapon = CreateItemOnObject(randWeaponResref, tempInvObj);
     string serializeWeapon = NWNX_Object_Serialize(RandomizeWeapon(oWeapon));
     int iCost = getItemCostFromTag(GetStringUpperCase(randWeaponResref));
-    DestroyObject(oWeapon);
-    DestroyObject(tempInvObj);
+    DestroyObject(oWeapon, 1.0);
+    DestroyObject(tempInvObj, 2.0);
 
     if(iCost != 0 && iCost <= goldAmount) {
         //WriteTimestampedLogEntry("Weapon NWNX_Object_Deserialize");
