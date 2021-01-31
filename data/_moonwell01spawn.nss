@@ -40,11 +40,11 @@ void moonwellSpawn(object oPC) {
     SetLocalLocation(obHbObj, "WalkLoc", WalkLoc);
     SetLocalObject(obHbObj, "oPC", oPC);
 
-    object HighDruid = GetObjectByTag("moonwelldruid");
-    object Druid01 = GetObjectByTag("moonwelldruid001");
-    object Druid02 = GetObjectByTag("moonwelldruid002");
-    object Druid03 = GetObjectByTag("moonwelldruid003");
-    object Druid04 = GetObjectByTag("moonwelldruid004");
+    object HighDruid = GetNearestObjectByTag("moonwelldruid");
+    object Druid01 = GetNearestObjectByTag("moonwelldruid001");
+    object Druid02 = GetNearestObjectByTag("moonwelldruid002");
+    object Druid03 = GetNearestObjectByTag("moonwelldruid003");
+    object Druid04 = GetNearestObjectByTag("moonwelldruid004");
     DestroyObject(GetNearestObjectByTag("alfa_shaftligt6"), 0.1);
 
     // Create our actors and props if they dont already exist.
