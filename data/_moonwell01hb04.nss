@@ -229,6 +229,10 @@ void main()
             }
             SetLocalInt(OBJECT_SELF, "timer", timer + 1);
         }
+    } else if(state == CONVERSATION_STATE) {
+        if(!IsInConversation(highDruid)) {
+            startConversation(state, oPC, highDruid);
+        }
     } else if (state == ATTACK_STATE) {
         object oPC = GetFirstPCInArea(GetArea(OBJECT_SELF));
         int attackBool = FALSE;
