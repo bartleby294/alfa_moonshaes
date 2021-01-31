@@ -101,7 +101,7 @@ void startConversation(int state, object oPC, object highDruid) {
     float walkDist=GetDistanceBetweenLocations(highDruidLoc, WalkLoc);
 
     if(walkDist < 0.5) {
-        AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc));
+        AssignCommand(highDruid, ActionMoveToLocation(druidTalkLoc));
     } else {
         float pcAngel =GetAngleBetweenLocations(highDruidLoc,playerToTalkToLoc);
         float walkAngel = GetAngleBetweenLocations(highDruidLoc, WalkLoc);
@@ -112,13 +112,13 @@ void startConversation(int state, object oPC, object highDruid) {
             AssignCommand(highDruid, ClearAllActions());
             if(walkDist < pcDist) {
                 AssignCommand(highDruid, ActionMoveToLocation(WalkLoc));
-                AssignCommand(highDruid,ActionMoveToLocation(playerToTalkToLoc));
+                AssignCommand(highDruid,ActionMoveToLocation(druidTalkLoc));
             } else {
-                AssignCommand(highDruid,ActionMoveToLocation(playerToTalkToLoc));
+                AssignCommand(highDruid,ActionMoveToLocation(druidTalkLoc));
             }
         // else if its not in front of us just move to player.
         } else {
-            AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc));
+            AssignCommand(highDruid, ActionMoveToLocation(druidTalkLoc));
         }
     }
 

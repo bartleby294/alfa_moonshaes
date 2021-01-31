@@ -13,6 +13,7 @@ void main()
         sCommand = GetStringRight(sCommand, GetStringLength(sCommand) -1);
     }
     SendMessageToPC(oPC, sCommand);
+    SendMessageToPC(oPC, GetStringLeft(sCommand, 10));
     if(GetStringLeft(sCommand, 10) == "high druid") {
         object obHbObj = GetObjectByTag("moonwell01onhbob");
         float druidDist = GetDistanceBetween(obHbObj, oPC);
