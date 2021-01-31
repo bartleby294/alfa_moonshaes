@@ -17,17 +17,17 @@ void main()
     } else {
         if(GetLocalInt(OBJECT_SELF, "ConvoState") == 1)
         {
-          AssignCommand(OBJECT_SELF, ActionStartConversation(GetLocalObject(OBJECT_SELF, "TalkTo"), "_moonpool01con03", FALSE, FALSE));
+          //AssignCommand(OBJECT_SELF, ActionStartConversation(GetLocalObject(OBJECT_SELF, "TalkTo"), "_moonpool01con03", FALSE, FALSE));
         }
 
         if(GetLocalInt(OBJECT_SELF, "ConvoState") == 2)
         {
-         AssignCommand(OBJECT_SELF, ActionStartConversation(GetLocalObject(OBJECT_SELF, "TalkTo"), "_moonpool01con02", FALSE, FALSE));
+         //AssignCommand(OBJECT_SELF, ActionStartConversation(GetLocalObject(OBJECT_SELF, "TalkTo"), "_moonpool01con02", FALSE, FALSE));
         }
 
         if(GetLocalInt(OBJECT_SELF, "ConvoState") == 3)
         {
-          AssignCommand(OBJECT_SELF, ActionStartConversation(GetLocalObject(OBJECT_SELF, "TalkTo"), "_moonpool01con01", FALSE, FALSE));
+          //AssignCommand(OBJECT_SELF, ActionStartConversation(GetLocalObject(OBJECT_SELF, "TalkTo"), "_moonpool01con01", FALSE, FALSE));
         }
     }
 }

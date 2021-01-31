@@ -84,19 +84,19 @@ void moonwellSpawn(object oPC) {
                                     HighDruidSpawnLoc,
                                     FALSE, "moonwelldruid000");
     }
-    if(HighDruid == OBJECT_INVALID) {
+    if(Druid01 == OBJECT_INVALID) {
         Druid01 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid001",
                                     Druid01SpawnLoc, FALSE, "moonwelldruid001");
     }
-    if(HighDruid == OBJECT_INVALID) {
+    if(Druid02 == OBJECT_INVALID) {
         Druid02 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid002",
                                     Druid02SpawnLoc, FALSE, "moonwelldruid002");
     }
-    if(HighDruid == OBJECT_INVALID) {
+    if(Druid03 == OBJECT_INVALID) {
         Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
                                     Druid03SpawnLoc, FALSE, "moonwelldruid003");
     }
-    if(HighDruid == OBJECT_INVALID) {
+    if(Druid04 == OBJECT_INVALID) {
         Druid04 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid004",
                                     Druid04SpawnLoc, FALSE, "moonwelldruid004");
     }
