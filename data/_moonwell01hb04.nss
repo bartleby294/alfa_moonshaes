@@ -91,7 +91,7 @@ void startConversation(int state, object oPC, object highDruid) {
 
     vector druidTalkVec = GetPositionFromLocation(playerToTalkToLoc);
     location druidTalkLoc = Location(GetArea(playerToTalkTo),
-                             Vector(druidTalkVec.x + 0.5, druidTalkVec.y + 0.5,
+                             Vector(druidTalkVec.x + 1.0, druidTalkVec.y + 1.0,
                                     druidTalkVec.x), 0.0);
 
     // Decide where to walk to.
@@ -205,7 +205,7 @@ void main()
     // if the trigger has been tripped start interogating.
     } else if(state == INTEROGATION_STATE) {
          // the pc steped into the light
-         if(GetDistanceBetween(light, oPC) < 0.4) {
+         if(GetDistanceBetween(light, oPC) < 0.6) {
             startConversation(state, oPC, highDruid);
          } else {
             // get the timeer and do its thing.
