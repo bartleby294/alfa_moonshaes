@@ -191,10 +191,14 @@ void main()
     object light = GetLocalObject(OBJECT_SELF, "lightobject");
     logStr("State: " + IntToString(state));
     object highDruid = GetLocalObject(OBJECT_SELF, "highDruid");
-    object Druid01 = GetNearestObjectByTag("MoonwellDruid01");
-    object Druid02 = GetNearestObjectByTag("MoonwellDruid02");
-    object Druid03 = GetNearestObjectByTag("MoonwellDruid03");
-    object Druid04 = GetNearestObjectByTag("MoonwellDruid04");
+    object Druid01 = GetLocalObject(OBJECT_SELF, "Druid01");
+    object Druid02 = GetLocalObject(OBJECT_SELF, "Druid02");
+    object Druid03 = GetLocalObject(OBJECT_SELF, "Druid03");
+    object Druid04 = GetLocalObject(OBJECT_SELF, "Druid04");
+    //object Druid01 = GetNearestObjectByTag("MoonwellDruid01");
+    //object Druid02 = GetNearestObjectByTag("MoonwellDruid02");
+    //object Druid03 = GetNearestObjectByTag("MoonwellDruid03");
+    //object Druid04 = GetNearestObjectByTag("MoonwellDruid04");
 
     if(InCombat(highDruid, Druid01, Druid02, Druid03, Druid04)) {
         return ;
