@@ -255,8 +255,8 @@ void main()
         if(Druid01Dist < 0.0 && Druid02Dist < 0.0
             && Druid03Dist < 0.0 && Druid04Dist < 0.0
             && highDruidDist < 0.0) {
-            SendMessageToPC(oPC, "DONE_STATE");
-            SetLocalInt(OBJECT_SELF, "state", DONE_STATE);
+            SendMessageToPC(oPC, "NO_STATE");
+            SetLocalInt(OBJECT_SELF, "state", NO_STATE);
             return;
         }
 
