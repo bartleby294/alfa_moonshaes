@@ -404,6 +404,7 @@ void main()
     int circle_min = 1;
     int circle_max = 1;
     int difficulty_lvl = 1;
+    writeToLog("CAMP RUNNING");
 
     // If we havent reached camp respawn dont set up a camp.
     object oArea = GetArea(OBJECT_SELF);
