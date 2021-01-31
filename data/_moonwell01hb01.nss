@@ -123,35 +123,35 @@ void main()
         if(GetDistanceBetweenLocations(
             GetLocation(Druid01), Druid01DespawnLoc) < 2.0) {
             DelayCommand(1.0, AssignCommand(highDruid,
-                                         SpeakString("Disapears into forest")));
+                                         SpeakString("1Disapears into forest")));
             DestroyObject(Druid01, 3.0);
         }
 
         if(GetDistanceBetweenLocations(
             GetLocation(Druid02), Druid02DespawnLoc) < 2.0) {
             DelayCommand(1.0, AssignCommand(Druid02,
-                                         SpeakString("Disapears into forest")));
+                                         SpeakString("1Disapears into forest")));
             DestroyObject(Druid01, 3.0);
         }
 
         if(GetDistanceBetweenLocations(
             GetLocation(Druid03), Druid03DespawnLoc) < 2.0) {
             DelayCommand(1.0, AssignCommand(Druid03,
-                                         SpeakString("Disapears into forest")));
+                                         SpeakString("1Disapears into forest")));
             DestroyObject(Druid01, 3.0);
         }
 
         if(GetDistanceBetweenLocations(
             GetLocation(Druid04), Druid04DespawnLoc) < 2.0) {
             DelayCommand(1.0, AssignCommand(Druid04,
-                                         SpeakString("Disapears into forest")));
+                                         SpeakString("1Disapears into forest")));
             DestroyObject(Druid01, 3.0);
         }
 
         if(GetDistanceBetweenLocations(
             GetLocation(highDruid), HighDruidDespawnLoc) < 2.0) {
             DelayCommand(1.0, AssignCommand(highDruid,
-                                         SpeakString("Disapears into forest")));
+                                         SpeakString("1Disapears into forest")));
             DestroyObject(Druid01, 3.0);
         }
     }
