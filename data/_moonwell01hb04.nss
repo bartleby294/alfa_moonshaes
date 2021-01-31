@@ -91,28 +91,26 @@ void startConversation(int state, object oPC, object highDruid) {
 
     // Decide where to walk to.
     float pcDist = GetDistanceBetweenLocations(highDruidLoc, playerToTalkToLoc);
-    float walkDist=GetDistanceBetweenLocations(highDruidLoc, playerToTalkToLoc);
+    float walkDist=GetDistanceBetweenLocations(highDruidLoc, WalkLoc);
 
     if(walkDist < 0.5) {
-        AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc, TRUE));
+        AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc));
     } else {
-        float pcAngel =1.0;//GetAngleBetweenLocations(highDruidLoc,playerToTalkToLoc);
-        float walkAngel = 1.0;//GetAngleBetweenLocations(highDruidLoc, WalkLoc);
+        float pcAngel =GetAngleBetweenLocations(highDruidLoc,playerToTalkToLoc);
+        float walkAngel = GetAngleBetweenLocations(highDruidLoc, WalkLoc);
 
         // if the abs of the diff in angels is less than 55 its in front enough
         if(absFloat(pcAngel - walkAngel) < 55.0) {
             float walkDist = GetDistanceBetweenLocations(highDruidLoc, WalkLoc);
             AssignCommand(highDruid, ClearAllActions());
             if(walkDist < pcDist) {
-                AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));
+                AssignCommand(highDruid, ActionMoveToLocation(WalkLoc));
             } else {
-                AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc,
-                                                                         TRUE));
+                AssignCommand(highDruid,ActionMoveToLocation(playerToTalkToLoc));
             }
         // else if its not in front of us just move to player.
         } else {
-            AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc,
-                                                                         TRUE));
+            AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc));
         }
     }
 
