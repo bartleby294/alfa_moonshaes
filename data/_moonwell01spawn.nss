@@ -83,6 +83,8 @@ void moonwellSpawn(object oPC) {
         HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
                                     HighDruidSpawnLoc,
                                     FALSE, "moonwelldruid000");
+        effect Walk = EffectMovementSpeedDecrease(50);
+        ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, HighDruid);
     }
     if(Druid01 == OBJECT_INVALID) {
         Druid01 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid001",

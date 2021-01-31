@@ -1,6 +1,7 @@
 #include "_btb_util"
 #include "nw_i0_generic"
 #include "_moonwell01const"
+#include "x0_i0_position"
 
 int druidLevel(object oPC) {
     int i = 1;
@@ -78,15 +79,37 @@ void attack(object highDruid, object oPC) {
 }
 
 void startConversation(int state, object oPC, object highDruid) {
+    object playerToTalkTo = oPC;
     object partyDruid = highestLevelKnownDruid(oPC);
-    AssignCommand(highDruid, ClearAllActions());
-    effect Walk = EffectMovementSpeedDecrease(50);
-    ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);
-    SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
+
+    if(partyDruid != OBJECT_INVALID) {
+        playerToTalkTo =  partyDruid;
+    }
     location WalkLoc = GetLocalLocation(OBJECT_SELF, "WalkLoc");
-    location LightSpawnLoc = GetLocalLocation(OBJECT_SELF, "LightSpawnLoc");
-    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));
-    AssignCommand(highDruid, ActionMoveToLocation(LightSpawnLoc, TRUE));
+    location highDruidLoc = GetLocation(highDruid);
+    location playerToTalkToLoc = GetLocation(playerToTalkTo);
+    // Decide where to walk to.
+    float pcAngel = GetAngleBetweenLocations(highDruidLoc, playerToTalkToLoc);
+    float walkAngel = GetAngleBetweenLocations(highDruidLoc, WalkLoc);
+
+    float pcDist = GetDistanceBetweenLocations(highDruidLoc, playerToTalkToLoc);
+
+    // if the abs of the diff in angels is less than 55 its in front enough
+    if(absFloat(pcAngel - walkAngel) < 55.0) {
+        float walkDist = GetDistanceBetweenLocations(highDruidLoc, WalkLoc);
+        AssignCommand(highDruid, ClearAllActions());
+        if(walkDist < pcDist) {
+            AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));
+        } else {
+            AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc,
+                                                                         TRUE));
+        }
+    // else if its not in front of us just move to player.
+    } else {
+        AssignCommand(highDruid, ActionMoveToLocation(playerToTalkToLoc,
+                                                                         TRUE));
+    }
+
     //This goes through to see if there is a druid in the party
     //If there is the High druid will address the druid of the party
     //It will also check to see if he knows the druid or other char if he does then another convo will trigger.
@@ -94,30 +117,55 @@ void startConversation(int state, object oPC, object highDruid) {
     // convo state = 1 -> theres a druid convo
     // convo state = 2 -> theres a druid i know convo
     // convo state = 3 -> theres someone that isnt a druid and i dont know them.
-    if(partyDruid != OBJECT_INVALID) {
-        if(GetLocalInt(partyDruid, "Moonwell01Known") == 1)
-        {
-           //Execute I know you Druid Hello
+
+    // If within range start conversation.
+    if(pcDist < 2.0) {
+        if(partyDruid != OBJECT_INVALID) {
+            if(GetLocalInt(partyDruid, "Moonwell01Known") == 1)
+            {
+               //Execute I know you Druid Hello
+                AssignCommand(highDruid,
+                    ActionStartConversation(partyDruid,
+                    "_moonpool01con02", FALSE, FALSE));
+                return;
+            }
+
+            //Execute Generic Druid Hello
             AssignCommand(highDruid,
                 ActionStartConversation(partyDruid,
-                "_moonpool01con02", FALSE, FALSE));
+                "_moonpool01con03", FALSE, FALSE));
             return;
         }
 
-        //Execute Generic Druid Hello
-        AssignCommand(highDruid,
-            ActionStartConversation(partyDruid,
-            "_moonpool01con03", FALSE, FALSE));
-        return;
+        AssignCommand(highDruid, ActionStartConversation(oPC,
+                                "_moonpool01con01", FALSE, FALSE));
+        SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
     }
-
-    AssignCommand(highDruid, ActionStartConversation(oPC,
-                            "_moonpool01con01", FALSE, FALSE));
 }
 
 void logStr(string str) {
     string uuid = GetLocalString(OBJECT_SELF, "uuid");
     WriteTimestampedLogEntry(uuid + ": " + str);
+}
+
+int InCombat(object highDruid, object Druid01, object Druid02,
+              object Druid03, object Druid04) {
+    if(GetIsInCombat(highDruid)) {
+        return TRUE;
+    }
+    if(GetIsInCombat(Druid01)) {
+        return TRUE;
+    }
+    if(GetIsInCombat(Druid02)) {
+        return TRUE;
+    }
+    if(GetIsInCombat(Druid03)) {
+        return TRUE;
+    }
+    if(GetIsInCombat(Druid04)) {
+        return TRUE;
+    }
+    return FALSE;
 }
 
 void main()
@@ -133,6 +181,14 @@ void main()
     object light = GetLocalObject(OBJECT_SELF, "lightobject");
     logStr("State: " + IntToString(state));
     object highDruid = GetLocalObject(OBJECT_SELF, "highDruid");
+    object Druid01 = GetNearestObjectByTag("MoonwellDruid01");
+    object Druid02 = GetNearestObjectByTag("MoonwellDruid02");
+    object Druid03 = GetNearestObjectByTag("MoonwellDruid03");
+    object Druid04 = GetNearestObjectByTag("MoonwellDruid04");
+
+    if(InCombat(highDruid, Druid01, Druid02, Druid03, Druid04)) {
+        return ;
+    }
     // if a dm has disabled the scene or its not in progress skip out.
     if(state == DM_DISABLED_STATE || state == NO_STATE) {
         return;
@@ -177,11 +233,6 @@ void main()
         SendMessageToPC(oPC, "High Druid: " + warnStr);
         SetLocalInt(OBJECT_SELF, "state", ATTACK_STATE);
     } else if (state == LEAVING_STATE) {
-        object Druid01 = GetNearestObjectByTag("MoonwellDruid01");
-        object Druid02 = GetNearestObjectByTag("MoonwellDruid02");
-        object Druid03 = GetNearestObjectByTag("MoonwellDruid03");
-        object Druid04 = GetNearestObjectByTag("MoonwellDruid04");
-
         if(Druid01 == OBJECT_INVALID && Druid02 == OBJECT_INVALID
             && Druid03 == OBJECT_INVALID && Druid04 == OBJECT_INVALID
             && highDruid == OBJECT_INVALID) {
