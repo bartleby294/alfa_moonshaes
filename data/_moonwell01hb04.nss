@@ -129,7 +129,7 @@ void startConversation(int state, object oPC, object highDruid) {
     // convo state = 3 -> theres someone that isnt a druid and i dont know them.
 
     // If within range start conversation.
-    if(pcDist < 2.0) {
+    if(pcDist < 5.0) {
         if(partyDruid != OBJECT_INVALID) {
             if(GetLocalInt(partyDruid, "Moonwell01Known") == 1)
             {
