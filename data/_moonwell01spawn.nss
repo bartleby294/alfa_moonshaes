@@ -5,8 +5,8 @@ void moonwellSpawn(object oPC) {
 
     object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
     int state = GetLocalInt(obHbObj, "state");
-    // if a dm has disabled the scene or its in progress skip out.
-    if(state > NO_STATE || !GetIsPC(oPC)) {
+    // if were at or beyond conversation state dont execute.
+    if(state > INTEROGATION_STATE || !GetIsPC(oPC)) {
         return;
     }
     SetLocalInt(obHbObj, "state", INTEROGATION_STATE);
