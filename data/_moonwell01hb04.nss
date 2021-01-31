@@ -89,6 +89,11 @@ void startConversation(int state, object oPC, object highDruid) {
     location highDruidLoc = GetLocation(highDruid);
     location playerToTalkToLoc = GetLocation(playerToTalkTo);
 
+    vector druidTalkVec = GetPositionFromLocation(playerToTalkToLoc);
+    location druidTalkLoc = Location(GetArea(playerToTalkTo),
+                             Vector(druidTalkVec.x + 0.5, druidTalkVec.y + 0.5,
+                                    druidTalkVec.x), 0.0);
+
     // Decide where to walk to.
     float pcDist = GetDistanceBetweenLocations(highDruidLoc, playerToTalkToLoc);
     float walkDist=GetDistanceBetweenLocations(highDruidLoc, WalkLoc);
