@@ -1,4 +1,5 @@
 #include "_moonwell01spawn"
+#include "_moonwell01const"
 
 // use this so sparingly!!!
 void main()
@@ -20,6 +21,7 @@ void main()
         float druidDist = GetDistanceBetween(obHbObj, oPC);
         SendMessageToPC(oPC, "druidDist Dist: " + FloatToString(druidDist));
         if(druidDist > 0.0 && druidDist < 15.0) {
+            SetLocalInt(obHbObj, "state", NO_STATE);
             moonwellSpawn(oPC);
         }
     }
