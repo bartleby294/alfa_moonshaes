@@ -46,6 +46,11 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
     //WriteTimestampedLogEntry("DestroyObject");
     DestroyObject(oArmor, 1.0);
     //WriteTimestampedLogEntry("DestroyObject");
+    object oItem = GetFirstItemInInventory(tempInvObj);
+    while (oItem != OBJECT_INVALID) {
+        DestroyObject(oItem);
+        oItem = GetNextItemInInventory(tempInvObj);
+    }
     DestroyObject(tempInvObj, 2.0);
 
     if(iCost != 0 && iCost <= goldAmount) {
