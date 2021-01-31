@@ -105,6 +105,7 @@ void startConversation(int state, object oPC, object highDruid) {
             AssignCommand(highDruid, ClearAllActions());
             if(walkDist < pcDist) {
                 AssignCommand(highDruid, ActionMoveToLocation(WalkLoc));
+                AssignCommand(highDruid,ActionMoveToLocation(playerToTalkToLoc));
             } else {
                 AssignCommand(highDruid,ActionMoveToLocation(playerToTalkToLoc));
             }
