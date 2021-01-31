@@ -15,8 +15,10 @@ void main()
     SendMessageToPC(oPC, sCommand);
     SendMessageToPC(oPC, GetStringLeft(sCommand, 10));
     if(GetStringLeft(sCommand, 10) == "high druid") {
-        object obHbObj = GetObjectByTag("moonwell01onhbob");
+        SendMessageToPC(oPC, "you said high druid");
+        object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
         float druidDist = GetDistanceBetween(obHbObj, oPC);
+        SendMessageToPC(oPC, "druidDist Dist: " + FloatToString(druidDist));
         if(druidDist > 0.0 && druidDist < 15.0) {
             moonwellSpawn(oPC);
         }
