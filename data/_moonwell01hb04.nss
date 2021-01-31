@@ -279,31 +279,31 @@ void main()
         //SendMessageToPC(oPC, "Druid01 Dist: " + FloatToString(Druid01Dist));
         if(Druid01Dist > 20.0) {
             DelayCommand(1.0, AssignCommand(Druid01,
-                                         SpeakString("Disapears into forest")));
+                                       SpeakString("*Disapears into forest*")));
             DestroyObject(Druid01, 3.0);
         }
         //SendMessageToPC(oPC, "Druid02 Dist: " + FloatToString(Druid02Dist));
         if(Druid02Dist > 20.0) {
             DelayCommand(1.0, AssignCommand(Druid02,
-                                         SpeakString("Disapears into forest")));
+                                       SpeakString("*Disapears into forest*")));
             DestroyObject(Druid02, 3.0);
         }
         //SendMessageToPC(oPC, "Druid03 Dist: " + FloatToString(Druid03Dist));
         if(Druid03Dist > 20.0) {
             DelayCommand(1.0, AssignCommand(Druid03,
-                                         SpeakString("Disapears into forest")));
+                                       SpeakString("*Disapears into forest*")));
             DestroyObject(Druid03, 3.0);
         }
         //SendMessageToPC(oPC, "Druid04 Dist: " + FloatToString(Druid04Dist));
         if(Druid04Dist > 20.0) {
             DelayCommand(1.0, AssignCommand(Druid04,
-                                         SpeakString("Disapears into forest")));
+                                       SpeakString("*Disapears into forest*")));
             DestroyObject(Druid04, 3.0);
         }
         //SendMessageToPC(oPC, "highDruid Dist: " + FloatToString(highDruidDist));
         if(highDruidDist > 20.0) {
             DelayCommand(1.0, AssignCommand(highDruid,
-                                         SpeakString("Disapears into forest")));
+                                       SpeakString("*Disapears into forest*")));
             DestroyObject(highDruid, 3.0);
         }
     }
