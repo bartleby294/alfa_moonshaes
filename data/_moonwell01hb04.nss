@@ -191,7 +191,7 @@ void main()
 
     int state = GetLocalInt(OBJECT_SELF, "state");
     object oPC = GetLocalObject(OBJECT_SELF, "oPC");
-    SendMessageToPC(oPC, "state: " + IntToString(state));
+    SendMessageToPC(oPC, "state: " + IntToString(state) + " uuid: " + uuid);
     object light = GetLocalObject(OBJECT_SELF, "lightobject");
     logStr("State: " + IntToString(state));
     object highDruid = GetLocalObject(OBJECT_SELF, "highDruid");
@@ -207,7 +207,7 @@ void main()
     if(state == DM_DISABLED_STATE || state == NO_STATE) {
         return;
     } else if(state == SPAWN_STATE) {
-        moonwellSpawn(oPC);
+        moonwellSpawn(oPC, OBJECT_SELF);
     // if the trigger has been tripped start interogating.
     } else if(state == INTEROGATION_STATE) {
          // the pc steped into the light

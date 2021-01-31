@@ -1,12 +1,12 @@
  #include "_moonwell01const"
 #include "_btb_util"
 
-void moonwellSpawn(object oPC) {
+void moonwellSpawn(object oPC, object obHbObj) {
 
-    object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
+    //object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
     int state = GetLocalInt(obHbObj, "state");
     // if were at or beyond conversation state dont execute.
-    if(state > INTEROGATION_STATE || !GetIsPC(oPC)) {
+    if(state >= INTEROGATION_STATE || !GetIsPC(oPC)) {
         return;
     }
     SetLocalInt(obHbObj, "state", INTEROGATION_STATE);
@@ -40,16 +40,16 @@ void moonwellSpawn(object oPC) {
     SetLocalLocation(obHbObj, "WalkLoc", WalkLoc);
     SetLocalObject(obHbObj, "oPC", oPC);
 
-    object HighDruid = GetNearestObjectByTag("moonwelldruid", oPC);
-    object Druid01 = GetNearestObjectByTag("moonwelldruid001ingame", oPC);
-    object Druid02 = GetNearestObjectByTag("moonwelldruid002ingame", oPC);
-    object Druid03 = GetNearestObjectByTag("moonwelldruid003ingame", oPC);
-    object Druid04 = GetNearestObjectByTag("moonwelldruid004ingame", oPC);
-    //object HighDruid = GetLocalObject(obHbObj, "highDruid");
-    //object Druid01 = GetLocalObject(obHbObj, "Druid01");
-    //object Druid02 = GetLocalObject(obHbObj, "Druid02");
-    //object Druid03 = GetLocalObject(obHbObj, "Druid03");
-    //object Druid04 = GetLocalObject(obHbObj, "Druid04");
+    //object HighDruid = GetNearestObjectByTag("moonwelldruid", oPC);
+    //object Druid01 = GetNearestObjectByTag("moonwelldruid001ingame", oPC);
+    //object Druid02 = GetNearestObjectByTag("moonwelldruid002ingame", oPC);
+    //object Druid03 = GetNearestObjectByTag("moonwelldruid003ingame", oPC);
+    //object Druid04 = GetNearestObjectByTag("moonwelldruid004ingame", oPC);
+    object HighDruid = GetLocalObject(obHbObj, "highDruid");
+    object Druid01 = GetLocalObject(obHbObj, "Druid01");
+    object Druid02 = GetLocalObject(obHbObj, "Druid02");
+    object Druid03 = GetLocalObject(obHbObj, "Druid03");
+    object Druid04 = GetLocalObject(obHbObj, "Druid04");
     DestroyObject(GetNearestObjectByTag("alfa_shaftligt6"), 0.1);
 
     // Create our actors and props if they dont already exist.
