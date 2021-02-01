@@ -266,8 +266,12 @@ void main()
             && highDruidDist < 0.0) {
             SendMessageToPC(oPC, "DONE_STATE");
             SetLocalInt(OBJECT_SELF, "state", DONE_STATE);
+            SetLocalInt(OBJECT_SELF, "leaveCnt", 0);
             return;
         }
+
+        int leaveCnt = GetLocalInt(OBJECT_SELF, "leaveCnt");
+        SetLocalInt(OBJECT_SELF, "leaveCnt", leaveCnt = leaveCnt + 1);
 
         location HighDruidDespawnLoc = GetLocalLocation(OBJECT_SELF,
                                                          "HighDruidDespawnLoc");
@@ -287,7 +291,7 @@ void main()
         AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc));
 
         SendMessageToPC(oPC, "Druid01 Dist: " + FloatToString(Druid01Dist));
-        if(Druid01Dist > 20.0) {
+        if(Druid01Dist > 20.0 || leaveCnt > 5) {
             DelayCommand(1.0, AssignCommand(Druid01,
                                        SpeakString("*Disapears into forest*")));
             DestroyObject(Druid01, 3.0);
@@ -295,7 +299,7 @@ void main()
                                                                OBJECT_INVALID));
         }
         SendMessageToPC(oPC, "Druid02 Dist: " + FloatToString(Druid02Dist));
-        if(Druid02Dist > 20.0) {
+        if(Druid02Dist > 20.0 || leaveCnt > 5) {
             DelayCommand(1.0, AssignCommand(Druid02,
                                        SpeakString("*Disapears into forest*")));
             DestroyObject(Druid02, 3.0);
@@ -303,7 +307,7 @@ void main()
                                                                OBJECT_INVALID));
         }
         SendMessageToPC(oPC, "Druid03 Dist: " + FloatToString(Druid03Dist));
-        if(Druid03Dist > 20.0) {
+        if(Druid03Dist > 20.0 || leaveCnt > 5) {
             DelayCommand(1.0, AssignCommand(Druid03,
                                        SpeakString("*Disapears into forest*")));
             DestroyObject(Druid03, 3.0);
@@ -311,7 +315,7 @@ void main()
                                                                OBJECT_INVALID));
         }
         SendMessageToPC(oPC, "Druid04 Dist: " + FloatToString(Druid04Dist));
-        if(Druid04Dist > 20.0) {
+        if(Druid04Dist > 20.0 || leaveCnt > 5) {
             DelayCommand(1.0, AssignCommand(Druid04,
                                        SpeakString("*Disapears into forest*")));
             DestroyObject(Druid04, 3.0);
@@ -319,7 +323,7 @@ void main()
                                                                OBJECT_INVALID));
         }
         SendMessageToPC(oPC, "highDruid Dist: " + FloatToString(highDruidDist));
-        if(highDruidDist > 20.0) {
+        if(highDruidDist > 20.0 || leaveCnt > 5) {
             DelayCommand(1.0, AssignCommand(highDruid,
                                        SpeakString("*Disapears into forest*")));
             DestroyObject(highDruid, 3.0);
