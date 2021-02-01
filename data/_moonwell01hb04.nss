@@ -291,30 +291,40 @@ void main()
             DelayCommand(1.0, AssignCommand(Druid01,
                                        SpeakString("*Disapears into forest*")));
             DestroyObject(Druid01, 3.0);
+            DelayCommand(3.1, SetLocalObject(OBJECT_SELF, "Druid01",
+                                                               OBJECT_INVALID));
         }
         SendMessageToPC(oPC, "Druid02 Dist: " + FloatToString(Druid02Dist));
         if(Druid02Dist > 20.0) {
             DelayCommand(1.0, AssignCommand(Druid02,
                                        SpeakString("*Disapears into forest*")));
             DestroyObject(Druid02, 3.0);
+            DelayCommand(3.1, SetLocalObject(OBJECT_SELF, "Druid02",
+                                                               OBJECT_INVALID));
         }
         SendMessageToPC(oPC, "Druid03 Dist: " + FloatToString(Druid03Dist));
         if(Druid03Dist > 20.0) {
             DelayCommand(1.0, AssignCommand(Druid03,
                                        SpeakString("*Disapears into forest*")));
             DestroyObject(Druid03, 3.0);
+            DelayCommand(3.1, SetLocalObject(OBJECT_SELF, "Druid03",
+                                                               OBJECT_INVALID));
         }
         SendMessageToPC(oPC, "Druid04 Dist: " + FloatToString(Druid04Dist));
         if(Druid04Dist > 20.0) {
             DelayCommand(1.0, AssignCommand(Druid04,
                                        SpeakString("*Disapears into forest*")));
             DestroyObject(Druid04, 3.0);
+            DelayCommand(3.1, SetLocalObject(OBJECT_SELF, "Druid04",
+                                                               OBJECT_INVALID));
         }
         SendMessageToPC(oPC, "highDruid Dist: " + FloatToString(highDruidDist));
         if(highDruidDist > 20.0) {
             DelayCommand(1.0, AssignCommand(highDruid,
                                        SpeakString("*Disapears into forest*")));
             DestroyObject(highDruid, 3.0);
+            DelayCommand(3.1, SetLocalObject(OBJECT_SELF, "highDruid",
+                                                               OBJECT_INVALID));
         }
     }
 }
