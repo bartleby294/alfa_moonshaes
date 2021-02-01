@@ -54,6 +54,7 @@ void moonwellSpawn(object oPC, object obHbObj) {
 
     // Create our actors and props if they dont already exist.
     if(HighDruid == OBJECT_INVALID) {
+        SendMessageToPC(oPC, "High Druid was null");
         HighDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
                                     HighDruidSpawnLoc,
                                     FALSE, "moonwelldruid000");
@@ -61,20 +62,24 @@ void moonwellSpawn(object oPC, object obHbObj) {
         ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, HighDruid);
     }
     if(Druid01 == OBJECT_INVALID) {
+        SendMessageToPC(oPC, "Druid01 was null");
         Druid01 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid001",
-                              Druid01SpawnLoc, FALSE, "moonwelldruid001ingame");
+                              Druid01SpawnLoc, FALSE, "moonwelldruid001");
     }
     if(Druid02 == OBJECT_INVALID) {
+        SendMessageToPC(oPC, "Druid02 was null");
         Druid02 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid002",
-                              Druid02SpawnLoc, FALSE, "moonwelldruid002ingame");
+                              Druid02SpawnLoc, FALSE, "moonwelldruid002");
     }
     if(Druid03 == OBJECT_INVALID) {
+        SendMessageToPC(oPC, "Druid03 was null");
         Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
-                              Druid03SpawnLoc, FALSE, "moonwelldruid003ingame");
+                              Druid03SpawnLoc, FALSE, "moonwelldruid003");
     }
     if(Druid04 == OBJECT_INVALID) {
+        SendMessageToPC(oPC, "Druid04 was null");
         Druid04 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid004",
-                              Druid04SpawnLoc, FALSE, "moonwelldruid004ingame");
+                              Druid04SpawnLoc, FALSE, "moonwelldruid004");
     }
 
     object Light = CreateObject(OBJECT_TYPE_PLACEABLE, "alfa_shaftligt6",
