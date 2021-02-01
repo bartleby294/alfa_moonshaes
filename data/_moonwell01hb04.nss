@@ -140,6 +140,7 @@ void startConversation(int state, object oPC, object highDruid) {
                 AssignCommand(highDruid,
                     ActionStartConversation(partyDruid,
                     "_moonpool01con02", FALSE, FALSE));
+                SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
                 return;
             }
 
@@ -147,6 +148,7 @@ void startConversation(int state, object oPC, object highDruid) {
             AssignCommand(highDruid,
                 ActionStartConversation(partyDruid,
                 "_moonpool01con03", FALSE, FALSE));
+            SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
             return;
         }
 
