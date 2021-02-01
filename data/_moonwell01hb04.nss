@@ -206,7 +206,7 @@ void main()
         return ;
     }
     // if a dm has disabled the scene or its not in progress skip out.
-    if(state == DM_DISABLED_STATE || state == NO_STATE) {
+    if(state == DM_DISABLED_STATE || state == NO_STATE  || state == DONE_STATE){
         return;
     } else if(state == SPAWN_STATE) {
         moonwellSpawn(oPC, OBJECT_SELF);
