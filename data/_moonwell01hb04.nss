@@ -140,7 +140,7 @@ void startConversation(int state, object oPC, object highDruid) {
                 AssignCommand(highDruid,
                     ActionStartConversation(partyDruid,
                     "_moonpool01con02", FALSE, FALSE));
-                SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
+                SetLocalInt(OBJECT_SELF, "state", IN_CONVERSATION_STATE);
                 return;
             }
 
@@ -148,13 +148,13 @@ void startConversation(int state, object oPC, object highDruid) {
             AssignCommand(highDruid,
                 ActionStartConversation(partyDruid,
                 "_moonpool01con03", FALSE, FALSE));
-            SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
+            SetLocalInt(OBJECT_SELF, "state", IN_CONVERSATION_STATE);
             return;
         }
 
         AssignCommand(highDruid, ActionStartConversation(oPC,
                                 "_moonpool01con01", FALSE, FALSE));
-        SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
+        SetLocalInt(OBJECT_SELF, "state", IN_CONVERSATION_STATE);
     }
 }
 
@@ -233,6 +233,7 @@ void main()
         }
     } else if(state == CONVERSATION_STATE) {
         if(!IsInConversation(highDruid)) {
+            AssignCommand(highDruid, ClearAllActions());
             startConversation(state, oPC, highDruid);
         }
     } else if (state == ATTACK_STATE) {
