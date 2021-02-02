@@ -1,9 +1,33 @@
+#include "_btb_util"
 #include "_btb_moonwellcon"
 #include "_btb_moonwelluti"
 #include "_btb_moonwellspa"
 #include "_btb_moonwelltal"
 #include "_btb_moonwellint"
 #include "_btb_moonwelllea"
+
+/**
+ *  Check if no PCs in area if there are none clean up.
+ */
+int checkCleanUp(object obHbObj, object highDruid, object Druid01,
+                  object Druid02, object Druid03, object Druid04,
+                  object light) {
+
+    object firstPCInArea = GetFirstPCInArea(GetArea(obHbObj));
+    if(firstPCInArea == OBJECT_INVALID) {
+        DestroyObject(highDruid, 1.0);
+        DestroyObject(Druid01, 1.0);
+        DestroyObject(Druid02, 1.0);
+        DestroyObject(Druid03, 1.0);
+        DestroyObject(Druid04, 1.0);
+        DestroyObject(light, 1.0);
+        DestroyObject(obHbObj, 1.1);
+        WriteTimestampedLogEntry("No PCs in the area tearing everything down.");
+        return TRUE;
+    }
+
+    return FALSE;
+}
 
 void main()
 {
@@ -26,6 +50,11 @@ void main()
     if(InCombat(highDruid, Druid01, Druid02, Druid03, Druid04)) {
         WriteTimestampedLogEntry("In Combat Exit");
         return ;
+    }
+
+    // check if we need to clean things up.
+    if(checkCleanUp(obHbObj,highDruid,Druid01,Druid02,Druid03,Druid04,light)) {
+        return;
     }
 
     // if a dm has disabled the scene or its not in progress skip out.

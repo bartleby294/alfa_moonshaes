@@ -244,7 +244,7 @@ int getXPForLevel(int xp) {
 object GetFirstPCInArea(object oAreaTest)
 {
     object oPCTestValid = GetFirstPC();
-    while(GetArea(oPCTestValid)!=oAreaTest&&GetIsObjectValid(oPCTestValid))
+    while(GetArea(oPCTestValid) != oAreaTest && GetIsObjectValid(oPCTestValid))
         oPCTestValid = GetNextPC();
     return(oPCTestValid);
 }
