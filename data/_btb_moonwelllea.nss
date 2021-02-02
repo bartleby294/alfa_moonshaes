@@ -21,6 +21,8 @@ void druidsLeave(object oPC, object obHbObj, object highDruid, object Druid01,
         return;
     }
 
+    DestroyObject(light, 1.0);
+
     // in case druids get hung up on something despawn after timer.
     int leaveCnt = GetLocalInt(obHbObj, "leaveCnt");
     SetLocalInt(obHbObj, "leaveCnt", leaveCnt = leaveCnt + 1);
