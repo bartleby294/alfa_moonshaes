@@ -1,6 +1,5 @@
 void main()
 {
-    ExecuteScript("ms_on_area_enter");
     object spawnWP = GetObjectByTag("moonwell_hb_spawn_loc_1");
     object obHbObj = GetNearestObjectByTag("moonwell01onhbob", spawnWP);
 
@@ -16,4 +15,7 @@ void main()
                         GetLocation(spawnWP));
         WriteTimestampedLogEntry("Create moonwell rock.");
     }
+
+    ExecuteScript("ms_on_area_enter");
+
 }
