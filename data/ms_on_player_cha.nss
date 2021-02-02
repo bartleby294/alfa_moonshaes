@@ -1,14 +1,8 @@
 #include "_moonwell01const"
 #include "_btb_moonwelluti"
 
-// use this so sparingly!!!
-void main()
-{
-    object oPC = GetPCChatSpeaker();
-    if(!GetIsPC(oPC)){
-        return;
-    }
 
+void callDruid(object oPC) {
     string sCommand = GetStringLowerCase(GetPCChatMessage());
     while((sCommand != "") && (GetStringLeft(sCommand, 1) == " ")) {
         sCommand = GetStringRight(sCommand, GetStringLength(sCommand) -1);
@@ -26,25 +20,29 @@ void main()
                 || state == ATTACKING_STATE){
                 return;
             }
-            WriteTimestampedLogEntry("********************************************");
+            SetLocalInt(obHbObj, "state", SPAWN_STATE);
+            SetLocalObject(obHbObj, "oPC", oPC);
+            WriteTimestampedLogEntry("###############################################");
             WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
-            object oArea = OBJECT_SELF;
-            object oObject = GetFirstObjectInArea(oArea);
-            while(GetIsObjectValid(oObject))
-            {
-                 // Destroy any objects tagged "DESTROY"
-                 if(GetTag(oObject) == "moonwell01onhbob")
-                 {
-                    SetLocalInt(oObject, "state", SPAWN_STATE);
-                    SetLocalObject(obHbObj, "oPC", oPC);
-                    WriteTimestampedLogEntry("###############################################");
-                    WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(oObject));
-                    WriteTimestampedLogEntry("State Change From: " + getState(state) +
-                                             " To: " + getState(SPAWN_STATE));
-                 }
-                 oObject = GetNextObjectInArea(oArea);
-            }
+            WriteTimestampedLogEntry("State Change From: " + getState(state) +
+                                     " To: " + getState(SPAWN_STATE));
+
         }
+    }
+}
+
+
+// use this so sparingly!!!
+void main()
+{
+    object oPC = GetPCChatSpeaker();
+    if(!GetIsPC(oPC)){
+        return;
+    }
+
+    // If were in caer corwell try to call for the druids.
+    if(GetTag(GetArea(oPC)) == "caer_corwell") {
+        callDruid(oPC);
     }
 
 }
