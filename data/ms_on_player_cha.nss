@@ -21,10 +21,13 @@ void main()
         float druidDist = GetDistanceBetween(obHbObj, oPC);
         SendMessageToPC(oPC, "druidDist Dist: " + FloatToString(druidDist));
         if(druidDist > 0.0 && druidDist < 15.0) {
+            int state = GetLocalInt(obHbObj, "state");
+            if(state == DM_DISABLED_STATE || state == NO_STATE  || state == DONE_STATE
+                || state == ATTACKING_STATE){
+                return;
+            }
             SetLocalInt(obHbObj, "state", SPAWN_STATE);
             SetLocalObject(obHbObj, "oPC", oPC);
-
-            int state = GetLocalInt(obHbObj, "state");
             WriteTimestampedLogEntry("+++++++++++++++++++++++++++++++++++++++++++++++");
             WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
             WriteTimestampedLogEntry("State Change From: " + getState(state) +
