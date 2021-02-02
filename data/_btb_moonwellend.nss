@@ -10,7 +10,7 @@ void main()
     WriteTimestampedLogEntry("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
     WriteTimestampedLogEntry("State Change From: " + getState(state) +
-                             " To: " + getState(SPAWN_STATE));
+                             " To: " + getState(LEAVING_STATE));
 
-    SetLocalInt(obHbObj, "state", SPAWN_STATE);
+    SetLocalInt(obHbObj, "state", LEAVING_STATE);
 }
