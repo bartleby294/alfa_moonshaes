@@ -2,11 +2,18 @@ void main()
 {
     ExecuteScript("ms_on_area_enter");
     object spawnWP = GetObjectByTag("moonwell_hb_spawn_loc_1");
-    object druidHBObj = GetNearestObjectByTag("moonwell01onhbob", spawnWP);
+    object obHbObj = GetNearestObjectByTag("moonwell01onhbob", spawnWP);
 
-    if(druidHBObj == OBJECT_INVALID
-        || GetArea(druidHBObj) != GetArea(OBJECT_SELF)) {
+    WriteTimestampedLogEntry("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+    WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
+    if(obHbObj == OBJECT_INVALID) {
+        WriteTimestampedLogEntry("WARN: obHbObj == OBJECT_INVALID" );
+    }
+
+    if(obHbObj == OBJECT_INVALID
+        || GetArea(obHbObj) != GetArea(OBJECT_SELF)) {
         CreateObject(OBJECT_TYPE_PLACEABLE, "moonwell01onhbob",
                         GetLocation(spawnWP));
+        WriteTimestampedLogEntry("Create moonwell rock.");
     }
 }
