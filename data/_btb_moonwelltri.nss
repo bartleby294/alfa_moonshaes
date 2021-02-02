@@ -9,10 +9,23 @@ void main() {
     if(!GetIsPC(oPC) || state != NO_STATE){
         return;
     }
-    SetLocalInt(obHbObj, "state", SPAWN_STATE);
-    SetLocalObject(obHbObj, "oPC", oPC);
-    WriteTimestampedLogEntry("###############################################");
+    WriteTimestampedLogEntry("********************************************");
     WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
-    WriteTimestampedLogEntry("State Change From: " + getState(state) +
-                             " To: " + getState(SPAWN_STATE));
+
+    object oArea = OBJECT_SELF;
+    object oObject = GetFirstObjectInArea(oArea);
+    while(GetIsObjectValid(oObject))
+    {
+         // Destroy any objects tagged "DESTROY"
+         if(GetTag(oObject) == "moonwell01onhbob")
+         {
+            SetLocalInt(obHbObj, "state", SPAWN_STATE);
+            SetLocalObject(obHbObj, "oPC", oPC);
+            WriteTimestampedLogEntry("###############################################");
+            WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(oObject));
+            WriteTimestampedLogEntry("State Change From: " + getState(state) +
+                                     " To: " + getState(SPAWN_STATE));
+         }
+         oObject = GetNextObjectInArea(oArea);
+    }
 }
