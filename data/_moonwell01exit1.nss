@@ -6,7 +6,7 @@ void main() {
     object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
 
     int state = GetLocalInt(obHbObj, "state");
-    if(state == DM_DISABLED_STATE || state == NO_STATE  || state == DONE_STATE
+    if(state == DM_DISABLED_STATE || state == DONE_STATE
         || state == ATTACKING_STATE){
         return;
     }
