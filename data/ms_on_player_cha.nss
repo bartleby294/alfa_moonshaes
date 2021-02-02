@@ -22,8 +22,8 @@ void main()
         SendMessageToPC(oPC, "druidDist Dist: " + FloatToString(druidDist));
         if(druidDist > 0.0 && druidDist < 15.0) {
             int state = GetLocalInt(obHbObj, "state");
-            if(state == DM_DISABLED_STATE || state == DONE_STATE
-                || state == ATTACKING_STATE){
+            if(!GetIsPC(oPC) || state == DM_DISABLED_STATE
+                || state == DONE_STATE || state == ATTACKING_STATE){
                 return;
             }
             SetLocalInt(obHbObj, "state", SPAWN_STATE);
