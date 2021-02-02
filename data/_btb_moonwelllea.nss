@@ -37,7 +37,9 @@ void druidsLeave(object oPC, object obHbObj, object highDruid, object Druid01,
                                                        "Druid03DespawnLoc");
     location Druid04DespawnLoc = GetLocalLocation(obHbObj,
                                                        "Druid04DespawnLoc");
+    location WalkLoc = GetLocalLocation(obHbObj, "WalkLoc");
 
+    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc));
     AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc));
     AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc));
     AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc));

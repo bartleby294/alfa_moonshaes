@@ -16,7 +16,6 @@ void main() {
     object oObject = GetFirstObjectInArea(oArea);
     while(GetIsObjectValid(oObject))
     {
-         // Destroy any objects tagged "DESTROY"
          if(GetTag(oObject) == "moonwell01onhbob")
          {
             SetLocalInt(obHbObj, "state", SPAWN_STATE);
