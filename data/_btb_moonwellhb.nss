@@ -8,7 +8,7 @@
 void main()
 {
     object obHbObj = OBJECT_SELF;
-    object highDruid = GetNearestObjectByTag("moonwelldruid");
+    object highDruid = GetNearestObjectByTag("moonwelldruid000");
     object Druid01 = GetNearestObjectByTag("moonwelldruid001");
     object Druid02 = GetNearestObjectByTag("moonwelldruid002");
     object Druid03 = GetNearestObjectByTag("moonwelldruid003");

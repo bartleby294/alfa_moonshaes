@@ -4,8 +4,8 @@
 
 #include "x0_i0_position"
 
-location GetDruidWalkLocation(object playerToTalkTo) {
-    return pickSpawnLoc(OBJECT_SELF, playerToTalkTo, 1.0, 0.0);
+location GetDruidWalkLocation(object playerToTalkTo, object obHbObj) {
+    return pickSpawnLoc(obHbObj, playerToTalkTo, 1.0, 0.0);
 }
 
 int druidLevel(object oPC) {
@@ -92,10 +92,13 @@ void startConversation(int state, object oPC, object highDruid, object obHbObj){
 
     object playerToTalkTo = getPlayerToTalkTo(oPC);
     location WalkLoc = GetLocalLocation(obHbObj, "WalkLoc");
-    location druidTalkLoc = GetDruidWalkLocation(playerToTalkTo);
+    location druidTalkLoc = GetDruidWalkLocation(playerToTalkTo, obHbObj);
     float pcDist = GetDistanceBetweenLocations(GetLocation(highDruid),
                                                GetLocation(playerToTalkTo));
-    if(pcDist < 5.0) {
+    if(pcDist == -1.0) {
+        WriteTimestampedLogEntry("WARN: pcDist == -1");
+    } else if(pcDist < 5.0) {
+        WriteTimestampedLogEntry("PC Distance < 5.0");
         if(druidLevel(playerToTalkTo) > 0
             && GetLocalInt(playerToTalkTo, "Moonwell01Known") == 1) {
             // Execute I know you Druid Hello
@@ -115,6 +118,7 @@ void startConversation(int state, object oPC, object highDruid, object obHbObj){
         SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
     } else {
         // Clear all current commands set new queue
+        WriteTimestampedLogEntry("PC Distance > 5.0");
         AssignCommand(highDruid, ClearAllActions());
         if(goToWalkLocation(highDruid, playerToTalkTo, obHbObj,
                                            WalkLoc, druidTalkLoc)) {
