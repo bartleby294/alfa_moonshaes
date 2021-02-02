@@ -71,6 +71,4 @@ void main()
     oItemToTake = GetItemPossessedBy(GetPCSpeaker(), "BatWing");
     if(GetIsObjectValid(oItemToTake) != 0)
         DestroyObject(oItemToTake);
-
-    moonwellDruidsLeave();
 }

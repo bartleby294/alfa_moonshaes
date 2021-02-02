@@ -105,7 +105,7 @@ void startConversation(int state, object oPC, object highDruid) {
         AssignCommand(highDruid, ActionMoveToLocation(druidTalkLoc));
     } else {
         float pcAngel =GetAngleBetweenLocations(highDruidLoc,playerToTalkToLoc);
-        float walkAngel = GetAngleBetweenLocations(highDruidLoc, WalkLoc);
+        float walkAngel = f(highDruidLoc, WalkLoc);
 
         // if the abs of the diff in angels is less than 55 its in front enough
         if(absFloat(pcAngel - walkAngel) < 55.0) {
@@ -140,7 +140,7 @@ void startConversation(int state, object oPC, object highDruid) {
                 AssignCommand(highDruid,
                     ActionStartConversation(partyDruid,
                     "_moonpool01con02", FALSE, FALSE));
-                SetLocalInt(OBJECT_SELF, "state", IN_CONVERSATION_STATE);
+                SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
                 return;
             }
 
@@ -148,13 +148,13 @@ void startConversation(int state, object oPC, object highDruid) {
             AssignCommand(highDruid,
                 ActionStartConversation(partyDruid,
                 "_moonpool01con03", FALSE, FALSE));
-            SetLocalInt(OBJECT_SELF, "state", IN_CONVERSATION_STATE);
+            SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
             return;
         }
 
         AssignCommand(highDruid, ActionStartConversation(oPC,
                                 "_moonpool01con01", FALSE, FALSE));
-        SetLocalInt(OBJECT_SELF, "state", IN_CONVERSATION_STATE);
+        SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
     }
 }
 
