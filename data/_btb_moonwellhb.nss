@@ -15,6 +15,8 @@ int checkCleanUp(object obHbObj, object highDruid, object Druid01,
 
     object firstPCInArea = GetFirstPCInArea(GetArea(obHbObj));
     if(firstPCInArea == OBJECT_INVALID) {
+        object wisp = GetNearestObjectByTag("moonwellwisp");
+        DestroyObject(wisp);
         DestroyObject(highDruid, 1.0);
         DestroyObject(Druid01, 1.0);
         DestroyObject(Druid02, 1.0);
@@ -82,6 +84,11 @@ void main()
         if(!IsInConversation(highDruid)) {
             startConversation(state, oPC, highDruid, obHbObj);
         }
+    } else if (state == WARN_STATE) {
+        string warnStr = "Leave now this is your final warning!";
+        AssignCommand(highDruid, SpeakString(warnStr));
+        SendMessageToPC(oPC, "High Druid: " + warnStr);
+        SetLocalInt(OBJECT_SELF, "state", ATTACK_STATE);
     } else if (state == ATTACK_STATE) {
             WriteTimestampedLogEntry("In Attack State");
             AssignCommand(highDruid, SpeakString(

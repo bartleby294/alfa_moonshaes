@@ -103,11 +103,13 @@ void startConversation(int state, object oPC, object highDruid, object obHbObj){
             && GetLocalInt(playerToTalkTo, "Moonwell01Known") == 1) {
             // Execute I know you Druid Hello
             AssignCommand(highDruid, ActionStartConversation(playerToTalkTo,
-                                             "_btb_moon_con02", FALSE, FALSE));
+                                            "_btb_moon_con01", FALSE, FALSE));
+                                            //"_btb_moon_con02", FALSE, FALSE));
         } else if (druidLevel(playerToTalkTo) > 0) {
             // Execute Generic Druid Hello
             AssignCommand(highDruid, ActionStartConversation(playerToTalkTo,
-                                             "_btb_moon_con03", FALSE, FALSE));
+                                            "_btb_moon_con01", FALSE, FALSE));
+                                            // "_btb_moon_con03", FALSE, FALSE));
         } else {
             // Execute Generic Hello
             AssignCommand(highDruid, ActionStartConversation(playerToTalkTo,
@@ -116,6 +118,10 @@ void startConversation(int state, object oPC, object highDruid, object obHbObj){
         WriteTimestampedLogEntry("State Change From: " + getState(state) +
                          " To: " + getState(CONVERSATION_STATE));
         SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
+    } else if (pcDist > 15.0) {
+        WriteTimestampedLogEntry("PC Distance > 15.0");
+        AssignCommand(highDruid, ClearAllActions());
+        AssignCommand(highDruid, ActionMoveToLocation(WalkLoc));
     } else {
         // Clear all current commands set new queue
         WriteTimestampedLogEntry("PC Distance > 5.0");
