@@ -12,8 +12,8 @@ void main() {
     }
     SetLocalInt(obHbObj, "state", SPAWN_STATE);
     SetLocalObject(obHbObj, "oPC", oPC);
-    WriteTimestampedLogEntry("###############################################");
-    WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
-    WriteTimestampedLogEntry("State Change From: " + getState(state) +
-                             " To: " + getState(SPAWN_STATE));
+    //WriteTimestampedLogEntry("###############################################");
+    //WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
+    //WriteTimestampedLogEntry("State Change From: " + getState(state) +
+    //                         " To: " + getState(SPAWN_STATE));
 }

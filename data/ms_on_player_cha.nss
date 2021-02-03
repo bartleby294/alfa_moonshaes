@@ -24,10 +24,10 @@ void callDruid(object oPC) {
             SetLocalObject(obHbObj, "oPC", oPC);
             SetLocalInt(obHbObj, "leaveCnt", 0);
             SetLocalInt(obHbObj, "timer", 0);
-            WriteTimestampedLogEntry("###############################################");
-            WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
-            WriteTimestampedLogEntry("State Change From: " + getState(state) +
-                                     " To: " + getState(SPAWN_STATE));
+            //WriteTimestampedLogEntry("###############################################");
+            //WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
+            //WriteTimestampedLogEntry("State Change From: " + getState(state) +
+            //                         " To: " + getState(SPAWN_STATE));
 
         }
     }

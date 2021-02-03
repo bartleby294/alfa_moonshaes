@@ -11,8 +11,8 @@ void moonwellSpawn(object oPC, object obHbObj, object highDruid, object Druid01,
         return;
     }
 
-    WriteTimestampedLogEntry("State Change From: " + getState(state) +
-                             " To: " + getState(INTEROGATION_STATE));
+    //WriteTimestampedLogEntry("State Change From: " + getState(state) +
+    //                         " To: " + getState(INTEROGATION_STATE));
     SetLocalInt(obHbObj, "state", INTEROGATION_STATE);
 
     object moonwell = GetObjectByTag("ABoomingVoice2");
@@ -47,7 +47,7 @@ void moonwellSpawn(object oPC, object obHbObj, object highDruid, object Druid01,
 
     // Create our actors and props if they dont already exist.
     if(highDruid == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("Creating New High Druid");
+        //WriteTimestampedLogEntry("Creating New High Druid");
         highDruid = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid",
                                     HighDruidSpawnLoc,
                                     FALSE, "moonwelldruid000");
@@ -57,32 +57,32 @@ void moonwellSpawn(object oPC, object obHbObj, object highDruid, object Druid01,
         WriteTimestampedLogEntry("Using Existing High Druid");
     }
     if(Druid01 == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("Creating New Druid01");
+        //WriteTimestampedLogEntry("Creating New Druid01");
         Druid01 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid001",
                               Druid01SpawnLoc, FALSE, "moonwelldruid001");
     } else {
-        WriteTimestampedLogEntry("Using Existing Druid01");
+        //WriteTimestampedLogEntry("Using Existing Druid01");
     }
     if(Druid02 == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("Creating New Druid02");
+        //WriteTimestampedLogEntry("Creating New Druid02");
         Druid02 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid002",
                               Druid02SpawnLoc, FALSE, "moonwelldruid002");
     } else {
-        WriteTimestampedLogEntry("Using Existing Druid02");
+        //WriteTimestampedLogEntry("Using Existing Druid02");
     }
     if(Druid03 == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("Creating New Druid03");
+        //WriteTimestampedLogEntry("Creating New Druid03");
         Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
                               Druid03SpawnLoc, FALSE, "moonwelldruid003");
     } else {
         WriteTimestampedLogEntry("Using Existing Druid03");
     }
     if(Druid04 == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("Creating New Druid04");
+        //WriteTimestampedLogEntry("Creating New Druid04");
         Druid04 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid004",
                               Druid04SpawnLoc, FALSE, "moonwelldruid004");
     } else {
-        WriteTimestampedLogEntry("Using Existing Druid04");
+        //WriteTimestampedLogEntry("Using Existing Druid04");
     }
 
     object Light = CreateObject(OBJECT_TYPE_PLACEABLE, "alfa_shaftligt6",

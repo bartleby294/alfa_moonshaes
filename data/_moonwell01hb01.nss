@@ -44,7 +44,7 @@ void main()
     return;
     int state = GetLocalInt(OBJECT_SELF, "state");
     object oPC = GetLocalObject(OBJECT_SELF, "oPC");
-    WriteTimestampedLogEntry("State: " + IntToString(state));
+    //WriteTimestampedLogEntry("State: " + IntToString(state));
     object highDruid = GetNearestObjectByTag("MoonwellHighDruid");
     // if a dm has disabled the scene or its not in progress skip out.
     if(state == DM_DISABLED_STATE || state == NO_STATE) {

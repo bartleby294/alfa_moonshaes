@@ -160,7 +160,7 @@ void startConversation(int state, object oPC, object highDruid) {
 
 void logStr(string str) {
     string uuid = GetLocalString(OBJECT_SELF, "uuid");
-    WriteTimestampedLogEntry(uuid + ": " + str);
+    //WriteTimestampedLogEntry(uuid + ": " + str);
 }
 
 int InCombat(object highDruid, object Druid01, object Druid02,

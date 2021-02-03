@@ -7,10 +7,10 @@ void main()
     object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
 
     int state = GetLocalInt(obHbObj, "state");
-    WriteTimestampedLogEntry("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
-    WriteTimestampedLogEntry("State Change From: " + getState(state) +
-                             " To: " + getState(LEAVING_STATE));
+    //WriteTimestampedLogEntry("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    //WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
+    //WriteTimestampedLogEntry("State Change From: " + getState(state) +
+    //                         " To: " + getState(LEAVING_STATE));
 
     SetLocalInt(obHbObj, "state", LEAVING_STATE);
 }

@@ -34,8 +34,8 @@ void interogate(int timer, object highDruid, object oPC, object obHbObj,
         SetLocalInt(obHbObj, "timer", timer + 1);
     // they said they were going to attack.
     } else {
-        WriteTimestampedLogEntry("State Change From: " + getState(state) +
-                         " To: " + getState(ATTACK_STATE));
+        //WriteTimestampedLogEntry("State Change From: " + getState(state) +
+        //                 " To: " + getState(ATTACK_STATE));
         SetLocalInt(OBJECT_SELF, "state", ATTACK_STATE);
         SetLocalInt(obHbObj, "timer", 0);
     }
