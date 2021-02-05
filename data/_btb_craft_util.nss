@@ -1,6 +1,35 @@
 #include "_btb_craft_const"
 
 /*
+ *  Check if item is a craft weapon item.
+ */
+int IsCraftWeaponItem(string tag) {
+    if (tag == IRON_INGOT_TAG
+        || tag == SILVER_INGOT_TAG
+        || tag == COLD_INGOT_TAG
+        || tag == DARK_STEEL_INGOT_TAG
+        || tag == ADAMANTIUM_INGOT_TAG
+        || tag == MITHRAL_INGOT_TAG
+        || tag == OBSIDIAN_INGOT_TAG
+        || tag == POTION_OF_FIRE_BREATH_TAG
+        || tag == POTION_OF_ACID_BREATH_TAG
+        || tag == POTION_OF_COLD_BREATH_TAG
+        || tag == POTION_OF_ELEC_BREATH_TAG
+        || tag == GEM_RUBY
+        || tag == GEM_EMERALD
+        || tag == GEM_SAPHIRE
+        || tag == GEM_DIAMOND
+        || tag == FIRE_ELEMENTAL_ESSENCE
+        || tag == ACID_ELEMENTAL_ESSENCE
+        || tag == COLD_ELEMENTAL_ESSENCE
+        || tag == ELEC_ELEMENTAL_ESSENCE) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+
+/*
  * Check if an item is in inventory.
  */
 int HasItem(string sItem, object oObject=OBJECT_SELF) {
