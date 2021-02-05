@@ -12,4 +12,6 @@ void main()
     AssignCommand(gnome, ActionInteractObject(oChair) );
     AssignCommand(gnome, ActionSpeakString("*Goes back to books*") );
 
+    ExecuteScript("ms_on_area_enter");
+
 }

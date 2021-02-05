@@ -28,7 +28,7 @@ int createGemInChest(object chest, int goldAmount, int difficulty_lvl) {
 
 int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
     object tempInvObj = CreateObject(OBJECT_TYPE_PLACEABLE, "tempinventoryobj",
-                                     GetLocation(chest));
+                                                            GetLocation(chest));
     string randArmorResref = getRandomBaseArmor();
     object oArmor = CreateItemOnObject(randArmorResref, tempInvObj);
     //WriteTimestampedLogEntry("randomizeStyle");
@@ -38,9 +38,10 @@ int createArmorInChest(object chest, int goldAmount, int difficulty_lvl) {
     //WriteTimestampedLogEntry("GetGoldPieceValue");
     int iCost = GetGoldPieceValue(oArmor);
     //WriteTimestampedLogEntry("DestroyObject");
-    DestroyObject(oArmor);
+    DestroyObject(oArmor, 0.1);
     //WriteTimestampedLogEntry("DestroyObject");
-    DestroyObject(tempInvObj);
+    emptyChest(tempInvObj);
+    DestroyObject(tempInvObj, 1.0);
 
     if(iCost != 0 && iCost <= goldAmount) {
         //WriteTimestampedLogEntry("NWNX_Object_Deserialize");
@@ -86,8 +87,9 @@ int createWeaponInChest(object chest, int goldAmount, int difficulty_lvl) {
     object oWeapon = CreateItemOnObject(randWeaponResref, tempInvObj);
     string serializeWeapon = NWNX_Object_Serialize(RandomizeWeapon(oWeapon));
     int iCost = getItemCostFromTag(GetStringUpperCase(randWeaponResref));
-    DestroyObject(oWeapon);
-    DestroyObject(tempInvObj);
+    DestroyObject(oWeapon, 0.1);
+    emptyChest(tempInvObj);
+    DestroyObject(tempInvObj, 1.0);
 
     if(iCost != 0 && iCost <= goldAmount) {
         //WriteTimestampedLogEntry("Weapon NWNX_Object_Deserialize");

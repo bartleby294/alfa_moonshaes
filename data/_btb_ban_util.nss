@@ -163,6 +163,19 @@ float getBanditFacing(vector campfireVector, vector possibleStructureVector) {
     return VectorToAngle(direction);
 }
 
+int banditInArea(object oArea) {
+
+    object oObject = GetFirstObjectInArea(oArea);
+    while(GetIsObjectValid(oObject)) {
+         // Destroy any objects tagged "DESTROY"
+         if(GetStringRight(GetResRef(oObject), 10) == "m_bandit_1") {
+             return TRUE;
+         }
+         oObject = GetNextObjectInArea(oArea);
+    }
+
+    return FALSE;
+}
 string pickRace() {
 
     int roll = d100();
@@ -329,7 +342,7 @@ location selectLocationAroundFire(object oArea, location campfireLoc,
 
     possibleStructureLoc = Location(oArea,
         Vector(campfireVector.x + x, campfireVector.y+ y, z),
-            getFacing(campfireVector,
+            getBanditFacing(campfireVector,
                 GetPositionFromLocation(possibleStructureLoc)));
 
     return possibleStructureLoc;

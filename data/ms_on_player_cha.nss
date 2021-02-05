@@ -1,0 +1,50 @@
+#include "_moonwell01const"
+#include "_btb_moonwelluti"
+
+
+void callDruid(object oPC) {
+    string sCommand = GetStringLowerCase(GetPCChatMessage());
+    while((sCommand != "") && (GetStringLeft(sCommand, 1) == " ")) {
+        sCommand = GetStringRight(sCommand, GetStringLength(sCommand) -1);
+    }
+    SendMessageToPC(oPC, sCommand);
+    SendMessageToPC(oPC, GetStringLeft(sCommand, 10));
+    if(GetStringLeft(sCommand, 10) == "high druid") {
+        SendMessageToPC(oPC, "you said high druid");
+        object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
+        float druidDist = GetDistanceBetween(obHbObj, oPC);
+        SendMessageToPC(oPC, "druidDist Dist: " + FloatToString(druidDist));
+        if(druidDist > 0.0 && druidDist < 15.0) {
+            int state = GetLocalInt(obHbObj, "state");
+            if(!GetIsPC(oPC) || state == DM_DISABLED_STATE
+                || state == ATTACKING_STATE){
+                return;
+            }
+            SetLocalInt(obHbObj, "state", SPAWN_STATE);
+            SetLocalObject(obHbObj, "oPC", oPC);
+            SetLocalInt(obHbObj, "leaveCnt", 0);
+            SetLocalInt(obHbObj, "timer", 0);
+            //WriteTimestampedLogEntry("###############################################");
+            //WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
+            //WriteTimestampedLogEntry("State Change From: " + getState(state) +
+            //                         " To: " + getState(SPAWN_STATE));
+
+        }
+    }
+}
+
+
+// use this so sparingly!!!
+void main()
+{
+    object oPC = GetPCChatSpeaker();
+    if(!GetIsPC(oPC)){
+        return;
+    }
+
+    // If were in caer corwell try to call for the druids.
+    if(GetTag(GetArea(oPC)) == "caer_corwell") {
+        callDruid(oPC);
+    }
+
+}

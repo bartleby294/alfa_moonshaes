@@ -8,6 +8,14 @@ int getItemCostFromTag(string tag) {
     return GetGoldPieceValue(GetObjectByTag(tag));
 }
 
+void emptyChest(object oChest) {
+    object oItem = GetFirstItemInInventory(oChest);
+    while (oItem != OBJECT_INVALID) {
+        DestroyObject(oItem);
+        oItem = GetNextItemInInventory(oChest);
+    }
+}
+
 /**
     Return a location some units of distance away on a straight line taking
     rotations into account.
@@ -236,7 +244,7 @@ int getXPForLevel(int xp) {
 object GetFirstPCInArea(object oAreaTest)
 {
     object oPCTestValid = GetFirstPC();
-    while(GetArea(oPCTestValid)!=oAreaTest&&GetIsObjectValid(oPCTestValid))
+    while(GetArea(oPCTestValid) != oAreaTest && GetIsObjectValid(oPCTestValid))
         oPCTestValid = GetNextPC();
     return(oPCTestValid);
 }
@@ -249,5 +257,18 @@ object GetNextPCInArea(object oAreaTest)
     while(GetArea(oPCTestValid)!=oAreaTest&&GetIsObjectValid(oPCTestValid))
         oPCTestValid = GetNextPC();
     return(oPCTestValid);
+}
+
+location GetMidPoint(location loc1, location loc2) {
+
+    object oArea = GetAreaFromLocation(loc1);
+    vector pos1 = GetPositionFromLocation(loc1);
+    vector pos2 = GetPositionFromLocation(loc2);
+
+    float midX = (pos1.x + pos2.x) / 2;
+    float midY = (pos1.y + pos2.y) / 2;
+    float midZ = GetGroundHeight(Location(oArea, Vector(midX, midY, 0.0), 0.0));
+
+    return Location(oArea, Vector(midX, midY, midZ), 0.0);
 }
 

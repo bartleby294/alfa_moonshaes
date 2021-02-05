@@ -1,6 +1,8 @@
 #include "_btb_util"
 #include "nw_i0_generic"
 #include "_moonwell01const"
+#include "x0_i0_position"
+#include "_moonwell01spawn"
 
 int druidLevel(object oPC) {
     int i = 1;
@@ -77,16 +79,50 @@ void attack(object highDruid, object oPC) {
     SetLocalInt(OBJECT_SELF, "state", ATTACKING_STATE);
 }
 
+location GetDruidWalkLocation(object playerToTalkTo) {
+    return pickSpawnLoc(OBJECT_SELF, playerToTalkTo, 1.0, 0.0);
+}
+
 void startConversation(int state, object oPC, object highDruid) {
+    object playerToTalkTo = oPC;
     object partyDruid = highestLevelKnownDruid(oPC);
-    AssignCommand(highDruid, ClearAllActions());
-    effect Walk = EffectMovementSpeedDecrease(50);
-    ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);
-    SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
+
+    if(partyDruid != OBJECT_INVALID) {
+        playerToTalkTo =  partyDruid;
+    }
     location WalkLoc = GetLocalLocation(OBJECT_SELF, "WalkLoc");
-    location LightSpawnLoc = GetLocalLocation(OBJECT_SELF, "LightSpawnLoc");
-    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc, TRUE));
-    AssignCommand(highDruid, ActionMoveToLocation(LightSpawnLoc, TRUE));
+    location highDruidLoc = GetLocation(highDruid);
+    location playerToTalkToLoc = GetLocation(playerToTalkTo);
+
+    vector druidTalkVec = GetPositionFromLocation(playerToTalkToLoc);
+    location druidTalkLoc = GetDruidWalkLocation(playerToTalkTo);
+
+    // Decide where to walk to.
+    float pcDist = GetDistanceBetweenLocations(highDruidLoc, playerToTalkToLoc);
+    float walkDist=GetDistanceBetweenLocations(highDruidLoc, WalkLoc);
+
+    if(walkDist < 0.5) {
+        AssignCommand(highDruid, ActionMoveToLocation(druidTalkLoc));
+    } else {
+        float pcAngel =GetAngleBetweenLocations(highDruidLoc,playerToTalkToLoc);
+        float walkAngel = f(highDruidLoc, WalkLoc);
+
+        // if the abs of the diff in angels is less than 55 its in front enough
+        if(absFloat(pcAngel - walkAngel) < 55.0) {
+            float walkDist = GetDistanceBetweenLocations(highDruidLoc, WalkLoc);
+            AssignCommand(highDruid, ClearAllActions());
+            if(walkDist < pcDist) {
+                AssignCommand(highDruid, ActionMoveToLocation(WalkLoc));
+                AssignCommand(highDruid,ActionMoveToLocation(druidTalkLoc));
+            } else {
+                AssignCommand(highDruid,ActionMoveToLocation(druidTalkLoc));
+            }
+        // else if its not in front of us just move to player.
+        } else {
+            AssignCommand(highDruid, ActionMoveToLocation(druidTalkLoc));
+        }
+    }
+
     //This goes through to see if there is a druid in the party
     //If there is the High druid will address the druid of the party
     //It will also check to see if he knows the druid or other char if he does then another convo will trigger.
@@ -94,30 +130,57 @@ void startConversation(int state, object oPC, object highDruid) {
     // convo state = 1 -> theres a druid convo
     // convo state = 2 -> theres a druid i know convo
     // convo state = 3 -> theres someone that isnt a druid and i dont know them.
-    if(partyDruid != OBJECT_INVALID) {
-        if(GetLocalInt(partyDruid, "Moonwell01Known") == 1)
-        {
-           //Execute I know you Druid Hello
+
+    // If within range start conversation.
+    if(pcDist < 5.0) {
+        if(partyDruid != OBJECT_INVALID) {
+            if(GetLocalInt(partyDruid, "Moonwell01Known") == 1)
+            {
+               //Execute I know you Druid Hello
+                AssignCommand(highDruid,
+                    ActionStartConversation(partyDruid,
+                    "_moonpool01con02", FALSE, FALSE));
+                SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
+                return;
+            }
+
+            //Execute Generic Druid Hello
             AssignCommand(highDruid,
                 ActionStartConversation(partyDruid,
-                "_moonpool01con02", FALSE, FALSE));
+                "_moonpool01con03", FALSE, FALSE));
+            SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
             return;
         }
 
-        //Execute Generic Druid Hello
-        AssignCommand(highDruid,
-            ActionStartConversation(partyDruid,
-            "_moonpool01con03", FALSE, FALSE));
-        return;
+        AssignCommand(highDruid, ActionStartConversation(oPC,
+                                "_moonpool01con01", FALSE, FALSE));
+        SetLocalInt(OBJECT_SELF, "state", CONVERSATION_STATE);
     }
-
-    AssignCommand(highDruid, ActionStartConversation(oPC,
-                            "_moonpool01con01", FALSE, FALSE));
 }
 
 void logStr(string str) {
     string uuid = GetLocalString(OBJECT_SELF, "uuid");
-    WriteTimestampedLogEntry(uuid + ": " + str);
+    //WriteTimestampedLogEntry(uuid + ": " + str);
+}
+
+int InCombat(object highDruid, object Druid01, object Druid02,
+              object Druid03, object Druid04) {
+    if(GetIsInCombat(highDruid)) {
+        return TRUE;
+    }
+    if(GetIsInCombat(Druid01)) {
+        return TRUE;
+    }
+    if(GetIsInCombat(Druid02)) {
+        return TRUE;
+    }
+    if(GetIsInCombat(Druid03)) {
+        return TRUE;
+    }
+    if(GetIsInCombat(Druid04)) {
+        return TRUE;
+    }
+    return FALSE;
 }
 
 void main()
@@ -130,16 +193,27 @@ void main()
 
     int state = GetLocalInt(OBJECT_SELF, "state");
     object oPC = GetLocalObject(OBJECT_SELF, "oPC");
+    SendMessageToPC(oPC, "state: " + IntToString(state) + " uuid: " + uuid);
     object light = GetLocalObject(OBJECT_SELF, "lightobject");
     logStr("State: " + IntToString(state));
     object highDruid = GetLocalObject(OBJECT_SELF, "highDruid");
+    object Druid01 = GetLocalObject(OBJECT_SELF, "Druid01");
+    object Druid02 = GetLocalObject(OBJECT_SELF, "Druid02");
+    object Druid03 = GetLocalObject(OBJECT_SELF, "Druid03");
+    object Druid04 = GetLocalObject(OBJECT_SELF, "Druid04");
+
+    if(InCombat(highDruid, Druid01, Druid02, Druid03, Druid04)) {
+        return ;
+    }
     // if a dm has disabled the scene or its not in progress skip out.
-    if(state == DM_DISABLED_STATE || state == NO_STATE) {
+    if(state == DM_DISABLED_STATE || state == NO_STATE  || state == DONE_STATE){
         return;
+    } else if(state == SPAWN_STATE) {
+        moonwellSpawn(oPC, OBJECT_SELF);
     // if the trigger has been tripped start interogating.
     } else if(state == INTEROGATION_STATE) {
          // the pc steped into the light
-         if(GetDistanceBetween(light, oPC) < 0.4) {
+         if(GetDistanceBetween(light, oPC) < 0.6) {
             startConversation(state, oPC, highDruid);
          } else {
             // get the timeer and do its thing.
@@ -156,6 +230,11 @@ void main()
                 attack(highDruid, oPC);
             }
             SetLocalInt(OBJECT_SELF, "timer", timer + 1);
+        }
+    } else if(state == CONVERSATION_STATE) {
+        if(!IsInConversation(highDruid)) {
+            AssignCommand(highDruid, ClearAllActions());
+            startConversation(state, oPC, highDruid);
         }
     } else if (state == ATTACK_STATE) {
         object oPC = GetFirstPCInArea(GetArea(OBJECT_SELF));
@@ -177,10 +256,23 @@ void main()
         SendMessageToPC(oPC, "High Druid: " + warnStr);
         SetLocalInt(OBJECT_SELF, "state", ATTACK_STATE);
     } else if (state == LEAVING_STATE) {
-        object Druid01 = GetObjectByTag("MoonwellDruid01");
-        object Druid02 = GetObjectByTag("MoonwellDruid02");
-        object Druid03 = GetObjectByTag("MoonwellDruid03");
-        object Druid04 = GetObjectByTag("MoonwellDruid04");
+        SendMessageToPC(oPC, "LEAVING_STATE");
+        float Druid01Dist = GetDistanceToObject(Druid01);
+        float Druid02Dist = GetDistanceToObject(Druid02);
+        float Druid03Dist = GetDistanceToObject(Druid03);
+        float Druid04Dist = GetDistanceToObject(Druid04);
+        float highDruidDist = GetDistanceToObject(highDruid);
+        if(Druid01Dist < 0.0 && Druid02Dist < 0.0
+            && Druid03Dist < 0.0 && Druid04Dist < 0.0
+            && highDruidDist < 0.0) {
+            SendMessageToPC(oPC, "DONE_STATE");
+            SetLocalInt(OBJECT_SELF, "state", DONE_STATE);
+            SetLocalInt(OBJECT_SELF, "leaveCnt", 0);
+            return;
+        }
+
+        int leaveCnt = GetLocalInt(OBJECT_SELF, "leaveCnt");
+        SetLocalInt(OBJECT_SELF, "leaveCnt", leaveCnt = leaveCnt + 1);
 
         location HighDruidDespawnLoc = GetLocalLocation(OBJECT_SELF,
                                                          "HighDruidDespawnLoc");
@@ -193,29 +285,51 @@ void main()
         location Druid04DespawnLoc = GetLocalLocation(OBJECT_SELF,
                                                            "Druid04DespawnLoc");
 
-        AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc,
-                                                                       FALSE));
-        AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc, FALSE));
-        AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc, FALSE));
-        AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc, FALSE));
-        AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc, FALSE));
+        AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc));
+        AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc));
+        AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc));
+        AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc));
+        AssignCommand(Druid04, ActionMoveToLocation(Druid04DespawnLoc));
 
-        DestroyObject(highDruid, 16.0);
-        DestroyObject(Druid01, 16.0);
-        DestroyObject(Druid02, 16.0);
-        DestroyObject(Druid03, 16.0);
-        DestroyObject(Druid04, 16.0);
-
-        DelayCommand(15.0, AssignCommand(highDruid,
-                                         SpeakString("Disapears into forest")));
-        DelayCommand(15.0, AssignCommand(Druid01,
-                                         SpeakString("Disapears into forest")));
-        DelayCommand(15.0, AssignCommand(Druid02,
-                                         SpeakString("Disapears into forest")));
-        DelayCommand(15.0, AssignCommand(Druid03,
-                                         SpeakString("Disapears into forest")));
-        DelayCommand(15.0, AssignCommand(Druid04,
-                                        SpeakString("Disapears into forest")));
-        SetLocalInt(OBJECT_SELF, "state", DONE_STATE);
+        SendMessageToPC(oPC, "Druid01 Dist: " + FloatToString(Druid01Dist));
+        if(Druid01Dist > 20.0 || leaveCnt > 5) {
+            DelayCommand(1.0, AssignCommand(Druid01,
+                                       SpeakString("*Disapears into forest*")));
+            DestroyObject(Druid01, 3.0);
+            DelayCommand(3.1, SetLocalObject(OBJECT_SELF, "Druid01",
+                                                               OBJECT_INVALID));
+        }
+        SendMessageToPC(oPC, "Druid02 Dist: " + FloatToString(Druid02Dist));
+        if(Druid02Dist > 20.0 || leaveCnt > 5) {
+            DelayCommand(1.0, AssignCommand(Druid02,
+                                       SpeakString("*Disapears into forest*")));
+            DestroyObject(Druid02, 3.0);
+            DelayCommand(3.1, SetLocalObject(OBJECT_SELF, "Druid02",
+                                                               OBJECT_INVALID));
+        }
+        SendMessageToPC(oPC, "Druid03 Dist: " + FloatToString(Druid03Dist));
+        if(Druid03Dist > 20.0 || leaveCnt > 5) {
+            DelayCommand(1.0, AssignCommand(Druid03,
+                                       SpeakString("*Disapears into forest*")));
+            DestroyObject(Druid03, 3.0);
+            DelayCommand(3.1, SetLocalObject(OBJECT_SELF, "Druid03",
+                                                               OBJECT_INVALID));
+        }
+        SendMessageToPC(oPC, "Druid04 Dist: " + FloatToString(Druid04Dist));
+        if(Druid04Dist > 20.0 || leaveCnt > 5) {
+            DelayCommand(1.0, AssignCommand(Druid04,
+                                       SpeakString("*Disapears into forest*")));
+            DestroyObject(Druid04, 3.0);
+            DelayCommand(3.1, SetLocalObject(OBJECT_SELF, "Druid04",
+                                                               OBJECT_INVALID));
+        }
+        SendMessageToPC(oPC, "highDruid Dist: " + FloatToString(highDruidDist));
+        if(highDruidDist > 20.0 || leaveCnt > 5) {
+            DelayCommand(1.0, AssignCommand(highDruid,
+                                       SpeakString("*Disapears into forest*")));
+            DestroyObject(highDruid, 3.0);
+            DelayCommand(3.1, SetLocalObject(OBJECT_SELF, "highDruid",
+                                                               OBJECT_INVALID));
+        }
     }
 }

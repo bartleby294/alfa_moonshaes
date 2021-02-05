@@ -21,13 +21,13 @@ void RandomlyWalkToCorn(){
 }
 
 void MovementDec() {
-    WriteTimestampedLogEntry("FARMER slowing Movement");
+    //WriteTimestampedLogEntry("FARMER slowing Movement");
     effect eSpeedDown = EffectMovementSpeedDecrease(50);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedDown, OBJECT_SELF);
 }
 
 void MovementReset() {
-    WriteTimestampedLogEntry("FARMER Resetting Movement");
+    //WriteTimestampedLogEntry("FARMER Resetting Movement");
     effect eSpeedUp = EffectMovementSpeedIncrease(99);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSpeedUp, OBJECT_SELF);
 }
