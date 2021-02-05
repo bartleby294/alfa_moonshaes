@@ -631,7 +631,7 @@ void main()
 
     // Get base mod dc
     int iModDC = GetBaseModDC();
-    if(iModDC = -1) {
+    if(iModDC == -1) {
         SendMessageToPC(oPC, "No Item Found ");
         return;
     } else {
