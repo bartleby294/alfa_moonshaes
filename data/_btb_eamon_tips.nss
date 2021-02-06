@@ -6,7 +6,9 @@ void main(){
     object eamon = GetNearestObjectByTag("Eamon", OBJECT_SELF);
     object oInvObj = GetFirstItemInInventory(OBJECT_SELF);
     while (GetIsObjectValid(oInvObj) == TRUE) {
-        foundJunk = TRUE;
+        if(GetBaseItemType(oInvObj) != BASE_ITEM_GOLD) {
+            foundJunk = TRUE;
+        }
         ActionGiveItem(oInvObj, GetLastClosedBy());
         oInvObj = GetNextItemInInventory(OBJECT_SELF);
     }

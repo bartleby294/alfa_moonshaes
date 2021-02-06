@@ -6,7 +6,7 @@ void main()
     object oWeapon = GetLastWeaponUsed(oPC);
     string sWeapon = GetTag(oWeapon);
 
-    if(!GetWeaponRanged(oWeapon)) {
+    if(GetBaseItemType(oWeapon) != BASE_ITEM_DART) {
         return;
     }
 
