@@ -5,11 +5,13 @@ void main(){
     int goldAmt = GetGold(OBJECT_SELF);
     object eamon = GetNearestObjectByTag("Eamon", OBJECT_SELF);
     object oInvObj = GetFirstItemInInventory(OBJECT_SELF);
+
+    TakeGold(goldAmt, OBJECT_SELF);
     while (GetIsObjectValid(oInvObj) == TRUE) {
         if(GetBaseItemType(oInvObj) != BASE_ITEM_GOLD) {
             foundJunk = TRUE;
+            ActionGiveItem(oInvObj, GetLastClosedBy());
         }
-        ActionGiveItem(oInvObj, GetLastClosedBy());
         oInvObj = GetNextItemInInventory(OBJECT_SELF);
     }
 
@@ -20,6 +22,4 @@ void main(){
     } else if(goldAmt) {
         AssignCommand(eamon, SpeakString("*smiles* Thank ye kindly."));
     }
-
-    TakeGold(goldAmt, OBJECT_SELF);
 }
