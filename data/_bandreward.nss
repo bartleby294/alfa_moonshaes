@@ -1,16 +1,18 @@
 #include "nw_i0_plot"
 #include "_btb_util"
 
+string sItemTag = "CopperBanditRing";
+
 int getXpToGive(int lvl) {
   switch (lvl) {
     case 1:
-      return 20;
+      return 30;
     case 2:
-      return 10;
+      return 20;
     case 3:
-      return 5;
+      return 10;
     case 4:
-      return 2;
+      return 5;
     default:
       return 1;
   }
@@ -18,26 +20,29 @@ int getXpToGive(int lvl) {
 }
 
 void main() {
-  object oPC = GetPCSpeaker();
-  AddJournalQuestEntry("k010", 1, oPC, FALSE, FALSE, FALSE);
-  //check inventory of oPC for oQuestItem and get iNumItems
-  string sMark = "ITEM_TAG";
-  int Corn = GetNumItems(oPC, "CopperBanditRing");
-  int i;
 
-  WriteTimestampedLogEntry("Corn Count: " + IntToString(Corn));
+    int i;
+    object oPC = GetPCSpeaker();
+    int itemCnt = GetNumItems(oPC, sItemTag);
 
-  for (i = 0; i < (Corn); i++) {
-    GiveGoldToCreature(oPC, 5);
-    GiveXPToCreature(oPC, getXpToGive(getXPForLevel(GetXP(oPC))));
-  }
-
-  // Remove all the corn
-  object curItem = GetFirstItemInInventory(oPC);
-  while(curItem != OBJECT_INVALID) {
-    if(GetTag(curItem) == "CopperBanditRing"){
-       DestroyObject(curItem);
+    // Log the player and the payout.
+    if(itemCnt > 0) {
+        WriteTimestampedLogEntry("ITEM HAND IN: " + GetName(oPC)
+            + " played by: " + GetPCPlayerName(oPC) + " turned in "
+            + IntToString(itemCnt) + sItemTag + "'s");
     }
-    curItem = GetNextItemInInventory(oPC);
-  }
+
+    for (i = 0; i < (itemCnt); i++) {
+        GiveGoldToCreature(oPC, 5);
+        GiveXPToCreature(oPC, getXpToGive(getXPForLevel(GetXP(oPC))));
+    }
+
+    // Remove all the objects
+    object curItem = GetFirstItemInInventory(oPC);
+    while(curItem != OBJECT_INVALID) {
+        if(GetTag(curItem) == sItemTag){
+            DestroyObject(curItem);
+        }
+        curItem = GetNextItemInInventory(oPC);
+    }
 }

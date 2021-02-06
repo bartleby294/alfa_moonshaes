@@ -1,74 +1,46 @@
-//::///////////////////////////////////////////////
-//:: FileName batsreward
-//:://////////////////////////////////////////////
-//:://////////////////////////////////////////////
-//:: Created By: Script Wizard
-//:: Created On: 0
-//:://////////////////////////////////////////////
 #include "nw_i0_plot"
-#include "_moonwelldrleave"
+#include "_btb_util"
 
-void main()
-{
-    //check inventory of oPC for oQuestItem and get iNumItems
-    string sMark = "ITEM_TAG";
-    int Wings = GetNumItems(GetPCSpeaker(), "BatWing");
-    int ilevel = GetHitDice(GetPCSpeaker());
+string sItemTag = "BatWing";
+
+int getXpToGive(int lvl) {
+  switch (lvl) {
+    case 1:
+      return 20;
+    case 2:
+      return 10;
+    case 3:
+      return 2;
+    default:
+      return 0;
+  }
+  return 0;
+}
+
+void main() {
+
     int i;
-    if (ilevel = 1)
-    {
-        for (i=0; i<(Wings); i++)
-            {
-    // Give the speaker some gold
-            GiveGoldToCreature(GetPCSpeaker(), 5);
+    object oPC = GetPCSpeaker();
+    int itemCnt = GetNumItems(oPC, sItemTag);
 
-    // Give the speaker some XP
-            GiveXPToCreature(GetPCSpeaker(), 20);
-
-            }
+    // Log the player and the payout.
+    if(itemCnt > 0) {
+        WriteTimestampedLogEntry("ITEM HAND IN: " + GetName(oPC)
+            + " played by: " + GetPCPlayerName(oPC) + " turned in "
+            + IntToString(itemCnt) + sItemTag + "'s");
     }
 
-    else if (ilevel = 2)
-    {
-        for (i=0; i<(Wings); i++)
-            {
-    // Give the speaker some gold
-            GiveGoldToCreature(GetPCSpeaker(), 5);
-
-    // Give the speaker some XP
-            GiveXPToCreature(GetPCSpeaker(), 10);
-
-            }
+    for (i = 0; i < (itemCnt); i++) {
+        GiveGoldToCreature(oPC, 5);
+        GiveXPToCreature(oPC, getXpToGive(getXPForLevel(GetXP(oPC))));
     }
 
-    else if (ilevel = 3)
-    {
-        for (i=0; i<(Wings); i++)
-            {
-    // Give the speaker some gold
-            GiveGoldToCreature(GetPCSpeaker(), 5);
-
-    // Give the speaker some XP
-            GiveXPToCreature(GetPCSpeaker(), 5);
-
-            }
+    // Remove all the objects
+    object curItem = GetFirstItemInInventory(oPC);
+    while(curItem != OBJECT_INVALID) {
+        if(GetTag(curItem) == sItemTag){
+            DestroyObject(curItem);
+        }
+        curItem = GetNextItemInInventory(oPC);
     }
-
-    else if (ilevel = 4)
-    {
-        for (i=0; i<(Wings); i++)
-            {
-    // Give the speaker some gold
-            GiveGoldToCreature(GetPCSpeaker(), 5);
-
-    // Give the speaker some XP
-            GiveXPToCreature(GetPCSpeaker(), 2);
-
-            }
-    }
-    // Remove items from the player's inventory
-    object oItemToTake;
-    oItemToTake = GetItemPossessedBy(GetPCSpeaker(), "BatWing");
-    if(GetIsObjectValid(oItemToTake) != 0)
-        DestroyObject(oItemToTake);
 }
