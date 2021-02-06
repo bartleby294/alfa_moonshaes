@@ -99,12 +99,16 @@ void RemoveWeaponProperty(object oWeapon, int iProperty)
     }
     return;
 }
-
+/**
+ *  Remove any objects associated with weapon crafting from the anvil.
+ */
 void CleanItems()
 {
     object oInventory = GetFirstItemInInventory(OBJECT_SELF);
     while (GetIsObjectValid(oInventory) == TRUE) {
-        DestroyObject(oInventory);
+        if(IsCraftWeaponItem(GetTag(oInventory))){
+            DestroyObject(oInventory);
+        }
         oInventory = GetNextItemInInventory(OBJECT_SELF);
     }
     return;
@@ -573,7 +577,6 @@ void main()
     int iValueDC;
     int iProperty;
     int iPropertyDC;
-    int i;
     itemproperty nProperty;
     int iDC = 20;
     int iDamage = 0;
