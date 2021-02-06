@@ -6,6 +6,10 @@ void main()
     object oWeapon = GetLastWeaponUsed(oPC);
     string sWeapon = GetTag(oWeapon);
 
+    if(!GetWeaponRanged(oWeapon)) {
+        return;
+    }
+
     int iDex = GetAbilityModifier(ABILITY_DEXTERITY,oPC);
     float fDistance = 0.2*GetDistanceBetween(OBJECT_SELF,oPC);
     int iDistance = FloatToInt(fDistance);
@@ -79,10 +83,9 @@ void main()
        SpeakString("A total score of " + sTot + " points.");
        iThrows = 0;
        iTot = 0;
-       CreateItemOnObject(GetResRef(oWeapon), oPC, 1);
     }
-    else
-       CreateItemOnObject(GetResRef(oWeapon), oPC, 1);
+
+    CreateItemOnObject(GetResRef(oWeapon), oPC, 1);
 
     SetLocalInt(OBJECT_SELF,"iscore",iTot);
     SetLocalInt(OBJECT_SELF,"ithrows",iThrows);

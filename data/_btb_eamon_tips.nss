@@ -11,7 +11,7 @@ void main(){
         oInvObj = GetNextItemInInventory(OBJECT_SELF);
     }
 
-    if(foundJunk && goldAmt) {
+    if(foundJunk == TRUE && goldAmt > 0) {
         AssignCommand(eamon, SpeakString("Thank ye but just the coin if ye please."));
     } else if(foundJunk) {
         AssignCommand(eamon, SpeakString("Crowns ifn ye dont mind."));
