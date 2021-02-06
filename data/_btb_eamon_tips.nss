@@ -6,11 +6,13 @@ void main(){
     object eamon = GetNearestObjectByTag("Eamon", OBJECT_SELF);
     object oInvObj = GetFirstItemInInventory(OBJECT_SELF);
 
-    TakeGold(goldAmt, OBJECT_SELF);
+
     while (GetIsObjectValid(oInvObj) == TRUE) {
         if(GetBaseItemType(oInvObj) != BASE_ITEM_GOLD) {
             foundJunk = TRUE;
             ActionGiveItem(oInvObj, GetLastClosedBy());
+        } else {
+            DestroyObject(oInvObj);
         }
         oInvObj = GetNextItemInInventory(OBJECT_SELF);
     }
