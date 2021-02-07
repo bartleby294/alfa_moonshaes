@@ -15,10 +15,8 @@
 
 void main()
 {
-  ALFA_OnClientEnter();
 
-  /**************** Add Custom Code Here ***************/
-   object oPC = GetEnteringObject();
+  object oPC = GetEnteringObject();
 
   // If new player move to new player WP
   if(GetLocalInt(oPC, "seenPCBefore") == 0){
@@ -26,6 +24,10 @@ void main()
         GetObjectByTag("WP_NEW_PC_START_LOCATION")));
     SetLocalInt(oPC, "seenPCBefore", 1);
   }
+
+  ALFA_OnClientEnter();
+
+  /**************** Add Custom Code Here ***************/
 
   // Give DMs an Omega Wand
   if ( GetIsObjectValid(GetItemPossessedBy(oPC, "omega_wand" ))==FALSE
