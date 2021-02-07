@@ -2,7 +2,7 @@
 
 void main()
 {
-    string shipStr = "corwell_anim_caravel_1";
+    string shipStr = "corwell_anim_caravel_2";
     object oCityShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
     int activated = GetLocalInt(oCityShip, "activated");
     NWNX_Visibility_SetVisibilityOverride(GetLastUsedBy(), oCityShip,
