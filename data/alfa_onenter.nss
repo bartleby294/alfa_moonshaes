@@ -20,8 +20,8 @@ void main()
 
   // If new player move to new player WP
   if(GetLocalInt(oPC, "seenPCBefore") == 0){
-    ActionJumpToLocation(GetLocation(
-        GetObjectByTag("WP_NEW_PC_START_LOCATION")));
+    AssignCommand(oPC, ActionJumpToLocation(GetLocation(
+        GetObjectByTag("WP_NEW_PC_START_LOCATION"))));
     SetLocalInt(oPC, "seenPCBefore", 1);
   }
 
