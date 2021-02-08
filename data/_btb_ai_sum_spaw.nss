@@ -72,6 +72,9 @@
 
 void main()
 {
+    int VFX_EFFECT = VFX_DUR_PARALYZED;  //Which VFX to use
+    effect eVis = EffectVisualEffect(VFX_EFFECT);
+    ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eVis, OBJECT_SELF, 500.0);
 
     SetListening(OBJECT_SELF,TRUE);
     SetListenPattern(OBJECT_SELF,"An ale please Eamon**",2002);
