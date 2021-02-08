@@ -747,7 +747,7 @@ void ALFA_RegisterALFAItems()
   ALFA_RegisterItem(ALFA_OBJ_TRANS_TOOL, "alfa_transtool", "", "", TRUE,
      TRUE, TRUE, FALSE);
 
-  ALFA_RegisterItem(ALFA_OBJ_EMOTE_ITEM_TAG, "emote_activ_item", "", "", TRUE,
+  ALFA_RegisterItem(ALFA_OBJ_EMOTE_ITEM_TAG, "em_activ_item_ms", "", "", TRUE,
      FALSE, TRUE, TRUE);
 
   ALFA_RegisterItem(ALFA_OBJ_HIDDEN_POCKET, "doa_hiddenpocket", "", "", TRUE,
