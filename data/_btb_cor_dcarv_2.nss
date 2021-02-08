@@ -4,7 +4,7 @@
 location GangPlankLocation(object blockerWP) {
     object oArea = GetArea(blockerWP);
     vector blockerPos = GetPosition(blockerWP);
-    float facing = GetFacing(blockerWP);
+    float facing = GetFacing(blockerWP) + 180;
     return Location(oArea,
                   Vector(blockerPos.x + 0.3, blockerPos.y + 3.13, 0.0), facing);
 }
@@ -16,7 +16,7 @@ void DockShip(object oBlockerWP){
 
 void main() {
 
-    float delay = 150.0;
+    float delay = 125.0;
     int time = NWNX_Time_GetTimeStamp();
     string shipStr = "corwell_anim_sm_ship_1";
     object oCityShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
