@@ -73,11 +73,6 @@
 void main()
 {
 
-    SetListening(OBJECT_SELF,TRUE);
-    SetListenPattern(OBJECT_SELF,"An ale please Eamon**",2002);
-    SetListenPattern(OBJECT_SELF,"An ale please Eamon**",2003);
-
-
 /************************ [Important Spawn Settings] **************************/
 
 //*************************** ALFA Mod

@@ -72,14 +72,9 @@
 
 void main()
 {
-    int VFX_EFFECT = VFX_DUR_PARALYZED;  //Which VFX to use
+    int VFX_EFFECT = VFX_IMP_BREACH;  //Which VFX to use
     effect eVis = EffectVisualEffect(VFX_EFFECT);
     ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eVis, OBJECT_SELF, 500.0);
-
-    SetListening(OBJECT_SELF,TRUE);
-    SetListenPattern(OBJECT_SELF,"An ale please Eamon**",2002);
-    SetListenPattern(OBJECT_SELF,"An ale please Eamon**",2003);
-
 
 /************************ [Important Spawn Settings] **************************/
 
@@ -87,7 +82,7 @@ void main()
     int nScaledInt = GetAbilityScore(OBJECT_SELF, ABILITY_INTELLIGENCE) / 2;
     if (nScaledInt < 1) nScaledInt = 1;
     else if (nScaledInt > 10) nScaledInt = 10;
-    PrintString("nScaledInt for this creature is " + IntToString(nScaledInt));
+    //PrintString("nScaledInt for this creature is " + IntToString(nScaledInt));
     SetAIInteger(AI_INTELLIGENCE, nScaledInt);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
 //*************************** End ALFA Mod
