@@ -72,9 +72,6 @@
 
 void main()
 {
-    int VFX_EFFECT = VFX_DUR_AURA_BLUE_LIGHT;  //Which VFX to use
-    effect eVis = EffectVisualEffect(VFX_EFFECT);
-    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eVis, OBJECT_SELF);
 
 /************************ [Important Spawn Settings] **************************/
 
@@ -655,4 +652,8 @@ void main()
     DelayCommand(f2, SpawnWalkWayPoints());
         // Delayed walk waypoints, as to not upset instant combat spawning.
         // This will also check if to change to day/night posts during the walking, no heartbeats.
+
+   int VFX_EFFECT = VFX_DUR_AURA_BLUE_LIGHT;  //Which VFX to use
+   effect eVis = EffectVisualEffect(VFX_EFFECT);
+   DelayCommand(1.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, eVis, OBJECT_SELF));
 }
