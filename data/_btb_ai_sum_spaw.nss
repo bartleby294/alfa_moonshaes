@@ -70,6 +70,13 @@
 #include "alfa_include"
 //*************** End ALFA Mod
 
+int IsWaterBreathing(string tag) {
+    if(tag == "wat_sum1") {
+        return TRUE;
+    }
+    return FALSE;
+}
+
 void main()
 {
 
@@ -650,22 +657,42 @@ void main()
 
     // Note: You shouldn't really remove this, even if they have no waypoints.
     DelayCommand(f2, SpawnWalkWayPoints());
-        // Delayed walk waypoints, as to not upset instant combat spawning.
-        // This will also check if to change to day/night posts during the walking, no heartbeats.
+    // Delayed walk waypoints, as to not upset instant combat spawning.
+    // This will also check if to change to day/night posts during the walking, no heartbeats.
 
-   int VFX_EFFECT = VFX_DUR_AURA_BLUE_LIGHT;  //Which VFX to use
-   effect eVis = EffectVisualEffect(VFX_EFFECT);
-   DelayCommand(2.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_GHOST_SMOKE_2")));
-   DelayCommand(2.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GHOST_SMOKE_2), OBJECT_SELF));
-   DelayCommand(12.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_GLOW_BLUE")));
-   DelayCommand(12.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GLOW_BLUE), OBJECT_SELF));
-   DelayCommand(22.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_LIGHT_WHITE_5")));
-   DelayCommand(22.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_LIGHT_WHITE_5), OBJECT_SELF));
+    string tag = GetTag(OBJECT_SELF);
+    object oArea = GetArea(OBJECT_SELF);
+    // check if water summoning if so make sure were under water if not unsummon
+    if(IsWaterBreathing(tag)) {
+        if(GetLocalInt(oArea, "AREA_UNDERWATER") != TRUE) {
+            AssignCommand(OBJECT_SELF,
+                             SpeakString("*Flops around and then disappears*"));
+            DestroyObject(OBJECT_SELF, 3.0);
+            return;
+        }
+    // if we are not water breathing make sure were not underwater.
+    } else {
+        if(GetLocalInt(oArea, "AREA_UNDERWATER") == TRUE) {
+            AssignCommand(OBJECT_SELF,
+                            SpeakString("*Gasps for air and then disappears*"));
+            DestroyObject(OBJECT_SELF, 3.0);
+            return;
+        }
+    }
 
-   //DelayCommand(5.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, eVis, OBJECT_SELF));
-   //DelayCommand(10.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_BLUR), OBJECT_SELF));
-   //DelayCommand(15.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GLYPH_OF_WARDING), OBJECT_SELF));
+    int VFX_EFFECT = VFX_DUR_LIGHT_WHITE_5;  //Which VFX to use
+    if(tag == "elesum1" || tag == "acsum1") {
+        VFX_EFFECT = VFX_DUR_LIGHT_RED_5;
+    }
 
+    effect eVis = EffectVisualEffect(VFX_EFFECT);
+    DelayCommand(1.0,
+              AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_LIGHT_WHITE_5")));
+    DelayCommand(1.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT,
+                       EffectVisualEffect(VFX_DUR_LIGHT_WHITE_5), OBJECT_SELF));
 
-
+   //DelayCommand(2.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_GHOST_SMOKE_2")));
+   //DelayCommand(2.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GHOST_SMOKE_2), OBJECT_SELF));
+   //DelayCommand(12.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_GLOW_BLUE")));
+   //DelayCommand(12.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GLOW_BLUE), OBJECT_SELF));
 }
