@@ -72,9 +72,9 @@
 
 void main()
 {
-    int VFX_EFFECT = VFX_IMP_BREACH;  //Which VFX to use
+    int VFX_EFFECT = VFX_DUR_AURA_BLUE_LIGHT;  //Which VFX to use
     effect eVis = EffectVisualEffect(VFX_EFFECT);
-    ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eVis, OBJECT_SELF, 500.0);
+    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eVis, OBJECT_SELF);
 
 /************************ [Important Spawn Settings] **************************/
 
