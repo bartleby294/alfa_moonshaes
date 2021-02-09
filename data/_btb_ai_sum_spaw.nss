@@ -655,5 +655,10 @@ void main()
 
    int VFX_EFFECT = VFX_DUR_AURA_BLUE_LIGHT;  //Which VFX to use
    effect eVis = EffectVisualEffect(VFX_EFFECT);
-   DelayCommand(1.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, eVis, OBJECT_SELF));
+   DelayCommand(5.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, eVis, OBJECT_SELF));
+   DelayCommand(10.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_BLUR), OBJECT_SELF));
+   DelayCommand(15.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GLYPH_OF_WARDING), OBJECT_SELF));
+
+
+   SpeakString("Trying to put VFX on things");
 }
