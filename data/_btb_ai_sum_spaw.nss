@@ -655,12 +655,12 @@ void main()
 
    int VFX_EFFECT = VFX_DUR_AURA_BLUE_LIGHT;  //Which VFX to use
    effect eVis = EffectVisualEffect(VFX_EFFECT);
-   AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_GHOST_SMOKE_2"));
-   ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GHOST_SMOKE_2), OBJECT_SELF);
-   DelayCommand(5.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_GLOW_BLUE")));
-   DelayCommand(5.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GLOW_BLUE), OBJECT_SELF));
-   DelayCommand(10.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_LIGHT_WHITE_5")));
-   DelayCommand(10.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_LIGHT_WHITE_5), OBJECT_SELF));
+   DelayCommand(2.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_GHOST_SMOKE_2")));
+   DelayCommand(2.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GHOST_SMOKE_2), OBJECT_SELF));
+   DelayCommand(12.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_GLOW_BLUE")));
+   DelayCommand(12.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GLOW_BLUE), OBJECT_SELF));
+   DelayCommand(22.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_LIGHT_WHITE_5")));
+   DelayCommand(22.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_LIGHT_WHITE_5), OBJECT_SELF));
 
    //DelayCommand(5.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, eVis, OBJECT_SELF));
    //DelayCommand(10.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_BLUR), OBJECT_SELF));
