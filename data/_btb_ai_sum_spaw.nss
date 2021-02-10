@@ -71,10 +71,35 @@
 //*************** End ALFA Mod
 
 int IsWaterBreathing(string tag) {
-    if(tag == "wat_sum1") {
+    if(tag == "wat_sum1" || tag == "wat_sum2") {
         return TRUE;
     }
     return FALSE;
+}
+
+int IsFeindish(string tag) {
+    if(tag == "elesum1" || tag == "acsum1" || tag == "wat_sum2") {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+int IsCelestial(string tag) {
+    if(tag == "wat_sum1" || tag == "firsum1" || tag ==  "holsum1"
+       || tag ==  "acsum2" || tag == "elesum2" || tag == "holsum2") {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+float GetScale(string tag) {
+    if(tag == "wat_sum1") {
+        return 0.5;
+    }
+    if(tag == "firsum2") {
+        return 0.5;
+    }
+    return 0.0;
 }
 
 void main()
@@ -667,7 +692,7 @@ void main()
         if(GetLocalInt(oArea, "AREA_UNDERWATER") != TRUE) {
             AssignCommand(OBJECT_SELF,
                              SpeakString("*Flops around and then disappears*"));
-            DestroyObject(OBJECT_SELF, 3.0);
+            DestroyObject(OBJECT_SELF, 4.0);
             return;
         }
     // if we are not water breathing make sure were not underwater.
@@ -675,25 +700,31 @@ void main()
         if(GetLocalInt(oArea, "AREA_UNDERWATER") == TRUE) {
             AssignCommand(OBJECT_SELF,
                             SpeakString("*Gasps for air and then disappears*"));
-            DestroyObject(OBJECT_SELF, 3.0);
+            DestroyObject(OBJECT_SELF, 4.0);
             return;
         }
     }
 
-    int VFX_EFFECT = VFX_DUR_LIGHT_WHITE_5;  //Which VFX to use
-    if(tag == "elesum1" || tag == "acsum1") {
+    int VFX_EFFECT = 0;
+    if(IsFeindish(tag)) {
         VFX_EFFECT = VFX_DUR_LIGHT_RED_5;
+    } else if (IsCelestial(tag)) {
+        VFX_EFFECT = VFX_DUR_LIGHT_WHITE_5;
     }
 
-    //if(tag == "firsum2") {
-    //    EffectDamageResistance
-    //}
+    if( VFX_EFFECT != 0) {
+        effect eVis = EffectVisualEffect(VFX_EFFECT);
+        //DelayCommand(1.0,
+        //      AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_LIGHT_WHITE_5")));
+        DelayCommand(1.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT,
+                       EffectVisualEffect(VFX_EFFECT), OBJECT_SELF));
+    }
 
-    effect eVis = EffectVisualEffect(VFX_EFFECT);
-    DelayCommand(1.0,
-              AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_LIGHT_WHITE_5")));
-    DelayCommand(1.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT,
-                       EffectVisualEffect(VFX_DUR_LIGHT_WHITE_5), OBJECT_SELF));
+    float scale = GetScale(tag);
+    if(scale != 0.0) {
+        SetObjectVisualTransform(OBJECT_SELF,
+                                 OBJECT_VISUAL_TRANSFORM_SCALE, scale);
+    }
 
    //DelayCommand(2.0, AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_GHOST_SMOKE_2")));
    //DelayCommand(2.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectVisualEffect(VFX_DUR_GHOST_SMOKE_2), OBJECT_SELF));
