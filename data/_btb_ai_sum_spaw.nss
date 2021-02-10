@@ -685,6 +685,10 @@ void main()
         VFX_EFFECT = VFX_DUR_LIGHT_RED_5;
     }
 
+    //if(tag == "firsum2") {
+    //    EffectDamageResistance
+    //}
+
     effect eVis = EffectVisualEffect(VFX_EFFECT);
     DelayCommand(1.0,
               AssignCommand(OBJECT_SELF, SpeakString("VFX_DUR_LIGHT_WHITE_5")));
