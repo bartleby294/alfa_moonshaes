@@ -9,6 +9,6 @@ void main()
     SetLocalFloat(oPlank, "rotateStart", rotateInc);
     AssignCommand(OBJECT_SELF, SpeakString(FloatToString(rotateInc)));
 
-    SetObjectVisualTransform(OBJECT_SELF,
-                                 OBJECT_VISUAL_TRANSFORM_ROTATE_Z, rotateInc);
+    SetObjectVisualTransform(oPlank,
+                                 OBJECT_VISUAL_TRANSFORM_ROTATE_X, rotateInc);
 }
