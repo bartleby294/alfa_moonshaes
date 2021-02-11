@@ -71,14 +71,15 @@
 //*************** End ALFA Mod
 
 int IsWaterBreathing(string tag) {
-    if(tag == "wat_sum1" || tag == "wat_sum2") {
+    if(tag == "wat_sum1" || tag == "wat_sum2" || tag == "wat_sum3") {
         return TRUE;
     }
     return FALSE;
 }
 
 int IsFeindish(string tag) {
-    if(tag == "elesum1" || tag == "acsum1" || tag == "wat_sum2") {
+    if(tag == "elesum1" || tag == "acsum1" || tag == "wat_sum2"
+       || tag == "wat_sum3" || tag == "acsum3") {
         return TRUE;
     }
     return FALSE;
@@ -86,7 +87,8 @@ int IsFeindish(string tag) {
 
 int IsCelestial(string tag) {
     if(tag == "wat_sum1" || tag == "firsum1" || tag ==  "holsum1"
-       || tag ==  "acsum2" || tag == "elesum2" || tag == "holsum2") {
+       || tag ==  "acsum2" || tag == "elesum2" || tag == "holsum2"
+       || tag == "elesum3" || tag == "holsum3") {
         return TRUE;
     }
     return FALSE;
