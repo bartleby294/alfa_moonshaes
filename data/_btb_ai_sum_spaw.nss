@@ -101,6 +101,9 @@ float GetScale(string tag) {
     if(tag == "firsum2") {
         return 0.5;
     }
+    if(tag == "acsum3") {
+        return 2.0;
+    }
     return 0.0;
 }
 
