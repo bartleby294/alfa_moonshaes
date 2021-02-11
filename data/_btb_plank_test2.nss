@@ -10,5 +10,5 @@ void main()
     AssignCommand(OBJECT_SELF, SpeakString(FloatToString(rotateInc)));
 
     SetObjectVisualTransform(oPlank,
-                                 OBJECT_VISUAL_TRANSFORM_ROTATE_X, rotateInc);
+                                 OBJECT_VISUAL_TRANSFORM_ROTATE_Y, rotateInc);
 }
