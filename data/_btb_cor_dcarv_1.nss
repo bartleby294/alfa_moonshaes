@@ -27,9 +27,9 @@ void main()
 location GangPlankLocation(object blockerWP) {
     object oArea = GetArea(blockerWP);
     vector blockerPos = GetPosition(blockerWP);
-    float facing = GetFacing(blockerWP) + 180;
+    float facing = GetFacing(blockerWP) + 90;
     return Location(oArea,
-                  Vector(blockerPos.x + 0.0, blockerPos.y + 4.5, 90.0), facing);
+                  Vector(blockerPos.x + 0.0, blockerPos.y + 4.5, 0.0), facing);
 }
 
 void DockShip(object oBlockerWP){
