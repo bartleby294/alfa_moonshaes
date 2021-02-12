@@ -2,6 +2,7 @@
 #include "nwnx_time"
 #include "_btb_util"
 #include "_btb_ship_const"
+#include "X0_i0_anims"
 
 location GangPlankLocation(object blockerWP, float xOff, float yOff, float zOff,
                            float rotation){

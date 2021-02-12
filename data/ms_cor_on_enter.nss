@@ -29,7 +29,7 @@ void SetInBoundVisibility(string tag, object oPC, string blockerWPTag,
         NWNX_Visibility_SetVisibilityOverride(oPC, ship,
                                                 NWNX_VISIBILITY_ALWAYS_VISIBLE);
     } else if(ship != OBJECT_INVALID) {
-        NWNX_Visibility_SetVisibilityOverride(oPC,ship,NWNX_VISIBILITY_DM_ONLY);
+        NWNX_Visibility_SetVisibilityOverride(oPC,ship, NWNX_VISIBILITY_HIDDEN);
         object blockerWP = GetObjectByTag(blockerWPTag);
         if(blockerWP == OBJECT_INVALID) {
             CreateObject(OBJECT_TYPE_PLACEABLE, blockerResRef,
