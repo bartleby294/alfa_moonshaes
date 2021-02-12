@@ -33,7 +33,7 @@ void CaravelInbound() {
         while(oPC != OBJECT_INVALID) {
             NWNX_Visibility_SetVisibilityOverride(oPC, oCaravel,
                                                 NWNX_VISIBILITY_ALWAYS_VISIBLE);
-            GetNextPCInArea(oArea);
+            oPC = GetNextPCInArea(oArea);
         }
 
         DelayCommand(delay, DockShip(oBlockerWP));
