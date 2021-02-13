@@ -74,8 +74,14 @@ void CaravelDestroy() {
     string shipStr = "corwell_created_caravel_1";
     object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
     DestroyObject(oCaravelShip);
-}
 
+    object blockerWP = GetObjectByTag(CARAVEL_INBOUND_WAYPOINT_TAG);
+    object blocker = GetObjectByTag(CARAVEL_INBOUND_BLOCKER_TAG);
+    if(blocker == OBJECT_INVALID) {
+        CreateObject(OBJECT_TYPE_PLACEABLE, CARAVEL_INBOUND_BLOCKER_RES,
+                 GetLocation(blockerWP), FALSE, CARAVEL_INBOUND_BLOCKER_TAG);
+    }
+}
 
 void CityShipInbound() {
 

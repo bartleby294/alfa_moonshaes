@@ -30,7 +30,8 @@ void SetInBoundVisibility(string tag, object oPC, string blockerWPTag,
                                                 NWNX_VISIBILITY_ALWAYS_VISIBLE);
     } else if(ship == OBJECT_INVALID) {
         object blockerWP = GetObjectByTag(blockerWPTag);
-        if(blockerWP == OBJECT_INVALID) {
+        object blocker = GetObjectByTag(newBlockerTag);
+        if(blocker == OBJECT_INVALID) {
             CreateObject(OBJECT_TYPE_PLACEABLE, blockerResRef,
                      GetLocation(blockerWP), FALSE, newBlockerTag);
         }
