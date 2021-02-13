@@ -77,7 +77,7 @@ void CaravelInboundCreate() {
                                                 + FloatToString(y));
         PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
         AssignCommand(oCaravelShip,
-            PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
+            PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
     }
 
 }
