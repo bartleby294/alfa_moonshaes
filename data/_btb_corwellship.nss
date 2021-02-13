@@ -7,7 +7,7 @@
 
 void SetVisible(object oObject) {
     object oArea = GetArea(oObject);
-    object oPC = GetFirstPCInArea(oObject);
+    object oPC = GetFirstPCInArea(oArea);
 
     while(oPC != OBJECT_INVALID) {
         NWNX_Visibility_SetVisibilityOverride(oPC, oObject,
