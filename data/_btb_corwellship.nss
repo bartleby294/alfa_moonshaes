@@ -116,9 +116,10 @@ void CaravelDestroy() {
 }
 
 void CaravelMinus() {
-    float curXOff = GetLocalFloat(OBJECT_SELF, "xOff");
-    SetLocalFloat(OBJECT_SELF, "xOff", curXOff + 10.0);
-    SpeakString("curXOff: " + FloatToString(GetLocalFloat(OBJECT_SELF, "xOff")));
+    object oLever = GetObjectByTag("caravel_create");
+    float curXOff = GetLocalFloat(oLever, "xOff");
+    SetLocalFloat(oLever, "xOff", curXOff + 10.0);
+    SpeakString("curXOff: " + FloatToString(GetLocalFloat(oLever, "xOff")));
 }
 
 void CityShipInbound() {
