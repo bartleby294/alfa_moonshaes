@@ -91,6 +91,7 @@ void ShipOutboundCreate(string shipStr, string waypntTag, vector position,
  */
 void ShipOutActivate(string shipTag, string waypntTag, string plankTag,
                      string blockerTag, string blockerRes) {
+    float delay = 155.0;
     object oBlockerWP = GetObjectByTag(waypntTag);
     object oShip = GetObjectByTag(shipTag);
     object oPlank = GetObjectByTag(plankTag);
@@ -102,6 +103,8 @@ void ShipOutActivate(string shipTag, string waypntTag, string plankTag,
         CreateObject(OBJECT_TYPE_PLACEABLE, blockerRes, GetLocation(oBlockerWP),
                      FALSE, blockerTag);
     }
+
+    DelayCommand(delay, DestroyObject(oShip));
 }
 
 void ShipActivate(string shipTag, string waypntTag, string plankTag,
