@@ -71,7 +71,7 @@ void main() {
     /*************** This section fires for all players, and DMs***************/
 
     // Check if Carvel is in dock or docking if it is make it visable.
-    SetShipVisibility(oPC);
+    //SetShipVisibility(oPC);
 
     if(GetEventScript(OBJECT_SELF, EVENT_SCRIPT_AREA_ON_HEARTBEAT) == "") {
       SetEventScript(OBJECT_SELF, EVENT_SCRIPT_AREA_ON_HEARTBEAT,
