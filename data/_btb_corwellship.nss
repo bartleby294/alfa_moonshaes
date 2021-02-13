@@ -71,6 +71,7 @@ void CaravelInboundCreate() {
             NWNX_VISIBILITY_ALWAYS_VISIBLE);
         //DelayCommand(delay, DockShip(oBlockerWP));
 
+        SpeakString("curXOff: " + FloatToString(curXOff));
         SpeakString("Create Caravel: (" + FloatToString(x) + ", "
                                                 + FloatToString(y));
         PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
@@ -116,7 +117,8 @@ void CaravelDestroy() {
 
 void CaravelMinus() {
     float curXOff = GetLocalFloat(OBJECT_SELF, "xOff");
-    SetLocalFloat(OBJECT_SELF, "xOff", curXOff + 10);
+    SetLocalFloat(OBJECT_SELF, "xOff", curXOff + 10.0);
+    SpeakString("curXOff: " + FloatToString(GetLocalFloat(OBJECT_SELF, "xOff")));
 }
 
 void CityShipInbound() {
