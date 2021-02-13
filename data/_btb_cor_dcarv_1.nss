@@ -28,4 +28,15 @@ void main() {
     if(tag == "caravel_minus") {
         CaravelMinus();
     }
+    if(tag == "caravel_serial") {
+        CaravelSerial();
+    }
+    if(tag == "caravel_serial_destroy") {
+        CaravelSerialDestroy();
+    }
+    if(tag == "caravel_serial_create") {
+        CaravelSerialCreate();
+    }
+
+
 }

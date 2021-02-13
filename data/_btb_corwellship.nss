@@ -3,6 +3,7 @@
 #include "_btb_util"
 #include "_btb_ship_const"
 #include "X0_i0_anims"
+#include "nwnx_object"
 
 location GangPlankLocation(object blockerWP, float xOff, float yOff, float zOff,
                            float rotation){
@@ -120,6 +121,50 @@ void CaravelMinus() {
     float curXOff = GetLocalFloat(oLever, "xOff");
     SetLocalFloat(oLever, "xOff", curXOff + 10.0);
     SpeakString("curXOff: " + FloatToString(GetLocalFloat(oLever, "xOff")));
+}
+
+void CaravelSerial(){
+    object oLever = GetObjectByTag("caravel_serial");
+    object oCaravel = GetObjectByTag(CARAVEL_INBOUND_TAG);
+    if(oCaravel != OBJECT_INVALID) {
+        SetLocalString(oLever, "serializeCaravel",
+                                NWNX_Object_Serialize(oCaravel));
+    }
+}
+
+void CaravelSerialDestroy() {
+    string shipStr = CARAVEL_INBOUND_TAG;
+    object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+    DestroyObject(oCaravelShip);
+}
+
+void CaravelSerialCreate() {
+
+    float delay = 125.0;
+    int time = NWNX_Time_GetTimeStamp();
+    string shipStr = CARAVEL_INBOUND_TAG;
+    object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+    //object oBlocker = GetNearestObjectByTag("lyplc_nowalk2", oLever, 1);
+
+    if(oCaravelShip == OBJECT_INVALID) {
+        object oLever = GetObjectByTag("caravel_serial");
+        object oBlockerWP = GetObjectByTag(CARAVEL_INBOUND_WAYPOINT_TAG);
+        object oArea = GetArea(oBlockerWP);
+        string caravelStr = GetLocalString(oLever, "serializeCaravel");
+        object oCaravelShip = NWNX_Object_Deserialize(caravelStr);
+        float x = 85.4;
+        float y = 145.0;
+        NWNX_Object_AddToArea(oCaravelShip, oArea, Vector(x, y, 0.0));
+        NWNX_Visibility_SetVisibilityOverride(GetLastUsedBy(), oCaravelShip,
+            NWNX_VISIBILITY_ALWAYS_VISIBLE);
+        //DelayCommand(delay, DockShip(oBlockerWP));
+
+        SpeakString("Create Caravel: (" + FloatToString(x) + ", "
+                                                + FloatToString(y));
+        PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
+        AssignCommand(oCaravelShip,
+            PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
+    }
 }
 
 void CityShipInbound() {
