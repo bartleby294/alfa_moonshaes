@@ -15,24 +15,22 @@ location GangPlankLocation(object blockerWP, float xOff, float yOff, float zOff,
                     facing);
 }
 
-void DockShip(object oBlockerWP, location plankLocation, string newTag){
+void DockShip(object oBlockerWP, location plankLocation, string newTag,
+              string blockerTag){
     CreateObject(OBJECT_TYPE_PLACEABLE, "caraveshipstairs",
                     plankLocation, FALSE, newTag);
+    DestroyObject(GetObjectByTag(blockerTag));
 }
 
 void CaravelInboundCreate() {
-
-    float delay = 125.0;
     int time = NWNX_Time_GetTimeStamp();
-    string shipStr = "corwell_created_caravel_1";
+    string shipStr = CARAVEL_INBOUND_TAG;
     object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
-    //object oBlocker = GetNearestObjectByTag("lyplc_nowalk2", oLever, 1);
 
     if(oCaravelShip == OBJECT_INVALID) {
         object oBlockerWP = GetObjectByTag(CARAVEL_INBOUND_WAYPOINT_TAG);
         object oArea = GetArea(oBlockerWP);
-        float curXOff = GetLocalFloat(OBJECT_SELF, "xOff");
-        float x = 85.4 - curXOff;
+        float x = 85.4;
         float y = 145.0;
         oCaravelShip = CreateObject(OBJECT_TYPE_PLACEABLE,
                          "corwell_car_deac",
@@ -41,12 +39,7 @@ void CaravelInboundCreate() {
                          shipStr);
         NWNX_Visibility_SetVisibilityOverride(GetLastUsedBy(), oCaravelShip,
             NWNX_VISIBILITY_ALWAYS_VISIBLE);
-        DelayCommand(delay,
-            DockShip(oBlockerWP,
-                     GangPlankLocation(oBlockerWP, 0.0, 4.5, 0.0, 90.0),
-                     CARAVEL_INBOUND_PLANK_TAG));
 
-        SpeakString("curXOff: " + FloatToString(curXOff));
         SpeakString("Create Caravel: (" + FloatToString(x) + ", "
                                                 + FloatToString(y));
         PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
@@ -57,21 +50,28 @@ void CaravelInboundCreate() {
 }
 
 void CaravelDeactivate() {
-    string shipStr = "corwell_created_caravel_1";
+    string shipStr = CARAVEL_INBOUND_TAG;
     object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
      AssignCommand(oCaravelShip,
             PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
 }
 
 void CaravelActivate() {
-    string shipStr = "corwell_created_caravel_1";
+    float delay = 125.0;
+    object oBlockerWP = GetObjectByTag(CARAVEL_INBOUND_WAYPOINT_TAG);
+    string shipStr = CARAVEL_INBOUND_TAG;
     object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
      AssignCommand(oCaravelShip,
             PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
+     DelayCommand(delay,
+        DockShip(oBlockerWP,
+             GangPlankLocation(oBlockerWP, 0.0, 4.5, 0.0, 90.0),
+             CARAVEL_INBOUND_PLANK_TAG,
+             CARAVEL_INBOUND_BLOCKER_TAG));
 }
 
 void CaravelDestroy() {
-    string shipStr = "corwell_created_caravel_1";
+    string shipStr = CARAVEL_INBOUND_TAG;
     object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
     DestroyObject(oCaravelShip);
 
@@ -106,7 +106,8 @@ void CityShipInbound() {
         DelayCommand(delay,
             DockShip(oBlockerWP,
                      GangPlankLocation(oBlockerWP, 0.3, 3.13, 0.0, 180.0),
-                     CITY_SHIP_INBOUND_PLANK_TAG));
+                     CITY_SHIP_INBOUND_PLANK_TAG,
+                     CITY_SHIP_INBOUND_BLOCKER_TAG));
         AssignCommand(oCityShip, PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
         SetLocalInt(oCityShip, "timeToggled", time);
     }
