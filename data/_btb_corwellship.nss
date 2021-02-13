@@ -86,6 +86,23 @@ void ShipOutboundCreate(string shipStr, string waypntTag, vector position,
                  plankTag, blockerTag, plankRes);
     }
 }
+/**
+ * THIS WILL NEED A CHECK TO MAKE SURE THE DECK IS CLEAR BEFORE LEAVING!!!
+ */
+void ShipOutActivate(string shipTag, string waypntTag, string plankTag,
+                     string blockerTag, string blockerRes) {
+    object oBlockerWP = GetObjectByTag(waypntTag);
+    object oShip = GetObjectByTag(shipTag);
+    object oPlank = GetObjectByTag(plankTag);
+    AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
+    DestroyObject(oPlank);
+
+    object blocker = GetObjectByTag(blockerTag);
+    if(blocker == OBJECT_INVALID) {
+        CreateObject(OBJECT_TYPE_PLACEABLE, blockerRes, GetLocation(oBlockerWP),
+                     FALSE, blockerTag);
+    }
+}
 
 void ShipActivate(string shipTag, string waypntTag, string plankTag,
                   string blockerTag, vector plankVector, float faceing,
