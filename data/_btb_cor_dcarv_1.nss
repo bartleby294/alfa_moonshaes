@@ -4,5 +4,28 @@ void main() {
     SpeakString("Activated");
     PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
     //CaravelInbound();
-    CaravelInboundCreate();
+
+    string tag = GetTag(OBJECT_SELF);
+
+    if(tag == "caravel_create") {
+        CaravelInboundCreate();
+    }
+    if(tag == "caravel_activate") {
+        CaravelActivate();
+    }
+    if(tag == "caravel_deactivate") {
+        CaravelDeactivate();
+    }
+    if(tag == "caravel_open") {
+        CaravelOpen();
+    }
+    if(tag == "caravel_close") {
+        CaravelClose();
+    }
+    if(tag == "caravel_destroy") {
+        CaravelDestroy();
+    }
+    if(tag == "caravel_minus") {
+        CaravelMinus();
+    }
 }

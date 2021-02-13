@@ -52,28 +52,71 @@ void CaravelInboundCreate() {
 
     float delay = 125.0;
     int time = NWNX_Time_GetTimeStamp();
-    string shipStr = "corwell_anim_caravel_docking_1";
+    string shipStr = "corwell_created_caravel_1";
     object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
     //object oBlocker = GetNearestObjectByTag("lyplc_nowalk2", oLever, 1);
 
     if(oCaravelShip == OBJECT_INVALID) {
         object oBlockerWP = GetObjectByTag(CARAVEL_INBOUND_WAYPOINT_TAG);
         object oArea = GetArea(oBlockerWP);
+        float curXOff = GetLocalFloat(OBJECT_SELF, "xOff");
+        float x = 85.4 - curXOff;
+        float y = 145.0;
         oCaravelShip = CreateObject(OBJECT_TYPE_PLACEABLE,
                          "corwell_car_deac",
-                         Location(oArea, Vector(85.4, 145.0, 0.0), 0.0),
+                         Location(oArea, Vector(x, y, 0.0), 90.0),
                          FALSE,
                          shipStr);
         NWNX_Visibility_SetVisibilityOverride(GetLastUsedBy(), oCaravelShip,
             NWNX_VISIBILITY_ALWAYS_VISIBLE);
         //DelayCommand(delay, DockShip(oBlockerWP));
 
-        SpeakString("Create Activated");
+        SpeakString("Create Caravel: (" + FloatToString(x) + ", "
+                                                + FloatToString(y));
         PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
         AssignCommand(oCaravelShip,
             PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
     }
 
+}
+
+void CaravelDeactivate() {
+    string shipStr = "corwell_created_caravel_1";
+    object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+     AssignCommand(oCaravelShip,
+            PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
+}
+
+void CaravelActivate() {
+    string shipStr = "corwell_created_caravel_1";
+    object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+     AssignCommand(oCaravelShip,
+            PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
+}
+
+void CaravelClose() {
+    string shipStr = "corwell_created_caravel_1";
+    object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+     AssignCommand(oCaravelShip,
+            PlayAnimation(ANIMATION_PLACEABLE_CLOSE));
+}
+
+void CaravelOpen() {
+    string shipStr = "corwell_created_caravel_1";
+    object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+     AssignCommand(oCaravelShip,
+            PlayAnimation(ANIMATION_PLACEABLE_OPEN));
+}
+
+void CaravelDestroy() {
+    string shipStr = "corwell_created_caravel_1";
+    object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+    DestroyObject(oCaravelShip);
+}
+
+void CaravelMinus() {
+    float curXOff = GetLocalFloat(OBJECT_SELF, "xOff");
+    SetLocalFloat(OBJECT_SELF, "xOff", curXOff + 10);
 }
 
 void CityShipInbound() {
