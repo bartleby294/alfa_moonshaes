@@ -14,7 +14,6 @@ string CARAVEL_INBOUND_BLOCKER_TAG = "corwell_caravel_blocker_1_tag";
 string CARAVEL_INBOUND_BLOCKER_RES = "gangplank_block";
 string CARAVEL_INBOUND_WAYPOINT_TAG = "corwell_caravel_blocker_1";
 
-
 string CITY_SHIP_OUTBOUND_TAG = "";
 string CITY_SHIP_OUTBOUND_PLANK_TAG = "";
 string CITY_SHIP_OUTBOUND_WAYPOINT_TAG = "";
