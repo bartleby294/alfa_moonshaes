@@ -58,6 +58,35 @@ void ShipInboundCreate(string shipStr, string waypntTag, vector position,
     }
 }
 
+void ShipOutboundCreate(string shipStr, string waypntTag, vector position,
+                        float shipFacing, string shipRes, vector plankVector,
+                        float plankFacing, string plankTag, string blockerTag,
+                        string plankRes) {
+    int time = NWNX_Time_GetTimeStamp();
+    object oShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+
+    if(oShip == OBJECT_INVALID) {
+        object oBlockerWP = GetObjectByTag(waypntTag);
+        object oArea = GetArea(oBlockerWP);
+        oShip = CreateObject(OBJECT_TYPE_PLACEABLE,
+                         shipRes,
+                         Location(oArea,
+                                  Vector(position.x, position.y, position.z),
+                                  shipFacing),
+                         FALSE,
+                         shipStr);
+        SetVisibleToAllPCsInArea(oShip);
+        SpeakString("Create Caravel: (" + FloatToString(position.x) + ", "
+                                                + FloatToString(position.y));
+        PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
+        AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
+
+        DockShip(oBlockerWP,
+                 GangPlankLocation(oBlockerWP, plankVector, plankFacing),
+                 plankTag, blockerTag, plankRes);
+    }
+}
+
 void ShipActivate(string shipTag, string waypntTag, string plankTag,
                   string blockerTag, vector plankVector, float faceing,
                   string plankRes) {

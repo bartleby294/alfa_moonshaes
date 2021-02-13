@@ -1,3 +1,11 @@
+/*
+ * Some notes
+ *
+ * 1) Tags can be changed at will
+ * 2) RES tie to resrefs so changing those will need toolset updates.
+ * 3) The way point tags shouldnt be changed without updating in toolset.
+ */
+
 string CITY_SHIP_INBOUND_TAG = "corwell_anim_sm_ship_1";
 string CITY_SHIP_INBOUND_RES = "cor_city_in_ship";
 string CITY_SHIP_INBOUND_PLANK_TAG = "corwell_anim_sm_ship_1_plank";
@@ -15,13 +23,17 @@ string CARAVEL_INBOUND_BLOCKER_RES = "gangplank_block";
 string CARAVEL_INBOUND_WAYPOINT_TAG = "corwell_caravel_blocker_1";
 
 string CITY_SHIP_OUTBOUND_TAG = "";
+string CITY_SHIP_OUTBOUND_RES = "";
 string CITY_SHIP_OUTBOUND_PLANK_TAG = "";
-string CITY_SHIP_OUTBOUND_WAYPOINT_TAG = "";
+string CITY_SHIP_OUTBOUND_PLANK_RES = "";
 string CITY_SHIP_OUTBOUND_BLOCKER_TAG = "";
 string CITY_SHIP_OUTBOUND_BLOCKER_RES = "gangplank_block";
+string CITY_SHIP_OUTBOUND_WAYPOINT_TAG = "";
 
-string CARAVEL_OUTBOUND_TAG = "";
-string CARAVEL_OUTBOUND_PLANK_TAG = "";
-string CARAVEL_OUTBOUND_WAYPOINT_TAG = "";
-string CARAVEL_OUTBOUND_BLOCKER_TAG = "";
+string CARAVEL_OUTBOUND_TAG = "corwell_anim_caravel_2";
+string CARAVEL_OUTBOUND_RES = "corwell_car_deac";
+string CARAVEL_OUTBOUND_PLANK_TAG = "corwell_anim_caravel_2_plank";
+string CARAVEL_OUTBOUND_PLANK_RES = "caraveshipstairs";
+string CARAVEL_OUTBOUND_BLOCKER_TAG = "corwell_caravel_blocker_2_tag";
 string CARAVEL_OUTBOUND_BLOCKER_RES = "gangplank_block";
+string CARAVEL_OUTBOUND_WAYPOINT_TAG = "corwell_caravel_blocker_2";

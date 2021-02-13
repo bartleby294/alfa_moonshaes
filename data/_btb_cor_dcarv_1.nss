@@ -39,4 +39,27 @@ void main() {
                     CITY_SHIP_INBOUND_BLOCKER_TAG, CITY_SHIP_INBOUND_BLOCKER_RES,
                     CITY_SHIP_INBOUND_PLANK_TAG);
     }
+
+
+    if(tag == "caravel_out_create") {
+        ShipOutboundCreate(CARAVEL_OUTBOUND_TAG, CARAVEL_OUTBOUND_WAYPOINT_TAG,
+                           Vector(75.0, 125.0, 0.0), 270.0, CARAVEL_OUTBOUND_RES,
+                           Vector(0.0, -4.5, 0.0), 270.0,
+                           CARAVEL_OUTBOUND_PLANK_TAG,
+                           CARAVEL_OUTBOUND_BLOCKER_TAG,
+                           CARAVEL_OUTBOUND_PLANK_RES);
+    }
+    if(tag == "caravel_out_activate") {
+        ShipActivate(CARAVEL_INBOUND_TAG, CARAVEL_INBOUND_WAYPOINT_TAG,
+                     CARAVEL_INBOUND_PLANK_TAG, CARAVEL_INBOUND_BLOCKER_TAG,
+                     Vector(0.0, 4.5, 0.0), 90.0, CARAVEL_INBOUND_PLANK_RES);
+    }
+    if(tag == "caravel_out_deactivate") {
+        ShipDeactivate(CARAVEL_INBOUND_TAG);
+    }
+    if(tag == "caravel_out_destroy") {
+        ShipDestroy(CARAVEL_INBOUND_TAG, CARAVEL_INBOUND_WAYPOINT_TAG,
+                    CARAVEL_INBOUND_BLOCKER_TAG, CARAVEL_INBOUND_BLOCKER_RES,
+                    CARAVEL_INBOUND_PLANK_TAG);
+    }
 }
