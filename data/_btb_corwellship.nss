@@ -5,7 +5,18 @@
 #include "X0_i0_anims"
 #include "nwnx_object"
 
-location GangPlankLocation(object blockerWP, float xOff, float yOff, float zOff,
+location GangPlankLocation(object blockerWP, vector plankVector,float rotation){
+    object oArea = GetArea(blockerWP);
+    vector blockerPos = GetPosition(blockerWP);
+    float facing = GetFacing(blockerWP) + rotation;
+    return Location(oArea,
+                    Vector(blockerPos.x + plankVector.x,
+                           blockerPos.y + plankVector.y,
+                           plankVector.z),
+                    facing);
+}
+
+location GangPlankLocationDELETE(object blockerWP, float xOff, float yOff, float zOff,
                            float rotation){
     object oArea = GetArea(blockerWP);
     vector blockerPos = GetPosition(blockerWP);
@@ -21,6 +32,70 @@ void DockShip(object oBlockerWP, location plankLocation, string newTag,
                     plankLocation, FALSE, newTag);
     DestroyObject(GetObjectByTag(blockerTag));
 }
+
+void ShipInboundCreate(string shipStr, string waypntTag, vector position,
+                       float facing, string shipRes) {
+    int time = NWNX_Time_GetTimeStamp();
+    object oShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+
+    if(oShip == OBJECT_INVALID) {
+        object oBlockerWP = GetObjectByTag(waypntTag);
+        object oArea = GetArea(oBlockerWP);
+        oShip = CreateObject(OBJECT_TYPE_PLACEABLE,
+                         shipRes,
+                         Location(oArea,
+                                  Vector(position.x, position.y, position.z),
+                                  facing),
+                         FALSE,
+                         shipStr);
+        NWNX_Visibility_SetVisibilityOverride(GetLastUsedBy(), oShip,
+            NWNX_VISIBILITY_ALWAYS_VISIBLE);
+
+        SpeakString("Create Caravel: (" + FloatToString(position.x) + ", "
+                                                + FloatToString(position.y));
+        PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
+        AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
+    }
+}
+
+void ShipActivate(string shipTag, string waypntTag, string plankTag,
+                     string blockerTag, vector plankVector, float faceing) {
+    float delay = 125.0;
+    object oBlockerWP = GetObjectByTag(waypntTag);
+    object oShip = GetNearestObjectByTag(shipTag, OBJECT_SELF);
+    AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
+    DelayCommand(delay,
+        DockShip(oBlockerWP,
+             GangPlankLocation(oBlockerWP, plankVector, faceing),
+             plankTag,
+             blockerTag));
+}
+
+void ShipDeactivate(string shipStr) {
+    object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+     AssignCommand(oCaravelShip,
+            PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
+}
+
+void ShipDestroy(string shipStr, string waypntStr, string blockerTag,
+                 string blockerRes) {
+    object oShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+    DestroyObject(oShip);
+
+    object blockerWP = GetObjectByTag(waypntStr);
+    object blocker = GetObjectByTag(blockerTag);
+    if(blocker == OBJECT_INVALID) {
+        CreateObject(OBJECT_TYPE_PLACEABLE, blockerRes, GetLocation(blockerWP),
+                     FALSE, blockerTag);
+    }
+}
+
+
+
+
+
+
+
 
 void CaravelInboundCreate() {
     int time = NWNX_Time_GetTimeStamp();
@@ -59,13 +134,13 @@ void CaravelDeactivate() {
 void CaravelActivate() {
     float delay = 125.0;
     object oBlockerWP = GetObjectByTag(CARAVEL_INBOUND_WAYPOINT_TAG);
-    string shipStr = CARAVEL_INBOUND_TAG;
-    object oCaravelShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+    string shipTag = CARAVEL_INBOUND_TAG;
+    object oCaravelShip = GetNearestObjectByTag(shipTag, OBJECT_SELF);
      AssignCommand(oCaravelShip,
             PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
      DelayCommand(delay,
         DockShip(oBlockerWP,
-             GangPlankLocation(oBlockerWP, 0.0, 4.5, 0.0, 90.0),
+             GangPlankLocationDELETE(oBlockerWP, 0.0, 4.5, 0.0, 90.0),
              CARAVEL_INBOUND_PLANK_TAG,
              CARAVEL_INBOUND_BLOCKER_TAG));
 }
@@ -105,7 +180,7 @@ void CityShipInbound() {
 
         DelayCommand(delay,
             DockShip(oBlockerWP,
-                     GangPlankLocation(oBlockerWP, 0.3, 3.13, 0.0, 180.0),
+                     GangPlankLocationDELETE(oBlockerWP, 0.3, 3.13, 0.0, 180.0),
                      CITY_SHIP_INBOUND_PLANK_TAG,
                      CITY_SHIP_INBOUND_BLOCKER_TAG));
         AssignCommand(oCityShip, PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
