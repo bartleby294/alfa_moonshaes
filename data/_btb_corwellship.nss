@@ -5,14 +5,14 @@
 #include "X0_i0_anims"
 #include "nwnx_object"
 
-void SetVisible(object oObject) {
+void SetVisibleToAllPCsInArea(object oObject) {
     object oArea = GetArea(oObject);
     object oPC = GetFirstPCInArea(oArea);
 
     while(oPC != OBJECT_INVALID) {
         NWNX_Visibility_SetVisibilityOverride(oPC, oObject,
             NWNX_VISIBILITY_ALWAYS_VISIBLE);
-        GetNextPCInArea(oArea);
+        oPC = GetNextPCInArea(oArea);
     }
 }
 
@@ -31,7 +31,7 @@ void DockShip(object oBlockerWP, location plankLocation, string newTag,
               string blockerTag, string plankRes){
     object plank = CreateObject(OBJECT_TYPE_PLACEABLE, plankRes,
                                 plankLocation, FALSE, newTag);
-    SetVisible(plank);
+    SetVisibleToAllPCsInArea(plank);
     DestroyObject(GetObjectByTag(blockerTag));
 }
 
@@ -50,7 +50,7 @@ void ShipInboundCreate(string shipStr, string waypntTag, vector position,
                                   facing),
                          FALSE,
                          shipStr);
-        SetVisible(oShip);
+        SetVisibleToAllPCsInArea(oShip);
         SpeakString("Create Caravel: (" + FloatToString(position.x) + ", "
                                                 + FloatToString(position.y));
         PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
