@@ -37,6 +37,12 @@ void main() {
     if(tag == "caravel_serial_create") {
         CaravelSerialCreate();
     }
+    if(tag == "caravel_serial_plus") {
+        CaravelSerialPlus();
+    }
+    if(tag == "caravel_serial_minus") {
+        CaravelSerialMinus();
+    }
 
 
 }
