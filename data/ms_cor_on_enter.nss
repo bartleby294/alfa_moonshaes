@@ -28,8 +28,7 @@ void SetInBoundVisibility(string tag, object oPC, string blockerWPTag,
     if(ship != OBJECT_INVALID && GetLocalInt(ship, "timeToggled") != 0) {
         NWNX_Visibility_SetVisibilityOverride(oPC, ship,
                                                 NWNX_VISIBILITY_ALWAYS_VISIBLE);
-    } else if(ship != OBJECT_INVALID) {
-        NWNX_Visibility_SetVisibilityOverride(oPC,ship, NWNX_VISIBILITY_HIDDEN);
+    } else if(ship == OBJECT_INVALID) {
         object blockerWP = GetObjectByTag(blockerWPTag);
         if(blockerWP == OBJECT_INVALID) {
             CreateObject(OBJECT_TYPE_PLACEABLE, blockerResRef,
@@ -71,7 +70,7 @@ void main() {
     /*************** This section fires for all players, and DMs***************/
 
     // Check if Carvel is in dock or docking if it is make it visable.
-    //SetShipVisibility(oPC);
+    SetShipVisibility(oPC);
 
     if(GetEventScript(OBJECT_SELF, EVENT_SCRIPT_AREA_ON_HEARTBEAT) == "") {
       SetEventScript(OBJECT_SELF, EVENT_SCRIPT_AREA_ON_HEARTBEAT,
