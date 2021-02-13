@@ -78,9 +78,11 @@ void ShipDeactivate(string shipStr) {
 }
 
 void ShipDestroy(string shipStr, string waypntStr, string blockerTag,
-                 string blockerRes) {
-    object oShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
+                 string blockerRes, string plankTag) {
+    object oShip = GetObjectByTag(shipStr);
+    object oPlank = GetObjectByTag(plankTag);
     DestroyObject(oShip);
+    DestroyObject(oPlank);
 
     object blockerWP = GetObjectByTag(waypntStr);
     object blocker = GetObjectByTag(blockerTag);
