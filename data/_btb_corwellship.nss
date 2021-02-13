@@ -5,6 +5,17 @@
 #include "X0_i0_anims"
 #include "nwnx_object"
 
+void SetVisible(object oObject) {
+    object oArea = GetArea(oObject);
+    object oPC = GetFirstPCInArea(oObject);
+
+    while(oPC != OBJECT_INVALID) {
+        NWNX_Visibility_SetVisibilityOverride(oPC, oObject,
+            NWNX_VISIBILITY_ALWAYS_VISIBLE);
+        GetNextPCInArea(oArea);
+    }
+}
+
 location GangPlankLocation(object blockerWP, vector plankVector,float rotation){
     object oArea = GetArea(blockerWP);
     vector blockerPos = GetPosition(blockerWP);
@@ -18,7 +29,9 @@ location GangPlankLocation(object blockerWP, vector plankVector,float rotation){
 
 void DockShip(object oBlockerWP, location plankLocation, string newTag,
               string blockerTag, string plankRes){
-    CreateObject(OBJECT_TYPE_PLACEABLE, plankRes, plankLocation, FALSE, newTag);
+    object plank = CreateObject(OBJECT_TYPE_PLACEABLE, plankRes,
+                                plankLocation, FALSE, newTag);
+    SetVisible(plank);
     DestroyObject(GetObjectByTag(blockerTag));
 }
 
@@ -37,9 +50,7 @@ void ShipInboundCreate(string shipStr, string waypntTag, vector position,
                                   facing),
                          FALSE,
                          shipStr);
-        NWNX_Visibility_SetVisibilityOverride(GetLastUsedBy(), oShip,
-            NWNX_VISIBILITY_ALWAYS_VISIBLE);
-
+        SetVisible(oShip);
         SpeakString("Create Caravel: (" + FloatToString(position.x) + ", "
                                                 + FloatToString(position.y));
         PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
