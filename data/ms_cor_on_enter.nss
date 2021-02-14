@@ -1,5 +1,7 @@
 #include "_btb_ship_const"
+#include "_btb_corwellship"
 #include "nwnx_visibility"
+#include "nwnx_area"
 
 void MyGetVector(object oPC){
     vector vAreaVec = GetPosition(oPC);
@@ -69,13 +71,12 @@ void main() {
     }
 
     /*************** This section fires for all players, and DMs***************/
-
     // Check if Carvel is in dock or docking if it is make it visable.
     SetShipVisibility(oPC);
 
     if(GetEventScript(OBJECT_SELF, EVENT_SCRIPT_AREA_ON_HEARTBEAT) == "") {
       SetEventScript(OBJECT_SELF, EVENT_SCRIPT_AREA_ON_HEARTBEAT,
-                                        "spawn_sample_hb");
+                                        "ms_cor_on_hb");
     }
 
     // WE NEED dbhsc_oe_trapme BEFORE WE TURN THIS BACK ON!

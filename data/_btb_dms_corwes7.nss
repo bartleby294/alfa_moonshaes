@@ -9,5 +9,6 @@ void main()
                        Vector(-0.3, -3.13, 0.0), 180.0,
                        CITY_SHIP_OUTBOUND_PLANK_TAG,
                        CITY_SHIP_OUTBOUND_BLOCKER_TAG,
-                       CITY_SHIP_OUTBOUND_PLANK_RES);
+                       CITY_SHIP_OUTBOUND_PLANK_RES,
+                       CITY_SHIP_OUTBOUND_CREATED_TIME);
 }

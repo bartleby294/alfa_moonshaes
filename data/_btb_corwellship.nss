@@ -36,7 +36,7 @@ void DockShip(object oBlockerWP, location plankLocation, string newTag,
 }
 
 void ShipInboundCreate(string shipStr, string waypntTag, vector position,
-                       float facing, string shipRes) {
+                       float facing, string shipRes, string createTime) {
     int time = NWNX_Time_GetTimeStamp();
     object oShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
 
@@ -50,9 +50,8 @@ void ShipInboundCreate(string shipStr, string waypntTag, vector position,
                                   facing),
                          FALSE,
                          shipStr);
+        SetLocalInt(oArea, createTime, NWNX_Time_GetTimeStamp());
         SetVisibleToAllPCsInArea(oShip);
-        //SpeakString("Create Caravel: (" + FloatToString(position.x) + ", "
-        //                                        + FloatToString(position.y));
         PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
         AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
     }
@@ -61,7 +60,7 @@ void ShipInboundCreate(string shipStr, string waypntTag, vector position,
 void ShipOutboundCreate(string shipStr, string waypntTag, vector position,
                         float shipFacing, string shipRes, vector plankVector,
                         float plankFacing, string plankTag, string blockerTag,
-                        string plankRes) {
+                        string plankRes, string createTime) {
     int time = NWNX_Time_GetTimeStamp();
     object oShip = GetNearestObjectByTag(shipStr, OBJECT_SELF);
 
@@ -75,9 +74,8 @@ void ShipOutboundCreate(string shipStr, string waypntTag, vector position,
                                   shipFacing),
                          FALSE,
                          shipStr);
+        SetLocalInt(oArea, createTime, NWNX_Time_GetTimeStamp());
         SetVisibleToAllPCsInArea(oShip);
-        //SpeakString("Create Caravel: (" + FloatToString(position.x) + ", "
-        //                                        + FloatToString(position.y));
         PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
         AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
 
@@ -105,18 +103,20 @@ int GetPlayerOnShip(string triggerTag) {
  * THIS WILL NEED A CHECK TO MAKE SURE THE DECK IS CLEAR BEFORE LEAVING!!!
  */
 void ShipOutActivate(string shipTag, string waypntTag, string plankTag,
-                     string blockerTag, string blockerRes, string triggerTag) {
-    // if a player is on the ship abort.
-    if(GetPlayerOnShip(triggerTag)) {
+                     string blockerTag, string blockerRes, string triggerTag,
+                     string destroyTime) {
+    object oShip = GetObjectByTag(shipTag);
+    // if a player is on the ship or its already leaving abort.
+    if(GetPlayerOnShip(triggerTag) || GetLocalInt(oShip, "leaving") != 0) {
         return;
     }
 
     float delay = 155.0;
     object oBlockerWP = GetObjectByTag(waypntTag);
-    object oShip = GetObjectByTag(shipTag);
     object oPlank = GetObjectByTag(plankTag);
 
     AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
+    SetLocalInt(oShip, "leaving", 1);
     DestroyObject(oPlank);
 
     object blocker = GetObjectByTag(blockerTag);
@@ -126,15 +126,21 @@ void ShipOutActivate(string shipTag, string waypntTag, string plankTag,
     }
 
     DelayCommand(delay, DestroyObject(oShip));
+    SetLocalInt(GetArea(oShip), destroyTime, NWNX_Time_GetTimeStamp());
 }
 
 void ShipActivate(string shipTag, string waypntTag, string plankTag,
                   string blockerTag, vector plankVector, float faceing,
                   string plankRes) {
+    object oShip = GetObjectByTag(shipTag);
+
+    if(GetLocalInt(oShip, "arriving") != 0) {
+        return;
+    }
     float delay = 125.0;
     object oBlockerWP = GetObjectByTag(waypntTag);
-    object oShip = GetNearestObjectByTag(shipTag, OBJECT_SELF);
     AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
+    SetLocalInt(oShip, "arriving", 1);
     DelayCommand(delay,
         DockShip(oBlockerWP,
              GangPlankLocation(oBlockerWP, plankVector, faceing),
@@ -150,11 +156,14 @@ void ShipDeactivate(string shipStr) {
 }
 
 void ShipDestroy(string shipStr, string waypntStr, string blockerTag,
-                 string blockerRes, string plankTag) {
+                 string blockerRes, string plankTag, string destroyTime) {
     object oShip = GetObjectByTag(shipStr);
     object oPlank = GetObjectByTag(plankTag);
-    DestroyObject(oShip);
-    DestroyObject(oPlank);
+    if(oShip != OBJECT_INVALID) {
+        DestroyObject(oShip);
+        DestroyObject(oPlank);
+        SetLocalInt(GetArea(oShip), destroyTime, NWNX_Time_GetTimeStamp());
+    }
 
     object blockerWP = GetObjectByTag(waypntStr);
     object blocker = GetObjectByTag(blockerTag);

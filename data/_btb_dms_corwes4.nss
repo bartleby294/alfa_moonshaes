@@ -7,5 +7,6 @@ void main()
                     CARAVEL_OUTBOUND_PLANK_TAG,
                     CARAVEL_OUTBOUND_BLOCKER_TAG,
                     CARAVEL_OUTBOUND_BLOCKER_RES,
-                    CARAVEL_OUTBOUND_TRIGGER_TAG);
+                    CARAVEL_OUTBOUND_TRIGGER_TAG,
+                    CARAVEL_OUTBOUND_DESTROYED_TIME);
 }
