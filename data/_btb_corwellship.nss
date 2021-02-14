@@ -105,9 +105,9 @@ int GetPlayerOnShip(string triggerTag) {
  * THIS WILL NEED A CHECK TO MAKE SURE THE DECK IS CLEAR BEFORE LEAVING!!!
  */
 void ShipOutActivate(string shipTag, string waypntTag, string plankTag,
-                     string blockerTag, string blockerRes) {
+                     string blockerTag, string blockerRes, string triggerTag) {
     // if a player is on the ship abort.
-    if(GetPlayerOnShip(CARAVEL_OUTBOUND_TRIGGER_TAG)) {
+    if(GetPlayerOnShip(triggerTag)) {
         return;
     }
 

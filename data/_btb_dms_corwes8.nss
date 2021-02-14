@@ -6,5 +6,6 @@ void main()
                     CITY_SHIP_OUTBOUND_WAYPOINT_TAG,
                     CITY_SHIP_OUTBOUND_PLANK_TAG,
                     CITY_SHIP_OUTBOUND_BLOCKER_TAG,
-                    CITY_SHIP_OUTBOUND_BLOCKER_RES);
+                    CITY_SHIP_OUTBOUND_BLOCKER_RES,
+                    CITY_SHIP_OUTBOUND_TRIGGER_TAG);
 }
