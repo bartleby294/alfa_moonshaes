@@ -17,6 +17,7 @@ void DestoryInboundShipsCheck() {
                              + IntToString(WAIT_TIME_THRESHOLD));
     if(caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Destroy Inbound Caravel
+        WriteTimestampedLogEntry("Destroy Inbound Caravel");
         ShipDestroy(CARAVEL_INBOUND_TAG, CARAVEL_INBOUND_WAYPOINT_TAG,
                 CARAVEL_INBOUND_BLOCKER_TAG, CARAVEL_INBOUND_BLOCKER_RES,
                 CARAVEL_INBOUND_PLANK_TAG, CARAVEL_INBOUND_DESTROYED_TIME);
@@ -29,6 +30,7 @@ void DestoryInboundShipsCheck() {
                              + IntToString(WAIT_TIME_THRESHOLD));
     if(cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Destroy Inbound City Ship
+        WriteTimestampedLogEntry("Destroy Inbound City Ship");
         ShipDestroy(CITY_SHIP_INBOUND_TAG,
             CITY_SHIP_INBOUND_WAYPOINT_TAG,
             CITY_SHIP_INBOUND_BLOCKER_TAG,
@@ -53,6 +55,7 @@ void CreateOutboundShipsCheck() {
                              + IntToString(WAIT_TIME_THRESHOLD));
     if(caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Create Outbound Caravel
+        WriteTimestampedLogEntry("Create Outbound Caravel");
         ShipOutboundCreate(CARAVEL_OUTBOUND_TAG,
                            CARAVEL_OUTBOUND_WAYPOINT_TAG,
                            Vector(75.0, 125.0, 0.0), 270.0,
@@ -72,6 +75,7 @@ void CreateOutboundShipsCheck() {
                              + IntToString(WAIT_TIME_THRESHOLD));
     if(cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Create Outbound City Ship
+        WriteTimestampedLogEntry("Create Outbound City Ship");
         ShipOutboundCreate(CITY_SHIP_OUTBOUND_TAG,
                            CITY_SHIP_OUTBOUND_WAYPOINT_TAG,
                            Vector(95.0, 155.0, 0.0), 270.0,

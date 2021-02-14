@@ -27,16 +27,18 @@ void WaterCheck(object oArea, object oPC) {
 void SetInBoundVisibility(string tag, object oPC, string blockerWPTag,
                    string blockerResRef, string newBlockerTag) {
     object ship = GetObjectByTag(tag);
-    if(ship != OBJECT_INVALID && GetLocalInt(ship, "timeToggled") != 0) {
+    object blocker = GetObjectByTag(newBlockerTag);
+
+    if(ship != OBJECT_INVALID) {
+        WriteTimestampedLogEntry("ms_cor_on_enter: Set Visible");
         NWNX_Visibility_SetVisibilityOverride(oPC, ship,
                                                 NWNX_VISIBILITY_ALWAYS_VISIBLE);
-    } else if(ship == OBJECT_INVALID) {
+    }
+    if(ship == OBJECT_INVALID && blocker == OBJECT_INVALID) {
+        WriteTimestampedLogEntry("ms_cor_on_enter: Create blocker");
         object blockerWP = GetObjectByTag(blockerWPTag);
-        object blocker = GetObjectByTag(newBlockerTag);
-        if(blocker == OBJECT_INVALID) {
-            CreateObject(OBJECT_TYPE_PLACEABLE, blockerResRef,
+        CreateObject(OBJECT_TYPE_PLACEABLE, blockerResRef,
                      GetLocation(blockerWP), FALSE, newBlockerTag);
-        }
     }
 }
 

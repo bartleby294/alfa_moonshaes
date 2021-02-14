@@ -18,6 +18,7 @@ void TriggerOutboundShipsCheck() {
                              + IntToString(WAIT_TIME_THRESHOLD));
     if(caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Outbound Caravel Departure
+        WriteTimestampedLogEntry("Outbound Caravel Departure");
         ShipOutActivate(CARAVEL_OUTBOUND_TAG,
                         CARAVEL_OUTBOUND_WAYPOINT_TAG,
                         CARAVEL_OUTBOUND_PLANK_TAG,
@@ -35,6 +36,7 @@ void TriggerOutboundShipsCheck() {
                              + IntToString(WAIT_TIME_THRESHOLD));
     if(cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Outbound City Ship Departure
+        WriteTimestampedLogEntry("Outbound City Ship Departure");
         ShipOutActivate(CITY_SHIP_OUTBOUND_TAG,
                         CITY_SHIP_OUTBOUND_WAYPOINT_TAG,
                         CITY_SHIP_OUTBOUND_PLANK_TAG,
@@ -64,6 +66,7 @@ void TriggerInboundShipsCheck() {
             return;
         }
         // Inbound Caravel Arrival
+        WriteTimestampedLogEntry("Inbound Caravel Arrival");
         ShipInboundCreate(CARAVEL_INBOUND_TAG, CARAVEL_INBOUND_WAYPOINT_TAG,
                       Vector(85.4, 145.0, 0.0), 90.0, CARAVEL_INBOUND_RES,
                       CARAVEL_INBOUND_CREATED_TIME);
@@ -87,6 +90,7 @@ void TriggerInboundShipsCheck() {
             return;
         }
         // Inbound City Ship Arrival
+        WriteTimestampedLogEntry("Inbound City Ship Arrival");
         ShipInboundCreate(CITY_SHIP_INBOUND_TAG, CITY_SHIP_INBOUND_WAYPOINT_TAG,
                           Vector(85.0, 175.0, 0.0), 90.0, CITY_SHIP_INBOUND_RES,
                           CITY_SHIP_INBOUND_CREATED_TIME);
