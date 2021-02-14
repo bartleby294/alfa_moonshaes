@@ -51,8 +51,8 @@ void ShipInboundCreate(string shipStr, string waypntTag, vector position,
                          FALSE,
                          shipStr);
         SetVisibleToAllPCsInArea(oShip);
-        SpeakString("Create Caravel: (" + FloatToString(position.x) + ", "
-                                                + FloatToString(position.y));
+        //SpeakString("Create Caravel: (" + FloatToString(position.x) + ", "
+        //                                        + FloatToString(position.y));
         PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
         AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
     }
@@ -76,8 +76,8 @@ void ShipOutboundCreate(string shipStr, string waypntTag, vector position,
                          FALSE,
                          shipStr);
         SetVisibleToAllPCsInArea(oShip);
-        SpeakString("Create Caravel: (" + FloatToString(position.x) + ", "
-                                                + FloatToString(position.y));
+        //SpeakString("Create Caravel: (" + FloatToString(position.x) + ", "
+        //                                        + FloatToString(position.y));
         PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
         AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE));
 
