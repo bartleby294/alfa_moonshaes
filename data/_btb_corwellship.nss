@@ -86,15 +86,36 @@ void ShipOutboundCreate(string shipStr, string waypntTag, vector position,
                  plankTag, blockerTag, plankRes);
     }
 }
+
+int GetPlayerOnShip(string triggerTag) {
+    object oShipTrigger = GetObjectByTag(triggerTag);
+    object oArea = GetArea(oShipTrigger);
+    object oPC = GetFirstPCInArea(oArea);
+
+    while(oPC != OBJECT_INVALID) {
+        if(NWNX_Object_GetPositionIsInTrigger(oShipTrigger, GetPosition(oPC))) {
+            return TRUE;
+        }
+        oPC = GetNextPCInArea(oArea);
+    }
+    return FALSE;
+}
+
 /**
  * THIS WILL NEED A CHECK TO MAKE SURE THE DECK IS CLEAR BEFORE LEAVING!!!
  */
 void ShipOutActivate(string shipTag, string waypntTag, string plankTag,
                      string blockerTag, string blockerRes) {
+    // if a player is on the ship abort.
+    if(GetPlayerOnShip(CARAVEL_OUTBOUND_TRIGGER_TAG)) {
+        return;
+    }
+
     float delay = 155.0;
     object oBlockerWP = GetObjectByTag(waypntTag);
     object oShip = GetObjectByTag(shipTag);
     object oPlank = GetObjectByTag(plankTag);
+
     AssignCommand(oShip, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
     DestroyObject(oPlank);
 

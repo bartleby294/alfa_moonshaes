@@ -29,6 +29,7 @@ string CITY_SHIP_OUTBOUND_PLANK_RES = "city_ship_gangpl";
 string CITY_SHIP_OUTBOUND_BLOCKER_TAG = "corwell_city_ship_blocker_2_tag";
 string CITY_SHIP_OUTBOUND_BLOCKER_RES = "gangplank_block";
 string CITY_SHIP_OUTBOUND_WAYPOINT_TAG = "corwell_city_ship_blocker_2";
+string CITY_SHIP_OUTBOUND_TRIGGER_TAG = "cityShipOutTrigger";
 
 string CARAVEL_OUTBOUND_TAG = "corwell_anim_caravel_2";
 string CARAVEL_OUTBOUND_RES = "corwell_car_deac";
@@ -37,3 +38,4 @@ string CARAVEL_OUTBOUND_PLANK_RES = "caraveshipstairs";
 string CARAVEL_OUTBOUND_BLOCKER_TAG = "corwell_caravel_blocker_2_tag";
 string CARAVEL_OUTBOUND_BLOCKER_RES = "gangplank_block";
 string CARAVEL_OUTBOUND_WAYPOINT_TAG = "corwell_caravel_blocker_2";
+string CARAVEL_OUTBOUND_TRIGGER_TAG = "caravelOutTrigger";
