@@ -51,6 +51,14 @@ void SetShipVisibility(object oPC) {
                          CITY_SHIP_INBOUND_WAYPOINT_TAG,
                          CITY_SHIP_INBOUND_BLOCKER_RES,
                          CITY_SHIP_INBOUND_BLOCKER_TAG);
+    SetInBoundVisibility(CARAVEL_OUTBOUND_TAG, oPC,
+                         CARAVEL_OUTBOUND_WAYPOINT_TAG,
+                         CARAVEL_OUTBOUND_BLOCKER_RES,
+                         CARAVEL_OUTBOUND_BLOCKER_TAG);
+    SetInBoundVisibility(CITY_SHIP_OUTBOUND_TAG, oPC,
+                         CITY_SHIP_OUTBOUND_WAYPOINT_TAG,
+                         CITY_SHIP_OUTBOUND_BLOCKER_RES,
+                         CITY_SHIP_OUTBOUND_BLOCKER_TAG);
 }
 
 void main() {

@@ -9,13 +9,13 @@ void DestoryInboundShipsCheck() {
     int curTime = NWNX_Time_GetTimeStamp();
     int caravelCreateTime = GetLocalInt(oArea, CARAVEL_INBOUND_CREATED_TIME);
     int cityShipCreateTime = GetLocalInt(oArea, CITY_SHIP_INBOUND_CREATED_TIME);
-
     int caravelRandomChance = Random(DEFAULT_SHIP_WAIT_TIME)
                               +  curTime - caravelCreateTime;
     WriteTimestampedLogEntry("caravelRandomChance: "
                              + IntToString(caravelRandomChance) + " > "
                              + IntToString(WAIT_TIME_THRESHOLD));
-    if(caravelRandomChance > WAIT_TIME_THRESHOLD) {
+    if(GetObjectByTag(CARAVEL_INBOUND_TAG) != OBJECT_INVALID
+       && caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Destroy Inbound Caravel
         WriteTimestampedLogEntry("Destroy Inbound Caravel");
         ShipDestroy(CARAVEL_INBOUND_TAG, CARAVEL_INBOUND_WAYPOINT_TAG,
@@ -28,7 +28,8 @@ void DestoryInboundShipsCheck() {
     WriteTimestampedLogEntry("cityShipRandomChance: "
                              + IntToString(cityShipRandomChance) + " > "
                              + IntToString(WAIT_TIME_THRESHOLD));
-    if(cityShipRandomChance > WAIT_TIME_THRESHOLD) {
+    if(GetObjectByTag(CITY_SHIP_INBOUND_TAG) != OBJECT_INVALID &&
+       cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Destroy Inbound City Ship
         WriteTimestampedLogEntry("Destroy Inbound City Ship");
         ShipDestroy(CITY_SHIP_INBOUND_TAG,
@@ -53,7 +54,8 @@ void CreateOutboundShipsCheck() {
     WriteTimestampedLogEntry("caravelRandomChance: "
                              + IntToString(caravelRandomChance) + " > "
                              + IntToString(WAIT_TIME_THRESHOLD));
-    if(caravelRandomChance > WAIT_TIME_THRESHOLD) {
+    if(GetObjectByTag(CARAVEL_OUTBOUND_TAG) == OBJECT_INVALID
+       && caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Create Outbound Caravel
         WriteTimestampedLogEntry("Create Outbound Caravel");
         ShipOutboundCreate(CARAVEL_OUTBOUND_TAG,
@@ -73,7 +75,8 @@ void CreateOutboundShipsCheck() {
     WriteTimestampedLogEntry("cityShipRandomChance: "
                              + IntToString(cityShipRandomChance) + " > "
                              + IntToString(WAIT_TIME_THRESHOLD));
-    if(cityShipRandomChance > WAIT_TIME_THRESHOLD) {
+    if(GetObjectByTag(CITY_SHIP_OUTBOUND_TAG) == OBJECT_INVALID
+       && cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Create Outbound City Ship
         WriteTimestampedLogEntry("Create Outbound City Ship");
         ShipOutboundCreate(CITY_SHIP_OUTBOUND_TAG,
