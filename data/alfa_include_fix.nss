@@ -734,6 +734,8 @@ void ALFA_RegisterALFAItems()
   //  string sAcquireScript="", string sUnacquireScript="",
   //  int nNoDrop=FALSE, int nDMOnly=FALSE, int nGiveToDM=FALSE,
   //  int nGiveToPlayer=FALSE);
+  ALFA_RegisterItem("dmcontrolstone", "_btb_dmcontrolst", "", "", TRUE,
+     TRUE, TRUE, FALSE);
 
   ALFA_RegisterItem(ALFA_OBJ_DM_WAND_TAG, "dmw_activate", "", "", TRUE,
      TRUE, TRUE, FALSE);
