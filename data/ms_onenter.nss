@@ -208,5 +208,10 @@ void main()
     && GetIsDM(oPC))
     CreateItemOnObject("alfa_transtool_b", oPC);
 
+  // Give DMs an Control Stone
+  if ( GetIsObjectValid(GetItemPossessedBy(oPC, "dmcontrolstone" ))==FALSE
+    && GetIsDM(oPC))
+    CreateItemOnObject("dmcontrolstone", oPC);
+
   /*****************************************************/
 }
