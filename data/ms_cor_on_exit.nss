@@ -11,13 +11,11 @@ void DestoryInboundShipsCheck() {
     int cityShipCreateTime = GetLocalInt(oArea, CITY_SHIP_INBOUND_CREATED_TIME);
     int caravelRandomChance = Random(DEFAULT_SHIP_WAIT_TIME)
                               +  curTime - caravelCreateTime;
-    WriteTimestampedLogEntry("caravelRandomChance: "
-                             + IntToString(caravelRandomChance) + " > "
-                             + IntToString(WAIT_TIME_THRESHOLD));
     if(GetObjectByTag(CARAVEL_INBOUND_TAG) != OBJECT_INVALID
        && caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Destroy Inbound Caravel
-        WriteTimestampedLogEntry("Destroy Inbound Caravel");
+        WriteTimestampedLogEntry("ms_cor_on_exit: Destroy Inbound Caravel - "
+                                 + IntToString(curTime) );
         ShipDestroy(CARAVEL_INBOUND_TAG, CARAVEL_INBOUND_WAYPOINT_TAG,
                 CARAVEL_INBOUND_BLOCKER_TAG, CARAVEL_INBOUND_BLOCKER_RES,
                 CARAVEL_INBOUND_PLANK_TAG, CARAVEL_INBOUND_DESTROYED_TIME);
@@ -25,13 +23,11 @@ void DestoryInboundShipsCheck() {
 
     int cityShipRandomChance = Random(DEFAULT_SHIP_WAIT_TIME)
                               +  curTime - cityShipCreateTime;
-    WriteTimestampedLogEntry("cityShipRandomChance: "
-                             + IntToString(cityShipRandomChance) + " > "
-                             + IntToString(WAIT_TIME_THRESHOLD));
     if(GetObjectByTag(CITY_SHIP_INBOUND_TAG) != OBJECT_INVALID &&
        cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Destroy Inbound City Ship
-        WriteTimestampedLogEntry("Destroy Inbound City Ship");
+        WriteTimestampedLogEntry("ms_cor_on_exit: Destroy Inbound City Ship - "
+                                 + IntToString(curTime));
         ShipDestroy(CITY_SHIP_INBOUND_TAG,
             CITY_SHIP_INBOUND_WAYPOINT_TAG,
             CITY_SHIP_INBOUND_BLOCKER_TAG,
@@ -51,13 +47,11 @@ void CreateOutboundShipsCheck() {
 
     int caravelRandomChance = Random(DEFAULT_SHIP_WAIT_TIME)
                               +  curTime - caravelDestroyTime;
-    WriteTimestampedLogEntry("caravelRandomChance: "
-                             + IntToString(caravelRandomChance) + " > "
-                             + IntToString(WAIT_TIME_THRESHOLD));
     if(GetObjectByTag(CARAVEL_OUTBOUND_TAG) == OBJECT_INVALID
        && caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Create Outbound Caravel
-        WriteTimestampedLogEntry("Create Outbound Caravel");
+        WriteTimestampedLogEntry("ms_cor_on_exit: Create Outbound Caravel - "
+                                 + IntToString(curTime));
         ShipOutboundCreate(CARAVEL_OUTBOUND_TAG,
                            CARAVEL_OUTBOUND_WAYPOINT_TAG,
                            Vector(75.0, 125.0, 0.0), 270.0,
@@ -72,13 +66,11 @@ void CreateOutboundShipsCheck() {
 
     int cityShipRandomChance = Random(DEFAULT_SHIP_WAIT_TIME)
                               +  curTime - cityShipDestroyTime;
-    WriteTimestampedLogEntry("cityShipRandomChance: "
-                             + IntToString(cityShipRandomChance) + " > "
-                             + IntToString(WAIT_TIME_THRESHOLD));
     if(GetObjectByTag(CITY_SHIP_OUTBOUND_TAG) == OBJECT_INVALID
        && cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Create Outbound City Ship
-        WriteTimestampedLogEntry("Create Outbound City Ship");
+        WriteTimestampedLogEntry("ms_cor_on_exit: Create Outbound City Ship - "
+                                 + IntToString(curTime));
         ShipOutboundCreate(CITY_SHIP_OUTBOUND_TAG,
                            CITY_SHIP_OUTBOUND_WAYPOINT_TAG,
                            Vector(95.0, 155.0, 0.0), 270.0,
@@ -121,13 +113,11 @@ void main()
             // Check if any inbound ships should be destroyed.  The only time
             // inbound ships can be seemlessly removed is on area enter as they
             // must be jarringly destroyed.  They cant "leave port".
-            WriteTimestampedLogEntry("ms_cor_on_exit: DestoryInboundShipsCheck");
             DestoryInboundShipsCheck();
 
             // Check if any outbound ships should be created.  The only time
             // outbound ships can be seemlessly created is on area enter as they
             // must be created from thin air.
-            WriteTimestampedLogEntry("ms_cor_on_exit: CreateOutboundShipsCheck");
             CreateOutboundShipsCheck();
         }
     }

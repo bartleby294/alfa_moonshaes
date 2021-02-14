@@ -30,12 +30,12 @@ void SetInBoundVisibility(string tag, object oPC, string blockerWPTag,
     object blocker = GetObjectByTag(newBlockerTag);
 
     if(ship != OBJECT_INVALID) {
-        WriteTimestampedLogEntry("ms_cor_on_enter: Set Visible");
+        //WriteTimestampedLogEntry("ms_cor_on_enter: Set Visible");
         NWNX_Visibility_SetVisibilityOverride(oPC, ship,
                                                 NWNX_VISIBILITY_ALWAYS_VISIBLE);
     }
     if(ship == OBJECT_INVALID && blocker == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("ms_cor_on_enter: Create blocker");
+        //WriteTimestampedLogEntry("ms_cor_on_enter: Create blocker");
         object blockerWP = GetObjectByTag(blockerWPTag);
         CreateObject(OBJECT_TYPE_PLACEABLE, blockerResRef,
                      GetLocation(blockerWP), FALSE, newBlockerTag);

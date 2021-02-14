@@ -13,12 +13,10 @@ void TriggerOutboundShipsCheck() {
 
     int caravelRandomChance = Random(DEFAULT_SHIP_WAIT_TIME)
                               +  curTime - caravelCreateTime;
-    WriteTimestampedLogEntry("caravelRandomChance: "
-                             + IntToString(caravelRandomChance) + " > "
-                             + IntToString(WAIT_TIME_THRESHOLD));
     if(caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Outbound Caravel Departure
-        WriteTimestampedLogEntry("Outbound Caravel Departure");
+        WriteTimestampedLogEntry("ms_cor_on_hb: Outbound Caravel Departure" +
+                                 IntToString(curTime));
         ShipOutActivate(CARAVEL_OUTBOUND_TAG,
                         CARAVEL_OUTBOUND_WAYPOINT_TAG,
                         CARAVEL_OUTBOUND_PLANK_TAG,
@@ -31,12 +29,10 @@ void TriggerOutboundShipsCheck() {
 
     int cityShipRandomChance = Random(DEFAULT_SHIP_WAIT_TIME)
                               +  curTime - cityShipCreateTime;
-    WriteTimestampedLogEntry("cityShipRandomChance: "
-                             + IntToString(cityShipRandomChance) + " > "
-                             + IntToString(WAIT_TIME_THRESHOLD));
     if(cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Outbound City Ship Departure
-        WriteTimestampedLogEntry("Outbound City Ship Departure");
+        WriteTimestampedLogEntry("ms_cor_on_hb: Outbound City Ship Departure" +
+                                 IntToString(curTime));
         ShipOutActivate(CITY_SHIP_OUTBOUND_TAG,
                         CITY_SHIP_OUTBOUND_WAYPOINT_TAG,
                         CITY_SHIP_OUTBOUND_PLANK_TAG,
@@ -66,7 +62,8 @@ void TriggerInboundShipsCheck() {
             return;
         }
         // Inbound Caravel Arrival
-        WriteTimestampedLogEntry("Inbound Caravel Arrival");
+        WriteTimestampedLogEntry("ms_cor_on_hb: Inbound Caravel Arrival" +
+                                 IntToString(curTime));
         ShipInboundCreate(CARAVEL_INBOUND_TAG, CARAVEL_INBOUND_WAYPOINT_TAG,
                       Vector(85.4, 145.0, 0.0), 90.0, CARAVEL_INBOUND_RES,
                       CARAVEL_INBOUND_CREATED_TIME);
@@ -90,7 +87,8 @@ void TriggerInboundShipsCheck() {
             return;
         }
         // Inbound City Ship Arrival
-        WriteTimestampedLogEntry("Inbound City Ship Arrival");
+        WriteTimestampedLogEntry("ms_cor_on_hb: Inbound City Ship Arrival" +
+                                 IntToString(curTime));
         ShipInboundCreate(CITY_SHIP_INBOUND_TAG, CITY_SHIP_INBOUND_WAYPOINT_TAG,
                           Vector(85.0, 175.0, 0.0), 90.0, CITY_SHIP_INBOUND_RES,
                           CITY_SHIP_INBOUND_CREATED_TIME);
@@ -113,11 +111,7 @@ void main()
     if(GetLocalInt(oArea, DM_SHIP_OVERRIDE) == FALSE) {
         int timeCheckCnt = GetLocalInt(oArea, "timeCheckCnt");
         if(timeCheckCnt > 10) {
-            WriteTimestampedLogEntry("ms_cor_on_hb: Triggering"
-                                     + " - TriggerOutboundShipsCheck");
             TriggerOutboundShipsCheck();
-            WriteTimestampedLogEntry("ms_cor_on_hb: Triggering"
-                                     + " - TriggerInboundShipsCheck");
             TriggerInboundShipsCheck();
             SetLocalInt(oArea, "timeCheckCnt", 0);
         } else {
