@@ -13,6 +13,9 @@ void TriggerOutboundShipsCheck() {
 
     int caravelRandomChance = Random(DEFAULT_SHIP_WAIT_TIME)
                               +  curTime - caravelCreateTime;
+    WriteTimestampedLogEntry("caravelRandomChance: "
+                             + IntToString(caravelRandomChance) + " > "
+                             + IntToString(WAIT_TIME_THRESHOLD));
     if(caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Outbound Caravel Departure
         ShipOutActivate(CARAVEL_OUTBOUND_TAG,
@@ -27,6 +30,9 @@ void TriggerOutboundShipsCheck() {
 
     int cityShipRandomChance = Random(DEFAULT_SHIP_WAIT_TIME)
                               +  curTime - cityShipCreateTime;
+    WriteTimestampedLogEntry("cityShipRandomChance: "
+                             + IntToString(cityShipRandomChance) + " > "
+                             + IntToString(WAIT_TIME_THRESHOLD));
     if(cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Outbound City Ship Departure
         ShipOutActivate(CITY_SHIP_OUTBOUND_TAG,
@@ -103,7 +109,11 @@ void main()
     if(GetLocalInt(oArea, DM_SHIP_OVERRIDE) == FALSE) {
         int timeCheckCnt = GetLocalInt(oArea, "timeCheckCnt");
         if(timeCheckCnt > 10) {
+            WriteTimestampedLogEntry("ms_cor_on_hb: Triggering"
+                                     + " - TriggerOutboundShipsCheck");
             TriggerOutboundShipsCheck();
+            WriteTimestampedLogEntry("ms_cor_on_hb: Triggering"
+                                     + " - TriggerInboundShipsCheck");
             TriggerInboundShipsCheck();
             SetLocalInt(oArea, "timeCheckCnt", 0);
         } else {
