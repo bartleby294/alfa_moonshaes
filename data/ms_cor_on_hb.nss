@@ -117,15 +117,6 @@ void TriggerPlankCheck(string shipStr, string waypntTag, vector plankVector,
                      plankTag, blockerTag, plankRes);
         }
     }
-
-
-
-
-
-    //CITY_SHIP_INBOUND_PLANK_TAG
-    //CARAVEL_INBOUND_PLANK_TAG
-    //CITY_SHIP_OUTBOUND_PLANK_TAG
-    //CARAVEL_OUTBOUND_PLANK_TAG
 }
 
 void main()
