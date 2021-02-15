@@ -15,7 +15,7 @@ void TriggerOutboundShipsCheck() {
                               +  curTime - caravelCreateTime;
     if(caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Outbound Caravel Departure
-        WriteTimestampedLogEntry("ms_cor_on_hb: Outbound Caravel Departure" +
+        WriteTimestampedLogEntry("ms_cor_on_hb: Outbound Caravel Departure - " +
                                  IntToString(curTime));
         ShipOutActivate(CARAVEL_OUTBOUND_TAG,
                         CARAVEL_OUTBOUND_WAYPOINT_TAG,
@@ -31,7 +31,7 @@ void TriggerOutboundShipsCheck() {
                               +  curTime - cityShipCreateTime;
     if(cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Outbound City Ship Departure
-        WriteTimestampedLogEntry("ms_cor_on_hb: Outbound City Ship Departure" +
+        WriteTimestampedLogEntry("ms_cor_on_hb: Outbound City Ship Departure - " +
                                  IntToString(curTime));
         ShipOutActivate(CITY_SHIP_OUTBOUND_TAG,
                         CITY_SHIP_OUTBOUND_WAYPOINT_TAG,
@@ -102,6 +102,32 @@ void TriggerInboundShipsCheck() {
     }
 }
 
+void TriggerPlankCheck(string shipStr, string waypntTag, vector plankVector,
+                       float plankFacing, string plankTag, string blockerTag,
+                       string plankRes, string createTime) {
+    if(GetObjectByTag(plankTag) != OBJECT_INVALID) {
+        // if ship exists and current time is > 100 seconds plank should exist.
+        // if plank does not exist create it.
+        if(GetObjectByTag(shipStr) != OBJECT_INVALID
+           && GetLocalInt(OBJECT_SELF, createTime) + 100
+              < NWNX_Time_GetTimeStamp()) {
+            object oBlockerWP = GetObjectByTag(waypntTag);
+            DockShip(oBlockerWP,
+                     GangPlankLocation(oBlockerWP, plankVector, plankFacing),
+                     plankTag, blockerTag, plankRes);
+        }
+    }
+
+
+
+
+
+    //CITY_SHIP_INBOUND_PLANK_TAG
+    //CARAVEL_INBOUND_PLANK_TAG
+    //CITY_SHIP_OUTBOUND_PLANK_TAG
+    //CARAVEL_OUTBOUND_PLANK_TAG
+}
+
 void main()
 {
     object oArea = GetArea(OBJECT_SELF);
@@ -113,6 +139,39 @@ void main()
         if(timeCheckCnt > 10) {
             TriggerOutboundShipsCheck();
             TriggerInboundShipsCheck();
+
+            TriggerPlankCheck(CITY_SHIP_INBOUND_TAG,
+                              CITY_SHIP_INBOUND_WAYPOINT_TAG,
+                              Vector(0.3, 3.13, 0.0), 180.0,
+                              CITY_SHIP_INBOUND_PLANK_TAG,
+                              CITY_SHIP_INBOUND_BLOCKER_TAG,
+                              CITY_SHIP_INBOUND_PLANK_RES,
+                              CITY_SHIP_INBOUND_CREATED_TIME);
+
+            TriggerPlankCheck(CARAVEL_INBOUND_TAG,
+                              CARAVEL_INBOUND_WAYPOINT_TAG,
+                              Vector(0.0, 4.5, 0.0), 90.0,
+                              CARAVEL_INBOUND_PLANK_TAG,
+                              CARAVEL_INBOUND_BLOCKER_TAG,
+                              CARAVEL_INBOUND_PLANK_RES,
+                              CARAVEL_INBOUND_CREATED_TIME);
+
+            TriggerPlankCheck(CITY_SHIP_OUTBOUND_TAG,
+                              CITY_SHIP_OUTBOUND_WAYPOINT_TAG,
+                              Vector(-0.3, -3.13, 0.0), 180.0,
+                              CITY_SHIP_OUTBOUND_PLANK_TAG,
+                              CITY_SHIP_OUTBOUND_BLOCKER_TAG,
+                              CITY_SHIP_OUTBOUND_PLANK_RES,
+                              CITY_SHIP_OUTBOUND_CREATED_TIME);
+
+            TriggerPlankCheck(CARAVEL_OUTBOUND_TAG,
+                              CARAVEL_OUTBOUND_WAYPOINT_TAG,
+                              Vector(0.0, -4.5, 0.0), 90.0,
+                              CARAVEL_OUTBOUND_PLANK_TAG,
+                              CARAVEL_OUTBOUND_BLOCKER_TAG,
+                              CARAVEL_OUTBOUND_PLANK_RES,
+                              CARAVEL_OUTBOUND_CREATED_TIME);
+
             SetLocalInt(oArea, "timeCheckCnt", 0);
         } else {
             SetLocalInt(oArea, "timeCheckCnt", timeCheckCnt + 1);

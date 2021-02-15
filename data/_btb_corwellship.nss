@@ -29,10 +29,13 @@ location GangPlankLocation(object blockerWP, vector plankVector,float rotation){
 
 void DockShip(object oBlockerWP, location plankLocation, string newTag,
               string blockerTag, string plankRes){
-    object plank = CreateObject(OBJECT_TYPE_PLACEABLE, plankRes,
-                                plankLocation, FALSE, newTag);
-    SetVisibleToAllPCsInArea(plank);
-    DestroyObject(GetObjectByTag(blockerTag));
+    object plank = GetObjectByTag(newTag);
+    if(plank == OBJECT_INVALID) {
+        plank = CreateObject(OBJECT_TYPE_PLACEABLE, plankRes,
+                             plankLocation, FALSE, newTag);
+        SetVisibleToAllPCsInArea(plank);
+        DestroyObject(GetObjectByTag(blockerTag));
+    }
 }
 
 void ShipInboundCreate(string shipStr, string waypntTag, vector position,
@@ -99,9 +102,6 @@ int GetPlayerOnShip(string triggerTag) {
     return FALSE;
 }
 
-/**
- * THIS WILL NEED A CHECK TO MAKE SURE THE DECK IS CLEAR BEFORE LEAVING!!!
- */
 void ShipOutActivate(string shipTag, string waypntTag, string plankTag,
                      string blockerTag, string blockerRes, string triggerTag,
                      string destroyTime) {
