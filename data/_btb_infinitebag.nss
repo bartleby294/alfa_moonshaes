@@ -7,7 +7,7 @@ void main()
 
     while (6 - bagNum > 0) {
         CreateItemOnObject(bagTag);
-        bagNum = bagNum - 1;
+        bagNum = bagNum + 1;
     }
 
     return;
