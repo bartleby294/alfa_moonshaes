@@ -73,11 +73,6 @@
 void main()
 {
 
-    SetListening(OBJECT_SELF,TRUE);
-    SetListenPattern(OBJECT_SELF,"An ale please Eamon**",2002);
-    SetListenPattern(OBJECT_SELF,"An ale please Eamon**",2003);
-
-
 /************************ [Important Spawn Settings] **************************/
 
 //*************************** ALFA Mod
@@ -643,11 +638,11 @@ void main()
       // set FALSE because we already SetListening - and the renamed with
       // the JAI prefix by Cereborn...
 
-      AI_SetListeningPatterns( FALSE );
+      AI_SetListeningPatterns();
     }
     else
     {
-      AI_SetListeningPatterns( TRUE );
+      AI_SetListeningPatterns();
     }
     //****** end ALFA MOD
 

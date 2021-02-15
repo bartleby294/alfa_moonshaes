@@ -93,4 +93,9 @@ void MoonshaesCustom(object oPC)
    {
         AssignCommand(oPC, ActionJumpToObject(GetObjectByTag("BETA_RECALL01"), TRUE));
    }
+   // DM Control Stone
+   if(GetTag(oItem) == "dmcontrolstone" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmcontrolst", oPC);
+   }
 }
