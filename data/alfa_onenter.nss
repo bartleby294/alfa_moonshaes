@@ -17,8 +17,9 @@ void main()
 {
 
   object oPC = GetEnteringObject();
-
+  SendMessageToPC(oPC, "Before ALFA_OnClientEnter");
   ALFA_OnClientEnter();
+  SendMessageToPC(oPC, "After ALFA_OnClientEnter");
 
   /**************** Add Custom Code Here ***************/
 
