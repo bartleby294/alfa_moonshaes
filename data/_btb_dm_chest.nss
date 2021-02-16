@@ -6,5 +6,9 @@ void main()
         CreateItemOnObject("dmcontrolstone");
     }
 
+    if (!HasItem("dmbatsignal1")) {
+        CreateItemOnObject("dmbatsignal1");
+    }
+
     return;
 }
