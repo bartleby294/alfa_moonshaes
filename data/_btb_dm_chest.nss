@@ -10,5 +10,9 @@ void main()
         CreateItemOnObject("dmbatsignal1");
     }
 
+    if (!HasItem("dmbatsignal2")) {
+        CreateItemOnObject("dmbatsignal2");
+    }
+
     return;
 }

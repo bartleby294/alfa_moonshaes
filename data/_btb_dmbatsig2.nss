@@ -1,4 +1,5 @@
 #include "_btb_util"
+#include "x0_i0_position"
 
 void batScatter(object oArea, location oItemLoc) {
     int batNum = 0;
@@ -29,6 +30,21 @@ void batCircle(object oArea, location oItemLoc) {
     }
 }
 
+void batBlast(object oArea, location oItemLoc, object oPC) {
+    int batNum = 0;
+    while(batNum < 20) {
+        object bat = CreateObject(OBJECT_TYPE_CREATURE, "_btb_bat_swarm1",
+                                  oItemLoc, TRUE);
+        location aheadLoc = GetAheadLocation(oPC);
+        vector pos = GetPositionFromLocation(aheadLoc);
+        vector batVec = Vector(pos.x + 150, pos.z + 150, 0.0);
+        location batLoc = Location(oArea , batVec, 0.0);
+        AssignCommand(bat, ActionMoveToLocation(batLoc, TRUE));
+        SetLocalLocation(bat, "center", oItemLoc);
+        batNum++;
+    }
+}
+
 void main()
 {
     object oPC = GetItemActivator();
@@ -40,7 +56,8 @@ void main()
     //vector oItemVec = GetPositionFromLocation(oItemLoc);
     //location oItemLocFinal = Location(oArea, oItemVec, oPCfacing);
 
-    batScatter(oArea, oItemLoc);
+    //batScatter(oArea, oItemLoc);
     //batCircle(oArea, oItemLoc);
+    batBlast(oArea, oItemLoc, oPC);
 
 }
