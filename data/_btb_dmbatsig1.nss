@@ -15,8 +15,12 @@ void main()
     while(batNum < 20) {
         object bat = CreateObject(OBJECT_TYPE_CREATURE, "_btb_bat_swarm1",
                                   oItemLoc, TRUE);
-        location nextWP = getNextWaypoint(oArea, oItemLoc, 7, bat);
-        AssignCommand(bat, ActionMoveToLocation(nextWP, TRUE));
+        float delay = 0.0;
+        while(delay < 6.0) {
+            location nextWP = getNextWaypoint(oArea, oItemLoc, 7, OBJECT_SELF);
+            DelayCommand(0.1, AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, TRUE)));
+            delay = delay + 0.1;
+        }
         SetLocalLocation(bat, "center", oItemLoc);
         batNum++;
     }

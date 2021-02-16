@@ -11,8 +11,8 @@ void main()
         float delay = 0.0;
         while(delay < 6.0) {
             location nextWP = getNextWaypoint(oArea, center, 7, OBJECT_SELF);
-            DelayCommand(0.5, AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, TRUE)));
-            delay = delay + 0.5;
+            DelayCommand(0.1, AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, TRUE)));
+            delay = delay + 0.1;
         }
         SetLocalInt(OBJECT_SELF, "hbCount", hbCount + 1);
     }
