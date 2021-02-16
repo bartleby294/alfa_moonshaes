@@ -284,6 +284,68 @@ void ALFA_OnPlayerDying()
   SignalEvent( OBJECT_SELF, EventUserDefined(ALFA_EVENT_MODULE_ON_DYING) );
 }
 
+void MS_LoadCharacterLocation( object poPC )
+{
+  location    oLocation;
+  location    oCurLocation;
+
+  SetLocalInt(poPC, "ALFA_LoadingLocation", TRUE);
+
+  if (GetIsObjectValid( GetAreaFromLocation( GetLocation( poPC ) ) ) == FALSE)
+  {
+      DelayCommand( 1.0f, ALFA_LoadCharacterLocation( poPC ) );
+      return;
+  }
+
+  else
+  {
+    SetLocalInt(poPC, "ALFA_LoadingLocation", FALSE);
+
+    //Check to see if it is ok that we run the location code.
+    if ( GetLocalInt( poPC, "ALFA_PC_DoNotLoadLocation" ) == TRUE )
+    {
+        return;
+    }
+
+    else if ( GetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn" ) == TRUE )
+    {
+        return;
+    }
+
+//    else if ( GetLocalInt( poPC, "AP_WK_MOVE_FLAG" ) == FALSE )
+//    {
+//      return;
+//    }
+
+    else if ( GetItemPossessedBy( poPC, "ALFADeathToken" ) != OBJECT_INVALID )
+    {
+        return;
+    }
+
+    oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE, "CurrentLocation", poPC);
+
+    if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
+    {
+      // If new player move to new player WP
+      if(GetLocalInt(poPC, "seenPCBefore") == 0){
+        oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+        SetLocalInt(poPC, "seenPCBefore", 1);
+      }
+    }
+
+    if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
+    {
+        return;
+    }
+
+    ALFA_SendCharLocationMessage( poPC, 204, TRUE, FALSE, FALSE );
+    DelayCommand( 10.0f, AssignCommand( poPC, ActionJumpToLocation( oLocation ) ) );
+    SetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn", TRUE );
+  }
+
+  SetLocalInt(poPC, "ALFA_LoadingLocation", FALSE);
+}
+
 
 /*
  * Module OnClientEnter Event
@@ -369,7 +431,7 @@ void ALFA_OnClientEnter()
   SOS_PlayerLogin( oPC );
 
   /* Puts the character back to their last known location */
-  ALFA_LoadCharacterLocation( oPC );
+  MS_LoadCharacterLocation( oPC );
 
   /* Begin the save location script monitor that will run */
   if ( gALFA_LOCATION_SAVE_TIMER )
