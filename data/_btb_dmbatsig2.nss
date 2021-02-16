@@ -48,9 +48,29 @@ void batBlast2(object oArea, location oItemLoc, object oPC) {
 /**
     Return a location some units of distance away on a straight line.
  */
-location pickSpawnLoc2(vector pcVector, float pcAngle) {
+location pickSpawnLoc2WORKING(vector pcVector, float pcAngle) {
 
     vector bandVector = GetPosition(OBJECT_SELF);
+    vector normPcVector = AngleToVector(pcAngle);
+
+    float x = normPcVector.x;
+    float y = normPcVector.y;
+
+    int distance = 1000;
+
+    vector norm = VectorNormalize(Vector(x, y, 0.0));
+    float spawnX = pcVector.x + (distance * norm.x);
+    float spawnY = pcVector.y + (distance * norm.y);
+
+    return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
+}
+
+/**
+    Return a location some units of distance away on a straight line.
+ */
+location pickSpawnLoc2(vector pcVector, float pcAngle, location oItemLoc) {
+
+    vector bandVector = GetPositionFromLocation(oItemLoc);
     vector normPcVector = AngleToVector(pcAngle);
 
     float x = normPcVector.x;
@@ -71,7 +91,7 @@ void batBlast(object oArea, location oItemLoc, object oPC) {
         object bat = CreateObject(OBJECT_TYPE_CREATURE, "_btb_bat_swarm1",
                                   oItemLoc, TRUE);
         float pcAngle = GetFacing(oPC);
-        location batLoc = pickSpawnLoc2(GetPosition(oPC), pcAngle);
+        location batLoc = pickSpawnLoc2(GetPosition(oPC), pcAngle, oItemLoc);
         AssignCommand(bat, ActionMoveToLocation(batLoc, TRUE));
         SetLocalLocation(bat, "center", oItemLoc);
         batNum++;
