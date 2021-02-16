@@ -11,7 +11,7 @@ location getNextWaypoint(object oArea, location campfireLoc,
         randFloat = (Random(4) + 1)/4.0;
         SetLocalFloat(bat, "randFloat", randFloat);
     }
-    float radius = (5 * radiusBase) + randFloat;
+    float radius = radiusBase + randFloat;
     float direction = GetLocalFloat(bat, "direction");
     string uuid = GetLocalString(bat, "uuid");
 
