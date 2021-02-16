@@ -17,7 +17,7 @@ void main()
                                   oItemLoc, TRUE);
         float delay = 0.0;
         while(delay < 6.0) {
-            location nextWP = getNextWaypoint(oArea, oItemLoc, 7, OBJECT_SELF);
+            location nextWP = getNextWaypoint(oArea, oItemLoc, 7, OBJECT_SELF, 120.0);
             DelayCommand(0.1, AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, TRUE)));
             delay = delay + 0.1;
         }

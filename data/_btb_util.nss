@@ -5,7 +5,7 @@ float getFacing(vector centerPoint, vector otherPoint) {
 }
 
 location getNextWaypoint(object oArea, location campfireLoc,
-                              int radiusBase, object bat) {
+                              int radiusBase, object bat, float baseAngle) {
     float theta = GetLocalFloat(bat, "theta");
     float randFloat = GetLocalFloat(bat, "randFloat");
     if(randFloat == 0.0) {
@@ -30,7 +30,8 @@ location getNextWaypoint(object oArea, location campfireLoc,
         }
     }
 
-    theta = theta + (direction * (90.0/radiusBase));
+    //baseAngle is normally 90.0.
+    theta = theta + (direction * (baseAngle/radiusBase));
     if(theta > 360.0) {
         theta = theta - 360;
     }
