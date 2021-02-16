@@ -2,6 +2,8 @@
 
 void main()
 {
+    return;
+
     int hbCount = GetLocalInt(OBJECT_SELF, "hbCount");
     if(hbCount > 4) {
         DestroyObject(OBJECT_SELF);
