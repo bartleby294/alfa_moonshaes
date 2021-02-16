@@ -284,31 +284,71 @@ void ALFA_OnPlayerDying()
   SignalEvent( OBJECT_SELF, EventUserDefined(ALFA_EVENT_MODULE_ON_DYING) );
 }
 
-void MS_ProcessNewPlayer( object oPC )
+void MS_LoadCharacterLocation( object poPC )
 {
-  int nGold = GetGold( oPC );
-  object oArea = GetArea( oPC );
+  location    oLocation;
+  location    oCurLocation;
 
-  // Wait until the player has been fully initialized
-  // by the game
-  if ( oArea == OBJECT_INVALID )
+  SetLocalInt(poPC, "ALFA_LoadingLocation", TRUE);
+
+  if (GetIsObjectValid( GetAreaFromLocation( GetLocation( poPC ) ) ) == FALSE)
   {
-    DelayCommand( 0.5, MS_ProcessNewPlayer( oPC ) );
-    return;
+      DelayCommand( 1.0f, MS_LoadCharacterLocation( poPC ) );
+      return;
   }
 
-  ALFA_DestroyInventory( oPC );
+  else
+  {
+    SetLocalInt(poPC, "ALFA_LoadingLocation", FALSE);
 
-  // Give new PCs a bedroll for the rest system
-  if ( GetIsObjectValid( GetItemPossessedBy(oPC,"bedroll") ) == FALSE )
-    CreateItemOnObject( "bedroll", oPC );
+    //Check to see if it is ok that we run the location code.
+    if ( GetLocalInt( poPC, "ALFA_PC_DoNotLoadLocation" ) == TRUE )
+    {
+        SendMessageToPC(poPC, "ALFA_PC_DoNotLoadLocation");
+        return;
+    }
 
-  GiveGoldToCreature( oPC, ALFA_STARTING_GOLD-nGold );
+    else if ( GetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn" ) == TRUE )
+    {
+        SendMessageToPC(poPC, "ALFA_PC_AlreadyLoggedIn");
+        return;
+    }
 
-  SetXP(oPC, 1);
+//    else if ( GetLocalInt( poPC, "AP_WK_MOVE_FLAG" ) == FALSE )
+//    {
+//      return;
+//    }
 
-  AssignCommand(oPC, ActionJumpToLocation(GetLocation(
-                                  GetObjectByTag("WP_NEW_PC_START_LOCATION"))));
+    else if ( GetItemPossessedBy( poPC, "ALFADeathToken" ) != OBJECT_INVALID )
+    {
+        SendMessageToPC(poPC, "ALFADeathToken");
+        return;
+    }
+
+    oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE, "CurrentLocation", poPC);
+
+    if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
+    {
+        SendMessageToPC(poPC, "GetAreaFromLocation 1");
+      // If new player move to new player WP
+      if(GetLocalInt(poPC, "seenPCBefore") == 0){
+        oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+        SetLocalInt(poPC, "seenPCBefore", 1);
+      }
+    }
+
+    if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
+    {
+        SendMessageToPC(poPC, "GetAreaFromLocation 2");
+        return;
+    }
+
+    ALFA_SendCharLocationMessage( poPC, 204, TRUE, FALSE, FALSE );
+    DelayCommand( 10.0f, AssignCommand( poPC, ActionJumpToLocation( oLocation ) ) );
+    SetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn", TRUE );
+  }
+
+  SetLocalInt(poPC, "ALFA_LoadingLocation", FALSE);
 }
 
 /*
@@ -398,7 +438,7 @@ void ALFA_OnClientEnter()
 
   /* Puts the character back to their last known location */
   SendMessageToPC(oPC, "ALFA_LoadCharacterLocation");
-  ALFA_LoadCharacterLocation( oPC );
+  MS_LoadCharacterLocation( oPC );
 
   /* Begin the save location script monitor that will run */
   if ( gALFA_LOCATION_SAVE_TIMER )
