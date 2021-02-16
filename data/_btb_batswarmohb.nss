@@ -8,8 +8,12 @@ void main()
     } else {
         object oArea = GetArea(OBJECT_SELF);
         location center = GetLocalLocation(OBJECT_SELF, "center");
-        location nextWP = getNextWaypoint(oArea, center, 10, OBJECT_SELF);
-        AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, TRUE));
+        float delay = 0.0;
+        while(delay < 6.0) {
+            location nextWP = getNextWaypoint(oArea, center, 7, OBJECT_SELF);
+            DelayCommand(0.5, AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, TRUE)));
+            delay = delay + 0.5;
+        }
         SetLocalInt(OBJECT_SELF, "hbCount", hbCount + 1);
     }
 }
