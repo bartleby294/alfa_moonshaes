@@ -2,7 +2,7 @@
 
 void main()
 {
-    object oPC = GetItemActivator();
+    object oPC = GetPCSpeaker();
     object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
     int oldState = GetLocalInt(obHbObj, "state");
     SetLocalInt(obHbObj, "OldState", oldState);

@@ -2,5 +2,5 @@
 
 void main()
 {
-    moonwellStaticSpawn(GetItemActivator());
+    moonwellStaticSpawn(GetPCSpeaker());
 }
