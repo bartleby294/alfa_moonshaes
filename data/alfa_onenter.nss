@@ -11,21 +11,15 @@
  ******************************************************************/
 
 /* Includes */
-#include "alfa_include"
+#include "alfa_include_fix"
 
 void main()
 {
 
   object oPC = GetEnteringObject();
-
-  // If new player move to new player WP
-  if(GetLocalInt(oPC, "seenPCBefore") == 0){
-    AssignCommand(oPC, ActionJumpToLocation(GetLocation(
-        GetObjectByTag("WP_NEW_PC_START_LOCATION"))));
-    SetLocalInt(oPC, "seenPCBefore", 1);
-  }
-
+  //SendMessageToPC(oPC, "Before ALFA_OnClientEnter");
   ALFA_OnClientEnter();
+  //SendMessageToPC(oPC, "After ALFA_OnClientEnter");
 
   /**************** Add Custom Code Here ***************/
 

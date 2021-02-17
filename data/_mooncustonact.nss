@@ -98,4 +98,16 @@ void MoonshaesCustom(object oPC)
    {
         ExecuteScript("_btb_dmcontrolst", oPC);
    }
+
+   // DM Control Stone
+   if(GetTag(oItem) == "dmbatsignal1" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmbatsig1", oPC);
+   }
+
+   // DM Control Stone
+   if(GetTag(oItem) == "dmbatsignal2" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmbatsig2", oPC);
+   }
 }

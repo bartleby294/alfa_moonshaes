@@ -4,6 +4,58 @@ float getFacing(vector centerPoint, vector otherPoint) {
                                 0.0));
 }
 
+location getNextWaypoint(object oArea, location campfireLoc,
+                              int radiusBase, object bat, float baseAngle) {
+    float theta = GetLocalFloat(bat, "theta");
+    float randFloat = GetLocalFloat(bat, "randFloat");
+    if(randFloat == 0.0) {
+        theta = Random(360) / 1.0;
+        randFloat = (Random(4) + 1)/4.0;
+        SetLocalFloat(bat, "randFloat", randFloat);
+    }
+    float radius = (radiusBase) + randFloat;
+    float direction = GetLocalFloat(bat, "direction");
+    string uuid = GetLocalString(bat, "uuid");
+
+    if(uuid== "") {
+        SetLocalString(bat, "uuid", GetRandomUUID());
+    }
+
+    // this is bugged because its 0 and n-1 so always negative but who cares.
+    if(direction == 0.0) {
+        if(Random(1) == 0){
+            SetLocalFloat(bat, "direction", -1.0);
+        } else {
+            SetLocalFloat(bat, "direction", 1.0);
+        }
+    }
+
+    //baseAngle is normally 90.0.
+    theta = theta + (direction * (baseAngle/radiusBase));
+    if(theta > 360.0) {
+        theta = theta - 360;
+    }
+    if(theta < -360.0) {
+        theta = theta + 360;
+    }
+
+    SetLocalFloat(bat, "theta", theta);
+
+    float x = radius * cos(theta);
+    float y = radius * sin(theta);
+
+    vector campfireVector = GetPositionFromLocation(campfireLoc);
+    location patrolLoc = Location(oArea,
+        Vector(campfireVector.x + x, campfireVector.y+ y, 0.0), 0.0);
+    float z = GetGroundHeight(patrolLoc);
+
+    patrolLoc = Location(oArea,
+        Vector(campfireVector.x + x, campfireVector.y+ y, z),
+            getFacing(campfireVector, GetPositionFromLocation(patrolLoc)));
+
+    return patrolLoc;
+}
+
 int getItemCostFromTag(string tag) {
     return GetGoldPieceValue(GetObjectByTag(tag));
 }
