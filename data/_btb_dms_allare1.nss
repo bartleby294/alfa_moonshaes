@@ -6,6 +6,7 @@ void main()
     object oSpawn;
     string sSpawnNum;
     object oPC = GetPCSpeaker();
+    object oArea = GetArea(oPC);
 
     int nSpawns = GetLocalInt(GetArea(oPC), "Spawns");
     SendMessageToPC(oPC, "Deactivating");
@@ -15,7 +16,7 @@ void main()
         // Retrieve Spawn
         sSpawnNum = "Spawn" + PadIntToString(nNth, 2);
         SendMessageToPC(oPC, "sSpawnNum: " + sSpawnNum);
-        oSpawn = GetLocalObject(oPC, sSpawnNum);
+        oSpawn = GetLocalObject(oArea, sSpawnNum);
         NESS_DeactivateSpawn(oSpawn);
     }
 }
