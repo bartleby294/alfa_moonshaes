@@ -23,15 +23,13 @@ void mainOLD()
 
 void main()
 {
-   //return;
-
     int hbCount = GetLocalInt(OBJECT_SELF, "hbCount");
-    if(hbCount > 4) {
+    if(hbCount > 3) {
         DestroyObject(OBJECT_SELF);
     } else {
         object oArea = GetArea(OBJECT_SELF);
         location center = GetLocalLocation(OBJECT_SELF, "center");
-        location nextWP = getNextWaypoint(oArea, center, 70, OBJECT_SELF, 90.0);
+        location nextWP = getNextWaypoint(oArea, center, (hbCount + 1) * 70, OBJECT_SELF, 90.0);
         AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, TRUE));
         SetLocalInt(OBJECT_SELF, "hbCount", hbCount + 1);
     }

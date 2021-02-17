@@ -8,11 +8,11 @@ location pickSpawnLoc2(vector pcVector, float pcAngle) {
     float x = normPcVector.x;
     float y = normPcVector.y;
 
-    int distance = 1000;
+    int distance = 100;
 
     vector norm = VectorNormalize(Vector(x, y, 0.0));
-    float spawnX = pcVector.x + (distance * norm.x);
-    float spawnY = pcVector.y + (distance * norm.y);
+    float spawnX = bandVector.x + (distance * norm.x) + Random(10)/6;
+    float spawnY = bandVector.y + (distance * norm.y) + Random(10)/6;
 
     return Location(GetArea(OBJECT_SELF), Vector(spawnX, spawnY, 0.0), 0.0);
 }
