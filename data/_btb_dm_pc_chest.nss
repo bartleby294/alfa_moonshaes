@@ -4,7 +4,7 @@
 void main()
 {
     if (!HasItem("vialofmoonwellwa")) {
-        object obj = CreateItemOnObject("dmcontrolstone");
+        object obj = CreateItemOnObject("vialofmoonwellwa");
         NWNX_Item_SetBaseGoldPieceValue(obj, 1);
         NWNX_Item_SetAddGoldPieceValue(obj, 1);
     }
