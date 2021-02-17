@@ -17,6 +17,7 @@ void main()
         sSpawnNum = "Spawn" + PadIntToString(nNth, 2);
         SendMessageToPC(oPC, "sSpawnNum: " + sSpawnNum);
         oSpawn = GetLocalObject(oArea, sSpawnNum);
+        SendMessageToPC(oPC, "SpawnTag: " + GetTag(oSpawn));
         NESS_DeactivateSpawn(oSpawn);
     }
 }
