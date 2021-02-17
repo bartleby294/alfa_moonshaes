@@ -17,8 +17,8 @@ void main()
     if(sTag == "RIGHT_HAND")    iBodyPart = CREATURE_PART_RIGHT_HAND;
     if(sTag == "LEFT_HAND")     iBodyPart = CREATURE_PART_LEFT_HAND;
 
-    SendMessageToPC(oPC, "iBodyPart: " + IntToString(iBodyPart));
-    SendMessageToPC(oPC, "creature iBodyPart: " + IntToString(GetCreatureBodyPart(iBodyPart, oPC)));
+    SendMessageToPC(oPC, "iBodyPart: " + IntToString(iBodyPart) + " set to "
+                         + IntToString(GetCreatureBodyPart(iBodyPart, oPC)));
 
     if(iBodyPart != CREATURE_PART_TORSO)
     {
