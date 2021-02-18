@@ -15,8 +15,10 @@ void batSound(object oArea, location oItemLoc) {
     int num = 0;
     while(num < 5) {
         string randomSound = IntToString(Random(9) + 1);
-        object oSound = CreateObject(OBJECT_TYPE_PLACEABLE,
-                                    "batswarm" + randomSound, oItemLoc);
+        object oSound = GetObjectByTag("batswarm" + randomSound);
+        //object oSound = CreateObject(OBJECT_TYPE_PLACEABLE,
+        //                            "batswarm" + randomSound, oItemLoc);
+        SoundObjectSetPosition(oSound, GetPositionFromLocation(oItemLoc));
         SoundObjectPlay(oSound);
         DestroyObject(oSound, 7.0 - num);
         num++;
