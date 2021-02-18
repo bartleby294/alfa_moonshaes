@@ -24,9 +24,15 @@
 ************************* [On Conversation] ***********************************/
 
 #include "j_inc_other_ai"
+#include "_btb_dms_rsi_const"
 
 void main()
 {
+    // check if DM has toggled off custom scripts.
+    int curState = GetLocalInt(GetArea(OBJECT_SELF), EAMON_STATE);
+    if (curState == CONVERSATION_DM_DISABLED) {
+        return;
+    }
 
    int nMatch2 = GetListenPatternNumber();
     float x8  =  1.5;
