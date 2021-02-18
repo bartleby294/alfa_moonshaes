@@ -46,13 +46,6 @@ void main()
         SetLocalLocation(OBJECT_SELF, "center", curLoc);
         vector newVec = GetChangedPosition(curPos, 100.0, facing);
         location newLoc = Location(oArea, newVec, facing);
-        PlaySound(RandomBatSound());
-        DelayCommand(0.5, PlaySound(RandomBatSound()));
-        DelayCommand(1.0, PlaySound(RandomBatSound()));
-        DelayCommand(1.5, PlaySound(RandomBatSound()));
-        DelayCommand(2.0, PlaySound(RandomBatSound()));
-        DelayCommand(4.0, PlaySound(RandomBatSound()));
-        DelayCommand(5.0, PlaySound(RandomBatSound()));
         AssignCommand(OBJECT_SELF, ActionMoveToLocation(newLoc, TRUE));
         SetLocalInt(OBJECT_SELF, "hbCount", hbCount + 1);
     }
