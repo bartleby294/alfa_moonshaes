@@ -329,10 +329,14 @@ void MS_LoadCharacterLocation( object poPC )
 
     if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
     {
-        //SendMessageToPC(poPC, "GetAreaFromLocation 1");
+      //SendMessageToPC(poPC, "GetAreaFromLocation 1");
       // If new player move to new player WP
       if(GetLocalInt(poPC, "seenPCBefore") == 0){
-        oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+        if(GetIsDM(poPC)) {
+            oLocation = GetLocation(GetObjectByTag("MS_DM_START_WP"));
+        } else {
+            oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+        }
         SetLocalInt(poPC, "seenPCBefore", 1);
       }
     }

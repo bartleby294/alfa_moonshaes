@@ -104,13 +104,6 @@ void main()
     object oArea = GetArea(oPC);
     object oItem = GetItemActivated();
     location oItemLoc = GetItemActivatedTargetLocation();
-    //location oPCLoc = GetLocation(oPC);
-    //float oPCfacing = GetFacingFromLocation(oPCLoc);
-    //vector oItemVec = GetPositionFromLocation(oItemLoc);
-    //location oItemLocFinal = Location(oArea, oItemVec, oPCfacing);
-
-    //batScatter(oArea, oItemLoc);
-    //batCircle(oArea, oItemLoc);
-    batBlast(oArea, oItemLoc, oPC);
+    CreateObject(OBJECT_TYPE_CREATURE, "batswarm3", oItemLoc, TRUE);
 
 }
