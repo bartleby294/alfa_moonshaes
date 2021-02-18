@@ -11,27 +11,24 @@ void batScatter(object oArea, location oItemLoc) {
     }
 }
 
+void batSound(object oArea, location oItemLoc) {
+    int num = 0;
+    while(num < 5) {
+        string randomSound = IntToString(Random(9) + 1);
+        object oSound = CreateObject(OBJECT_TYPE_PLACEABLE,
+                                    "batswarm" + randomSound, oItemLoc);
+        SoundObjectPlay(oSound);
+        DestroyObject(oSound, 7.0 - num);
+        num++;
+    }
+}
+
 void main()
 {
     object oPC = GetItemActivator();
     object oArea = GetArea(oPC);
     object oItem = GetItemActivated();
     location oItemLoc = GetItemActivatedTargetLocation();
-
-
-    //as_an_bat1
-    //as_an_bat2
-    //as_an_bat3
-    //as_an_batflap1
-    //as_an_batflap2
-    //as_an_bats1
-    //as_an_bat2
-    //as_an_batsflap1
-    //as_an_batsflap2
-    object sound1 = CreateObject(OBJECT_TYPE_PLACEABLE, "invisbatsound", oItemLoc);
-    AssignCommand(sound1, PlaySound("as_an_bat1"));
-    AssignCommand(sound1, PlaySound("as_an_batflap1"));
-    AssignCommand(sound1, PlaySound("as_an_batsflap2"));
-
     batScatter(oArea, oItemLoc);
+    batSound(oArea, oItemLoc);
 }
