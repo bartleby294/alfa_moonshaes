@@ -34,6 +34,6 @@ void main()
     //batScatter(oArea, oItemLoc);
     //batSound(oArea, oItemLoc);
 
-    object sound1 = CreateObject(OBJECT_TYPE_PLACEABLE, "invisbatsound", oItemLoc);
-    AssignCommand(sound1, PlaySound("al_pl_x2bongolp1"));
+    CreateObject(OBJECT_TYPE_PLACEABLE, "invisbatsound", oItemLoc);
+    //AssignCommand(sound1, PlaySound("al_pl_x2bongolp1"));
 }
