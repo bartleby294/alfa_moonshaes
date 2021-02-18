@@ -32,5 +32,10 @@ void main()
     object oItem = GetItemActivated();
     location oItemLoc = GetItemActivatedTargetLocation();
     batScatter(oArea, oItemLoc);
-    batSound(oArea, oItemLoc);
+    //batSound(oArea, oItemLoc);
+
+    object sound1 = CreateObject(OBJECT_TYPE_PLACEABLE, "invisbatsound", oItemLoc);
+    AssignCommand(sound1, PlaySound("as_an_bat1"));
+    AssignCommand(sound1, PlaySound("as_an_batflap1"));
+    AssignCommand(sound1, PlaySound("as_an_batsflap2"));
 }
