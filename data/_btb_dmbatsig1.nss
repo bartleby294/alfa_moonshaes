@@ -31,7 +31,7 @@ void main()
     object oArea = GetArea(oPC);
     object oItem = GetItemActivated();
     location oItemLoc = GetItemActivatedTargetLocation();
-    //batScatter(oArea, oItemLoc);
+    batScatter(oArea, oItemLoc);
     //batSound(oArea, oItemLoc);
 
     CreateObject(OBJECT_TYPE_PLACEABLE, "invisbatsound", oItemLoc);
