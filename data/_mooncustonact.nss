@@ -128,4 +128,10 @@ void MoonshaesCustom(object oPC)
    {
         ExecuteScript("_btb_dmbatsig5", oPC);
    }
+
+   // DM Corrupted Bat Spawn
+   if(GetTag(oItem) == "dmbatsounds1" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmbatsnd5", oPC);
+   }
 }

@@ -1,5 +1,13 @@
+#include "_btb_dms_rsi_const"
+
 void main()
 {
+    // check if DM has toggled off custom scripts.
+    int curState = GetLocalInt(GetArea(OBJECT_SELF), EAMON_STATE);
+    if (curState == CONVERSATION_DM_DISABLED) {
+        return;
+    }
+
     object oPC = GetEnteringObject();
     string opening;
     string middle;

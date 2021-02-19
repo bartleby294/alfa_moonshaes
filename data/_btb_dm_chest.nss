@@ -26,5 +26,9 @@ void main()
         CreateItemOnObject("dmbatsignal5");
     }
 
+    if (!HasItem("dmbatsounds1")) {
+        CreateItemOnObject("dmbatsounds1");
+    }
+
     return;
 }
