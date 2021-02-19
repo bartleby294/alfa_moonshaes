@@ -284,6 +284,17 @@ void ALFA_OnPlayerDying()
   SignalEvent( OBJECT_SELF, EventUserDefined(ALFA_EVENT_MODULE_ON_DYING) );
 }
 
+void RemoveCutSceeneImob(object oPC) {
+    //Remove blindness from the PC
+    effect eLoop=GetFirstEffect(oPC);
+    while (GetIsEffectValid(eLoop)) {
+        if (GetEffectType(eLoop)==EFFECT_TYPE_CUTSCENEIMMOBILIZE) {
+            RemoveEffect(oPC, eLoop);
+        }
+        eLoop=GetNextEffect(oPC);
+    }
+}
+
 void MS_LoadCharacterLocation( object poPC )
 {
   location    oLocation;
@@ -358,7 +369,7 @@ void MS_LoadCharacterLocation( object poPC )
     }
 
     ALFA_SendCharLocationMessage( poPC, 204, TRUE, FALSE, FALSE );
-    DelayCommand( 10.5f, RemoveEffect(poPC, eImmobilize));
+    DelayCommand( 10.5f, RemoveCutSceeneImob(poPC));
     DelayCommand( 10.0f, AssignCommand( poPC, ActionJumpToLocation( oLocation ) ) );
     SetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn", TRUE );
   }
