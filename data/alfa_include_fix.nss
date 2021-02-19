@@ -290,10 +290,12 @@ void MS_LoadCharacterLocation( object poPC )
   location    oCurLocation;
 
   SetLocalInt(poPC, "ALFA_LoadingLocation", TRUE);
+  effect eImmobilize = EffectCutsceneImmobilize();
 
   if (GetIsObjectValid( GetAreaFromLocation( GetLocation( poPC ) ) ) == FALSE)
   {
       DelayCommand( 1.0f, MS_LoadCharacterLocation( poPC ) );
+      RemoveEffect(poPC, eImmobilize);
       return;
   }
 
@@ -305,12 +307,14 @@ void MS_LoadCharacterLocation( object poPC )
     if ( GetLocalInt( poPC, "ALFA_PC_DoNotLoadLocation" ) == TRUE )
     {
         SendMessageToPC(poPC, "ALFA_PC_DoNotLoadLocation");
+        RemoveEffect(poPC, eImmobilize);
         return;
     }
 
     else if ( GetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn" ) == TRUE )
     {
         SendMessageToPC(poPC, "ALFA_PC_AlreadyLoggedIn");
+        RemoveEffect(poPC, eImmobilize);
         return;
     }
 
@@ -322,6 +326,7 @@ void MS_LoadCharacterLocation( object poPC )
     else if ( GetItemPossessedBy( poPC, "ALFADeathToken" ) != OBJECT_INVALID )
     {
         SendMessageToPC(poPC, "ALFADeathToken");
+        RemoveEffect(poPC, eImmobilize);
         return;
     }
 
@@ -348,10 +353,12 @@ void MS_LoadCharacterLocation( object poPC )
     if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
     {
         SendMessageToPC(poPC, "GetAreaFromLocation 2");
+        RemoveEffect(poPC, eImmobilize);
         return;
     }
 
     ALFA_SendCharLocationMessage( poPC, 204, TRUE, FALSE, FALSE );
+    DelayCommand( 10.5f, RemoveEffect(poPC, eImmobilize));
     DelayCommand( 10.0f, AssignCommand( poPC, ActionJumpToLocation( oLocation ) ) );
     SetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn", TRUE );
   }
