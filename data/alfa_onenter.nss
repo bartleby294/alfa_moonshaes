@@ -18,7 +18,7 @@ void main()
 
   object oPC = GetEnteringObject();
   // Create the effect to apply
-  SendMessageToPC(oPC, "FROZEN");
+  //SendMessageToPC(oPC, "FROZEN");
   effect eImmobilize = EffectCutsceneImmobilize();
   ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eImmobilize, oPC, 100.0);
   //ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eImmobilize, oPC, 20.0);
