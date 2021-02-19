@@ -332,11 +332,15 @@ void MS_LoadCharacterLocation( object poPC )
       SendMessageToPC(poPC, "GetAreaFromLocation 1");
       // If new player move to new player WP
       if(GetLocalInt(poPC, "seenPCBefore") == 0){
+        SendMessageToPC(poPC, "seenPCBefore == 0");
         if(GetIsDM(poPC)) {
+            SendMessageToPC(poPC, "isDM");
             oLocation = GetLocation(GetObjectByTag("MS_DM_START_WP"));
         } else {
+            SendMessageToPC(poPC, "is Player");
             oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
         }
+        SendMessageToPC(poPC, "seenPCBefore now 1");
         SetLocalInt(poPC, "seenPCBefore", 1);
       }
     }
@@ -348,7 +352,7 @@ void MS_LoadCharacterLocation( object poPC )
     }
 
     ALFA_SendCharLocationMessage( poPC, 204, TRUE, FALSE, FALSE );
-    DelayCommand( 2.0f, AssignCommand( poPC, ActionJumpToLocation( oLocation ) ) );
+    DelayCommand( 10.0f, AssignCommand( poPC, ActionJumpToLocation( oLocation ) ) );
     SetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn", TRUE );
   }
 
