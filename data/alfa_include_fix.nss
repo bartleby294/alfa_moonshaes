@@ -304,13 +304,13 @@ void MS_LoadCharacterLocation( object poPC )
     //Check to see if it is ok that we run the location code.
     if ( GetLocalInt( poPC, "ALFA_PC_DoNotLoadLocation" ) == TRUE )
     {
-        //SendMessageToPC(poPC, "ALFA_PC_DoNotLoadLocation");
+        SendMessageToPC(poPC, "ALFA_PC_DoNotLoadLocation");
         return;
     }
 
     else if ( GetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn" ) == TRUE )
     {
-        //SendMessageToPC(poPC, "ALFA_PC_AlreadyLoggedIn");
+        SendMessageToPC(poPC, "ALFA_PC_AlreadyLoggedIn");
         return;
     }
 
@@ -321,7 +321,7 @@ void MS_LoadCharacterLocation( object poPC )
 
     else if ( GetItemPossessedBy( poPC, "ALFADeathToken" ) != OBJECT_INVALID )
     {
-        //SendMessageToPC(poPC, "ALFADeathToken");
+        SendMessageToPC(poPC, "ALFADeathToken");
         return;
     }
 
@@ -329,7 +329,7 @@ void MS_LoadCharacterLocation( object poPC )
 
     if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
     {
-      //SendMessageToPC(poPC, "GetAreaFromLocation 1");
+      SendMessageToPC(poPC, "GetAreaFromLocation 1");
       // If new player move to new player WP
       if(GetLocalInt(poPC, "seenPCBefore") == 0){
         if(GetIsDM(poPC)) {
@@ -343,12 +343,12 @@ void MS_LoadCharacterLocation( object poPC )
 
     if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
     {
-        //SendMessageToPC(poPC, "GetAreaFromLocation 2");
+        SendMessageToPC(poPC, "GetAreaFromLocation 2");
         return;
     }
 
     ALFA_SendCharLocationMessage( poPC, 204, TRUE, FALSE, FALSE );
-    DelayCommand( 10.0f, AssignCommand( poPC, ActionJumpToLocation( oLocation ) ) );
+    DelayCommand( 2.0f, AssignCommand( poPC, ActionJumpToLocation( oLocation ) ) );
     SetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn", TRUE );
   }
 

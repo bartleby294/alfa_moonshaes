@@ -4,7 +4,7 @@ void main() {
     SpeakString("Activated");
     PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
 
-    string tag = GetTag(OBJECT_SELF);
+    /*string tag = GetTag(OBJECT_SELF);
     if(tag == "caravel_create") {
         ShipInboundCreate(CARAVEL_INBOUND_TAG, CARAVEL_INBOUND_WAYPOINT_TAG,
                           Vector(85.4, 145.0, 0.0), 90.0, CARAVEL_INBOUND_RES);
@@ -76,5 +76,5 @@ void main() {
                         CITY_SHIP_OUTBOUND_PLANK_TAG,
                         CITY_SHIP_OUTBOUND_BLOCKER_TAG,
                         CITY_SHIP_OUTBOUND_BLOCKER_RES);
-    }
+    }      */
 }

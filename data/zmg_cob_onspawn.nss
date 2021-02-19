@@ -434,7 +434,7 @@ void main()
     //SetAIInteger(AI_CORPSE_DESTROY_TIME, 30);
         // Seconds before body finally gets destroyed. Used for Clerical Raise Dead on NPC's.
 
-    //SetSpawnInCondition(AI_FLAG_OTHER_TURN_OFF_CORPSES, AI_OTHER_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_TURN_OFF_CORPSES, AI_OTHER_MASTER);
         // This turns off the SetDestroyable() usually performed, and the above timer.
 
     //SetSpawnInCondition(AI_FLAG_OTHER_USE_BIOWARE_LOOTING, AI_OTHER_MASTER);
