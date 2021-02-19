@@ -160,11 +160,6 @@ void ALFA_SetPersistentFloat( string sDatabase, string psVarName, float pfValue,
 void ALFA_SetPersistentLocation( string sDatabase, string psVarName,
   location plValue, object poPlayer=OBJECT_INVALID, int bPartyInArea=FALSE )
 {
-    if(poPlayer == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("ALFA_SetPersistentLocation: poPlayer == OBJECT_INVALID");
-    }
-
-    SendMessageToPC(poPlayer, "ALFA_SetPersistentLocation");
   if ( bPartyInArea && GetIsObjectValid( poPlayer ) )
   {
     object oPC = GetFirstFactionMember( poPlayer );
