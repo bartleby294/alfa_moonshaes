@@ -17,6 +17,10 @@ void main()
 {
 
   object oPC = GetEnteringObject();
+  // Create the effect to apply
+  effect eImmobilize = EffectCutsceneImmobilize();
+  ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eImmobilize, oPC, 9.0);
+
   //SendMessageToPC(oPC, "Before ALFA_OnClientEnter");
   ALFA_OnClientEnter();
   //SendMessageToPC(oPC, "After ALFA_OnClientEnter");
