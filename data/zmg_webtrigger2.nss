@@ -7,34 +7,19 @@ void main()
  location spiderspawn = GetLocation(GetNearestObjectByTag("boo1"));
  effect spiderappear = EffectAppear();
  int i = (d2() + 4);
- int i2;
-
  if ((GetIsPC(entered) == TRUE) &&
-    (!GetLocalInt(OBJECT_SELF, "triggered1") == 1))
-
+    (GetLocalInt(OBJECT_SELF, "triggered1") == 0))
     {
-
-    while (i2 < i)
-    {
-    switch(Random(10))
-    {
-        case 0: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_01", spiderspawn); break;
-        case 1: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_01", spiderspawn); break;
-        case 2: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_01", spiderspawn); break;
-        case 3: CreateObject(OBJECT_TYPE_CREATURE, "tinyspider", spiderspawn); break;
-        case 4: CreateObject(OBJECT_TYPE_CREATURE, "tinyspider001", spiderspawn); break;
-        case 5: CreateObject(OBJECT_TYPE_CREATURE, "tinyspider002", spiderspawn); break;
-        case 6: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_01", spiderspawn); break;
-        case 7: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_02", spiderspawn); break;
-        case 8: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_02", spiderspawn); break;
-        case 9: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_02", spiderspawn); break;
+        CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_05", spiderspawn, TRUE);
     }
-    i2++;
-    }
-    SetLocalInt(OBJECT_SELF, "triggered1", 1);
 
-    if (!GetLocalInt(OBJECT_SELF, "webded") == 1)
+    if (GetLocalInt(OBJECT_SELF, "triggered1") == 0)
     {
+        SetLocalInt(OBJECT_SELF, "triggered1", 1);
+    }
+
+    AssignCommand(GetNearestObjectByTag("rn_spider_05"), SetFacing(0.0));
+
     int iSaveDC = ExecuteScriptAndReturnInt("alfa_savedc", OBJECT_SELF);
 
     //Declare major variables
@@ -72,8 +57,8 @@ void main()
                 ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSlow, oTarget);
 
         }
+
     }
 
-  }
- }
+
 }

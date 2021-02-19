@@ -3,17 +3,13 @@
 
 void main()
 {
- object entered = GetEnteringObject();
+ object otrap = GetNearestObjectByTag("webtrap");
+
  location spiderspawn = GetLocation(GetNearestObjectByTag("boo1"));
- effect spiderappear = EffectAppear();
  int i = (d2() + 4);
  int i2;
-
- if ((GetIsPC(entered) == TRUE) &&
-    (!GetLocalInt(OBJECT_SELF, "triggered1") == 1))
-
+ if (!GetLocalInt(otrap, "triggered1") == 1)
     {
-
     while (i2 < i)
     {
     switch(Random(10))
@@ -31,9 +27,10 @@ void main()
     }
     i2++;
     }
-    SetLocalInt(OBJECT_SELF, "triggered1", 1);
+    }
+    SetLocalInt(GetNearestObjectByTag("webtrap"), "triggered1", 1);
 
-    if (!GetLocalInt(OBJECT_SELF, "webded") == 1)
+    if (GetIsMeleeAttacker(GetLastAttacker(OBJECT_SELF)) == TRUE)
     {
     int iSaveDC = ExecuteScriptAndReturnInt("alfa_savedc", OBJECT_SELF);
 
@@ -75,5 +72,5 @@ void main()
     }
 
   }
+
  }
-}
