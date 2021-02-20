@@ -1,4 +1,4 @@
-#include "nw_i0_generic"
+/*#include "nw_i0_generic"
 #include "j_inc_generic_ai"
 #include "mrg_constants"
 
@@ -28,6 +28,7 @@ void TakeOffHat()
 }
 
 /* Note this function won't take off your current hat */
+/*
 void PutOnBestHat()
 {
   object bestHat = OBJECT_INVALID;
@@ -977,4 +978,8 @@ object FindAreaObjectByTag( string tag, object area)
     return OBJECT_INVALID;
 
 }
+*/
 
+void main() {
+
+}

@@ -3,8 +3,8 @@ void main()
     object spawnWP = GetObjectByTag("moonwell_hb_spawn_loc_1");
     object obHbObj = GetNearestObjectByTag("moonwell01onhbob", spawnWP);
 
-    WriteTimestampedLogEntry("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-    WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
+    //WriteTimestampedLogEntry("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+    //WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
     if(obHbObj == OBJECT_INVALID) {
         WriteTimestampedLogEntry("WARN: obHbObj == OBJECT_INVALID" );
     }
@@ -13,7 +13,7 @@ void main()
         || GetArea(obHbObj) != GetArea(OBJECT_SELF)) {
         CreateObject(OBJECT_TYPE_PLACEABLE, "moonwell01onhbob",
                         GetLocation(spawnWP));
-        WriteTimestampedLogEntry("Create moonwell rock.");
+        //WriteTimestampedLogEntry("Create moonwell rock.");
     }
 
     ExecuteScript("ms_on_area_enter");

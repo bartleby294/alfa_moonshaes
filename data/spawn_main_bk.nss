@@ -676,7 +676,7 @@ void ProcessSpawn(object oSpawn, int nProcessFrequency, int nPCCount,
 
                     else if (bCheckForStuckPatrols)
                     {
-                        CheckForStuckPatrol(oCreature, nPatrolRoute, nRouteType);
+                        //CheckForStuckPatrol(oCreature, nPatrolRoute, nRouteType);
                     }
                 }
                 else if (IsInConversation(oCreature) == TRUE)

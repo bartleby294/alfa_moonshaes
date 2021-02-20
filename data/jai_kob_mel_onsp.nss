@@ -616,6 +616,7 @@ void main()
 ************************* [User] **********************************************/
     // Example (and default) of user addition:
     // - If we are from an encounter, set mobile (move around) animations.
+    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);
@@ -637,11 +638,11 @@ void main()
       // set FALSE because we already SetListening - and the renamed with
       // the JAI prefix by Cereborn...
 
-      AI_SetListeningPatterns( FALSE );
+      AI_SetListeningPatterns(  );
     }
     else
     {
-      AI_SetListeningPatterns( TRUE );
+      AI_SetListeningPatterns(  );
     }
     //****** end ALFA MOD
 

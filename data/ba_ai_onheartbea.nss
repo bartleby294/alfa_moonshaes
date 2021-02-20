@@ -44,12 +44,12 @@
 #include "nwnx_area"
 #include "_btb_ban_util"
 #include "ba_consts"
+#include "_btb_util"
 
 /**
  *  Select next walk waypoint.
  */
-location getNextWaypoint(object oArea, location campfireLoc,
-                              int radiusBase) {
+location getNextWaypoint2(object oArea, location campfireLoc, int radiusBase) {
     float theta = GetLocalFloat(OBJECT_SELF, "theta");
     float randFloat = GetLocalFloat(OBJECT_SELF, "randFloat");
     if(randFloat == 0.0) {
@@ -145,7 +145,7 @@ void patrolAroundCamp(object oArea, location campfireLoc, int patrolCircle) {
     int wait = GetLocalInt(OBJECT_SELF, "turnsWaited");
     if(notTooClose() && wait == 0 && locatonIsValid(campfireLoc)) {
         //writeToLog(" # Not to close so next wp");
-        location nextWP = getNextWaypoint(oArea, campfireLoc, patrolCircle);
+        location nextWP = getNextWaypoint2(oArea, campfireLoc, patrolCircle);
         AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
         } else if(wait >= 1) {
             SetLocalInt(OBJECT_SELF, "turnsWaited", 0);
@@ -157,7 +157,7 @@ void patrolAroundCamp(object oArea, location campfireLoc, int patrolCircle) {
 void patrolAroundHostileArea(object oArea, location patrolLoc, int circle) {
     int wait = GetLocalInt(OBJECT_SELF, "turnsWaited");
     if(notTooClose() && wait == 0 && locatonIsValid(patrolLoc)) {
-        location nextWP = getNextWaypoint(oArea, patrolLoc, circle);
+        location nextWP = getNextWaypoint2(oArea, patrolLoc, circle);
         AssignCommand(OBJECT_SELF, ActionMoveToLocation(nextWP, FALSE));
         } else if(wait >= 1) {
             SetLocalInt(OBJECT_SELF, "turnsWaited", 0);
@@ -218,7 +218,7 @@ void main()
         if(GetIsInCombat(OBJECT_SELF)){
             writeToLog(" # Is in combat");
             SetLocalInt(OBJECT_SELF, "hbSinceCombat", 0);
-            onAttackActions();
+            onAttackActions("");
             return;
         // if we are no longer in combat, have been recently, and cool down lapsed.
         } else if(myAction < 0 && hbSinceCombat > Random(3) + 15) {
@@ -275,9 +275,9 @@ void main()
 
         }
         // Interact with random objects near by.
-        if(myAction == BANDIT_INTERACT_ACTION) {
+        //if(myAction == BANDIT_INTERACT_ACTION) {
 
-        }
+        //}
 
     }
 }

@@ -137,7 +137,7 @@ void main()
         }
     }
     // Always shout when we are killed. Reactions - Morale penalty, and attack the killer.
-    AISpeakString(AI_SHOUT_I_WAS_KILLED);
+    AISpeakString("Arrrg!");
 
     // Speaks the set death speak, like "AGGGGGGGGGGGGGGGGGGG!! NOOOO!" for instance :-)
     SpeakArrayString(AI_TALK_ON_DEATH);

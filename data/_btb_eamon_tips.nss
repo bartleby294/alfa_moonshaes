@@ -1,6 +1,14 @@
 #include "nw_i0_plot"
+#include "_btb_dms_rsi_const"
 
 void main(){
+
+    // check if DM has toggled off custom scripts.
+    int curState = GetLocalInt(GetArea(OBJECT_SELF), EAMON_STATE);
+    if (curState == CONVERSATION_DM_DISABLED) {
+        return;
+    }
+
     int foundJunk = FALSE;
     int goldAmt = GetGold(OBJECT_SELF);
     object eamon = GetNearestObjectByTag("Eamon", OBJECT_SELF);

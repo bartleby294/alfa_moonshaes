@@ -284,6 +284,98 @@ void ALFA_OnPlayerDying()
   SignalEvent( OBJECT_SELF, EventUserDefined(ALFA_EVENT_MODULE_ON_DYING) );
 }
 
+void RemoveCutSceeneImob(object oPC) {
+    //Remove blindness from the PC
+    effect eLoop=GetFirstEffect(oPC);
+    while (GetIsEffectValid(eLoop)) {
+        if (GetEffectType(eLoop)==EFFECT_TYPE_CUTSCENEIMMOBILIZE) {
+            RemoveEffect(oPC, eLoop);
+        }
+        eLoop=GetNextEffect(oPC);
+    }
+}
+
+void MS_LoadCharacterLocation( object poPC )
+{
+  location    oLocation;
+  location    oCurLocation;
+
+  SetLocalInt(poPC, "ALFA_LoadingLocation", TRUE);
+  effect eImmobilize = EffectCutsceneImmobilize();
+
+  if (GetIsObjectValid( GetAreaFromLocation( GetLocation( poPC ) ) ) == FALSE)
+  {
+      DelayCommand( 1.0f, MS_LoadCharacterLocation( poPC ) );
+      RemoveEffect(poPC, eImmobilize);
+      return;
+  }
+
+  else
+  {
+    SetLocalInt(poPC, "ALFA_LoadingLocation", FALSE);
+
+    //Check to see if it is ok that we run the location code.
+    if ( GetLocalInt( poPC, "ALFA_PC_DoNotLoadLocation" ) == TRUE )
+    {
+        //SendMessageToPC(poPC, "ALFA_PC_DoNotLoadLocation");
+        RemoveEffect(poPC, eImmobilize);
+        return;
+    }
+
+    else if ( GetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn" ) == TRUE )
+    {
+        //SendMessageToPC(poPC, "ALFA_PC_AlreadyLoggedIn");
+        RemoveEffect(poPC, eImmobilize);
+        return;
+    }
+
+//    else if ( GetLocalInt( poPC, "AP_WK_MOVE_FLAG" ) == FALSE )
+//    {
+//      return;
+//    }
+
+    else if ( GetItemPossessedBy( poPC, "ALFADeathToken" ) != OBJECT_INVALID )
+    {
+        //SendMessageToPC(poPC, "ALFADeathToken");
+        RemoveEffect(poPC, eImmobilize);
+        return;
+    }
+
+    oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE, "CurrentLocation", poPC);
+
+    if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
+    {
+      //SendMessageToPC(poPC, "GetAreaFromLocation 1");
+      // If new player move to new player WP
+      if(GetLocalInt(poPC, "seenPCBefore") == 0){
+        //SendMessageToPC(poPC, "seenPCBefore == 0");
+        if(GetIsDM(poPC)) {
+            //SendMessageToPC(poPC, "isDM");
+            oLocation = GetLocation(GetObjectByTag("MS_DM_START_WP"));
+        } else {
+            //SendMessageToPC(poPC, "is Player");
+            oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+        }
+        //SendMessageToPC(poPC, "seenPCBefore now 1");
+        SetLocalInt(poPC, "seenPCBefore", 1);
+      }
+    }
+
+    if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
+    {
+        //SendMessageToPC(poPC, "GetAreaFromLocation 2");
+        RemoveEffect(poPC, eImmobilize);
+        return;
+    }
+
+    ALFA_SendCharLocationMessage( poPC, 204, TRUE, FALSE, FALSE );
+    DelayCommand( 10.5f, RemoveCutSceeneImob(poPC));
+    DelayCommand( 10.0f, AssignCommand( poPC, ActionJumpToLocation( oLocation ) ) );
+    SetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn", TRUE );
+  }
+
+  SetLocalInt(poPC, "ALFA_LoadingLocation", FALSE);
+}
 
 /*
  * Module OnClientEnter Event
@@ -332,8 +424,10 @@ void ALFA_OnClientEnter()
   }
 
   /* Handle new players */
-  if ( GetXP( oPC ) < 1 && !GetIsDM( oPC ) )
+  if ( GetXP( oPC ) < 1 && !GetIsDM( oPC ) ) {
+    //SendMessageToPC(oPC, "CSM_ProcessNewPlayer");
     CSM_ProcessNewPlayer( oPC );
+  }
 
   /* Kick out a PC on the "Banned" list */
   ExecuteScript( "csm_autoban", oPC );
@@ -369,7 +463,8 @@ void ALFA_OnClientEnter()
   SOS_PlayerLogin( oPC );
 
   /* Puts the character back to their last known location */
-  ALFA_LoadCharacterLocation( oPC );
+  //SendMessageToPC(oPC, "ALFA_LoadCharacterLocation");
+  MS_LoadCharacterLocation( oPC );
 
   /* Begin the save location script monitor that will run */
   if ( gALFA_LOCATION_SAVE_TIMER )
@@ -734,6 +829,8 @@ void ALFA_RegisterALFAItems()
   //  string sAcquireScript="", string sUnacquireScript="",
   //  int nNoDrop=FALSE, int nDMOnly=FALSE, int nGiveToDM=FALSE,
   //  int nGiveToPlayer=FALSE);
+  ALFA_RegisterItem("dmcontrolstone", "_btb_dmcontrolst", "", "", TRUE,
+     TRUE, TRUE, FALSE);
 
   ALFA_RegisterItem(ALFA_OBJ_DM_WAND_TAG, "dmw_activate", "", "", TRUE,
      TRUE, TRUE, FALSE);
@@ -747,7 +844,7 @@ void ALFA_RegisterALFAItems()
   ALFA_RegisterItem(ALFA_OBJ_TRANS_TOOL, "alfa_transtool", "", "", TRUE,
      TRUE, TRUE, FALSE);
 
-  ALFA_RegisterItem(ALFA_OBJ_EMOTE_ITEM_TAG, "emote_activ_item", "", "", TRUE,
+  ALFA_RegisterItem(ALFA_OBJ_EMOTE_ITEM_TAG, "em_activ_item_ms", "", "", TRUE,
      FALSE, TRUE, TRUE);
 
   ALFA_RegisterItem(ALFA_OBJ_HIDDEN_POCKET, "doa_hiddenpocket", "", "", TRUE,

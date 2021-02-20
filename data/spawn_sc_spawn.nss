@@ -80,7 +80,10 @@ void main()
 
 // -------------------------------------------
 // Only Make Modifications Between These Lines
-//
+    if (nSpawnScript == 2)
+    {
+       AssignCommand(OBJECT_SELF, PlayAnimation(ANIMATION_LOOPING_SIT_CROSS, 1.0, 99999.0));
+    }
 
     }
 

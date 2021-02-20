@@ -13,6 +13,16 @@ void DockShip(object oLever, location lGangWP, float fGangWP)
     }
 }
 
+void OutputWPLocation(object waypoint, string prefix, object oPC) {
+    vector WPLocVec = GetPosition(waypoint);
+    float WPFacing = GetFacing(waypoint);
+    string outputStr = prefix + " x: " + FloatToString(WPLocVec.x)
+                              + " y: " + FloatToString(WPLocVec.y)
+                              + " z: " + FloatToString(WPLocVec.z)
+                              + " facing: " + FloatToString(WPFacing);
+    SendMessageToPC(oPC, outputStr);
+}
+
 void main()
 {
    object oPLC = OBJECT_SELF;
@@ -33,6 +43,9 @@ void main()
      location lBlockerWP = GetLocation(oBlockerWP);
      float fBlockerWP = GetFacing(oBlockerWP);
      int iAmActivated = GetLocalInt(oPLC, "InitialState");
+
+     OutputWPLocation(oGangWP, "lGangWP - ", oPC);
+     OutputWPLocation(oBlockerWP, "oBlockerWP - ", oPC);
 
        if (iAmActivated == 1) // Activated  - So Deactivate - LEAVE DOCK
        {

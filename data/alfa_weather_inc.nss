@@ -178,15 +178,15 @@
 
 // ALFA Gobal Weather variables:
 // USER EDITS GO HERE:
-    const int ALFA_WEATHER_CHANCE_OVERCAST = 20;
-    const int ALFA_WEATHER_CHANCE_RAINY = 10;
-    const int ALFA_WEATHER_CHANCE_STORMY = 2;
-    const int ALFA_WEATHER_CHANCE_SNOW = 50;
+//    const int ALFA_WEATHER_CHANCE_OVERCAST = 20;
+//    const int ALFA_WEATHER_CHANCE_RAINY = 10;
+//    const int ALFA_WEATHER_CHANCE_STORMY = 2;
+//    const int ALFA_WEATHER_CHANCE_SNOW = 50;
 
-    const int ALFA_WEATHER_CLEAR_SKYBOX = -1;
-    const int ALFA_WEATHER_RAIN_SKYBOX = -1;
-    const int ALFA_WEATHER_OVERCAST_SKYBOX = -1;
-    const int ALFA_WEATHER_STORM_SKYBOX = -1;
+//    const int ALFA_WEATHER_CLEAR_SKYBOX = -1;
+//    const int ALFA_WEATHER_RAIN_SKYBOX = -1;
+//    const int ALFA_WEATHER_OVERCAST_SKYBOX = -1;
+//    const int ALFA_WEATHER_STORM_SKYBOX = -1;
     const int ALFA_WEATHER_OVERWRITE_SKYBOX = 0;
 
     const int ALFA_WEATHER_FOG_SUN_CLEAR_COLOR = -1;

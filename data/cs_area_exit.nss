@@ -6,7 +6,7 @@
 
 void main()
 {
-    Spawn_OnAreaExit();
+    //Spawn_OnAreaExit();
 
     object oArea    = GetArea(OBJECT_SELF);
     object oExiting = GetExitingObject();

@@ -59,15 +59,15 @@ void logDruidInitialCond(object highDruid, object Druid01,  object Druid02,
     string Druid04Uuid = GetObjectUUID(Druid04);
     string oPCUuid = GetObjectUUID(oPC);
 
-    WriteTimestampedLogEntry("===============================================");
-    WriteTimestampedLogEntry("HB Object UUID: " + uuid);
-    WriteTimestampedLogEntry("State: " + getState(state));
-    WriteTimestampedLogEntry("High Druid UUID: " + highDruidUuid);
-    WriteTimestampedLogEntry("Druid01 UUID: " + Druid01Uuid);
-    WriteTimestampedLogEntry("Druid02 UUID: " + Druid02Uuid);
-    WriteTimestampedLogEntry("Druid03 UUID: " + Druid03Uuid);
-    WriteTimestampedLogEntry("Druid04 UUID: " + Druid04Uuid);
-    WriteTimestampedLogEntry("oPCUuid UUID: " + oPCUuid);
+    //WriteTimestampedLogEntry("===============================================");
+    //WriteTimestampedLogEntry("HB Object UUID: " + uuid);
+    //WriteTimestampedLogEntry("State: " + getState(state));
+    //WriteTimestampedLogEntry("High Druid UUID: " + highDruidUuid);
+    //WriteTimestampedLogEntry("Druid01 UUID: " + Druid01Uuid);
+    //WriteTimestampedLogEntry("Druid02 UUID: " + Druid02Uuid);
+    //WriteTimestampedLogEntry("Druid03 UUID: " + Druid03Uuid);
+    //WriteTimestampedLogEntry("Druid04 UUID: " + Druid04Uuid);
+    //WriteTimestampedLogEntry("oPCUuid UUID: " + oPCUuid);
 }
 
 void checkInputs(object obHbObj, object highDruid, object Druid01,

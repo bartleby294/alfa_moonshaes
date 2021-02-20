@@ -93,4 +93,45 @@ void MoonshaesCustom(object oPC)
    {
         AssignCommand(oPC, ActionJumpToObject(GetObjectByTag("BETA_RECALL01"), TRUE));
    }
+   // DM Control Stone
+   if(GetTag(oItem) == "dmcontrolstone" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmcontrolst", oPC);
+   }
+
+   // DM Bat Bom
+   if(GetTag(oItem) == "dmbatsignal1" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmbatsig1", oPC);
+   }
+
+   // DM Bat Spawn
+   if(GetTag(oItem) == "dmbatsignal2" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmbatsig2", oPC);
+   }
+
+   // DM Fledgling Bat Spawn
+   if(GetTag(oItem) == "dmbatsignal3" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmbatsig3", oPC);
+   }
+
+   // DM Rabid Bat Spawn
+   if(GetTag(oItem) == "dmbatsignal4" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmbatsig4", oPC);
+   }
+
+   // DM Corrupted Bat Spawn
+   if(GetTag(oItem) == "dmbatsignal5" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmbatsig5", oPC);
+   }
+
+   // DM Corrupted Bat Spawn
+   if(GetTag(oItem) == "dmbatsounds1" && GetIsDM(oPC))
+   {
+        ExecuteScript("_btb_dmbatsnd5", oPC);
+   }
 }

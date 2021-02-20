@@ -294,7 +294,9 @@ void onAttackActions(string yellString) {
             i++;
             bandit = GetNearestObjectByTag("banditcamper", OBJECT_SELF, i);
         }
-        SpeakString(yellString);
+        if(yellString != "") {
+            SpeakString(yellString);
+        }
         SetLocalInt(OBJECT_SELF, "action", BANDIT_ATTACK_ACTION);
     }
 }
