@@ -1,6 +1,5 @@
 #include "omega_include"
 void main()
 {
-int nEffect = VFX_FNF_SWINGING_BLADE;
-OmegaVisualEffectAtLocation(nEffect);
+AssignCommand ( oDM, ApplyEffectAtLocation ( DURATION_TYPE_INSTANT, EffectVisualEffect ( VFX_FNF_SWINGING_BLADE), lTargetLoc));
    }

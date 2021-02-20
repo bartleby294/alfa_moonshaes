@@ -17,6 +17,15 @@ void main()
 {
 
   object oPC = GetEnteringObject();
+  // Create the effect to apply
+  //SendMessageToPC(oPC, "FROZEN");
+  effect eImmobilize = EffectCutsceneImmobilize();
+  ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eImmobilize, oPC, 20.0);
+  //ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eImmobilize, oPC, 20.0);
+  //DelayCommand(10.0, SendMessageToPC(oPC, "FROZEN FOR 10"));
+  //DelayCommand(50.0, SendMessageToPC(oPC, "FROZEN FOR 5"));
+  //DelayCommand(20.0, SendMessageToPC(oPC, "FROZEN FOR 0"));
+
   //SendMessageToPC(oPC, "Before ALFA_OnClientEnter");
   ALFA_OnClientEnter();
   //SendMessageToPC(oPC, "After ALFA_OnClientEnter");

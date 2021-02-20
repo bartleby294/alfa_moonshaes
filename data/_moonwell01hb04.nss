@@ -105,7 +105,7 @@ void startConversation(int state, object oPC, object highDruid) {
         AssignCommand(highDruid, ActionMoveToLocation(druidTalkLoc));
     } else {
         float pcAngel =GetAngleBetweenLocations(highDruidLoc,playerToTalkToLoc);
-        float walkAngel = f(highDruidLoc, WalkLoc);
+        float walkAngel = 10.0;//f(highDruidLoc, WalkLoc);
 
         // if the abs of the diff in angels is less than 55 its in front enough
         if(absFloat(pcAngel - walkAngel) < 55.0) {

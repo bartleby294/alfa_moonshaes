@@ -1,4 +1,5 @@
 #include "_btb_util"
+ #include "x0_i0_position"
 
 location pickSpawnLoc2(vector pcVector, float pcAngle) {
 

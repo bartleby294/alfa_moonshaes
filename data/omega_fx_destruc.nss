@@ -1,6 +1,5 @@
 #include "omega_include"
 void main()
 {
-int nEffect = VFX_IMP_DESTRUCTION;
-ApplyOmegaVisualEffect(nEffect);
-   }
+AssignCommand ( oDM, ApplyEffectToObject ( DURATION_TYPE_INSTANT, EffectVisualEffect ( VFX_IMP_DESTRUCTION), oMyTarget));
+}

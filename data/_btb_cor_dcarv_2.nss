@@ -3,5 +3,5 @@
 void main() {
     SpeakString("Activated");
     PlayAnimation(ANIMATION_PLACEABLE_ACTIVATE);
-    CityShipInbound();
+    //CityShipInbound();
 }

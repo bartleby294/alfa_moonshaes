@@ -5,10 +5,10 @@
 #include "_btb_util"
 #include "_btb_ban_util"
 
-void writeToLog(string str) {
+/*void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
     WriteTimestampedLogEntry("Bandit Ambush: " + oAreaName + ": " +  str);
-}
+} */
 
 /**
 *   Decide if the attack is on or off.
@@ -90,7 +90,7 @@ float randomFloat(int den, int num) {
 /**
     Return a location some units of distance away on a straight line.
  */
-location pickSpawnLoc(vector pcVector, float pcAngle) {
+location pickSpawnLocBan(vector pcVector, float pcAngle) {
 
     vector bandVector = GetPosition(OBJECT_SELF);
     vector normPcVector = AngleToVector(pcAngle);
@@ -443,7 +443,7 @@ void main()
             string class = pickClass();
             string resref = race + class + "m_bandit_1";
             writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
-            location spawnLoc = pickSpawnLoc(pcVector, pcAngle);
+            location spawnLoc = pickSpawnLocBan(pcVector, pcAngle);
             // Spawn the bandit.
             object bandit = CreateObject(OBJECT_TYPE_CREATURE, resref,
                                 spawnLoc, FALSE, resref);

@@ -13,26 +13,28 @@ void main()
     (!GetLocalInt(OBJECT_SELF, "triggered1") == 1))
 
     {
-    while (i2 < (i))
+
+    while (i2 < i)
     {
     switch(Random(10))
     {
-        case 0: CreateObject(OBJECT_TYPE_CREATURE,"rn_spider_01", spiderspawn, TRUE); break;
-        case 1: CreateObject(OBJECT_TYPE_CREATURE,"rn_spider_01", spiderspawn, TRUE); break;
-        case 2: CreateObject(OBJECT_TYPE_CREATURE,"rn_spider_01", spiderspawn, TRUE); break;
-        case 3: CreateObject(OBJECT_TYPE_CREATURE,"tinyspider", spiderspawn, TRUE); break;
-        case 4: CreateObject(OBJECT_TYPE_CREATURE,"tinyspider001", spiderspawn, TRUE); break;
-        case 5: CreateObject(OBJECT_TYPE_CREATURE,"tinyspider002", spiderspawn, TRUE); break;
-        case 6: CreateObject(OBJECT_TYPE_CREATURE,"rn_spider_01", spiderspawn, TRUE); break;
-        case 7: CreateObject(OBJECT_TYPE_CREATURE,"rn_spider_02", spiderspawn, TRUE); break;
-        case 8: CreateObject(OBJECT_TYPE_CREATURE,"rn_spider_02", spiderspawn, TRUE); break;
-        case 9: CreateObject(OBJECT_TYPE_CREATURE,"rn_spider_02", spiderspawn, TRUE); break;
+        case 0: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_01", spiderspawn); break;
+        case 1: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_01", spiderspawn); break;
+        case 2: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_01", spiderspawn); break;
+        case 3: CreateObject(OBJECT_TYPE_CREATURE, "tinyspider", spiderspawn); break;
+        case 4: CreateObject(OBJECT_TYPE_CREATURE, "tinyspider001", spiderspawn); break;
+        case 5: CreateObject(OBJECT_TYPE_CREATURE, "tinyspider002", spiderspawn); break;
+        case 6: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_01", spiderspawn); break;
+        case 7: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_02", spiderspawn); break;
+        case 8: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_02", spiderspawn); break;
+        case 9: CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_02", spiderspawn); break;
     }
     i2++;
     }
     SetLocalInt(OBJECT_SELF, "triggered1", 1);
 
-
+    if (!GetLocalInt(OBJECT_SELF, "webded") == 1)
+    {
     int iSaveDC = ExecuteScriptAndReturnInt("alfa_savedc", OBJECT_SELF);
 
     //Declare major variables
@@ -73,5 +75,5 @@ void main()
     }
 
   }
-
+ }
 }

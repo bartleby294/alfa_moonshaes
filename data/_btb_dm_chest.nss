@@ -14,5 +14,21 @@ void main()
         CreateItemOnObject("dmbatsignal2");
     }
 
+    if (!HasItem("dmbatsignal3")) {
+        CreateItemOnObject("dmbatsignal3");
+    }
+
+    if (!HasItem("dmbatsignal4")) {
+        CreateItemOnObject("dmbatsignal4");
+    }
+
+    if (!HasItem("dmbatsignal5")) {
+        CreateItemOnObject("dmbatsignal5");
+    }
+
+    if (!HasItem("dmbatsounds1")) {
+        CreateItemOnObject("dmbatsounds1");
+    }
+
     return;
 }

@@ -1,6 +1,5 @@
-#include "omega_include"
 void main()
 {
-object oSoundBox = GetLocalObject(oDM, "SOUND_BOX");
-AssignCommand ( oSoundBox, PlaySound("c_ghoul_bat2"));
+object oDM = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC);
+AssignCommand ( oDM, PlaySound("c_ghoul_bat2"));
 }

@@ -1,5 +1,5 @@
 #include "omega_include"
 void main()
 {
-ApplyOmegaVisualEffect(VFX_DUR_FLIES);
+AssignCommand ( oDM, ApplyEffectAtLocation ( DURATION_TYPE_TEMPORARY, EffectVisualEffect ( VFX_DUR_FLIES), lTargetLoc, 30.0f));
    }
