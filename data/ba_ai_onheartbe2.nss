@@ -134,7 +134,7 @@ void returnToStartLoc() {
     location myloc = GetLocation(OBJECT_SELF);
     location spawnloc = GetLocalLocation(OBJECT_SELF, "spawnLoc");
     if(GetDistanceBetweenLocations(myloc, spawnloc) < 1.0) {
-        //writeToLog(" # I moved back now looking to do something new.");
+        writeToLog(" # I moved back now looking to do something new.");
         SetLocalInt(OBJECT_SELF, "action", Random(BANDIT_MAX_ACTION) + 1);
     } else {
         writeToLog(" # moving back");
@@ -217,6 +217,7 @@ void customActions(object oArea, int myAction) {
     }
 
     if(myAction == BANDIT_ATTACK_ACTION) {
+        writeToLog(" # Is in combat!");
         if(!GetIsInCombat(OBJECT_SELF)){
             location lastAttackerLoc =
                                GetLocalLocation(OBJECT_SELF, "attackerLoc");
@@ -241,7 +242,7 @@ void customActions(object oArea, int myAction) {
         patrolAroundCamp(oArea, campfireLoc, patrolCircle + 10);
     }
 
-    writeToLog("Action Choice: " + IntToString(myAction));
+    //writeToLog("Action Choice: " + IntToString(myAction));
 
     // Move back to inital location. Or just stand gaurd.
     if(myAction == BANDIT_RETURN_ACTION) {
@@ -250,17 +251,17 @@ void customActions(object oArea, int myAction) {
     }
     // Patrol around camp parimiter. It too close to another bandit wait.
     if(myAction == BANDIT_PATROL_ACTION) {
-        writeToLog(" # BANDIT_PATROL_ACTION");
+        //writeToLog(" # BANDIT_PATROL_ACTION");
         patrolAroundCamp(oArea, campfireLoc, patrolCircle);
     }
     // Sit on the ground near the fire
     if(myAction == BANDIT_SIT_ACTION) {
-        writeToLog(" # BANDIT_SIT_ACTION");
+        //writeToLog(" # BANDIT_SIT_ACTION");
         sitOnTheGround(oArea, campfireLoc);
     }
     // Sleep near the fire.
     if(myAction == BANDIT_SLEEP_ACTION) {
-        writeToLog(" # BANDIT_SLEEP_ACTION");
+        //writeToLog(" # BANDIT_SLEEP_ACTION");
         sleepByTheFire(oArea, campfireLoc);
     }
     // Interact with random objects near by.

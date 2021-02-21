@@ -371,6 +371,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
                sleepNum++;
             }
             SetLocalInt(bandit, "action", randAction);
+            SetLocalInt(bandit, "banditId", banditCnt);
             banditCnt--;
         }
         cnt++;
@@ -449,7 +450,7 @@ void main()
                 NWNX_Time_GetTimeStamp());
         }
     } else {
-        writeToLog("Setting up camp.");
+        writeToLog("Setting up level " + IntToString(circle_max) + " camp.");
         //writeToLog("maxStructures = " + IntToString(maxStructures));
         //writeToLog("minStructures = " + IntToString(minStructures));
         //writeToLog("min_traps = " + IntToString(min_traps));
