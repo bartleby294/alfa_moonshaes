@@ -1,6 +1,6 @@
 void main()
 {
-    object oStore = GetNearestObjectByTag("apothecary001");
+    object oStore = GetNearestObjectByTag("Apothecary");
     if (GetObjectType(oStore) == OBJECT_TYPE_STORE)
     {
         OpenStore(oStore, GetPCSpeaker());
