@@ -12,8 +12,6 @@
 
 void main()
 {
-    ExecuteScript("nw_c2_default1", OBJECT_SELF);
-
     if(GetIsInCombat() == FALSE) {
         object followme = GetNearestObjectByTag("plowox", OBJECT_SELF);
 
@@ -22,6 +20,6 @@ void main()
 
         AssignCommand(OBJECT_SELF, ActionForceFollowObject(followme, 3.3));
     } else {
-
+        ExecuteScript("nw_c2_default1", OBJECT_SELF);
     }
 }
