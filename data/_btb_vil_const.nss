@@ -41,4 +41,5 @@ string WATER = "vl_watersource";
 string VILLAGER_ACTION = "villager_action";
 string ACTION_WP = "action_waypoint";
 string IS_MALE = "is_male";
+string NO_PC_SEEN_IN = "no_pc_seen_in";
 

@@ -100,8 +100,12 @@ void main() {
     int workerCnt = cropsCnt + marketCnt + waterCnt;
     float villagerRatio = (villagerCnt * 1.0)/(homesCnt * 1.0);
 
+    WriteTimestampedLogEntry("Village: homesCnt: " + IntToString(homesCnt));
+    WriteTimestampedLogEntry("Village: villagerCnt: " + IntToString(villagerCnt));
+    WriteTimestampedLogEntry("Village: workerCnt: " + IntToString(workerCnt));
+
     // no one lives here or everyone is outside so return.
-    if(homesCnt == 0 || homesCnt >= villagerCnt || workerCnt >= villagerCnt) {
+    if(homesCnt == 0 || homesCnt >= villagerCnt || workerCnt > villagerCnt) {
         WriteTimestampedLogEntry("Village: No one lives here");
         return;
     }

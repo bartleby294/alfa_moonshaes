@@ -1,5 +1,6 @@
 #include "_btb_vil_const"
 #include "_btb_villag_util"
+#include "nwnx_area"
 
 int GetMarketAnimation() {
 
@@ -24,8 +25,31 @@ int GetMarketAnimation() {
     return ANIMATION_LOOPING_TALK_NORMAL;
 }
 
+void DestoryCheck() {
+    int oAreaPlayerNumber
+        = NWNX_Area_GetNumberOfPlayersInArea(GetArea(OBJECT_SELF));
+    if(oAreaPlayerNumber == 0) {
+        int noPCSeenIn = GetLocalInt(OBJECT_SELF, NO_PC_SEEN_IN);
+        SetLocalInt(OBJECT_SELF, NO_PC_SEEN_IN, noPCSeenIn + 1);
+        if(noPCSeenIn > 5) {
+            DestroyObject(OBJECT_SELF, 2.0);
+        }
+    } else {
+        SetLocalInt(OBJECT_SELF, "NoPCSeenIn", 0);
+    }
+}
+
 void main()
 {
+    // if in combat get inside a house!
+    if(GetIsInCombat()) {
+        object wp = GetNearestObjectByTag(HOME);
+        ActionMoveToObject(wp, TRUE, 0.5);
+        SetLocalObject(OBJECT_SELF, ACTION_WP, wp);
+    }
+
+    DestoryCheck();
+
     int isMale = GetLocalInt(OBJECT_SELF, IS_MALE);
     int initalized = GetLocalInt(OBJECT_SELF, INITALIZED);
     object actionWP = GetLocalObject(OBJECT_SELF, ACTION_WP);
