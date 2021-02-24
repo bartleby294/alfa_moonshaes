@@ -75,6 +75,30 @@ void InitalizeCounts() {
     return;
 }
 
+void SpawnVillager(int homesCnt, int cropsCnt,int marketCnt,
+                   int tavernCnt, int waterCnt, int villagerCnt) {
+
+    WriteTimestampedLogEntry("Village: Spawning");
+    string villagerResRef = SelectVillager();
+    int isMale = IsMale(villagerResRef);
+    int randomHome = Random(homesCnt) + 1;
+    object spawnLoc = GetNearestObjectByTag(HOME, OBJECT_SELF, randomHome);
+    object villager = CreateObject(OBJECT_TYPE_CREATURE,
+                                   villagerResRef,
+                                   GetLocation(spawnLoc),
+                                   FALSE,
+                                   VILLAGER_TAG);
+    SetLocalObject(villager, HOME, spawnLoc);
+    SetLocalInt(villager, IS_MALE, isMale);
+    ChooseVillagerAction(isMale, cropsCnt, marketCnt, tavernCnt,
+                         waterCnt, villager);
+    villagerCnt = GetLocalInt(OBJECT_SELF, VILLAGER_TAG);
+    SetLocalInt(OBJECT_SELF, VILLAGER_TAG, villagerCnt + 1);
+    SetEventScript(villager,
+                   EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
+                   "_btb_villag_onhb");
+}
+
 void main() {
     WriteTimestampedLogEntry("Village: On Heartbeat");
     // if Vilage scrips have been DM halted return.
@@ -109,10 +133,21 @@ void main() {
         WriteTimestampedLogEntry("Village: No one lives here");
         return;
     }
+    int i = 0;
+    if(isInitalized == FALSE) {
+        while( i < homesCnt/2) {
+            SpawnVillager(homesCnt, cropsCnt, marketCnt, tavernCnt, waterCnt,
+                          villagerCnt);
+            i++;
+        }
+        return;
+    }
 
     // The more people outside the less chance to spawn a new person
     float celing = 100.0;
-    if(villagerRatio < 0.5) {
+    if(villagerRatio == 0.0) {
+        villagerRatio = 300.0;
+    } else if(villagerRatio < 0.5) {
         villagerRatio = 1.0/villagerRatio;
     } else {
         celing = (celing * villagerRatio) / 2;
@@ -124,23 +159,7 @@ void main() {
                              + ") > celing (" + IntToString(FloatToInt(celing))
                              + ")");
     if(chance > FloatToInt(celing)) {
-        WriteTimestampedLogEntry("Village: Spawning");
-        string villagerResRef = SelectVillager();
-        int isMale = IsMale(villagerResRef);
-        int randomHome = Random(homesCnt) + 1;
-        object spawnLoc = GetNearestObjectByTag(HOME, OBJECT_SELF, randomHome);
-        object villager = CreateObject(OBJECT_TYPE_CREATURE,
-                                       villagerResRef,
-                                       GetLocation(spawnLoc),
-                                       FALSE,
-                                       VILLAGER_TAG);
-        SetLocalObject(villager, HOME, spawnLoc);
-        SetLocalInt(villager, IS_MALE, isMale);
-        ChooseVillagerAction(isMale, cropsCnt, marketCnt, tavernCnt,
-                             waterCnt, villager);
-        SetLocalInt(OBJECT_SELF, VILLAGER_TAG, villagerCnt + 1);
-        SetEventScript(villager,
-                       EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
-                       "_btb_villag_onhb");
+        SpawnVillager(homesCnt, cropsCnt, marketCnt, tavernCnt, waterCnt,
+                      villagerCnt);
     }
 }
