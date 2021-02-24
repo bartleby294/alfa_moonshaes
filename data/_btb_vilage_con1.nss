@@ -105,7 +105,7 @@ void main() {
     WriteTimestampedLogEntry("Village: workerCnt: " + IntToString(workerCnt));
 
     // no one lives here or everyone is outside so return.
-    if(homesCnt == 0 || homesCnt >= villagerCnt || workerCnt > villagerCnt) {
+    if(homesCnt == 0 || (homesCnt * 2) >= villagerCnt) {
         WriteTimestampedLogEntry("Village: No one lives here");
         return;
     }
