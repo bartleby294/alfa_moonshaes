@@ -14,6 +14,10 @@ void main()
 {
     ExecuteScript("nw_c2_default1", OBJECT_SELF);
 
+    if(GetIsInCombat() == TRUE) {
+        return;
+    }
+
     //this is an interupter so that if you wanted to add a convo to the farmer you could
     //you just need to have him change the oxes on convo state to 1 when it starts and the ox will stop
     //when the convo ends change the state to 0 again and the ox will move

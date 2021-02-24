@@ -1,5 +1,7 @@
 #include "omega_include"
 void main()
 {
-AssignCommand ( oDM, ApplyEffectAtLocation ( DURATION_TYPE_TEMPORARY, EffectVisualEffect ( VFX_DUR_INFERNO), lTargetLoc, 30.0f));
+
+int nEffect = VFX_DUR_INFERNO;
+ApplyOmegaVisualEffect(nEffect);
    }

@@ -794,21 +794,6 @@ if(sTemplate == "sw_performer")
 
                 }
     }
-
-    if (sTemplate == "firebeetles")
-    {
-        switch( Random( 7 ))
-                {
-                    case 0: sRetTemplate = "rn_beetle_01"; break;
-                    case 1: sRetTemplate = "rn_beetle_01"; break;
-                    case 2: sRetTemplate = "rn_beetle_01"; break;
-                    case 3: sRetTemplate = "rn_beetle_med_02"; break;
-                    case 4: sRetTemplate = "rn_beetle_med_02"; break;
-                    case 5: sRetTemplate = "NW_BTLFIRE"; break;
-                    case 6: sRetTemplate = "NW_BTLFIRE02"; break;
-                }
-    }
-
     if (sTemplate == "sw_fireelemental")
             {
             switch( Random( 5 ))
@@ -845,33 +830,11 @@ if(sTemplate == "sw_performer")
 
     }
 
-    if (sTemplate == "corrupted_bats")
-            {
-            switch( Random( 4 ))
-                {
-                    case 0: sRetTemplate = "FledglingBat"; break;
-                    case 1: sRetTemplate = "FledglingBat"; break;
-                    case 2: sRetTemplate = "CaveBat"; break;
-                    case 3: sRetTemplate = "RabidBat"; break;
-                    case 4: sRetTemplate = "FledglingBat"; break;
-                    case 5: sRetTemplate = "CaveBat"; break;
-                }
-    }
 
-    if (sTemplate == "corrupted_bats2")
-            {
-            switch( Random( 4 ))
-                {
-                    case 0: sRetTemplate = "FledglingBat"; break;
-                    case 1: sRetTemplate = "FledglingBat"; break;
-                    case 2: sRetTemplate = "CaveBat"; break;
-                    case 3: sRetTemplate = "RabidBat"; break;
-                    case 4: sRetTemplate = "FledglingBat"; break;
-                    case 5: sRetTemplate = "CaveBat"; break;
-                    case 6: sRetTemplate = "tinyspider"; break;
-                    case 7: sRetTemplate = "tinyspider001"; break;
-                }
-    }
+
+
+
+
 
     if (sTemplate == "sewers_spiders")
             {
@@ -881,9 +844,9 @@ if(sTemplate == "sw_performer")
                     case 1: sRetTemplate = "tinyspider001"; break;
                     case 2: sRetTemplate = "LargeSpider"; break;
                     case 3: sRetTemplate = "NW_SPIDSWRD"; break;
+
                 }
     }
-
     if (sTemplate == "RustMonster")
     {
 
@@ -1500,15 +1463,6 @@ if (sTemplate == "rat_hills3")  //spawn of rats
     }
     //
 
-if (sTemplate == "corruptedbats")
-{
-    switch(Random(3))
-    {
-        case 0: sRetTemplate = "rabidbat"; break;
-        case 1: sRetTemplate = "cavebat"; break;
-        case 2: sRetTemplate = "cavebat"; break;
-   }
-}
 
 if (sTemplate == "sailors")
 {

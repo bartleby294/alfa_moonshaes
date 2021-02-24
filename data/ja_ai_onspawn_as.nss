@@ -239,12 +239,12 @@ void main()
       // SetListening() has already been called (by InitPuppetMaster());
       // set FALSE because we already SetListening - and the renamed with
       // the JAI prefix by Cereborn...
-      AI_SetListeningPatterns( FALSE );
+      AI_SetListeningPatterns(  );
     }
 
     else
     {
-      AI_SetListeningPatterns( TRUE );
+      AI_SetListeningPatterns(  );
     }
     //**
     //****** end ALFA MOD

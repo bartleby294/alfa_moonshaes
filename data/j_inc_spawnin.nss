@@ -520,6 +520,7 @@ void AI_SetUpEndOfSpawn()
             SetLocalInt(OBJECT_SELF, AI_SPELL_IMMUNE_LEVEL, iAmount);
         }
     }
+    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     // Animations - any valid?
     if(GetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER) ||
        GetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS_AVIAN, NW_GENERIC_MASTER) ||

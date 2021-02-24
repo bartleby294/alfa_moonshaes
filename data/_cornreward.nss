@@ -29,7 +29,7 @@ void main() {
         AddJournalQuestEntry("k010", 1, oPC, FALSE, FALSE, FALSE);
         WriteTimestampedLogEntry("ITEM HAND IN: " + GetName(oPC)
             + " played by: " + GetPCPlayerName(oPC) + " turned in "
-            + IntToString(itemCnt) + sItemTag + "'s");
+            + IntToString(itemCnt) + " " + sItemTag + "'s");
     }
 
     for (i = 0; i < (itemCnt); i++) {

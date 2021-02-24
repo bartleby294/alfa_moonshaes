@@ -387,7 +387,15 @@ void main()
 
     /* If there are no PCs with in range get out of here. */
     if(totalPCs == 0) {
-        writeToLog("No PC Observed Exiting");
+        int noPCTurns = GetLocalInt(OBJECT_SELF, "noPCTurns");
+        SetLocalInt(OBJECT_SELF, "noPCTurns", noPCTurns + 1);
+        if(noPCTurns > 60) {
+            writeToLog("No PC Observed in over 60 Rounds Destorying Ambush");
+            DestroyObject(OBJECT_SELF);
+        } else {
+            writeToLog("No PC Observed in " + IntToString(noPCTurns)
+                   + " Turns Exiting");
+        }
         return;
     /* If bandits just noticed some one set some observational time. */
     } else if(banditAttackState == 0) {

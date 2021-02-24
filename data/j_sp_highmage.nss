@@ -41,6 +41,7 @@ void main()
     SetSpawnInCondition(AI_FLAG_OTHER_LAG_NO_SPELLS, AI_OTHER_MASTER);
 
     // Ambient animations
+    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);

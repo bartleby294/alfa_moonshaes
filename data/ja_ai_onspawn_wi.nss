@@ -19,10 +19,10 @@
 void main()
 {
 //@@@@@@@@@@@@@@@@@@@@ UN-OPTIONAL BEHAVIORS (Should have a value) @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    SetSpawnInValue("AI_INTELLIGENCE", 10);
+    //SetSpawnInValue("AI_INTELLIGENCE", 10);
         // This is the intelligence of the creature 1-10. Default to 10
         // Read the file in "Explainations" about this intelligence for more info.
-    SetSpawnInValue("AI_MORALE", 10);
+    //SetSpawnInValue("AI_MORALE", 10);
         // This is a value, which is added to the morale check. Morale checks are at
         // HD difference, + 20 (10 averages this out to HD+10). They never flee at similar
         // levels.
@@ -54,7 +54,7 @@ void main()
         // Basically, this will not clear all actions before a conversation. It *should*
         // keep the person sitting down, but needs proper testing. Also, if moving they
         // may still be moving (which may cancel the conversation) so be careful.
-    SetSpawnInCondition(NO_POLYMORPHING);
+    //SetSpawnInCondition(NO_POLYMORPHING);
         // This will stop all polymorphing spells, and all feats that do polymorphing from being used.
     //SetSpawnInCondition(NW_FLAG_FAST_BUFF_ENEMY);
         // When an enemy comes in 40M, they will use some of thier spells to buff before combat.
@@ -74,7 +74,7 @@ void main()
         //  a. Use a missile weapon with pointblankshot.
         //  b. Move back, best they can, if allies are there to help, then carry on shooting.
         // This also never will polymorph until no ammo or missile weapons.
-    SetSpawnInCondition(ATTACK_FROM_AFAR_FIRST);
+    //SetSpawnInCondition(ATTACK_FROM_AFAR_FIRST);
         // This will make the creature use ranged spells, before moving in bit by bit.
         // Ranges of spells are 40, then 20, 8, and then 2.5. Warning: This will make
         // them cast all spells, before even considering attacking with anything else.
@@ -123,7 +123,7 @@ void main()
         // can teleport to, they will IF there are no enemies near that waypoint. Else, they will
         // choose the nearest ally with no enemies nearby.
         // Also, note, that waypoints can be in other areas!
-    SetSpawnInCondition(IMPROVED_INSTANT_DEATH_SPELLS);
+    //SetSpawnInCondition(IMPROVED_INSTANT_DEATH_SPELLS);
         // This will make the creature cheat by using some instant death spells on low save enemies
         // Its not that powerful at all, really, but might as well be toggelable.
     //CreateRandomStats(-3, 3, 6);
@@ -239,12 +239,12 @@ void main()
       // SetListening() has already been called (by InitPuppetMaster());
       // set FALSE because we already SetListening - and the renamed with
       // the JAI prefix by Cereborn...
-      SetListeningPatterns( FALSE );
+      //SetListeningPatterns( FALSE );
     }
 
     else
     {
-      SetListeningPatterns( TRUE );
+      //SetListeningPatterns( TRUE );
     }
     //**
     //****** end ALFA MOD
@@ -253,9 +253,9 @@ void main()
     SetWeapons();
         // This sets what weapons the creature will use. They will use the best, according to a "value"
         // Giving a creature the feat Two-weapon-fighting makes them deul wield if appropriate weapons.
-    AdvancedAuras();
+    AI_AdvancedAuras();
         // This activates the creatures top aura.
-    DelayCommand(2.0, WalkWayPoints());
+    DelayCommand(2.0, SpawnWalkWayPoints());
         // Delayed walk waypoints, as to not upset instant combat spawning.
         // This will also check if to change to day/night posts during the walking, no heartbeats.
 }

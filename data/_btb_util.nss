@@ -4,6 +4,27 @@ float getFacing(vector centerPoint, vector otherPoint) {
                                 0.0));
 }
 
+/**
+    Return a location some units of distance away on a straight line taking
+    rotations into account.
+ */
+location pickLoc(object oPC, float offset, float angle) {
+
+    vector pcVector = GetPosition(oPC);
+
+    float x = offset * cos(angle + GetFacing(oPC));
+    float y = offset * sin(angle + GetFacing(oPC));
+
+    location loc = Location(GetArea(oPC),
+        Vector(pcVector.x + x, pcVector.y+ y, 0.0), 0.0);
+    float z = GetGroundHeight(loc);
+
+    loc = Location(GetArea(oPC),
+        Vector(pcVector.x + x, pcVector.y + y, z), GetFacing(oPC));
+
+    return loc;
+}
+
 location getNextWaypoint(object oArea, location campfireLoc,
                               int radiusBase, object bat, float baseAngle) {
     float theta = GetLocalFloat(bat, "theta");

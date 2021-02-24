@@ -19,10 +19,10 @@
 void main()
 {
 //@@@@@@@@@@@@@@@@@@@@ UN-OPTIONAL BEHAVIORS (Should have a value) @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    SetSpawnInValue("AI_INTELLIGENCE", 5);
+    //SetSpawnInValue("AI_INTELLIGENCE", 5);
         // This is the intelligence of the creature 1-10. Default to 10
         // Read the file in "Explainations" about this intelligence for more info.
-    SetSpawnInValue("AI_MORALE", 10);
+    //SetSpawnInValue("AI_MORALE", 10);
         // This is a value, which is added to the morale check. Morale checks are at
         // HD difference, + 20 (10 averages this out to HD+10). They never flee at similar
         // levels.
@@ -30,7 +30,7 @@ void main()
 //@@@@@@@@@@@@@@@@@@@@ OPTIONAL BEHAVIORS (Comment In or Out to Activate ) @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     //SetSpawnInCondition(NW_FLAG_SPECIAL_CONVERSATION);
         // Use the file "nw_d2_gen_check" in a converation (first string) and they will say it when they see an enemy
-    SetSpawnInCondition(NW_FLAG_SPECIAL_COMBAT_CONVERSATION);
+    //SetSpawnInCondition(NW_FLAG_SPECIAL_COMBAT_CONVERSATION);
         // Similar to above BUT use "nw_d2_gen_combat" in the tree though.
                 // This causes the creature to say a special greeting in their conversation file
                 // upon Perceiving the player. Attach the [nw_d2_gen_check.nss] script to the desired
@@ -62,7 +62,7 @@ void main()
         // This will let loose some spells, depending on wizard/Sorceror levels, free of casting them.
         // The value is the amount of triggers they have. They will be released again on
         // low HP, with no spell effects, and a cirtain amount of passes when they can do actions.
-    SetSpawnInCondition(GROUP_LEADER);
+    //SetSpawnInCondition(GROUP_LEADER);
         // This will make the creature a "leader" to command the help, and genrally command others.
         // Also, any creature that can see the leader will have a morale bonus.
         // These have prioritory for healing, may say "attack X" and send runners to get help.
@@ -239,12 +239,12 @@ void main()
       // SetListening() has already been called (by InitPuppetMaster());
       // set FALSE because we already SetListening - and the renamed with
       // the JAI prefix by Cereborn...
-      SetListeningPatterns( FALSE );
+      //SetListeningPatterns( FALSE );
     }
 
     else
     {
-      SetListeningPatterns( TRUE );
+      //SetListeningPatterns( TRUE );
     }
     //**
     //****** end ALFA MOD
@@ -253,9 +253,9 @@ void main()
     SetWeapons();
         // This sets what weapons the creature will use. They will use the best, according to a "value"
         // Giving a creature the feat Two-weapon-fighting makes them deul wield if appropriate weapons.
-    AdvancedAuras();
+    AI_AdvancedAuras();
         // This activates the creatures top aura.
-    DelayCommand(2.0, WalkWayPoints());
+    DelayCommand(2.0, SpawnWalkWayPoints());
         // Delayed walk waypoints, as to not upset instant combat spawning.
         // This will also check if to change to day/night posts during the walking, no heartbeats.
 }

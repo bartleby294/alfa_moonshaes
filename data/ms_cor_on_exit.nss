@@ -14,8 +14,9 @@ void DestoryInboundShipsCheck() {
     if(GetObjectByTag(CARAVEL_INBOUND_TAG) != OBJECT_INVALID
        && caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Destroy Inbound Caravel
-        WriteTimestampedLogEntry("ms_cor_on_exit: Destroy Inbound Caravel - "
-                                 + IntToString(curTime) );
+        WriteTimestampedLogEntry("Ship Activity: |V49| - Gwynneth: City of"
+                                  + " Corwell: Inbound Caravel Destroy - "
+                                  + IntToString(curTime));
         ShipDestroy(CARAVEL_INBOUND_TAG, CARAVEL_INBOUND_WAYPOINT_TAG,
                 CARAVEL_INBOUND_BLOCKER_TAG, CARAVEL_INBOUND_BLOCKER_RES,
                 CARAVEL_INBOUND_PLANK_TAG, CARAVEL_INBOUND_DESTROYED_TIME);
@@ -26,8 +27,9 @@ void DestoryInboundShipsCheck() {
     if(GetObjectByTag(CITY_SHIP_INBOUND_TAG) != OBJECT_INVALID &&
        cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Destroy Inbound City Ship
-        WriteTimestampedLogEntry("ms_cor_on_exit: Destroy Inbound City Ship - "
-                                 + IntToString(curTime));
+        WriteTimestampedLogEntry("Ship Activity: |V49| - Gwynneth: City of"
+                                  + " Corwell: Inbound City Ship Destroy - "
+                                  + IntToString(curTime));
         ShipDestroy(CITY_SHIP_INBOUND_TAG,
             CITY_SHIP_INBOUND_WAYPOINT_TAG,
             CITY_SHIP_INBOUND_BLOCKER_TAG,
@@ -50,8 +52,9 @@ void CreateOutboundShipsCheck() {
     if(GetObjectByTag(CARAVEL_OUTBOUND_TAG) == OBJECT_INVALID
        && caravelRandomChance > WAIT_TIME_THRESHOLD) {
         // Create Outbound Caravel
-        WriteTimestampedLogEntry("ms_cor_on_exit: Create Outbound Caravel - "
-                                 + IntToString(curTime));
+        WriteTimestampedLogEntry("Ship Activity: |V49| - Gwynneth: City of"
+                                  + " Corwell: Outbound Caravel Create - "
+                                  + IntToString(curTime));
         ShipOutboundCreate(CARAVEL_OUTBOUND_TAG,
                            CARAVEL_OUTBOUND_WAYPOINT_TAG,
                            Vector(75.0, 125.0, 0.0), 270.0,
@@ -69,8 +72,9 @@ void CreateOutboundShipsCheck() {
     if(GetObjectByTag(CITY_SHIP_OUTBOUND_TAG) == OBJECT_INVALID
        && cityShipRandomChance > WAIT_TIME_THRESHOLD) {
         // Create Outbound City Ship
-        WriteTimestampedLogEntry("ms_cor_on_exit: Create Outbound City Ship - "
-                                 + IntToString(curTime));
+        WriteTimestampedLogEntry("Ship Activity: |V49| - Gwynneth: City of"
+                                  + " Corwell: Outbound City Ship Create - "
+                                  + IntToString(curTime));
         ShipOutboundCreate(CITY_SHIP_OUTBOUND_TAG,
                            CITY_SHIP_OUTBOUND_WAYPOINT_TAG,
                            Vector(95.0, 155.0, 0.0), 270.0,

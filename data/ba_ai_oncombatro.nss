@@ -56,7 +56,7 @@ void main()
 
     // Determine combat round against an invalid target (as default)
     DetermineCombatRound();
-    onAttackActions();
+    onAttackActions("");
     object lastAttacker = GetLastAttacker(OBJECT_SELF);
     location lastAttackerLoc = GetLocation(lastAttacker);
     SetLocalLocation(OBJECT_SELF, "attackerLoc", lastAttackerLoc);

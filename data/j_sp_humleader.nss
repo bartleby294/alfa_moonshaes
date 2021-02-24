@@ -77,6 +77,7 @@ void main()
     AI_SetSpawnInSpeakValue(AI_TALK_ON_LEADER_ATTACK_TARGET, "Direct your attacks here, men!");
 
     // Ambient animations
+    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);

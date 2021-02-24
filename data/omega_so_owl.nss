@@ -1,14 +1,15 @@
+#include "omega_include"
 void main()
 {
-object oDM = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC);
+object oSoundBox = GetLocalObject(oDM, "SOUND_BOX");
 
 
 switch (Random(2))
 {
-case 0: AssignCommand ( oDM, PlaySound("as_an_owlhoot1"));
+case 0: AssignCommand ( oSoundBox, PlaySound("as_an_owlhoot1"));
     break;
 
-case 1: AssignCommand ( oDM, PlaySound("as_an_owlhoot2"));
+case 1: AssignCommand ( oSoundBox, PlaySound("as_an_owlhoot2"));
     break;
 }
 

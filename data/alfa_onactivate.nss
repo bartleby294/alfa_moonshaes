@@ -13,6 +13,7 @@
 /* Includes */
 #include "alfa_include_fix"
 #include "_mooncustonact"
+#include "onuse_drugs"
 
 void main()
 {
@@ -20,6 +21,7 @@ void main()
   // otherwise exactly the same as standard
   MoonshaesCustom(GetItemActivator());
   ALFA_OnActivateItem();
+  OnUseDrugs();
 
   /**************** Add Custom Code Here ***************/
     ExecuteScript("cmk_items", GetItemActivator());

@@ -1,5 +1,7 @@
 #include "omega_include"
 void main()
 {
-AssignCommand ( oDM, ApplyEffectAtLocation ( DURATION_TYPE_INSTANT, EffectVisualEffect ( VFX_DUR_WEB_MASS), lTargetLoc));
+
+int nEffect = VFX_DUR_WEB_MASS;
+OmegaVisualEffectAtLocation(nEffect);
    }

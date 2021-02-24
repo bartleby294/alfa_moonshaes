@@ -558,6 +558,8 @@ void main()
 ************************* [Bioware: Animations/Waypoints/Treasure] ************/
 
         int roll = Random(1);
+        int NW_FLAG_STEALTH                       = 0x00000004;
+        int NW_FLAG_SEARCH                      = 0x00000008;
         if(roll = 1)
         {
         SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);

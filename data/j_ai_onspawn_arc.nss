@@ -17,10 +17,10 @@
 void main()
 {
 //@@@@@@@@@@@@@@@@@@@@ UN-OPTIONAL BEHAVIORS (Should have a value) @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    SetSpawnInValue("AI_INTELLIGENCE", 10);
+    //SetSpawnInValue("AI_INTELLIGENCE", 10);
         // This is the intelligence of the creature 1-10. Default to 10
         // Read the file in "Explainations" about this intelligence for more info.
-    SetSpawnInValue("AI_MORALE", 10);
+    //SetSpawnInValue("AI_MORALE", 10);
         // This is a value, which is added to the morale check. Morale checks are at
         // HD difference, + 20 (10 averages this out to HD+10). They never flee at similar
         // levels.
@@ -65,7 +65,7 @@ void main()
     //SetSpawnInCondition(NEVER_FIGHT_IMPOSSIBLE_ODDS);
         // This will make the creature never fight against impossible odds.
         // A massive (8) difference in HD/CR will make them run off, if there are valid near allies.
-    SetSpawnInCondition(ARCHER_ATTACKING);
+    //SetSpawnInCondition(ARCHER_ATTACKING);
         // This will make the creature defined as an Archer only. They will either:
         //  a. Use a missile weapon with pointblankshot.
         //  b. Move back, best they can, if allies are there to help, then carry on shooting.
@@ -119,7 +119,7 @@ void main()
         // can teleport to, they will IF there are no enemies near that waypoint. Else, they will
         // choose the nearest ally with no enemies nearby.
         // Also, note, that waypoints can be in other areas!
-    SetSpawnInCondition(IMPROVED_INSTANT_DEATH_SPELLS);
+    //SetSpawnInCondition(IMPROVED_INSTANT_DEATH_SPELLS);
         // This will make the creature cheat by using some instant death spells on low save enemies
         // Its not that powerful at all, really, but might as well be toggelable.
     //CreateRandomStats(-3, 3, 6);
@@ -224,14 +224,14 @@ void main()
 // treasure. I don't like it, so I uncommented it.
 //    GenerateNPCTreasure();
         //Use this to create a small amount of treasure on the creature
-    SetListeningPatterns();
+    AI_SetListeningPatterns();
         // Goes through and sets up which shouts the NPC will listen to.
     SetWeapons();
         // This sets what weapons the creature will use. They will use the best, according to a "value"
         // Giving a creature the feat Two-weapon-fighting makes them deul wield if appropriate weapons.
-    AdvancedAuras();
+    AI_AdvancedAuras();
         // This activates the creatures top aura.
-    DelayCommand(2.0, WalkWayPoints());
+    DelayCommand(2.0, SpawnWalkWayPoints());
         // Delayed walk waypoints, as to not upset instant combat spawning.
         // This will also check if to change to day/night posts during the walking, no heartbeats.
 }
