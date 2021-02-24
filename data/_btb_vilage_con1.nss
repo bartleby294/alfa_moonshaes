@@ -75,28 +75,58 @@ void InitalizeCounts() {
     return;
 }
 
+int RandomTavern(int tavernCnt) {
+
+    int tavernToHome = Random(10);
+    if(GetIsNight() == TRUE) {
+        tavernToHome = Random(20);
+    }
+
+    if(tavernToHome > 9) {
+        return Random(tavernCnt) + 1;
+    }
+    return 0;
+}
+
 void SpawnVillager(int homesCnt, int cropsCnt,int marketCnt,
                    int tavernCnt, int waterCnt, int villagerCnt) {
 
     WriteTimestampedLogEntry("Village: Spawning");
     string villagerResRef = SelectVillager();
-    int isMale = IsMale(villagerResRef);
     int randomHome = Random(homesCnt) + 1;
-    object spawnLoc = GetNearestObjectByTag(HOME, OBJECT_SELF, randomHome);
-    object villager = CreateObject(OBJECT_TYPE_CREATURE,
-                                   villagerResRef,
-                                   GetLocation(spawnLoc),
-                                   FALSE,
-                                   VILLAGER_TAG);
-    SetLocalObject(villager, HOME, spawnLoc);
-    SetLocalInt(villager, IS_MALE, isMale);
-    ChooseVillagerAction(isMale, cropsCnt, marketCnt, tavernCnt,
-                         waterCnt, villager);
-    villagerCnt = GetLocalInt(OBJECT_SELF, VILLAGER_TAG);
-    SetLocalInt(OBJECT_SELF, VILLAGER_TAG, villagerCnt + 1);
-    SetEventScript(villager,
-                   EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
-                   "_btb_villag_onhb");
+    int randomTavern = RandomTavern(tavernCnt);
+
+    if(randomTavern == 0) {
+        object spawnLoc = GetNearestObjectByTag(HOME, OBJECT_SELF, randomHome);
+        object villager = CreateObject(OBJECT_TYPE_CREATURE,
+                                       villagerResRef,
+                                       GetLocation(spawnLoc),
+                                       FALSE,
+                                       VILLAGER_TAG);
+        SetLocalObject(villager, HOME, spawnLoc);
+        int isMale = GetGender(villager);
+        ChooseVillagerAction(isMale, cropsCnt, marketCnt, tavernCnt,
+                             waterCnt, villager);
+        villagerCnt = GetLocalInt(OBJECT_SELF, VILLAGER_TAG);
+        SetLocalInt(OBJECT_SELF, VILLAGER_TAG, villagerCnt + 1);
+        SetEventScript(villager,
+                       EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
+                       "_btb_villag_onhb");
+    } else {
+        object spawnLoc =GetNearestObjectByTag(TAVERN,OBJECT_SELF,randomTavern);
+        object homeLoc = GetNearestObjectByTag(HOME, OBJECT_SELF, randomHome);
+        object villager = CreateObject(OBJECT_TYPE_CREATURE,
+                                       villagerResRef,
+                                       GetLocation(spawnLoc),
+                                       FALSE,
+                                       VILLAGER_TAG);
+        SetLocalObject(villager, HOME, homeLoc);
+        SetLocalObject(villager, ACTION_WP, homeLoc);
+        villagerCnt = GetLocalInt(OBJECT_SELF, VILLAGER_TAG);
+        SetLocalInt(OBJECT_SELF, VILLAGER_TAG, villagerCnt + 1);
+        SetEventScript(villager, EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
+                       "_btb_villag_onhb");
+    }
 }
 
 void main() {

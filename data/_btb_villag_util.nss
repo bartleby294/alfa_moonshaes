@@ -14,7 +14,7 @@ string ChooseVillagerAction(int isMale, int cropsCnt,int marketCnt,
 
     int choice = Random(100) + 1;
     if(isMale == TRUE) {
-        if(choice < 40) {
+        if(choice < 40 && GetIsNight() == FALSE) {
             object wp = GetNearestObjectByTag(CROPS, OBJECT_SELF,
                                               Random(cropsCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);
@@ -36,7 +36,7 @@ string ChooseVillagerAction(int isMale, int cropsCnt,int marketCnt,
             return WATER;
         }
     } else {
-        if(choice < 20) {
+        if(choice < 20 && GetIsNight() == FALSE) {
             object wp = GetNearestObjectByTag(CROPS, OBJECT_SELF,
                                               Random(cropsCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);

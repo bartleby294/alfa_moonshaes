@@ -1,6 +1,7 @@
 #include "_btb_vil_const"
 #include "_btb_villag_util"
 #include "nwnx_area"
+#include "_btb_util"
 
 int GetMarketAnimation() {
 
@@ -39,6 +40,57 @@ void DestoryCheck() {
     }
 }
 
+void HomeActions(object villageController, int villagerCnt, object spawnLoc) {
+    //SpeakString("*Opens Door*");
+    DestroyObject(OBJECT_SELF, 2.0);
+    SetLocalInt(villageController, VILLAGER_TAG, villagerCnt - 1);
+}
+
+void CropActions(object villageController, int villagerCnt, int cropsCnt,
+                 object spawnLoc) {
+    AssignCommand(OBJECT_SELF,
+                  ActionPlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0));
+
+    int tendFeildChance = 19;
+    if(GetIsNight()) {
+        tendFeildChance = 4;
+    }
+
+    if(Random(20) + 1 < tendFeildChance) {
+        object wp = GetNearestObjectByTag(CROPS, OBJECT_SELF, Random(2) + 1);
+        location randLoc = pickLoc(OBJECT_SELF, 3.0, 90.0);
+        AssignCommand(OBJECT_SELF, ActionMoveToLocation(randLoc));
+        SetLocalObject(OBJECT_SELF, ACTION_WP, wp);
+    } else {
+        SetLocalObject(OBJECT_SELF, ACTION_WP, spawnLoc);
+    }
+}
+
+void MarketActions(object villageController, int villagerCnt, int marketCnt,
+                   object spawnLoc) {
+    AssignCommand(OBJECT_SELF,
+                  ActionPlayAnimation(GetMarketAnimation(), 1.0));
+    if(Random(6) + 1 < 5) {
+        object wp = GetNearestObjectByTag(MARKET, OBJECT_SELF,
+                                      Random(marketCnt) + 1);
+        SetLocalObject(OBJECT_SELF, ACTION_WP, wp);
+    } else {
+        SetLocalObject(OBJECT_SELF, ACTION_WP, spawnLoc);
+    }
+}
+
+void WaterActions(object villageController, int villagerCnt, object spawnLoc) {
+    SpeakString("*Fills bucket with water.*");
+    PlaySound("as_na_splash1");
+    SetLocalObject(OBJECT_SELF, ACTION_WP, spawnLoc);
+}
+
+void TavernActions(object villageController, int villagerCnt, object spawnLoc) {
+    //SpeakString("*Opens Door*");
+    DestroyObject(OBJECT_SELF, 2.0);
+    SetLocalInt(villageController, VILLAGER_TAG, villagerCnt - 1);
+}
+
 void main()
 {
     // if in combat get inside a house!
@@ -50,7 +102,7 @@ void main()
 
     DestoryCheck();
 
-    int isMale = GetLocalInt(OBJECT_SELF, IS_MALE);
+    int isMale = GetGender(OBJECT_SELF);
     int initalized = GetLocalInt(OBJECT_SELF, INITALIZED);
     object actionWP = GetLocalObject(OBJECT_SELF, ACTION_WP);
     object spawnLoc = GetLocalObject(OBJECT_SELF, HOME);
@@ -69,63 +121,15 @@ void main()
         reachedWp = TRUE;
     }
 
-    if(actionTag == HOME) {
-        if(reachedWp == TRUE) {
-            SpeakString("*Opens Door*");
-            DestroyObject(OBJECT_SELF, 2.0);
-            SetLocalInt(villageController, VILLAGER_TAG, villagerCnt - 1);
-        }
-    } else if(actionTag == CROPS) {
-        if(initalized == FALSE) {
-            SetLocalInt(OBJECT_SELF, INITALIZED, TRUE);
-        }
-
-        if(reachedWp == TRUE) {
-            AssignCommand(OBJECT_SELF,
-                          ActionPlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0));
-            if(Random(4) + 1 < 3) {
-                object wp = GetNearestObjectByTag(CROPS, OBJECT_SELF,
-                                              Random(cropsCnt) + 1);
-                SetLocalObject(OBJECT_SELF, ACTION_WP, wp);
-            } else {
-                SetLocalObject(OBJECT_SELF, ACTION_WP, spawnLoc);
-            }
-        }
-    } else if (actionTag == MARKET) {
-        if(initalized == FALSE) {
-            SetLocalInt(OBJECT_SELF, INITALIZED, TRUE);
-        }
-
-        if(reachedWp == TRUE) {
-            AssignCommand(OBJECT_SELF,
-                          ActionPlayAnimation(GetMarketAnimation(), 1.0));
-            if(Random(4) + 1 < 3) {
-                object wp = GetNearestObjectByTag(CROPS, OBJECT_SELF,
-                                              Random(cropsCnt) + 1);
-                SetLocalObject(OBJECT_SELF, ACTION_WP, wp);
-            } else {
-                SetLocalObject(OBJECT_SELF, ACTION_WP, spawnLoc);
-            }
-        }
-    }  else if (actionTag == TAVERN) {
-        if(initalized == FALSE) {
-            SetLocalInt(OBJECT_SELF, INITALIZED, TRUE);
-        }
-
-        if(reachedWp == TRUE) {
-            SpeakString("*Opens Door*");
-            DestroyObject(OBJECT_SELF, 2.0);
-            SetLocalInt(villageController, VILLAGER_TAG, villagerCnt - 1);
-        }
-    }  else if (actionTag == WATER) {
-        if(initalized == FALSE) {
-            SetLocalInt(OBJECT_SELF, INITALIZED, TRUE);
-        }
-
-        if(reachedWp == TRUE) {
-            SpeakString("*Fills bucket with water.*");
-            PlaySound("as_na_splash1");
-            SetLocalObject(OBJECT_SELF, ACTION_WP, spawnLoc);
-        }
+    if(actionTag == HOME && reachedWp == TRUE) {
+        HomeActions(villageController, villagerCnt, spawnLoc);
+    } else if(actionTag == CROPS && reachedWp == TRUE) {
+        CropActions(villageController, villagerCnt, cropsCnt, spawnLoc);
+    } else if (actionTag == MARKET && reachedWp == TRUE) {
+        MarketActions(villageController, villagerCnt, marketCnt, spawnLoc);
+    }  else if (actionTag == TAVERN && reachedWp == TRUE) {
+        TavernActions(villageController, villagerCnt, spawnLoc);
+    }  else if (actionTag == WATER && reachedWp == TRUE) {
+        WaterActions(villageController, villagerCnt, spawnLoc);
     }
 }
