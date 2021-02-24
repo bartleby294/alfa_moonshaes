@@ -76,6 +76,7 @@ void InitalizeCounts() {
 }
 
 void main() {
+    WriteTimestampedLogEntry("Village: On Heartbeat");
     // if Vilage scrips have been DM halted return.
     if(GetLocalInt(GetArea(OBJECT_SELF), DM_FORCE_STOP) == TRUE) {
         return ;
@@ -84,6 +85,7 @@ void main() {
     int isInitalized = GetLocalInt(OBJECT_SELF, INITALIZED);
 
     if(isInitalized == FALSE) {
+        WriteTimestampedLogEntry("Village: Initalizing");
         InitalizeCounts();
         SetLocalInt(OBJECT_SELF, INITALIZED, TRUE);
     }
@@ -100,6 +102,7 @@ void main() {
 
     // no one lives here or everyone is outside so return.
     if(homesCnt == 0 || homesCnt >= villagerCnt || workerCnt >= villagerCnt) {
+        WriteTimestampedLogEntry("Village: No one lives here");
         return;
     }
 
@@ -112,7 +115,12 @@ void main() {
     }
 
     float randomSpawnChance = (villagerRatio * 100);
-    if(Random(FloatToInt(randomSpawnChance)) > FloatToInt(celing)) {
+    int chance = Random(FloatToInt(randomSpawnChance));
+    WriteTimestampedLogEntry("Village: chance (" + IntToString(chance)
+                             + ") > celing (" + IntToString(FloatToInt(celing))
+                             + ")");
+    if(chance > FloatToInt(celing)) {
+        WriteTimestampedLogEntry("Village: Spawning");
         string villagerResRef = SelectVillager();
         int isMale = IsMale(villagerResRef);
         int randomHome = Random(homesCnt) + 1;
