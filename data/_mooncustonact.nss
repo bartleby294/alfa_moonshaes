@@ -142,16 +142,10 @@ void MoonshaesCustom(object oPC)
                 "You can't apply the healing salve on yourself.",
                 oPC, FALSE);
         } else if((GetDistanceBetween(oPC, oTarget) <= 3.0)) {
-            if(GetIsFriend(oPC, oTarget)) {
-                FloatingTextStringOnCreature("You apply the healing salve.",
-                                             oPC, TRUE);
-                ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(d8()),
-                                    oTarget);
-            } else {
-                FloatingTextStringOnCreature(
-                    "You can only use healing salve on a willing target.",
-                    oPC, FALSE);
-            }
+            FloatingTextStringOnCreature("You apply the healing salve.",
+                                         oPC, TRUE);
+            ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(d8()),
+                                oTarget);
         } else {
             FloatingTextStringOnCreature("You're too far away.", oPC, FALSE);
         }
