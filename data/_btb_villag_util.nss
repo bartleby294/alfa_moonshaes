@@ -38,7 +38,7 @@ string ChooseVillagerAction(int isMale, int cropsCnt,int marketCnt,
                                               Random(cropsCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);
             string randTool = randomFarmToolResef();
-            object oTool = CreateItemOnObject(randomFarmToolResef());
+            object oTool = CreateItemOnObject(randomFarmToolResef(), villager);
             AssignCommand(villager,
                           ActionEquipItem(oTool, INVENTORY_SLOT_RIGHTHAND));
             return CROPS;
@@ -56,7 +56,7 @@ string ChooseVillagerAction(int isMale, int cropsCnt,int marketCnt,
             object wp = GetNearestObjectByTag(WATER, OBJECT_SELF,
                                               Random(waterCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);
-            object oTool = CreateItemOnObject("_bucket");
+            object oTool = CreateItemOnObject("_bucket", villager);
             AssignCommand(villager,
                           ActionEquipItem(oTool, INVENTORY_SLOT_LEFTHAND));
             return WATER;

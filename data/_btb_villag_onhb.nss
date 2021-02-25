@@ -123,6 +123,12 @@ void main()
         SetFacing(GetFacing(actionWP));
     }
 
+    // if were close to another npc back off ranomly
+    if(GetDistanceToObject(GetNearestObjectByTag(VILLAGER_TAG)) < 1.2) {
+        float distance = IntToFloat(Random(4));
+        ActionMoveToLocation(pickLoc(OBJECT_SELF, distance, 150.0));
+    }
+
     if(actionTag == HOME && reachedWp == TRUE) {
         HomeActions(villageController, villagerCnt, spawnLoc);
     } else if(actionTag == CROPS && reachedWp == TRUE) {
