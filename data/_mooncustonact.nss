@@ -146,6 +146,7 @@ void MoonshaesCustom(object oPC)
                                          oPC, TRUE);
             ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(d8()),
                                 oTarget);
+            SetItemCharges(oItem, GetItemCharges(oItem) - 1);
         } else {
             FloatingTextStringOnCreature("You're too far away.", oPC, FALSE);
         }
