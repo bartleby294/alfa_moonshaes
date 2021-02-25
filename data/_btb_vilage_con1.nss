@@ -78,8 +78,8 @@ void SpawnVillager(int homesCnt, int cropsCnt,int marketCnt,
                                        VILLAGER_TAG);
         AssignCommand(villager, PlaySound("as_dr_woodmedop1"));
         SetLocalObject(villager, HOME, spawnLoc);
-        int isMale = GetGender(villager);
-        ChooseVillagerAction(isMale, cropsCnt, marketCnt, tavernCnt,
+        int isFemale = GetGender(villager);
+        ChooseVillagerAction(isFemale, cropsCnt, marketCnt, tavernCnt,
                              waterCnt, villager);
         villagerCnt = GetLocalInt(OBJECT_SELF, VILLAGER_TAG);
         SetLocalInt(OBJECT_SELF, VILLAGER_TAG, villagerCnt + 1);
