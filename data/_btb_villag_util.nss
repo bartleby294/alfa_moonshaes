@@ -39,8 +39,8 @@ string ChooseVillagerAction(int isMale, int cropsCnt,int marketCnt,
             SetLocalObject(villager, ACTION_WP, wp);
             string randTool = randomFarmToolResef();
             object oTool = CreateItemOnObject(randomFarmToolResef());
-            DelayCommand(0.5, AssignCommand(villager,
-                         ActionEquipItem(oTool, INVENTORY_SLOT_RIGHTHAND)));
+            AssignCommand(villager,
+                          ActionEquipItem(oTool, INVENTORY_SLOT_RIGHTHAND));
             return CROPS;
         } else if(choice < 70) {
             object wp = GetNearestObjectByTag(TAVERN, OBJECT_SELF,
@@ -57,8 +57,8 @@ string ChooseVillagerAction(int isMale, int cropsCnt,int marketCnt,
                                               Random(waterCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);
             object oTool = CreateItemOnObject("_bucket");
-            DelayCommand(0.5, AssignCommand(villager,
-                         ActionEquipItem(oTool, INVENTORY_SLOT_RIGHTHAND)));
+            AssignCommand(villager,
+                          ActionEquipItem(oTool, INVENTORY_SLOT_LEFTHAND));
             return WATER;
         }
     } else {

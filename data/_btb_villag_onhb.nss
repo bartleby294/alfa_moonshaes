@@ -42,7 +42,7 @@ void DestoryCheck() {
 
 void HomeActions(object villageController, int villagerCnt, object spawnLoc) {
     //SpeakString("*Opens Door*");
-    PlaySound("as_dr_woodmedop1")
+    PlaySound("as_dr_woodmedop1");
     DestroyObject(OBJECT_SELF, 2.0);
     SetLocalInt(villageController, VILLAGER_TAG, villagerCnt - 1);
 }
