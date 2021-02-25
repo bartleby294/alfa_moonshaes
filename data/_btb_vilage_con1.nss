@@ -2,39 +2,12 @@
 #include "_btb_villag_util"
 
 string SelectVillager() {
-
-    switch(Random(14) +1) {
-        case 1:
-            return "farmergwynnth001";
-        case 2:
-            return "farmergwynnth005";
-        case 3:
-            return "farmergwynnth007";
-        case 4:
-            return "farmergwynnth009";
-        case 5:
-            return "farmergwynnth013";
-        case 6:
-            return "farmergwynnth015";
-        case 7:
-            return "farmergwynnth003";
-        case 8:
-            return "farmergwynnth017";
-        case 9:
-            return "corwellcommon013";
-        case 10:
-            return "farmergwynnth011";
-        case 11:
-            return "farmergwynnth019";
-        case 12:
-            return "farmergwynnth021";
-        case 13:
-            return "farmergwynnth023";
-        case 14:
-            return "farmergwynnth025";
+    string baseStr = "farmergwynnth00";
+    int randChoice = Random(27) +1;
+    if(randChoice > 9) {
+        baseStr = "farmergwynnth0";
     }
-
-    return "farmergwynnth001";
+    return baseStr + IntToString(randChoice);
 }
 
 void InitalizeCounts() {
@@ -103,9 +76,10 @@ void SpawnVillager(int homesCnt, int cropsCnt,int marketCnt,
                                        GetLocation(spawnLoc),
                                        FALSE,
                                        VILLAGER_TAG);
+        AssignCommand(villager, PlaySound("as_dr_woodmedop1"));
         SetLocalObject(villager, HOME, spawnLoc);
-        int isMale = GetGender(villager);
-        ChooseVillagerAction(isMale, cropsCnt, marketCnt, tavernCnt,
+        int isFemale = GetGender(villager);
+        ChooseVillagerAction(isFemale, cropsCnt, marketCnt, tavernCnt,
                              waterCnt, villager);
         villagerCnt = GetLocalInt(OBJECT_SELF, VILLAGER_TAG);
         SetLocalInt(OBJECT_SELF, VILLAGER_TAG, villagerCnt + 1);
@@ -120,6 +94,7 @@ void SpawnVillager(int homesCnt, int cropsCnt,int marketCnt,
                                        GetLocation(spawnLoc),
                                        FALSE,
                                        VILLAGER_TAG);
+        AssignCommand(villager, PlaySound("as_dr_woodmedop1"));
         SetLocalObject(villager, HOME, homeLoc);
         SetLocalObject(villager, ACTION_WP, homeLoc);
         villagerCnt = GetLocalInt(OBJECT_SELF, VILLAGER_TAG);

@@ -12,13 +12,18 @@ void writeToLog(string str) {
 }
 
 void DestroyCamp(object oArea){
+    int limiter = 0;
     object obj = GetFirstObjectInArea(oArea);
     while(GetIsObjectValid(obj)){
-        if(NWNX_Regex_Search(GetTag(obj), "banditcamp")){
+        if(limiter > 60) {
+             writeToLog("WARNING: LIMITER REACHED!!!");
+            return;
+        } else if(NWNX_Regex_Search(GetTag(obj), "banditcamp")){
             writeToLog("|Destroying: " + GetTag(obj));
             DestroyObject(obj, 1.0);
         }
         obj = GetNextObjectInArea();
+        limiter++;
     }
 }
 

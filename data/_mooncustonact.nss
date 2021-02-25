@@ -134,4 +134,21 @@ void MoonshaesCustom(object oPC)
    {
         ExecuteScript("_btb_dmbatsnd5", oPC);
    }
+
+   if(GetTag(oItem) == "healingsalve") {
+        object oTarget = GetItemActivatedTarget();
+        if(oTarget == oPC) {
+            FloatingTextStringOnCreature(
+                "You can't apply the healing salve on yourself.",
+                oPC, FALSE);
+        } else if((GetDistanceBetween(oPC, oTarget) <= 3.0)) {
+            FloatingTextStringOnCreature("You apply the healing salve.",
+                                         oPC, TRUE);
+            ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(d8()),
+                                oTarget);
+            SetItemCharges(oItem, GetItemCharges(oItem) - 1);
+        } else {
+            FloatingTextStringOnCreature("You're too far away.", oPC, FALSE);
+        }
+    }
 }

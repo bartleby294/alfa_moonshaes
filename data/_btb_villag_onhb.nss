@@ -42,6 +42,7 @@ void DestoryCheck() {
 
 void HomeActions(object villageController, int villagerCnt, object spawnLoc) {
     //SpeakString("*Opens Door*");
+    PlaySound("as_dr_woodmedop1");
     DestroyObject(OBJECT_SELF, 2.0);
     SetLocalInt(villageController, VILLAGER_TAG, villagerCnt - 1);
 }
@@ -119,6 +120,13 @@ void main()
         ActionMoveToObject(actionWP, FALSE, 0.5);
     } else {
         reachedWp = TRUE;
+        SetFacing(GetFacing(actionWP));
+    }
+
+    // if were close to another npc back off ranomly
+    if(GetDistanceToObject(GetNearestObjectByTag(VILLAGER_TAG)) < 1.2) {
+        float distance = IntToFloat(Random(4));
+        ActionMoveToLocation(pickLoc(OBJECT_SELF, distance, 150.0));
     }
 
     if(actionTag == HOME && reachedWp == TRUE) {
