@@ -42,6 +42,7 @@ void DestoryCheck() {
 
 void HomeActions(object villageController, int villagerCnt, object spawnLoc) {
     //SpeakString("*Opens Door*");
+    PlaySound("as_dr_woodmedop1")
     DestroyObject(OBJECT_SELF, 2.0);
     SetLocalInt(villageController, VILLAGER_TAG, villagerCnt - 1);
 }
@@ -119,6 +120,7 @@ void main()
         ActionMoveToObject(actionWP, FALSE, 0.5);
     } else {
         reachedWp = TRUE;
+        SetFacing(GetFacing(actionWP));
     }
 
     if(actionTag == HOME && reachedWp == TRUE) {

@@ -9,15 +9,38 @@ int IsMale(string resRef) {
     return TRUE;
 }
 
+string randomFarmToolResef() {
+    switch(Random(4) + 1) {
+        case 1:
+            return "hayfork";
+        case 2:
+            return "workingshovel";
+        case 3:
+            return "farmershoe";
+        case 4:
+            return "farmerssythe";
+    }
+    return "farmerssythe";
+}
+
 string ChooseVillagerAction(int isMale, int cropsCnt,int marketCnt,
                             int tavernCnt, int waterCnt, object villager) {
 
     int choice = Random(100) + 1;
+    AssignCommand(villager,
+        ActionUnequipItem(GetItemInSlot(INVENTORY_SLOT_LEFTHAND , villager)));
+    AssignCommand(villager,
+        ActionUnequipItem(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND , villager)));
+
     if(isMale == TRUE) {
         if(choice < 40 && GetIsNight() == FALSE) {
             object wp = GetNearestObjectByTag(CROPS, OBJECT_SELF,
                                               Random(cropsCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);
+            string randTool = randomFarmToolResef();
+            object oTool = CreateItemOnObject(randomFarmToolResef());
+            DelayCommand(0.5, AssignCommand(villager,
+                         ActionEquipItem(oTool, INVENTORY_SLOT_RIGHTHAND)));
             return CROPS;
         } else if(choice < 70) {
             object wp = GetNearestObjectByTag(TAVERN, OBJECT_SELF,
@@ -33,6 +56,9 @@ string ChooseVillagerAction(int isMale, int cropsCnt,int marketCnt,
             object wp = GetNearestObjectByTag(WATER, OBJECT_SELF,
                                               Random(waterCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);
+            object oTool = CreateItemOnObject("_bucket");
+            DelayCommand(0.5, AssignCommand(villager,
+                         ActionEquipItem(oTool, INVENTORY_SLOT_RIGHTHAND)));
             return WATER;
         }
     } else {
