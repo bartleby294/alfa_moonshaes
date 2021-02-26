@@ -6,7 +6,7 @@ void main()
     //WriteTimestampedLogEntry("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     //WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
     if(obHbObj == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("WARN: obHbObj == OBJECT_INVALID" );
+        WriteTimestampedLogEntry("_btb_dr_area_en1 - WARN: obHbObj == OBJECT_INVALID" );
     }
 
     if(obHbObj == OBJECT_INVALID
