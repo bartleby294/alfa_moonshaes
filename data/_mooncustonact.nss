@@ -137,7 +137,12 @@ void MoonshaesCustom(object oPC)
 
    if(GetTag(oItem) == "healingsalve") {
         object oTarget = GetItemActivatedTarget();
-        if(oTarget == oPC) {
+
+        if(GetObjectType(oTarget) != OBJECT_TYPE_CREATURE) {
+            FloatingTextStringOnCreature(
+                "You can only apply the healing salve on a creature.",
+                oPC, FALSE);
+        }else if(oTarget == oPC) {
             FloatingTextStringOnCreature(
                 "You can't apply the healing salve on yourself.",
                 oPC, FALSE);
@@ -146,7 +151,12 @@ void MoonshaesCustom(object oPC)
                                          oPC, TRUE);
             ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(d8()),
                                 oTarget);
-            SetItemStackSize(oItem, GetItemStackSize(oItem) - 1);
+            int stackSize = GetItemStackSize(oItem);
+            if(stackSize > 1) {
+                SetItemStackSize(oItem, GetItemStackSize(oItem) - 1);
+            } else {
+                SetItemCharges(oItem, 0);
+            }
         } else {
             FloatingTextStringOnCreature("You're too far away.", oPC, FALSE);
         }
