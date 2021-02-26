@@ -3,7 +3,7 @@
 
 void main()
 {
- object otrap = GetNearestObjectByTag("webtrap");
+ object otrap = GetNearestObjectByTag("webtrap4");
 
  location spiderspawn = GetLocation(GetNearestObjectByTag("boo1"));
  int i = (d2() + 4);
@@ -28,7 +28,7 @@ void main()
     i2++;
     }
     }
-    SetLocalInt(GetNearestObjectByTag("webtrap"), "triggered1", 1);
+    SetLocalInt(otrap, "triggered1", 1);
 
     if (GetIsMeleeAttacker(GetLastAttacker(OBJECT_SELF)) == TRUE)
     {
@@ -66,7 +66,7 @@ void main()
                 }
                 SetLocalInt(OBJECT_SELF, "TriggerTrip", TRUE);
                 //Slow down the creature within the Web
-                ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSlow, oTarget);
+                ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eSlow, oTarget);
 
         }
     }

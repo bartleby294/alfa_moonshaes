@@ -66,13 +66,29 @@
 
 // This is required for all spawn in options!
 #include "j_inc_spawnin"
+//*************** ALFA Mod
+#include "alfa_include"
+//*************** End ALFA Mod
 
 void main()
 {
-    SetObjectVisualTransform(OBJECT_SELF, OBJECT_VISUAL_TRANSFORM_SCALE, 1.20);
+
+    SetListening(OBJECT_SELF,TRUE);
+    SetListenPattern(OBJECT_SELF,"An ale please Eamon**",2002);
+    SetListenPattern(OBJECT_SELF,"An ale please Eamon**",2003);
+
+
 /************************ [Important Spawn Settings] **************************/
-    SetAIInteger(AI_INTELLIGENCE, 10);
+
+//*************************** ALFA Mod
+    int nScaledInt = GetAbilityScore(OBJECT_SELF, ABILITY_INTELLIGENCE) / 2;
+    if (nScaledInt < 1) nScaledInt = 1;
+    else if (nScaledInt > 10) nScaledInt = 10;
+    PrintString("nScaledInt for this creature is " + IntToString(nScaledInt));
+    SetAIInteger(AI_INTELLIGENCE, nScaledInt);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
+//*************************** End ALFA Mod
+
     SetAIInteger(AI_MORALE, 10);
         // Will save (See readme). Remember: -1 or below means they always flee.
     //SetCustomAIFileName("CUSTOM_AI_FILE");
@@ -94,7 +110,7 @@ void main()
         // We go straight for mages/sorcerors. Nearest one.
     //SetSpawnInCondition(AI_FLAG_TARGETING_LIKE_ARCHERS, AI_TARGETING_FLEE_MASTER);
         // We go for the nearest enemy with a ranged weapon equipped.
-    SetSpawnInCondition(AI_FLAG_TARGETING_LIKE_PCS, AI_TARGETING_FLEE_MASTER);
+    //SetSpawnInCondition(AI_FLAG_TARGETING_LIKE_PCS, AI_TARGETING_FLEE_MASTER);
         // We go for the nearest seen PC enemy.
 
     //SetAIConstant(AI_FAVOURED_ENEMY_RACE, RACIAL_TYPE_HUMAN);
@@ -117,13 +133,13 @@ void main()
     // - Remember, uncommenting one will just ignore it (so will never check target's
     //   AC without TARGETING_AC on)
 
-    //AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, i1, i12);
+    AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, i1, i12);
         // Spell mantals are checked only for the spell target. Either Absense of or got any.
-    //AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, i2, i9);
+    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, i2, i9);
         // Range - very imporant! Basis for all ranged/spell attacks.
     AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, i2, i6);
         // AC is used for all phisical attacks. Lower targets lower (By default).
-    //AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, i2, i4);
+    AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, i2, i4);
         // Used for spell attacks. Saves are sorta a AC versus spells.
 
     // Phisical protections. Used by spells, ranged and melee.
@@ -157,7 +173,7 @@ void main()
     3 or under intelligence will just run away. 4 or more will know where allies
     are, and if there are none, will not run.
 ************************* [Fleeing] *******************************************/
-    //SetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER);
+    SetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER);
         // Forces them to not flee. This may be set with AI_SetMaybeFearless at the end.
     //SetSpawnInCondition(AI_FLAG_FLEEING_NEVER_FIGHT_IMPOSSIBLE_ODDS, AI_TARGETING_FLEE_MASTER);
         // This will make the creature never fight against impossible odds (8HD+ different)
@@ -192,7 +208,7 @@ void main()
     Fighter (Phiscal attacks, really) specific stuff - disarmed weapons, better
     at hand to hand, and archer behaviour.
 ************************* [Combat - Fighters] *********************************/
-    //SetSpawnInCondition(AI_FLAG_COMBAT_PICK_UP_DISARMED_WEAPONS, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_PICK_UP_DISARMED_WEAPONS, AI_COMBAT_MASTER);
         // This sets to pick up weapons which are disarmed.
 
     //SetAIInteger(AI_RANGED_WEAPON_RANGE, 3);
@@ -209,7 +225,7 @@ void main()
     //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_USE_BOW, AI_COMBAT_MASTER);
         // This will make the creature ALWAYs use any bows it has. ALWAYS.
 
-    //SetSpawnInCondition(AI_FLAG_COMBAT_NO_GO_FOR_THE_KILL, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_NO_GO_FOR_THE_KILL, AI_COMBAT_MASTER);
         // Turns off any attempts to kill dying PCs, or attack low hit point people.
         // This is only ever attempted at 9 or 10 intelligence anyway.
 /************************ [Combat - Fighters] *********************************/
@@ -242,7 +258,7 @@ void main()
 
     //SetSpawnInCondition(AI_FLAG_COMBAT_DISPEL_MAGES_MORE, AI_COMBAT_MASTER);
         // Targets seen mages to dispel, else uses normal spell target.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_DISPEL_IN_ORDER, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_DISPEL_IN_ORDER, AI_COMBAT_MASTER);
         // This will make the mage not dispel just anything all the time, but important (spell-stopping)
         // things first, others later, after some spells. If off, anything is dispelled.
 
@@ -251,7 +267,7 @@ void main()
         // Override toggle. Forces to never cast AOE's if it will hit an ally + harm them.
     //SetSpawnInCondition(AI_FLAG_COMBAT_AOE_DONT_MIND_IF_THEY_SURVIVE, AI_COMBAT_MASTER);
         // Allies who will survive the blast are ignored for calculating best target.
-    //SetAIInteger(AI_AOE_ALLIES_LOWEST_IN_AOE, 2);
+    //SetAIInteger(AI_AOE_ALLIES_LOWEST_IN_AOE, 3);
         // Defualt: 3. If amount of allies in blast radius are equal or more then
         // this, then that location is ignored.
     //SetAIInteger(AI_AOE_HD_DIFFERENCE, -8);
@@ -264,13 +280,13 @@ void main()
     //SetSpawnInCondition(AI_FLAG_COMBAT_MANY_TARGETING, AI_COMBAT_MASTER);
         // For Same-level spells, AOE spells are used first.
 
-    //SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_INSTANT_DEATH_SPELLS, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_INSTANT_DEATH_SPELLS, AI_COMBAT_MASTER);
         // A few Death spells may be cast top-prioritory if the enemy will always fail saves.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_SUMMON_TARGETING, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_SUMMON_TARGETING, AI_COMBAT_MASTER);
         // Will use a better target to summon a creature at (EG: Ranged attacker)
-    //SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_IMMUNITY_CHECKING, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_IMMUNITY_CHECKING, AI_COMBAT_MASTER);
         // Turns On "GetIsImmune" checks. Auto on for 7+ Intel.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_SPECIFIC_SPELL_IMMUNITY, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_SPECIFIC_SPELL_IMMUNITY, AI_COMBAT_MASTER);
         // Turns On checks for Globes & levels of spells. Auto on for 9+ Intel.
 
     //SetSpawnInCondition(AI_FLAG_COMBAT_MORE_ALLY_BUFFING_SPELLS, AI_COMBAT_MASTER);
@@ -319,7 +335,7 @@ void main()
         // % of HP we need to be at until we heal us at all. Default: 50
     //SetAIInteger(AI_HEALING_ALLIES_PERCENT, 60);
         // % of HP allies would need to be at to heal them Readme = info. Default: 60
-   // SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_WILL_RAISE_ALLIES_IN_BATTLE, AI_OTHER_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_WILL_RAISE_ALLIES_IN_BATTLE, AI_OTHER_COMBAT_MASTER);
         // Turns on rasing dead with Resurrection/Raise dead.
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_CURING, AI_OTHER_COMBAT_MASTER);
         // This turns off all healing.
@@ -528,7 +544,7 @@ void main()
         // If the creature uses thier skill, taunt, on an enemy this will be said.
 
     // Event-driven.
-    //AI_SetSpawnInSpeakArray(AI_TALK_ON_PERCIEVE_ENEMY, 70, 6, "Drop your gold and run!", "I am ready for violence!", "CHARGE!", "Time you died!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_PERCIEVE_ENEMY, 70, 6, "Stand and fight, lawbreaker!", "Don't run from the law!", "I have my orders!", "I am ready for violence!", "CHARGE!", "Time you died!");
         // This is said when they see/hear a new enemy, and start attacking them.
     //AI_SetSpawnInSpeakArray(AI_TALK_ON_DAMAGED, 20, 2, "Ouch, damn you!", "Haha! Nothing will stop me!");
         // A random value is set to speak when damaged, and may fire same time as below ones.
@@ -557,15 +573,8 @@ void main()
     All Bioware Stuff. I'd check out "x0_c2_spwn_def" for the SoU/Hordes revisions.
 ************************* [Bioware: Animations/Waypoints/Treasure] ************/
 
-        int roll = Random(1);
-        if(roll = 1)
-        {
-        SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);
-        }
-
-        SetSpawnInCondition(NW_FLAG_SEARCH, NW_GENERIC_MASTER);
-
-        SetSpawnInCondition(NW_FLAG_APPEAR_SPAWN_IN_ANIMATION, NW_GENERIC_MASTER);
+     SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);
+    // SetSpawnInCondition(NW_FLAG_SEARCH, NW_GENERIC_MASTER);
         // Uses said skill while WalkWaypoints()
 
     // SetSpawnInCondition(NW_FLAG_DAY_NIGHT_POSTING, NW_GENERIC_MASTER);
@@ -613,16 +622,34 @@ void main()
 ************************* [User] **********************************************/
     // Example (and default) of user addition:
     // - If we are from an encounter, set mobile (move around) animations.
-    //if(GetIsEncounterCreature())
-    //{
-        //SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);
-    //}
+    if(GetIsEncounterCreature())
+    {
+        SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);
+    }
     // Leave this in if you use the variable for creature attacks, as for golems. Bioware's code.
     int nNumber = GetLocalInt(OBJECT_SELF, "CREATURE_VAR_NUMBER_OF_ATTACKS");
     if(nNumber > 0)
     {
         SetBaseAttackBonus(nNumber);
     }
+
+    //***** ALFA MOD: Danmar's PuppetMaster functionality
+    if ( gALFA_USE_PUPPET_MASTER )
+    {
+      ALFA_InitPuppetMaster();
+      // This is the Jasperre's AI version of SetListeningPatterns, modified
+      // by Kensai to take an argument that lets us indicate that
+      // SetListening() has already been called (by InitPuppetMaster());
+      // set FALSE because we already SetListening - and the renamed with
+      // the JAI prefix by Cereborn...
+
+      AI_SetListeningPatterns( FALSE );
+    }
+    else
+    {
+      AI_SetListeningPatterns( TRUE );
+    }
+    //****** end ALFA MOD
 
 /************************ [User] **********************************************/
 
