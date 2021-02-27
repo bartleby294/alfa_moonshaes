@@ -22,7 +22,7 @@ int DestroyWings(object curItem, int batwingsDestroyed, int batWingsTurnIn) {
     int batWingsLeftToDestory = batWingsTurnIn - batwingsDestroyed;
     int itemWingCnt = GetItemCharges(curItem);
 
-    if(itemWingCnt < batWingsLeftToDestory) {
+    if(itemWingCnt <= batWingsLeftToDestory) {
         DestroyObject(curItem);
         return batwingsDestroyed + itemWingCnt;
     } else {
@@ -49,10 +49,6 @@ void main() {
             + IntToString(healingSalves) + " Healing Salves.");
     }
 
-    for (i = 0; i < (batWingsTurnIn); i++) {
-        GiveXPToCreature(oPC, getXpToGive(getXPForLevel(GetXP(oPC))));
-    }
-
     // Remove all the objects
     int batwingsDestroyed = 0;
     object curItem = GetFirstItemInInventory(oPC);
@@ -62,5 +58,13 @@ void main() {
                 DestroyWings(curItem, batwingsDestroyed, batWingsTurnIn);
         }
         curItem = GetNextItemInInventory(oPC);
+    }
+
+    for (i = 0; i < (batWingsTurnIn); i++) {
+        GiveXPToCreature(oPC, getXpToGive(getXPForLevel(GetXP(oPC))));
+    }
+
+    for (i = 0; i < (healingSalves); i++) {
+        CreateItemOnObject("healingsalve", oPC);
     }
 }
