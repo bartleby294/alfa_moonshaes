@@ -111,7 +111,7 @@ void main()
     int i = 1;
     object villageController = GetNearestObjectByTag("village_life_controller",
                                                      OBJECT_SELF, i);
-    while(GetObjectType(villageController) != OBJECT_TYPE_PLACEABLE) {
+    while(GetObjectType(villageController) != OBJECT_TYPE_PLACEABLE && i < 3) {
         i++;
         villageController = GetNearestObjectByTag("village_life_controller",
                                                      OBJECT_SELF, i);
