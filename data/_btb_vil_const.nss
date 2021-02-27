@@ -42,4 +42,6 @@ string VILLAGER_ACTION = "villager_action";
 string ACTION_WP = "action_waypoint";
 string IS_MALE = "is_male";
 string NO_PC_SEEN_IN = "no_pc_seen_in";
+string LAST_KNOWN_LOC = "last_known_location";
+string TURNS_STUCK = "turns_stuck";
 
