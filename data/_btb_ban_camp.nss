@@ -7,6 +7,7 @@
 #include "_btb_ban_util"
 #include "_btb_random_loot"
 #include "nwnx_time"
+#include "nwnx_data"
 
 int getRandomDimensionOffBorder(int dimension, int buffer) {
     int doubleBuffer = 2 * buffer;
@@ -274,11 +275,12 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
     int areaWidth = GetAreaSize(AREA_WIDTH, oArea) * 10;
 
     int maxTry = 0;
-    int campfireCreated = 0;
     location campfireLoc = Location(oArea, Vector(0.0, 0.0, 0.0), 0.0);
 
+    object oCampfire = OBJECT_INVALID;
+
     // Find and create our camp center
-    while(campfireCreated == 0) {
+    while(oCampfire == OBJECT_INVALID) {
        // Exit out if we cant find a location in a reasonable time.
        if(maxTry >= 20) {
             return;
@@ -295,9 +297,8 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
 
         campfireLoc = Location(oArea, Vector(randX, randY, randZ), 0.0);
         if(campfireLocationGood(campfireLoc) == 1) {
-            CreateObject(OBJECT_TYPE_PLACEABLE, "banditcampfire1", campfireLoc,
-                FALSE, "banditcampfire1");
-                campfireCreated = 1;
+           oCampfire = CreateObject(OBJECT_TYPE_PLACEABLE, "banditcampfire1",
+                                    campfireLoc, FALSE, "banditcampfire1");
         }
         maxTry++;
     }
@@ -315,6 +316,10 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         cnt++;
     }
 
+    // Save our chest so we can delete it later.
+    NWNX_Data_Array_PushBack_Str(oCampfire , BANDIT_UUID_ARRAY,
+                                 GetObjectUUID(chestCreated));
+
     // Add our structures to the camp count up tents.
     cnt = 0;
     int tentCnt = 0;
@@ -323,6 +328,9 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         object objCreated = createBanditStructure(oArea, campfireLoc,
                                                   circle_min, circle_max);
         if(objCreated != OBJECT_INVALID) {
+            // Save our object so we can delete it later.
+            NWNX_Data_Array_PushBack_Str(oCampfire , BANDIT_UUID_ARRAY,
+                                         GetObjectUUID(objCreated));
             structureCnt--;
         }
 
@@ -372,6 +380,9 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             }
             SetLocalInt(bandit, "action", randAction);
             SetLocalInt(bandit, "banditId", banditCnt);
+            // Save our bandit so we can delete it later.
+            NWNX_Data_Array_PushBack_Str(oCampfire , BANDIT_UUID_ARRAY,
+                                         GetObjectUUID(bandit));
             banditCnt--;
         }
         cnt++;
@@ -385,6 +396,9 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
                                                 circle_max, bandit,
                                                 difficulty_lvl);
         if(trapCreated != OBJECT_INVALID) {
+            // Save our trap so we can delete it later.
+            NWNX_Data_Array_PushBack_Str(oCampfire , BANDIT_UUID_ARRAY,
+                                         GetObjectUUID(trapCreated));
             trapCnt--;
         }
         cnt++;
