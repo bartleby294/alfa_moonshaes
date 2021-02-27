@@ -13,7 +13,7 @@ int StartingConditional()
     object oItem = GetFirstItemInInventory(GetPCSpeaker());
     while (oItem != OBJECT_INVALID) {
         if(GetTag(oItem) == "BatWing") {
-            itemCnt++;
+            itemCnt += GetItemStackSize(oItem);
         }
         oItem = GetNextItemInInventory(GetPCSpeaker());
     }
