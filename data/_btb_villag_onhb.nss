@@ -111,7 +111,7 @@ void main()
     int i = 1;
     object villageController = GetNearestObjectByTag("village_life_controller",
                                                      OBJECT_SELF, i);
-    while(GetObjectType(villageController) != OBJECT_TYPE_PLACEABLE) {
+    while(GetObjectType(villageController) != OBJECT_TYPE_PLACEABLE && i < 3) {
         i++;
         villageController = GetNearestObjectByTag("village_life_controller",
                                                      OBJECT_SELF, i);
@@ -129,6 +129,9 @@ void main()
     int marketCnt = GetLocalInt(villageController, MARKET);
     int tavernCnt = GetLocalInt(villageController, TAVERN);
     int waterCnt = GetLocalInt(villageController, WATER);
+    location lastKnownLoc = GetLocalLocation(OBJECT_SELF, LAST_KNOWN_LOC);
+    int turnsStuck = GetLocalInt(OBJECT_SELF, TURNS_STUCK);
+    location curLoc = GetLocation(OBJECT_SELF);
 
     int reachedWp = FALSE;
     if(GetDistanceToObject(actionWP) > 1.5) {
@@ -142,9 +145,23 @@ void main()
     if(GetDistanceToObject(GetNearestObjectByTag(VILLAGER_TAG)) < 1.2) {
         ActionMoveToLocation(pickLoc(OBJECT_SELF, IntToFloat(Random(4)),
                                      IntToFloat(Random(360))));
-    }
-
-    if(actionTag == HOME && reachedWp == TRUE) {
+        // Go home
+        if(d2() == 1) {
+            SetLocalObject(OBJECT_SELF, ACTION_WP, spawnLoc);
+        }
+    // If we are stuck move us to a random position to unstuck
+    } else if(GetDistanceBetweenLocations(curLoc, lastKnownLoc) < 3.0) {
+        if(turnsStuck > 2) {
+            ActionMoveToLocation(pickLoc(OBJECT_SELF, IntToFloat(Random(4)),
+                                         IntToFloat(Random(360))));
+            // Go home
+            if(d2() == 1) {
+                SetLocalObject(OBJECT_SELF, ACTION_WP, spawnLoc);
+            }
+        } else {
+            SetLocalInt(OBJECT_SELF, TURNS_STUCK, turnsStuck + 1);
+        }
+    } else if(actionTag == HOME && reachedWp == TRUE) {
         HomeActions(villageController, villagerCnt, spawnLoc);
     } else if(actionTag == CROPS && reachedWp == TRUE) {
         CropActions(villageController, villagerCnt, cropsCnt, spawnLoc);
@@ -155,4 +172,6 @@ void main()
     }  else if (actionTag == WATER && reachedWp == TRUE) {
         WaterActions(villageController, villagerCnt, spawnLoc);
     }
+
+    SetLocalLocation(OBJECT_SELF, LAST_KNOWN_LOC, curLoc);
 }

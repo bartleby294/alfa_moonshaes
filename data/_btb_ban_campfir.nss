@@ -5,13 +5,15 @@
 #include "_btb_util"
 #include "nwnx_area"
 #include "nwnx_regex"
+#include "nwnx_data"
+#include "ba_consts"
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
     WriteTimestampedLogEntry("Bandit Camp: " + oAreaName + ": " +  str);
 }
 
-void DestroyCamp(object oArea){
+void DestroyCampOld(object oArea){
     int limiter = 0;
     object obj = GetFirstObjectInArea(oArea);
     while(GetIsObjectValid(obj)){
@@ -24,6 +26,27 @@ void DestroyCamp(object oArea){
         }
         obj = GetNextObjectInArea();
         limiter++;
+    }
+}
+
+void DestroyCamp(object oArea){
+    int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, OBJECT_SELF,
+                                         BANDIT_UUID_ARRAY);
+    int i = 0;
+    while(i < arraySize) {
+
+        if(i > 100) {
+            writeToLog("WARNING: NEW LIMITER REACHED!!!");
+            return;
+        }
+        string banUUID = NWNX_Data_Array_At_Str(OBJECT_SELF, BANDIT_UUID_ARRAY,
+                                                i);
+        object oBandit = GetObjectByUUID(banUUID);
+        if(oBandit != OBJECT_INVALID) {
+            writeToLog("| Destroying: " + GetTag(oBandit));
+            DestroyObject(oBandit, 2.0);
+        }
+        i++;
     }
 }
 

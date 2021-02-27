@@ -13,3 +13,5 @@ const int BANDIT_WALK_ACTION = 5;
 //const int BANDIT_INTERACT_ACTION = 5;
 
 const int BANDIT_MAX_ACTION = 5;
+
+const string BANDIT_UUID_ARRAY = "bandit_uuid_array";
