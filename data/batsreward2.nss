@@ -20,7 +20,7 @@ int getXpToGive(int lvl) {
 int DestroyWings(object curItem, int batwingsDestroyed, int batWingsTurnIn) {
 
     int batWingsLeftToDestory = batWingsTurnIn - batwingsDestroyed;
-    int itemWingCnt = GetItemCharges(curItem);
+    int itemWingCnt = GetNumStackedItems(curItem);
 
     if(itemWingCnt <= batWingsLeftToDestory) {
         DestroyObject(curItem);
