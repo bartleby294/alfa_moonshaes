@@ -102,12 +102,21 @@ void main()
 {
     // if in combat get inside a house!
     if(GetIsInCombat()) {
+        ClearAllActions(TRUE);
         object wp = GetNearestObjectByTag(HOME);
         ActionMoveToObject(wp, TRUE, 0.5);
         SetLocalObject(OBJECT_SELF, ACTION_WP, wp);
     }
 
-    object villageController = GetNearestObjectByTag("village_life_controller");
+    int i = 1;
+    object villageController = GetNearestObjectByTag("village_life_controller",
+                                                     OBJECT_SELF, i);
+    while(GetObjectType(villageController) != OBJECT_TYPE_PLACEABLE) {
+        i++;
+        villageController = GetNearestObjectByTag("village_life_controller",
+                                                     OBJECT_SELF, i);
+    }
+
     int villagerCnt = GetLocalInt(villageController, VILLAGER_TAG);
     DestoryCheck(villageController, villagerCnt);
 
@@ -122,7 +131,7 @@ void main()
     int waterCnt = GetLocalInt(villageController, WATER);
 
     int reachedWp = FALSE;
-    if(GetDistanceToObject(actionWP) > 1.0) {
+    if(GetDistanceToObject(actionWP) > 1.5) {
         ActionMoveToObject(actionWP, FALSE, 0.5);
     } else {
         reachedWp = TRUE;
@@ -131,8 +140,8 @@ void main()
 
     // if were close to another npc back off ranomly
     if(GetDistanceToObject(GetNearestObjectByTag(VILLAGER_TAG)) < 1.2) {
-        float distance = IntToFloat(Random(4));
-        ActionMoveToLocation(pickLoc(OBJECT_SELF, distance, 150.0));
+        ActionMoveToLocation(pickLoc(OBJECT_SELF, IntToFloat(Random(4)),
+                                     IntToFloat(Random(360))));
     }
 
     if(actionTag == HOME && reachedWp == TRUE) {
