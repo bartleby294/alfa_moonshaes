@@ -94,6 +94,11 @@ void SpawnVillager(int homesCnt, int cropsCnt,int marketCnt,
                                        GetLocation(spawnLoc),
                                        FALSE,
                                        VILLAGER_TAG);
+        if(d8() == 1) {
+            SetName(villager, "Drunk Villager");
+        } else {
+            SetName(villager, "Villager");
+        }
         AssignCommand(villager, PlaySound("as_dr_woodmedop1"));
         SetLocalObject(villager, HOME, homeLoc);
         SetLocalObject(villager, ACTION_WP, homeLoc);
