@@ -20,8 +20,8 @@ int StartingConditional()
 
     // Make sure the PC speaker has at least 5 items in their inventory
     if(itemCnt >= 5) {
-        return TRUE;
+        return FALSE;
     }
 
-    return FALSE;
+    return TRUE;
 }
