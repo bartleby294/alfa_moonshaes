@@ -4,30 +4,15 @@
 void main()
 {
  object entered = GetEnteringObject();
- location spiderspawn = GetLocation(GetNearestObjectByTag("boo2"));
- effect spiderappear = EffectAppear();
  if (GetIsPC(entered) == TRUE)
    {
-
-    if ((!GetLocalInt(GetObjectByTag("spidercount"), "triggered1") == 1))
+    if ((GetLocalInt(GetObjectByTag("webtrap3"), "bootrigger") == 0) || (GetLocalInt(GetObjectByTag("webtrap2"), "bootrigger") == 0))
     {
-        CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_05", spiderspawn, TRUE);
+    SetLocalInt(GetObjectByTag("webtrap3"), "bootrigger", 1);
+    SetLocalInt(GetObjectByTag("webtrap2"), "bootrigger", 1);
+    CreateObject(OBJECT_TYPE_CREATURE, "rn_spider_006", GetLocation(GetObjectByTag("boo2")));
+    DelayCommand(1200.0, SetLocalInt(OBJECT_SELF, "bootrigger", 0));
     }
-
-    if ((GetTag(OBJECT_SELF) == "webtrap3") &&
-    (!GetLocalInt(GetObjectByTag("spidercount"), "triggered1") == 1))
-        {
-            AssignCommand(GetNearestObjectByTag("rn_spider_05"), SetFacing(180.0));
-        }
-    else if ((GetTag(OBJECT_SELF) == "webtrap2") &&
-    (!GetLocalInt(GetObjectByTag("spidercount"), "triggered1") == 1))
-        {
-            AssignCommand(GetNearestObjectByTag("rn_spider_05"), SetFacing(0.0));
-        }
-
-    SetLocalInt(GetObjectByTag("spidercount"), "triggered1", 1);
-
-
     int iSaveDC = ExecuteScriptAndReturnInt("alfa_savedc", OBJECT_SELF);
 
     //Declare major variables
@@ -67,5 +52,7 @@ void main()
         }
 
     }
+
 }
 }
+

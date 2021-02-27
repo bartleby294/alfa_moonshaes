@@ -556,16 +556,18 @@ void main()
 /************************ [Bioware: Animations/Waypoints/Treasure] *************
     All Bioware Stuff. I'd check out "x0_c2_spwn_def" for the SoU/Hordes revisions.
 ************************* [Bioware: Animations/Waypoints/Treasure] ************/
-
-        int roll = Random(1);
         int NW_FLAG_STEALTH                       = 0x00000004;
         int NW_FLAG_SEARCH                      = 0x00000008;
+        int NW_FLAG_APPEAR_SPAWN_IN_ANIMATION   = 0x01000000;
+        int roll = Random(1);
         if(roll = 1)
         {
         SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);
         }
 
         SetSpawnInCondition(NW_FLAG_SEARCH, NW_GENERIC_MASTER);
+
+        SetSpawnInCondition(NW_FLAG_APPEAR_SPAWN_IN_ANIMATION, NW_GENERIC_MASTER);
         // Uses said skill while WalkWaypoints()
 
     // SetSpawnInCondition(NW_FLAG_DAY_NIGHT_POSTING, NW_GENERIC_MASTER);

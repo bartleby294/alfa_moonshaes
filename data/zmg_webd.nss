@@ -1,4 +1,4 @@
 void main()
 {
-    SetLocalInt(GetNearestObjectByTag("webtrap"), "webded", 1);
+    SetLocalInt(GetNearestObjectByTag("webtrap4"), "webded", 1);
 }

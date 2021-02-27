@@ -4,7 +4,7 @@
 void main()
 {
  object entered = GetEnteringObject();
- location spiderspawn = GetLocation(GetObjectByTag("boo3"));
+ location spiderspawn = GetLocation(GetNearestObjectByTag("boo3"));
 
  if ((GetIsPC(entered) == TRUE) &&
     (!GetLocalInt(OBJECT_SELF, "triggered1") == 1))
@@ -50,7 +50,7 @@ void main()
                 }
                 SetLocalInt(OBJECT_SELF, "TriggerTrip", TRUE);
                 //Slow down the creature within the Web
-                ApplyEffectToObject(DURATION_TYPE_PERMANENT, eSlow, oTarget);
+                ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eSlow, oTarget);
 
         }
     }

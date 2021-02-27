@@ -3,6 +3,9 @@
 #include "nwnx_area"
 #include "_btb_util"
 
+//open sound: as_dr_woodmedop1
+//close sound: as_dr_woodvlgcl1
+
 int GetMarketAnimation() {
 
     switch(Random(8) + 1) {
@@ -26,14 +29,19 @@ int GetMarketAnimation() {
     return ANIMATION_LOOPING_TALK_NORMAL;
 }
 
-void DestoryCheck() {
+void DestroyMyself(object villageController, int villagerCnt) {
+    DestroyObject(OBJECT_SELF, 2.0);
+    SetLocalInt(villageController, VILLAGER_TAG, villagerCnt - 1);
+}
+
+void DestoryCheck(object villageController, int villagerCnt) {
     int oAreaPlayerNumber
         = NWNX_Area_GetNumberOfPlayersInArea(GetArea(OBJECT_SELF));
     if(oAreaPlayerNumber == 0) {
         int noPCSeenIn = GetLocalInt(OBJECT_SELF, NO_PC_SEEN_IN);
         SetLocalInt(OBJECT_SELF, NO_PC_SEEN_IN, noPCSeenIn + 1);
         if(noPCSeenIn > 5) {
-            DestroyObject(OBJECT_SELF, 2.0);
+            DestroyMyself(villageController, villagerCnt);
         }
     } else {
         SetLocalInt(OBJECT_SELF, "NoPCSeenIn", 0);
@@ -43,8 +51,7 @@ void DestoryCheck() {
 void HomeActions(object villageController, int villagerCnt, object spawnLoc) {
     //SpeakString("*Opens Door*");
     PlaySound("as_dr_woodmedop1");
-    DestroyObject(OBJECT_SELF, 2.0);
-    SetLocalInt(villageController, VILLAGER_TAG, villagerCnt - 1);
+    DestroyMyself(villageController, villagerCnt);
 }
 
 void CropActions(object villageController, int villagerCnt, int cropsCnt,
@@ -87,36 +94,44 @@ void WaterActions(object villageController, int villagerCnt, object spawnLoc) {
 }
 
 void TavernActions(object villageController, int villagerCnt, object spawnLoc) {
-    //SpeakString("*Opens Door*");
-    DestroyObject(OBJECT_SELF, 2.0);
-    SetLocalInt(villageController, VILLAGER_TAG, villagerCnt - 1);
+    PlaySound("as_dr_woodmedop1");
+    DestroyMyself(villageController, villagerCnt);
 }
 
 void main()
 {
     // if in combat get inside a house!
     if(GetIsInCombat()) {
+        ClearAllActions(TRUE);
         object wp = GetNearestObjectByTag(HOME);
         ActionMoveToObject(wp, TRUE, 0.5);
         SetLocalObject(OBJECT_SELF, ACTION_WP, wp);
     }
 
-    DestoryCheck();
+    int i = 1;
+    object villageController = GetNearestObjectByTag("village_life_controller",
+                                                     OBJECT_SELF, i);
+    while(GetObjectType(villageController) != OBJECT_TYPE_PLACEABLE) {
+        i++;
+        villageController = GetNearestObjectByTag("village_life_controller",
+                                                     OBJECT_SELF, i);
+    }
+
+    int villagerCnt = GetLocalInt(villageController, VILLAGER_TAG);
+    DestoryCheck(villageController, villagerCnt);
 
     int isMale = GetGender(OBJECT_SELF);
     int initalized = GetLocalInt(OBJECT_SELF, INITALIZED);
     object actionWP = GetLocalObject(OBJECT_SELF, ACTION_WP);
     object spawnLoc = GetLocalObject(OBJECT_SELF, HOME);
     string actionTag = GetTag(actionWP);
-    object villageController = GetNearestObjectByTag("village_life_controller");
-    int villagerCnt = GetLocalInt(villageController, VILLAGER_TAG);
     int cropsCnt = GetLocalInt(villageController, CROPS);
     int marketCnt = GetLocalInt(villageController, MARKET);
     int tavernCnt = GetLocalInt(villageController, TAVERN);
     int waterCnt = GetLocalInt(villageController, WATER);
 
     int reachedWp = FALSE;
-    if(GetDistanceToObject(actionWP) > 1.0) {
+    if(GetDistanceToObject(actionWP) > 1.5) {
         ActionMoveToObject(actionWP, FALSE, 0.5);
     } else {
         reachedWp = TRUE;
@@ -125,8 +140,8 @@ void main()
 
     // if were close to another npc back off ranomly
     if(GetDistanceToObject(GetNearestObjectByTag(VILLAGER_TAG)) < 1.2) {
-        float distance = IntToFloat(Random(4));
-        ActionMoveToLocation(pickLoc(OBJECT_SELF, distance, 150.0));
+        ActionMoveToLocation(pickLoc(OBJECT_SELF, IntToFloat(Random(4)),
+                                     IntToFloat(Random(360))));
     }
 
     if(actionTag == HOME && reachedWp == TRUE) {

@@ -32,11 +32,12 @@
 const int EVENT_USER_DEFINED_PRESPAWN = 1510;
 const int EVENT_USER_DEFINED_POSTSPAWN = 1511;
 
-
+#include "x0_i0_spawncond"
 #include "x2_inc_switches"
 void main()
 {
     SetObjectVisualTransform(OBJECT_SELF, OBJECT_VISUAL_TRANSFORM_SCALE, 0.65);
+    SetSpawnInCondition(NW_FLAG_APPEAR_SPAWN_IN_ANIMATION);
     string sTag;
     object oNPC;
     // User defined OnSpawn event requested?

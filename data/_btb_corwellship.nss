@@ -111,7 +111,7 @@ void ShipOutActivate(string shipTag, string waypntTag, string plankTag,
         return;
     }
 
-    float delay = 155.0;
+    float delay = 135.0;
     object oBlockerWP = GetObjectByTag(waypntTag);
     object oPlank = GetObjectByTag(plankTag);
 
