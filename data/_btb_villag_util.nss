@@ -46,11 +46,13 @@ string ChooseVillagerAction(int isFemale, int cropsCnt,int marketCnt,
             object wp = GetNearestObjectByTag(TAVERN, OBJECT_SELF,
                                               Random(tavernCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);
+            SetName(villager, "Villager");
             return TAVERN;
         } else if(choice < 85) {
             object wp = GetNearestObjectByTag(MARKET, OBJECT_SELF,
                                               Random(marketCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);
+            SetName(villager, "Villager");
             return MARKET;
         } else {
             object wp = GetNearestObjectByTag(WATER, OBJECT_SELF,
@@ -59,6 +61,7 @@ string ChooseVillagerAction(int isFemale, int cropsCnt,int marketCnt,
             object oTool = CreateItemOnObject("_bucket", villager);
             AssignCommand(villager,
                           ActionEquipItem(oTool, INVENTORY_SLOT_LEFTHAND));
+            SetName(villager, "Villager");
             return WATER;
         }
     } else {
@@ -75,11 +78,13 @@ string ChooseVillagerAction(int isFemale, int cropsCnt,int marketCnt,
             object wp = GetNearestObjectByTag(TAVERN, OBJECT_SELF,
                                               Random(tavernCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);
+            SetName(villager, "Villager");
             return TAVERN;
         } else if(choice < 70) {
             object wp = GetNearestObjectByTag(MARKET, OBJECT_SELF,
                                               Random(marketCnt) + 1);
             SetLocalObject(villager, ACTION_WP, wp);
+            SetName(villager, "Villager");
             return MARKET;
         } else {
             object wp = GetNearestObjectByTag(WATER, OBJECT_SELF,
@@ -88,6 +93,7 @@ string ChooseVillagerAction(int isFemale, int cropsCnt,int marketCnt,
             object oTool = CreateItemOnObject("_bucket", villager);
             AssignCommand(villager,
                           ActionEquipItem(oTool, INVENTORY_SLOT_LEFTHAND));
+            SetName(villager, "Villager");
             return WATER;
         }
     }
