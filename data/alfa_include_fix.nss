@@ -317,14 +317,14 @@ void MS_LoadCharacterLocation( object poPC )
     //Check to see if it is ok that we run the location code.
     if ( GetLocalInt( poPC, "ALFA_PC_DoNotLoadLocation" ) == TRUE )
     {
-        //SendMessageToPC(poPC, "ALFA_PC_DoNotLoadLocation");
+        //WriteTimestampedLogEntry("ALFA_PC_DoNotLoadLocation");
         RemoveEffect(poPC, eImmobilize);
         return;
     }
 
     else if ( GetLocalInt( poPC, "ALFA_PC_AlreadyLoggedIn" ) == TRUE )
     {
-        //SendMessageToPC(poPC, "ALFA_PC_AlreadyLoggedIn");
+        //WriteTimestampedLogEntry("ALFA_PC_AlreadyLoggedIn");
         RemoveEffect(poPC, eImmobilize);
         return;
     }
@@ -336,7 +336,7 @@ void MS_LoadCharacterLocation( object poPC )
 
     else if ( GetItemPossessedBy( poPC, "ALFADeathToken" ) != OBJECT_INVALID )
     {
-        //SendMessageToPC(poPC, "ALFADeathToken");
+        //WriteTimestampedLogEntry("ALFADeathToken");
         RemoveEffect(poPC, eImmobilize);
         return;
     }
@@ -345,25 +345,25 @@ void MS_LoadCharacterLocation( object poPC )
 
     if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
     {
-      //SendMessageToPC(poPC, "GetAreaFromLocation 1");
+      //WriteTimestampedLogEntry("GetAreaFromLocation 1");
       // If new player move to new player WP
       if(GetLocalInt(poPC, "seenPCBefore") == 0){
-        //SendMessageToPC(poPC, "seenPCBefore == 0");
+        //WriteTimestampedLogEntry("seenPCBefore == 0");
         if(GetIsDM(poPC)) {
-            //SendMessageToPC(poPC, "isDM");
+            //WriteTimestampedLogEntry("isDM");
             oLocation = GetLocation(GetObjectByTag("MS_DM_START_WP"));
         } else {
-            //SendMessageToPC(poPC, "is Player");
+            //WriteTimestampedLogEntry("is Player");
             oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
         }
-        //SendMessageToPC(poPC, "seenPCBefore now 1");
+        //WriteTimestampedLogEntry("seenPCBefore now 1");
         SetLocalInt(poPC, "seenPCBefore", 1);
       }
     }
 
     if ( GetAreaFromLocation( oLocation ) == OBJECT_INVALID )
     {
-        //SendMessageToPC(poPC, "GetAreaFromLocation 2");
+        //WriteTimestampedLogEntry("GetAreaFromLocation 2");
         RemoveEffect(poPC, eImmobilize);
         return;
     }
@@ -425,7 +425,7 @@ void ALFA_OnClientEnter()
 
   /* Handle new players */
   if ( GetXP( oPC ) < 1 && !GetIsDM( oPC ) ) {
-    //SendMessageToPC(oPC, "CSM_ProcessNewPlayer");
+    //WriteTimestampedLogEntry("CSM_ProcessNewPlayer");
     CSM_ProcessNewPlayer( oPC );
   }
 
@@ -463,7 +463,7 @@ void ALFA_OnClientEnter()
   SOS_PlayerLogin( oPC );
 
   /* Puts the character back to their last known location */
-  //SendMessageToPC(oPC, "ALFA_LoadCharacterLocation");
+  //WriteTimestampedLogEntry("ALFA_LoadCharacterLocation");
   MS_LoadCharacterLocation( oPC );
 
   /* Begin the save location script monitor that will run */
