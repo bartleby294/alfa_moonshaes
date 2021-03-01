@@ -7,7 +7,8 @@ void main()
     object oWeapon = GetLastWeaponUsed(oPC);
     //SendMessageToPC(oPC, "Web Damaged");
 
-    if(GetSlashingWeapon(oWeapon) == TRUE) {
+    if(GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON) >= 1
+       && GetSlashingWeapon(oWeapon) == TRUE) {
         WriteTimestampedLogEntry("WEB: Slashing Weapon.");
         SendMessageToPC(oPC, "You're able to slash the spider web.");
         ApplyEffectToObject(DURATION_TYPE_INSTANT,
