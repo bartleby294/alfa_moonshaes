@@ -303,6 +303,10 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         maxTry++;
     }
 
+    // Save our chest so we can delete it later.
+    NWNX_Data_Array_PushBack_Str(oCampfire , BANDIT_UUID_ARRAY,
+                                 GetObjectUUID(oCampfire));
+
     // Create the main chest.
     int cnt = 0;
     int chestCnt = 1;

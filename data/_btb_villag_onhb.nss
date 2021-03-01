@@ -2,6 +2,7 @@
 #include "_btb_villag_util"
 #include "nwnx_area"
 #include "_btb_util"
+#include "x0_i0_anims"
 
 //open sound: as_dr_woodmedop1
 //close sound: as_dr_woodvlgcl1
@@ -100,6 +101,11 @@ void TavernActions(object villageController, int villagerCnt, object spawnLoc) {
 
 void main()
 {
+    // If were dm possesed stop AI.
+    if(GetIsDMPossessed(OBJECT_SELF)) {
+        return;
+    }
+
     // if in combat get inside a house!
     if(GetIsInCombat()) {
         ClearAllActions(TRUE);
@@ -142,12 +148,18 @@ void main()
     }
 
     // if were close to another npc back off ranomly
-    if(GetDistanceToObject(GetNearestObjectByTag(VILLAGER_TAG)) < 1.2) {
-        ActionMoveToLocation(pickLoc(OBJECT_SELF, IntToFloat(Random(4)),
-                                     IntToFloat(Random(360))));
+    object oFarmer = GetNearestObjectByTag(VILLAGER_TAG);
+    if(GetDistanceToObject(oFarmer) < 1.2) {
+
+        int choice = d3();
         // Go home
-        if(d2() == 1) {
+        if(choice == 1) {
             SetLocalObject(OBJECT_SELF, ACTION_WP, spawnLoc);
+        } else if(choice == 2) {
+            ActionMoveToLocation(pickLoc(OBJECT_SELF, IntToFloat(Random(4)),
+                                     IntToFloat(Random(360))));
+        } else {
+            AnimActionStartTalking(oFarmer);
         }
     // If we are stuck move us to a random position to unstuck
     } else if(GetDistanceBetweenLocations(curLoc, lastKnownLoc) < 3.0) {

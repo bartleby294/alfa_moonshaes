@@ -3,6 +3,12 @@
 void main()
 {
     object oPC = GetEnteringObject();
+
+    // If were dm possesed stop AI.
+    if(GetIsDMPossessed(oPC)) {
+        return;
+    }
+
     int DM_OVERRIDE = GetLocalInt(GetArea(oPC), "AllowMoonwellEnter");
 
     if(GetIsPC(oPC) == TRUE && DM_OVERRIDE == FALSE) {
