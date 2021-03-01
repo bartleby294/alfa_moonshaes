@@ -1,8 +1,8 @@
 void main()
 {
     object oPC = GetLastUsedBy();
-    object oItem = GetItemInSlot(INVENTORY_SLOT_LEFTHAND);
-    object oItem2 = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND);
+    object oItem = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC);
+    object oItem2 = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oPC);
 
     SendMessageToPC(oPC, "Web Used");
 

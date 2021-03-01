@@ -1,29 +1,33 @@
+#include "x2_i0_spells"
+
 void main()
 {
     int restorAmt = 0;
     object oPC = GetLastAttacker(OBJECT_SELF);
-    SendMessageToPC(oPC, "Web Damaged");
+    object oWeapon = GetLastWeaponUsed(oPC);
+    //SendMessageToPC(oPC, "Web Damaged");
 
-    if(GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON) >= 1) {
-        SendMessageToPC(oPC, "DAMAGE_TYPE_BASE_WEAPON: " +
-        IntToString(GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON)));
+    if(GetSlashingWeapon(oWeapon) == TRUE) {
+        WriteTimestampedLogEntry("WEB: Slashing Weapon.");
+        ApplyEffectToObject(DURATION_TYPE_INSTANT,
+                            EffectDamage(10,
+                                        DAMAGE_TYPE_SLASHING,
+                                            DAMAGE_POWER_NORMAL),
+                            OBJECT_SELF);
+    } else {
+        WriteTimestampedLogEntry("WEB: Not Slashing Weapon.");
+        restorAmt += GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON);
     }
 
-    if(GetDamageDealtByType(DAMAGE_TYPE_BLUDGEONING) >= 1) {
-        SendMessageToPC(oPC, "DAMAGE_TYPE_BLUDGEONING");
-        restorAmt = GetDamageDealtByType(DAMAGE_TYPE_BLUDGEONING);
-    } else if (GetDamageDealtByType(DAMAGE_TYPE_COLD) >= 1) {
-        SendMessageToPC(oPC, "DAMAGE_TYPE_COLD");
-        restorAmt = GetDamageDealtByType(DAMAGE_TYPE_COLD);
+    if (GetDamageDealtByType(DAMAGE_TYPE_COLD) >= 1) {
+        WriteTimestampedLogEntry("WEB: DAMAGE_TYPE_COLD");
+        restorAmt += GetDamageDealtByType(DAMAGE_TYPE_COLD);
     }  else if (GetDamageDealtByType(DAMAGE_TYPE_ELECTRICAL) >= 1) {
-        SendMessageToPC(oPC, "DAMAGE_TYPE_ELECTRICAL");
-        restorAmt = GetDamageDealtByType(DAMAGE_TYPE_ELECTRICAL);
-    } else if (GetDamageDealtByType(DAMAGE_TYPE_PIERCING) >= 1) {
-        SendMessageToPC(oPC, "DAMAGE_TYPE_PIERCING");
-        restorAmt = GetDamageDealtByType(DAMAGE_TYPE_PIERCING);
+        WriteTimestampedLogEntry("WEB: DAMAGE_TYPE_ELECTRICAL");
+        restorAmt += GetDamageDealtByType(DAMAGE_TYPE_ELECTRICAL);
     } else if (GetDamageDealtByType(DAMAGE_TYPE_SONIC) >= 1) {
-        SendMessageToPC(oPC, "DAMAGE_TYPE_SONIC");
-        restorAmt = GetDamageDealtByType(DAMAGE_TYPE_SONIC);
+        WriteTimestampedLogEntry("WEB: DAMAGE_TYPE_SONIC");
+        restorAmt += GetDamageDealtByType(DAMAGE_TYPE_SONIC);
     // If any acid damage was done
     } else if (GetDamageDealtByType(DAMAGE_TYPE_ACID) >= 1) {
         ApplyEffectToObject(DURATION_TYPE_INSTANT,
@@ -34,7 +38,7 @@ void main()
         ApplyEffectToObject(DURATION_TYPE_INSTANT,
                             EffectVisualEffect(VFX_COM_HIT_ACID),
                             OBJECT_SELF);
-        SendMessageToPC(oPC, "The acid eats through the webs.");
+       SendMessageToPC(oPC, "The acid eats through the webs.");
     // If any fire damage was done
     } else if(GetDamageDealtByType(DAMAGE_TYPE_FIRE) >= 1) {
         ApplyEffectToObject(DURATION_TYPE_INSTANT,
@@ -46,18 +50,13 @@ void main()
                             EffectVisualEffect(VFX_COM_HIT_FIRE),
                             OBJECT_SELF);
         SendMessageToPC(oPC, "The webs catch fire and it spreads.");
-    // Slashing damage works too though less well.
-    } else if(GetDamageDealtByType(DAMAGE_TYPE_SLASHING) >= 1) {
-         ApplyEffectToObject(DURATION_TYPE_INSTANT,
-                            EffectDamage(10,
-                                         DAMAGE_TYPE_SLASHING,
-                                         DAMAGE_POWER_NORMAL),
-                            OBJECT_SELF);
     }
 
     if(restorAmt > 0) {
         ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(restorAmt),
                             OBJECT_SELF);
+        WriteTimestampedLogEntry("WEB: Damage healed: "
+                                 + IntToString(restorAmt));
         SendMessageToPC(oPC, "That did seem to have much of an effect.");
     }
 }
