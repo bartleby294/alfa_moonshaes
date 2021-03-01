@@ -3,6 +3,8 @@ void main()
     object oPC = GetLastUsedBy();
     object oItem = GetItemInSlot(INVENTORY_SLOT_LEFTHAND);
 
+    SendMessageToPC(oPC, "Web Used");
+
     if(GetTag(oItem) == "NW_IT_TORCH001" || GetTag(oItem) == "_h_crude_torch"
        || GetTag(oItem) == "hc_torch") {
         ApplyEffectToObject(DURATION_TYPE_INSTANT,
