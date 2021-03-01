@@ -10,26 +10,12 @@ void main()
                                          DAMAGE_TYPE_DIVINE,
                                          DAMAGE_POWER_NORMAL),
                             OBJECT_SELF);
-
-        effect inferno = EffectVisualEffect(VFX_DUR_INFERNO_CHEST);
-        //ApplyEffectToObject(DURATION_TYPE_INSTANT,
-        //                    inferno,  OBJECT_SELF, 3.0);
-
         object invis = CreateObject(OBJECT_TYPE_PLACEABLE, "alfa_invisibleob",
                                     GetLocation(OBJECT_SELF));
         ApplyEffectToObject(DURATION_TYPE_TEMPORARY,
-                            inferno, invis, 3.0);
+                            EffectVisualEffect(VFX_DUR_INFERNO_CHEST),
+                            invis, 3.0);
         DestroyObject(invis, 3.1);
-        //ApplyEffectToObject(DURATION_TYPE_INSTANT,
-        //                    EffectVisualEffect(VFX_DUR_INFERNO_CHEST),
-        //                    OBJECT_SELF);
-
-        //ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY,
-        //                      EffectVisualEffect(VFX_DUR_INFERNO_CHEST),
-        //                      GetLocation(OBJECT_SELF), 2.0);
-
-        //ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY, inferno,
-        //                      GetLocation(OBJECT_SELF), 3.1);
         SendMessageToPC(oPC, "Your torch sets the webs aflame.");
     }
 }
