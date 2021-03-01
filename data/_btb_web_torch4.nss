@@ -10,9 +10,10 @@ void main()
                                          DAMAGE_TYPE_DIVINE,
                                          DAMAGE_POWER_NORMAL),
                             OBJECT_SELF);
-        //ApplyEffectToObject(DURATION_TYPE_INSTANT,
-        //                    EffectVisualEffect(VFX_DUR_INFERNO),
-        //                    OBJECT_SELF);
+
+        effect inferno = EffectVisualEffect(VFX_DUR_INFERNO_NO_SOUND);
+        ApplyEffectToObject(DURATION_TYPE_INSTANT,
+                            inferno,  OBJECT_SELF, 3.0);
         //ApplyEffectToObject(DURATION_TYPE_INSTANT,
         //                    EffectVisualEffect(VFX_DUR_INFERNO_CHEST),
         //                    OBJECT_SELF);
@@ -20,10 +21,9 @@ void main()
         //ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY,
         //                      EffectVisualEffect(VFX_DUR_INFERNO_CHEST),
         //                      GetLocation(OBJECT_SELF), 2.0);
-        effect inferno = EffectVisualEffect(VFX_DUR_INFERNO_CHEST);
-        float time = 3.2;
-        ApplyEffectAtLocation(DURATION_TYPE_INSTANT, inferno,
-                              GetLocation(OBJECT_SELF), time);
+
+        //ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY, inferno,
+        //                      GetLocation(OBJECT_SELF), 3.1);
         SendMessageToPC(oPC, "Your torch sets the webs aflame.");
     }
 }
