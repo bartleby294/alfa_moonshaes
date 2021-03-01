@@ -3,6 +3,12 @@ void main()
     int restorAmt = 0;
     object oPC = GetLastAttacker(OBJECT_SELF);
     SendMessageToPC(oPC, "Web Damaged");
+
+    if(GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON) >= 1) {
+        SendMessageToPC(oPC, "DAMAGE_TYPE_BASE_WEAPON: " +
+        IntToString(GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON)));
+    }
+
     if(GetDamageDealtByType(DAMAGE_TYPE_BLUDGEONING) >= 1) {
         SendMessageToPC(oPC, "DAMAGE_TYPE_BLUDGEONING");
         restorAmt = GetDamageDealtByType(DAMAGE_TYPE_BLUDGEONING);
