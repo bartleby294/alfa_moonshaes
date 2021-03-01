@@ -20,9 +20,9 @@ void main()
         //ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY,
         //                      EffectVisualEffect(VFX_DUR_INFERNO_CHEST),
         //                      GetLocation(OBJECT_SELF), 2.0);
-        ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY,
-                              EffectVisualEffect(VFX_DUR_INFERNO),
-                              GetLocation(OBJECT_SELF), 2.0f);
+        effect inferno = EffectVisualEffect(VFX_DUR_INFERNO_CHEST);
+        ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY, inferno,
+                              GetLocation(OBJECT_SELF), 3.0);
         SendMessageToPC(oPC, "Your torch sets the webs aflame.");
     }
 }
