@@ -17,13 +17,13 @@ void main()
         //                    EffectVisualEffect(VFX_DUR_INFERNO_CHEST),
         //                    OBJECT_SELF);
 
-        ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY,
-                              EffectVisualEffect(VFX_DUR_INFERNO_CHEST),
-                              GetLocation(OBJECT_SELF), 2.0);
+        //ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY,
+        //                      EffectVisualEffect(VFX_DUR_INFERNO_CHEST),
+        //                      GetLocation(OBJECT_SELF), 2.0);
         ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY,
                               EffectVisualEffect(VFX_DUR_INFERNO),
-                              GetLocation(OBJECT_SELF), 2.0);
-        SendMessageToPC(oPC, "Your left hand torch sets the webs aflame.");
+                              GetLocation(OBJECT_SELF), 2.0f);
+        SendMessageToPC(oPC, "Your torch sets the webs aflame.");
     }
 }
 
