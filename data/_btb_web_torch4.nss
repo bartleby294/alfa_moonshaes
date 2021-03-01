@@ -11,7 +11,7 @@ void main()
                                          DAMAGE_POWER_NORMAL),
                             OBJECT_SELF);
 
-        effect inferno = EffectVisualEffect(VFX_DUR_INFERNO_NO_SOUND);
+        effect inferno = EffectVisualEffect(VFX_IMP_PULSE_FIRE);
         ApplyEffectToObject(DURATION_TYPE_INSTANT,
                             inferno,  OBJECT_SELF, 3.0);
         //ApplyEffectToObject(DURATION_TYPE_INSTANT,
