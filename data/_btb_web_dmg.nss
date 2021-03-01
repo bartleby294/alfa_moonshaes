@@ -9,10 +9,11 @@ void main()
 
     if(GetSlashingWeapon(oWeapon) == TRUE) {
         WriteTimestampedLogEntry("WEB: Slashing Weapon.");
+        SendMessageToPC(oPC, "You're able to slash the spider web.");
         ApplyEffectToObject(DURATION_TYPE_INSTANT,
                             EffectDamage(10,
-                                        DAMAGE_TYPE_SLASHING,
-                                            DAMAGE_POWER_NORMAL),
+                                        DAMAGE_TYPE_DIVINE,
+                                        DAMAGE_POWER_NORMAL),
                             OBJECT_SELF);
     } else {
         WriteTimestampedLogEntry("WEB: Not Slashing Weapon.");
