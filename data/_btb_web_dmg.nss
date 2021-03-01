@@ -3,14 +3,19 @@ void main()
     int restorAmt = 0;
     object oPC = GetLastAttacker(OBJECT_SELF);
     if(GetDamageDealtByType(DAMAGE_TYPE_BLUDGEONING) >= 1) {
+        SendMessageToPC(oPC, "DAMAGE_TYPE_BLUDGEONING");
         restorAmt = GetDamageDealtByType(DAMAGE_TYPE_BLUDGEONING);
     } else if (GetDamageDealtByType(DAMAGE_TYPE_COLD) >= 1) {
+        SendMessageToPC(oPC, "DAMAGE_TYPE_COLD");
         restorAmt = GetDamageDealtByType(DAMAGE_TYPE_COLD);
     }  else if (GetDamageDealtByType(DAMAGE_TYPE_ELECTRICAL) >= 1) {
+        SendMessageToPC(oPC, "DAMAGE_TYPE_ELECTRICAL");
         restorAmt = GetDamageDealtByType(DAMAGE_TYPE_ELECTRICAL);
     } else if (GetDamageDealtByType(DAMAGE_TYPE_PIERCING) >= 1) {
+        SendMessageToPC(oPC, "DAMAGE_TYPE_PIERCING");
         restorAmt = GetDamageDealtByType(DAMAGE_TYPE_PIERCING);
     } else if (GetDamageDealtByType(DAMAGE_TYPE_SONIC) >= 1) {
+        SendMessageToPC(oPC, "DAMAGE_TYPE_SONIC");
         restorAmt = GetDamageDealtByType(DAMAGE_TYPE_SONIC);
     // If any acid damage was done
     } else if (GetDamageDealtByType(DAMAGE_TYPE_ACID) >= 1) {
@@ -46,6 +51,6 @@ void main()
     if(restorAmt > 0) {
         ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(restorAmt),
                             OBJECT_SELF);
-        //SendMessageToPC(oPC, "The webs seem to resist.");
+        SendMessageToPC(oPC, "That did seem to have much of an effect.");
     }
 }
