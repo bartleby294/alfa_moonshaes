@@ -374,7 +374,7 @@ effect ALFA_GetEffectsOfMountOnPC(object oPC, object oMount) {
 void ALFA_MountHorse(object oPC, object oHorse) {
     object oItem = GetLocalObject(oHorse, _SUMMONED_HORSE_ITEM_LO);
     object oOwner = GetItemPossessor(oItem);
-    //SendMessageToPC(oPC, "ALFA_MountHorse for "+GetName(oHorse)+" tied to "+GetName(oItem)+" held by "+GetName(oOwner));
+    SendMessageToPC(oPC, "ALFA_MountHorse for "+GetName(oHorse)+" tied to "+GetName(oItem)+" held by "+GetName(oOwner));
     effect eHorseEffect = ALFA_GetEffectsOfMountOnPC(oPC, oHorse);
 
     // Now make sure we want to let the PC mount the horse in question.
@@ -418,7 +418,7 @@ void ALFA_MountHorse(object oPC, object oHorse) {
         SetLocalObject(oPC, _MOUNTED_HORSE_ITEM_LO, oItem);
         SetLocalInt(oItem, _BRIDLE_IN_USE_LI, TRUE);
         SetCreatureTailType(GetCreatureTailType(oHorse), oPC);
-        //SendMessageToPC(oPC, "Mounting horse using "+ObjectToString(oHorse));
+        SendMessageToPC(oPC, "Mounting horse using "+ObjectToString(oHorse));
 
         // Command no longer assigned, due to changes in 1.69
         ApplyEffectToObject(DURATION_TYPE_PERMANENT, eHorseEffect, oPC);
