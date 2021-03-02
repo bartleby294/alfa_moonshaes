@@ -425,7 +425,7 @@ void ALFA_MountHorse(object oPC, object oHorse) {
 
         // Aligning and scaling mounts to characters requires an appearance change
         // as of 1.69
-        int iRacialType = GetRacialType(oPC);
+        /*int iRacialType = GetRacialType(oPC);
         if(iRacialType == RACIAL_TYPE_DWARF){
             if(GetGender(oPC) == GENDER_FEMALE) SetCreatureAppearanceType(oPC, 482);
             else SetCreatureAppearanceType(oPC, 483); }
@@ -446,8 +446,7 @@ void ALFA_MountHorse(object oPC, object oHorse) {
             else SetCreatureAppearanceType(oPC, 493); }
         else { // defaults to human
             if(GetGender(oPC) == GENDER_FEMALE) SetCreatureAppearanceType(oPC, 494);
-            else SetCreatureAppearanceType(oPC, 495); }
-
+            else SetCreatureAppearanceType(oPC, 495); } */
         DeleteGameLocation( oItem, _HORSE_TIED_LOCATION );
         _UnmakeHorse(oHorse, oItem);
     } else {
