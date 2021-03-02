@@ -234,6 +234,8 @@ void ALFA_OnActivateHorseItem2() {
     object oHorse = GetLocalObject(oItem, _SUMMONED_HORSE_LO);
     object oLastBridle = GetLocalObject(oPC, _MOUNTED_HORSE_ITEM_LO);
 
+    FloatingTextStringOnCreature("IN CUSTOM SCRIPT!!!", oPC, FALSE);
+
     int nHPType = GetLocalInt(oItem, _HORSE_PHENOTYPE_LI);
 
     // First deal with the case of a bridle that is fully initialized.
@@ -619,7 +621,8 @@ int ALFA_GetIsMounted(object oPC) {
 void ALFA_HorseOnAcquireItem() {
     object oItem = GetModuleItemAcquired();
     object oPC = GetModuleItemAcquiredBy();
-    if(GetBaseItemType(oItem) == BASE_ITEM_HORSE_BRIDLE) {
+    if(GetTag(oItem) == _BRIDLE_TAG) {
+    //if(GetBaseItemType(oItem) == BASE_ITEM_HORSE_BRIDLE) {
         // checks for incorrect blueprint for warponies, fixes.
         if (GetStringLeft(GetResRef(oItem), 8) == "acr_warp")
             if (GetStringLeft(GetLocalString(oItem, _HORSE_RESREF_LS), 7) != "PLAYERW") {
@@ -736,7 +739,8 @@ void ALFA_HorseOnUnacquireItem() {
          }
     }
 
-    if( GetBaseItemType(oItem) != BASE_ITEM_HORSE_BRIDLE ) {
+    //if( GetBaseItemType(oItem) != BASE_ITEM_HORSE_BRIDLE ) {
+    if(GetTag(oItem) == _BRIDLE_TAG) {
         return;
     }
     object oHorse;
@@ -795,7 +799,8 @@ void ALFA_HorseOnHeartbeat(object oPC) {
             }
         }
 
-        if(GetBaseItemType(GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC)) == BASE_ITEM_HORSE_BRIDLE) {
+        //if(GetBaseItemType(GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC)) == BASE_ITEM_HORSE_BRIDLE) {
+        if(GetTag(GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC)) == _BRIDLE_TAG) {
             //PC has the reins in his off-hand.
         } else {
             //PC does not have the reins in-hand, must control mount with his knees.
@@ -837,7 +842,8 @@ object _FindLastBridle(object oPC, int nPhenoType) {
     object oInHand = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC);
     object oSearch = GetFirstItemInInventory(oPC);
     //SendMessageToPC(oPC, "Checking "+GetName(oPC)+"'s hand for item "+GetName(oInHand)+" to see if it stores "+IntToString(nPhenoType)+", next will be "+GetName(oSearch));
-    if (GetBaseItemType(oInHand) == BASE_ITEM_HORSE_BRIDLE) {
+    //if (GetBaseItemType(oInHand) == BASE_ITEM_HORSE_BRIDLE) {
+    if(GetTag(oInHand) == _BRIDLE_TAG) {
         if(GetLocalInt(oInHand, _HORSE_PHENOTYPE_LI) == nPhenoType) {
             //SendMessageToPC(oPC, "Likely in-hand hit with "+GetName(oInHand));
             if (_GetIsBridleInUse(oInHand))
@@ -846,7 +852,8 @@ object _FindLastBridle(object oPC, int nPhenoType) {
     }
     while (oSearch != OBJECT_INVALID) {
         // SendMessageToPC(oPC, GetName(oSearch));
-        if (GetBaseItemType(oSearch) == BASE_ITEM_HORSE_BRIDLE) {
+        //if (GetBaseItemType(oSearch) == BASE_ITEM_HORSE_BRIDLE) {
+        if(GetTag(oSearch) == _BRIDLE_TAG) {
             if(GetLocalInt(oSearch, _HORSE_PHENOTYPE_LI) == nPhenoType) {
                 //SendMessageToPC(oPC, "Likely inventory hit with "+GetName(oSearch));
                 if (_GetIsBridleInUse(oSearch))
@@ -941,7 +948,8 @@ void _UnmakeHorse(object oHorse, object oItem) {
 }*/
 
 void _DoBridleOnEnter(object oPC, object oItem) {
-    if( GetBaseItemType(oItem) == BASE_ITEM_HORSE_BRIDLE ) {
+    //if( GetBaseItemType(oItem) == BASE_ITEM_HORSE_BRIDLE ) {
+    if(GetTag(oItem) == _BRIDLE_TAG) {
         // Its a horse item.
         DeleteLocalObject(oItem, _SUMMONED_HORSE_LO);
         object oHorse = _RespawnHorse(oPC, oItem);
@@ -949,7 +957,8 @@ void _DoBridleOnEnter(object oPC, object oItem) {
 }
 
 void _DoBridleOnExit(object oPC, object oItem) {
-    if(GetBaseItemType(oItem) == BASE_ITEM_HORSE_BRIDLE) {
+    //if(GetBaseItemType(oItem) == BASE_ITEM_HORSE_BRIDLE) {
+    if(GetTag(oItem) == _BRIDLE_TAG) {
         // Its a horse bridle item.
         if( !_GetIsBridleInUse(oItem) ) {
             // PC is not mounted on this horse.

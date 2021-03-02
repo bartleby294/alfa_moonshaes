@@ -1,3 +1,5 @@
+#include "acr_horse_i2"
+
 int MoonshaesCustom(object oPC)
 {
    //object  oPC = OBJECT_SELF;
@@ -188,6 +190,7 @@ int MoonshaesCustom(object oPC)
 
     if(GetTag(oItem) == "acr_horse_bridle") {
         FloatingTextStringOnCreature("FOUND A HORSE!!!", oPC, FALSE);
+        ALFA_OnActivateHorseItem2();
         return TRUE;
     }
 
