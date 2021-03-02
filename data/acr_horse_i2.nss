@@ -230,7 +230,7 @@ void _DoBridleOnExit(object oPC, object oItem);
 void ALFA_OnActivateHorseItem2() {
     object oItem = GetItemActivated();
     object oPC = GetItemActivator();
-    string sResRef = GetLocalString(oItem, _HORSE_RESREF_LS);
+    string sResRef = "msplayerhorse_03";//GetLocalString(oItem, _HORSE_RESREF_LS);
     object oHorse = GetLocalObject(oItem, _SUMMONED_HORSE_LO);
     object oLastBridle = GetLocalObject(oPC, _MOUNTED_HORSE_ITEM_LO);
 
