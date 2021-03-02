@@ -819,21 +819,21 @@ void ALFA_HorseOnHeartbeat(object oPC) {
 ////////////////////////////////////////////////////////////////////////////////
 
 object _RespawnHorse(object oPC, object oItem) {
-    //PrintString("acr_horse_i::_RespawnHorse: Attempting to respawn " + GetName(oPC) + "'s horse.");
+    PrintString("acr_horse_i::_RespawnHorse: Attempting to respawn " + GetName(oPC) + "'s horse.");
     //SendMessageToPC(oPC, "_RespawnHorse from "+GetName(oItem));
     if( !GetIsValidLocalGameLocation(oItem, _HORSE_TIED_LOCATION) ) {
-        //PrintString("acr_horse_i::_RespawnHorse: Invalid game location. Spawning horse at the PC.");
+        PrintString("acr_horse_i::_RespawnHorse: Invalid game location. Spawning horse at the PC.");
         // No location stored.
         return _MakeHorseFromItemAtLocation(oItem, GetLocation(oPC));
     }
     location loc = GetLocalGameLocation(oItem, _HORSE_TIED_LOCATION);
     if( loc == GetStartingLocation() ) {
         // No valid tie-up location on this server. Do nothing.
-        //PrintString("acr_horse_i::_RespawnHorse: Game location is not on this server. Doing nothing.");
+        PrintString("acr_horse_i::_RespawnHorse: Game location is not on this server. Doing nothing.");
         SendMessageToPC(oPC, "Location saved for mount: "+GetLocalString(oItem, _HORSE_SAVED_NAME)+" could not be resolved.");
         return OBJECT_INVALID;
     } else {
-        //PrintString("acr_horse_i::_RespawnHorse: Spawning horse at its last tied-up location.");
+        PrintString("acr_horse_i::_RespawnHorse: Spawning horse at its last tied-up location.");
         return _MakeHorseFromItemAtLocation(oItem, loc, 0);
     }
 }
@@ -904,10 +904,10 @@ void _NameMount(object oMount, object oPC) {
 object _MakeHorseFromItemAtLocation(object oItem, location lLocation, int bMakeHenchman = 1) {
     string sResRef = "msplayerhorse_03";//GetLocalString(oItem, _HORSE_RESREF_LS);
     object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lLocation, TRUE);
-    //PrintString("acr_horse_i::_MakeHorseFromItemAtLocation: Making horse '" + GetName(oHorse) + "' from resref '" + sResRef + "'.");
+    PrintString("acr_horse_i::_MakeHorseFromItemAtLocation: Making horse '" + GetName(oHorse) + "' from resref '" + sResRef + "'.");
     object oPC = GetItemPossessor(oItem);
 
-    //SendMessageToPC(oPC, "_MakeHorseFrom "+GetName(oItem)+": comes in as "+GetName(oHorse));
+    SendMessageToPC(oPC, "_MakeHorseFrom "+GetName(oItem)+": comes in as "+GetName(oHorse));
 
     int nHorseHP = GetLocalInt(oItem, _HORSE_HP);
     int nBaseHP = GetMaxHitPoints(oHorse);
