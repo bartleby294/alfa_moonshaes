@@ -231,7 +231,7 @@ void ALFA_OnActivateHorseItem2() {
     object oItem = GetItemActivated();
     object oPC = GetItemActivator();
     string sResRef = "msplayerhorse_03";//GetLocalString(oItem, _HORSE_RESREF_LS);
-    object oHorse = GetLocalObject(oItem, _SUMMONED_HORSE_LO);
+    object oHorse = OBJECT_INVALID; //GetLocalObject(oItem, _SUMMONED_HORSE_LO);
     object oLastBridle = GetLocalObject(oPC, _MOUNTED_HORSE_ITEM_LO);
 
     FloatingTextStringOnCreature("IN CUSTOM SCRIPT!!!", oPC, FALSE);
@@ -902,7 +902,7 @@ void _NameMount(object oMount, object oPC) {
 
 
 object _MakeHorseFromItemAtLocation(object oItem, location lLocation, int bMakeHenchman = 1) {
-    string sResRef = GetLocalString(oItem, _HORSE_RESREF_LS);
+    string sResRef = "msplayerhorse_03";//GetLocalString(oItem, _HORSE_RESREF_LS);
     object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lLocation, TRUE);
     //PrintString("acr_horse_i::_MakeHorseFromItemAtLocation: Making horse '" + GetName(oHorse) + "' from resref '" + sResRef + "'.");
     object oPC = GetItemPossessor(oItem);
