@@ -8,7 +8,7 @@ void main()
         phenoCreature = GetNearestObjectByTag("phenotype", OBJECT_SELF, i);
     }
 
-    int pheno = GetPhenoType(phenoCreature);
+    int pheno = GetAppearanceType(phenoCreature);
     if(GetTag(OBJECT_SELF) == "app_up") {
         pheno++;
     } else {
@@ -19,6 +19,6 @@ void main()
         pheno = 482;
     }
 
-    SetPhenoType(pheno, phenoCreature);
+    SetCreatureAppearanceType(phenoCreature, pheno);
     SpeakString("App Set To: " + IntToString(pheno));
 }
