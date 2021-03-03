@@ -160,5 +160,14 @@ void MoonshaesCustom(object oPC)
         } else {
             FloatingTextStringOnCreature("You're too far away.", oPC, FALSE);
         }
+
     }
+
+
+    //EG's love letter quest item (letter) - N.B. BART'S INTENTION IS TO EXPAND THIS
+   //TO AUTOMATICALLY LINK CONVERSATIONS TO ITEMS VIA TAG
+   if(GetTag(oItem) == "ElsworthsLoveLetter")
+   {
+       ExecuteScript("dlg_elswrth_ltr0", GetItemActivator());
+   }
 }
