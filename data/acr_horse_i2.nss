@@ -408,6 +408,7 @@ void ALFA_MountHorse(object oPC, object oHorse) {
         if(GetLocalInt(oItem, _IS_WARHORSE) == 1) nPhenotype = 8;
         else nPhenotype = 5;
     }
+    WriteTimestampedLogEntry("nPhenotype: " + IntToString(nPhenotype));
     if(nPhenotype) {
         WriteTimestampedLogEntry("nPhenotype: " + IntToString(nPhenotype));
         AssignCommand( oPC, ActionEquipItem(oItem, INVENTORY_SLOT_LEFTHAND) );
