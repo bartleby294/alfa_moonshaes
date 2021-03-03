@@ -279,7 +279,7 @@ void ALFA_OnPlayerDying()
     return;
   }
 
-  ExecuteScript( "hc_on_ply_dying", OBJECT_SELF );
+  ExecuteScript( "ms_on_ply_dying", OBJECT_SELF );
 
   SignalEvent( OBJECT_SELF, EventUserDefined(ALFA_EVENT_MODULE_ON_DYING) );
 }

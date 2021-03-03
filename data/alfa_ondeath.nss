@@ -11,7 +11,7 @@
  ******************************************************************/
 
 /* Includes */
-#include "alfa_include"
+#include "alfa_include_fix"
 
 // This is needed for animal companions to work, and it need to be
 // *here* rather than someplace logical, because of Jasperre's AI's
