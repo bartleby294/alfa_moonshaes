@@ -19,7 +19,9 @@ void main()
 {
   // This adds the moonshaes specific special items ((tents shovels drums etc))
   // otherwise exactly the same as standard
-  MoonshaesCustom(GetItemActivator());
+  if(MoonshaesCustom(GetItemActivator())) {
+    return;
+  }
   ALFA_OnActivateItem();
   OnUseDrugs();
 
