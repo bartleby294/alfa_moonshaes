@@ -102,6 +102,10 @@ void main()
 {
     object oPC = GetExitingObject();
 
+    object slipperyEel = GetObjectByTag("v49_slippery_eel_building");
+    NWNX_Visibility_SetVisibilityOverride(oPC, slipperyEel,
+                                          NWNX_VISIBILITY_DEFAULT);
+
     // WE NEED vg_area_enter BEFORE WE TURN THIS BACK ON!
     //remove them from being underwater
     //if(GetLocalInt(oPC, "UNDERWATER") == TRUE){

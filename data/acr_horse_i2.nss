@@ -92,7 +92,7 @@ const string _IS_WARHORSE = "ACR_HORSE_IS_WARHORSE";
 //  -Recovering to party/henchman of a horse that is owned by oPC
 //  -Dismounting a horse oPC is currently riding
 //  -respawning a horse which is alive but missing due to some error.
-void ALFA_OnActivateHorseItem();
+void ALFA_OnActivateHorseItem2();
 
 // Pretty self-explanatory.  Called from acr_horse_death, in the on_death event of the horses.
 void ALFA_OnHorseDeath();
@@ -409,6 +409,7 @@ void ALFA_MountHorse(object oPC, object oHorse) {
         else nPhenotype = 5;
     }
     if(nPhenotype) {
+        WriteTimestampedLogEntry("nPhenotype: " + IntToString(nPhenotype));
         AssignCommand( oPC, ActionEquipItem(oItem, INVENTORY_SLOT_LEFTHAND) );
         SetLocalInt(oItem, _ORIGINAL_FOOTSTEP_TYPE, GetFootstepType(oPC));
         SetFootstepType( GetFootstepType(oHorse), oPC );
@@ -425,7 +426,7 @@ void ALFA_MountHorse(object oPC, object oHorse) {
 
         // Aligning and scaling mounts to characters requires an appearance change
         // as of 1.69
-        /*int iRacialType = GetRacialType(oPC);
+        int iRacialType = GetRacialType(oPC);
         if(iRacialType == RACIAL_TYPE_DWARF){
             if(GetGender(oPC) == GENDER_FEMALE) SetCreatureAppearanceType(oPC, 482);
             else SetCreatureAppearanceType(oPC, 483); }
@@ -446,7 +447,7 @@ void ALFA_MountHorse(object oPC, object oHorse) {
             else SetCreatureAppearanceType(oPC, 493); }
         else { // defaults to human
             if(GetGender(oPC) == GENDER_FEMALE) SetCreatureAppearanceType(oPC, 494);
-            else SetCreatureAppearanceType(oPC, 495); } */
+            else SetCreatureAppearanceType(oPC, 495); }
         DeleteGameLocation( oItem, _HORSE_TIED_LOCATION );
         _UnmakeHorse(oHorse, oItem);
     } else {
