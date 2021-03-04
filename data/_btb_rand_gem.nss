@@ -354,6 +354,24 @@ string getRandomGem() {
     return "";
 }
 
+string getRandomGemUnderCost(int goldAmount) {
+
+    int limit = 0;
+    string randGemTag = getRandomGem();
+    int iCost = getItemCostFromTag(randGemTag);
+
+    while(iCost > goldAmount) {
+        if(limit > 100) {
+            return "";
+        }
+       randGemTag = getRandomGem();
+       iCost = getItemCostFromTag(randGemTag);
+       limit++;
+    }
+
+    return randGemTag;
+}
+
 /**
  * Returns a random gem taking weighted cost into consideration.
  */
