@@ -89,8 +89,11 @@ void DetermineSubduedOrDying(object oMod)
      "DR_APPLIED" + GetName(oPlayer) + GetPCPublicCDKey(oPlayer));
 
   // iCurrentHitPoints won't be 0 on a login, so no need to check that case...
-  if ( iCurrentHitPoints == 0 && 1 == 2)
+  if ( iCurrentHitPoints == 0
+        && GetLocalInt(oPlayer, "hit_zero_this_round") == FALSE)
   {
+    SetLocalInt(oPlayer, "hit_zero_this_round", 1);
+    DelayCommand(6.0, SetLocalInt(oPlayer, "hit_zero_this_round", 0));
 
     if (nSubdued && (iPlayerState == PWS_PLAYER_STATE_ALIVE ||
                      iPlayerState == PWS_PLAYER_STATE_STAGGERED ))
