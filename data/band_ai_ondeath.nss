@@ -31,13 +31,13 @@ void DeathCheck(int iDeaths);
 void main()
 {
     // if you killed a bandit it goes down.
-    int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
-                                             "BANDIT_ACTIVITY_LEVEL_2147440");
-    if(banditActivityLevel - 1 > 0) {
-        SetCampaignInt("FACTION_ACTIVITY",
-                       "BANDIT_ACTIVITY_LEVEL_2147440",
-                       banditActivityLevel - 1);
-    }
+    //int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
+    //                                        "BANDIT_ACTIVITY_LEVEL_2147440");
+    //if(banditActivityLevel - 1 > 0) {
+    //    SetCampaignInt("FACTION_ACTIVITY",
+    //                   "BANDIT_ACTIVITY_LEVEL_2147440",
+    //                   banditActivityLevel - 1);
+    //}
 
     // Drop a scalp
     //CreateObject(OBJECT_TYPE_ITEM, "banditscalp",

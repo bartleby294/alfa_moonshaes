@@ -285,9 +285,9 @@ void main()
                 //WriteTimestampedLogEntry("Destroying myself");
                 int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
                                                "BANDIT_ACTIVITY_LEVEL_2147440");
-                SetCampaignInt("FACTION_ACTIVITY",
-                               "BANDIT_ACTIVITY_LEVEL_2147440",
-                               banditActivityLevel + 1);
+                //SetCampaignInt("FACTION_ACTIVITY",
+                //               "BANDIT_ACTIVITY_LEVEL_2147440",
+                //               banditActivityLevel + 1);
                 DestroyObject(OBJECT_SELF, 2.0);
             }
         } else {
