@@ -87,7 +87,7 @@ void DetermineSubduedOrDying(object oMod)
             SendMessageToPC(oPlayer, STAGGEREDMESSAGE);
 
             if (!nAlreadySlowed) {
-                DelayCommand(6.0, ExecuteScript("hc_bleeding", oPlayer));
+                DelayCommand(0.5, ExecuteScript("hc_bleeding", oPlayer));
             }
             return;
         }
@@ -96,10 +96,10 @@ void DetermineSubduedOrDying(object oMod)
             SPS(oPlayer, PWS_PLAYER_STATE_DISABLED);
             SendMessageToPC(oPlayer, DISABLEMESSAGE);
             // need to call disabled setup to get healed back to 1 HP
-            hcDisabledSetup(oPlayer);
+            //hcDisabledSetup(oPlayer);
 
             if (!nAlreadySlowed) {
-                DelayCommand(6.0, ExecuteScript("hc_bleeding", oPlayer));
+                DelayCommand(0.5, ExecuteScript("hc_bleeding", oPlayer));
             }
             return;
         }
@@ -107,7 +107,7 @@ void DetermineSubduedOrDying(object oMod)
 
     // They're dying or subdued
     if (nAlreadySlowed) {
-        hcDisabledRemove(oPlayer);
+        //hcDisabledRemove(oPlayer);
     }
 
     if (nSubdued && (iPlayerState == PWS_PLAYER_STATE_ALIVE || iPlayerState == PWS_PLAYER_STATE_STAGGERED || (nLoginUnconscious && (iPlayerState == PWS_PLAYER_STATE_SUBDUED)))) {
@@ -148,7 +148,7 @@ void DetermineSubduedOrDying(object oMod)
     // since it's already running
     if (!nAlreadySlowed) {
         //SendMessageToPC(oPlayer, "kicking off hc_bleeding");
-        DelayCommand(6.0, ExecuteScript("hc_bleeding", oPlayer));
+        DelayCommand(0.5, ExecuteScript("hc_bleeding", oPlayer));
     }
 }
 
