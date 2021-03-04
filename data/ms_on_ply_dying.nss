@@ -9,7 +9,7 @@
 // them from logging out and back in to get around death effects.  (Note
 // that players can get around this in Local Vault environments).
 
-#include "hc_inc_death"
+#include "ms_inc_death"
 #include "hc_inc_timecheck"
 
 #include "alfa_subdual"
@@ -93,12 +93,9 @@ void DetermineSubduedOrDying(object oMod)
         "DR_APPLIED" + GetName(oPlayer) + GetPCPublicCDKey(oPlayer));
 
     // iCurrentHitPoints won't be 0 on a login, so no need to check that case...
-    if (iCurrentHitPoints == 0
-        && GetLocalInt(oPlayer, "hit_zero_this_round") == FALSE) {
+    if (iCurrentHitPoints == 0) {
         WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 5");
         SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 5");
-        SetLocalInt(oPlayer, "hit_zero_this_round", 1);
-        DelayCommand(13.0, SetLocalInt(oPlayer, "hit_zero_this_round", 0));
 
         if (nSubdued
                 &&(iPlayerState == PWS_PLAYER_STATE_ALIVE
@@ -130,7 +127,7 @@ void DetermineSubduedOrDying(object oMod)
     }
 
     // They're dying or subdued
-    if (nAlreadySlowed) {
+    if (nAlreadySlowed && iCurrentHitPoints != 0) {
         WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 9");
         SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 9");
         hcDisabledRemove(oPlayer);
