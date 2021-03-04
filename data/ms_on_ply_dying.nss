@@ -60,6 +60,13 @@ void DetermineSubduedOrDying(object oMod)
         || iPlayerState == PWS_PLAYER_STATE_RECOVERY
         || iPlayerState == PWS_PLAYER_STATE_STABLEHEAL
         || iPlayerState == PWS_PLAYER_STATE_SUBDUED) {
+
+        if(GetLocalInt(oPlayer, "hit_zero_this_round") == TRUE) {
+            WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 0");
+            SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 0");
+            return;
+        }
+
         WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 1");
         SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 1");
         nLoginUnconscious = TRUE;
