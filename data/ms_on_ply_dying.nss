@@ -118,6 +118,9 @@ void DetermineSubduedOrDying(object oMod)
         // need to call disabled setup to get healed back to 1 HP
         hcDisabledSetup(oPlayer);
 
+        nAlreadySlowed = GetLocalInt(oMod,
+                "DR_APPLIED" + GetName(oPlayer) + GetPCPublicCDKey(oPlayer));
+
         if (!nAlreadySlowed) {
             WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 8");
             SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 8");
@@ -127,7 +130,7 @@ void DetermineSubduedOrDying(object oMod)
     }
 
     // They're dying or subdued
-    if (nAlreadySlowed && iCurrentHitPoints != 0) {
+    if (nAlreadySlowed) {
         WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 9");
         SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 9");
         hcDisabledRemove(oPlayer);
