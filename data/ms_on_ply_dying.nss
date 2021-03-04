@@ -9,7 +9,7 @@
 // them from logging out and back in to get around death effects.  (Note
 // that players can get around this in Local Vault environments).
 
-#include "ms_inc_death"
+#include "hc_inc_death"
 #include "hc_inc_timecheck"
 
 #include "alfa_subdual"
@@ -42,10 +42,9 @@ void DetermineSubduedOrDying(object oMod)
     int iPlayerState = GPS(oPlayer);
 
     // Death/Bleeding in the Morgue is meaningless (Acid bug)
-    WriteTimestampedLogEntry("DetermineSubduedOrDying: Started");
+
     if (GetTag(GetArea(oPlayer)) == ALFA_AREA_MORGUE_TAG
         || GetItemPossessedBy(oPlayer, "ALFADeathToken") != OBJECT_INVALID) {
-        WriteTimestampedLogEntry("DetermineSubduedOrDying: Bleeding in the Morge");
         //ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectResurrection(), oPlayer );
         //ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectHeal(GetMaxHitPoints(oPlayer)), oPlayer );
         return;
@@ -60,31 +59,17 @@ void DetermineSubduedOrDying(object oMod)
         || iPlayerState == PWS_PLAYER_STATE_RECOVERY
         || iPlayerState == PWS_PLAYER_STATE_STABLEHEAL
         || iPlayerState == PWS_PLAYER_STATE_SUBDUED) {
-
-        if(GetLocalInt(oPlayer, "hit_zero_this_round") == TRUE) {
-            WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 0");
-            SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 0");
-            return;
-        }
-
-        WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 1");
-        SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 1");
         nLoginUnconscious = TRUE;
         if (iPlayerState == PWS_PLAYER_STATE_SUBDUED) {
-            WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 2");
-            SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 2");
             nSubdued = TRUE;
         }
     }
 
     else {
-        WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 3");
-        SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 3");
         nLoginUnconscious = FALSE;
         nSubdued = ALFA_GetLastDamageSubdual(oAttacker, oPlayer);
     }
-    WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 4");
-    SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 4");
+
     // Sets up Heartbeat tracking if anyone enters OnPlayerDying
     int iCurrentHitPoints = GetCurrentHitPoints(oPlayer);
     string sID = GetName(oPlayer) + GetPCPublicCDKey(oPlayer);
@@ -94,54 +79,38 @@ void DetermineSubduedOrDying(object oMod)
 
     // iCurrentHitPoints won't be 0 on a login, so no need to check that case...
     if (iCurrentHitPoints == 0) {
-        WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 5");
-        SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 5");
 
-        if (nSubdued
-                &&(iPlayerState == PWS_PLAYER_STATE_ALIVE
-                    || iPlayerState == PWS_PLAYER_STATE_STAGGERED)) {
-            WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 6");
-            SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 6");
+        if (nSubdued && (iPlayerState == PWS_PLAYER_STATE_ALIVE || iPlayerState == PWS_PLAYER_STATE_STAGGERED)) {
             // They're just staggered
             ALFA_SetLastStateCheckTime(oPlayer, SecondsSinceBegin());
             SPS(oPlayer, PWS_PLAYER_STATE_STAGGERED);
             SendMessageToPC(oPlayer, STAGGEREDMESSAGE);
+
+            if (!nAlreadySlowed) {
+                DelayCommand(6.0, ExecuteScript("hc_bleeding", oPlayer));
+            }
+            return;
         }
-        else {
-            WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 7");
-            SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 7");
+        else if(iPlayerState != PWS_PLAYER_STATE_DISABLED) {
             // They're just disabled
             SPS(oPlayer, PWS_PLAYER_STATE_DISABLED);
             SendMessageToPC(oPlayer, DISABLEMESSAGE);
+            // need to call disabled setup to get healed back to 1 HP
+            hcDisabledSetup(oPlayer);
+
+            if (!nAlreadySlowed) {
+                DelayCommand(6.0, ExecuteScript("hc_bleeding", oPlayer));
+            }
+            return;
         }
-
-        // need to call disabled setup to get healed back to 1 HP
-        hcDisabledSetup(oPlayer);
-
-        nAlreadySlowed = GetLocalInt(oMod,
-                "DR_APPLIED" + GetName(oPlayer) + GetPCPublicCDKey(oPlayer));
-
-        if (!nAlreadySlowed) {
-            WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 8");
-            SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 8");
-            DelayCommand(6.0, ExecuteScript("hc_bleeding", oPlayer));
-        }
-        return;
     }
 
     // They're dying or subdued
     if (nAlreadySlowed) {
-        WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 9");
-        SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 9");
         hcDisabledRemove(oPlayer);
     }
 
-    if (nSubdued
-        && (iPlayerState == PWS_PLAYER_STATE_ALIVE
-            || iPlayerState == PWS_PLAYER_STATE_STAGGERED
-            || (nLoginUnconscious && (iPlayerState == PWS_PLAYER_STATE_SUBDUED)))) {
-        WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 10");
-        SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 10");
+    if (nSubdued && (iPlayerState == PWS_PLAYER_STATE_ALIVE || iPlayerState == PWS_PLAYER_STATE_STAGGERED || (nLoginUnconscious && (iPlayerState == PWS_PLAYER_STATE_SUBDUED)))) {
         ALFA_SetLastStateCheckTime(oPlayer, SecondsSinceBegin());
         SetLocalInt(oMod, "LastSubHealCheck" + sID, SecondsSinceBegin());
         SendMessageToPC(oPlayer, SUBDUEDMESSAGE);
@@ -149,41 +118,27 @@ void DetermineSubduedOrDying(object oMod)
     }
 
     else {
-        WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 11");
-        SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 11");
         if (nLoginUnconscious) {
-            WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 12");
-            SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 12");
             switch (iPlayerState) {
             case 1: // PWS_PLAYER_STATE_DYING
-                WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 13");
-                SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 13");
                 SendMessageToPC(oPlayer, "You're dying.");
                 break;
 
             case 3: // PWS_PLAYER_STATE_STABLE
-                WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 14");
-                SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 14");
                 SendMessageToPC(oPlayer, STABLEMESSAGE);
                 break;
 
             case 5: // PWS_PLAYER_STATE_RECOVERY
-                WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 15");
-                SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 15");
                 SendMessageToPC(oPlayer, RECOVERMESSAGE);
                 break;
 
             case 6: // PWS_PLAYER_STATE_STABLEHEAL
-                WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 16");
-                SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 16");
                 SendMessageToPC(oPlayer, STABLERECMESSAGE);
                 break;
             }
         }
 
         else {
-            WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 17");
-            SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 17");
             SendMessageToPC(oPlayer, "You're dying.");
             SPS(oPlayer, PWS_PLAYER_STATE_DYING);
         }
@@ -192,8 +147,7 @@ void DetermineSubduedOrDying(object oMod)
     // Don't kick off hc_bleeding if in STAGGERED, DISABLED, or RECOVERY state,
     // since it's already running
     if (!nAlreadySlowed) {
-        SendMessageToPC(oPlayer, "kicking off hc_bleeding");
-        WriteTimestampedLogEntry("kicking off hc_bleeding");
+        //SendMessageToPC(oPlayer, "kicking off hc_bleeding");
         DelayCommand(6.0, ExecuteScript("hc_bleeding", oPlayer));
     }
 }
