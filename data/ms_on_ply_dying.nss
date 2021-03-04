@@ -98,7 +98,7 @@ void DetermineSubduedOrDying(object oMod)
         WriteTimestampedLogEntry("DetermineSubduedOrDying: State Check 5");
         SendMessageToPC(oPlayer, "DetermineSubduedOrDying: State Check 5");
         SetLocalInt(oPlayer, "hit_zero_this_round", 1);
-        DelayCommand(7.0, SetLocalInt(oPlayer, "hit_zero_this_round", 0));
+        DelayCommand(13.0, SetLocalInt(oPlayer, "hit_zero_this_round", 0));
 
         if (nSubdued
                 &&(iPlayerState == PWS_PLAYER_STATE_ALIVE
