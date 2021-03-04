@@ -15,6 +15,7 @@
 #include "alfa_include"
 #include "jhr_i0_pipe"
 #include "sos_include"
+#include "ms_food_scripts"
 
 void main()
 {
@@ -26,9 +27,10 @@ void main()
     string sRef = GetResRef(oItem);
     object oOwner = GetItemPossessor(oItem);
 
-    if(sItem == "004Food")
+    if(sItem == "00Food4")
     {
         AssignCommand(OBJECT_SELF,ActionSpeakString("*Eats " + sName + "*"));
+        GenericFoodEaten(OBJECT_SELF, oItem);
     }
     else if(sItem == "004Drink")
     {
