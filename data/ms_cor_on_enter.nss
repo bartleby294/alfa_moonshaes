@@ -73,6 +73,11 @@ void main() {
         SetLocalInt(OBJECT_SELF, "setup", 1);
     }
 
+    object slipperyEel = GetObjectByTag("v49_slippery_eel_building");
+    NWNX_Visibility_SetVisibilityOverride(oPC, slipperyEel,
+                                          NWNX_VISIBILITY_ALWAYS_VISIBLE);
+
+
     // WE NEED vg_area_enter BEFORE WE TURN THIS BACK ON!
     //WaterCheck(oArea, oPC);
 
