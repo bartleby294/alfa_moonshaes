@@ -1,4 +1,5 @@
 #include "acr_horse_i2"
+#include "ms_food_scripts"
 
 int MoonshaesCustom(object oPC)
 {
@@ -200,6 +201,15 @@ int MoonshaesCustom(object oPC)
     if(GetTag(oItem) == "acr_horse_bridle") {
         FloatingTextStringOnCreature("FOUND A HORSE!!!", oPC, FALSE);
         ALFA_OnActivateHorseItem2();
+        return TRUE;
+    }
+
+    // if its a food item
+    if(GetTag(oItem) == "_fishing_item16"
+       || GetTag(oItem) == "_fishing_item15") {
+        string sName = GetName(oItem);
+        AssignCommand(OBJECT_SELF,ActionSpeakString("*Eats " + sName + "*"));
+        GenericFoodEaten(OBJECT_SELF, oItem);
         return TRUE;
     }
 

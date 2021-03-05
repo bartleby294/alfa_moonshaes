@@ -90,6 +90,11 @@ void main()
 
    location oPCLoc = GetLocation(oPC);
 
+   if(GetDistanceBetweenLocations(oItemLoc, oPCLoc) > 5.0) {
+        SendMessageToPC(oPC, "That is too far away.");
+        return;
+   }
+
    float oPCfacing = GetFacingFromLocation(oPCLoc)+90;
    vector oItemVec = GetPositionFromLocation(oItemLoc);
 
