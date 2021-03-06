@@ -1,4 +1,4 @@
-#include "_moonwell01const"
+#include "_btb_moonwellcon"
 
 void moonwellDruidsLeave()
 {

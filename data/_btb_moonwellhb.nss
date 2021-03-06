@@ -63,6 +63,7 @@ void main()
     if(state == DM_DISABLED_STATE || state == NO_STATE  || state == DONE_STATE
         || state == ATTACKING_STATE){
         WriteTimestampedLogEntry("In Do Not Run State Exit");
+        WriteTimestampedLogEntry("HB UUID: " + GetObjectUUID(OBJECT_SELF));
         return;
     // if were starting fresh or over spawn or reset peices.
     } else if(state == SPAWN_STATE) {

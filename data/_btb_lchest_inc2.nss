@@ -1,14 +1,14 @@
 void main()
 {
-    int amount = 1;
+    int amount = 10;
     object chest = GetNearestObjectByTag("randlootchesttes");
     string variable = GetTag(OBJECT_SELF);
 
     if(variable == "lootGP") {
-        amount = 100;
+        amount = 1000;
     }
 
-    int newVal = GetLocalInt(chest, variable) - amount;
+    int newVal = GetLocalInt(chest, variable) + amount;
     SetLocalInt(chest, variable, newVal );
     SpeakString(variable + ": " + IntToString(newVal));
 
