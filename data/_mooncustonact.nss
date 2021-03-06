@@ -203,5 +203,16 @@ int MoonshaesCustom(object oPC)
         return TRUE;
     }
 
+   if(GetTag(oItem) == "sahraskiss") {
+        effect eSearch = GetFirstEffect(oPC);
+        while (GetIsEffectValid(eSearch))   {
+            if(GetEffectSpellId(eSearch) == EFFECT_TYPE_POISON) {
+                RemoveEffect(oPC, eSearch);
+                break;
+            }
+            eSearch = GetNextEffect(oPC);
+        }
+   }
+
     return FALSE;
 }
