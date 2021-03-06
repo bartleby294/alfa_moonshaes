@@ -24,7 +24,7 @@ int checkCleanUp(object obHbObj, object highDruid, object Druid01,
         DestroyObject(Druid04, 1.0);
         DestroyObject(light, 1.0);
         DestroyObject(obHbObj, 1.1);
-        //WriteTimestampedLogEntry("No PCs in the area tearing everything down.");
+        WriteTimestampedLogEntry("No PCs in the area tearing everything down.");
         return TRUE;
     }
 
@@ -50,7 +50,7 @@ void main()
 
     // If anyone is in combat exit out of here.
     if(InCombat(highDruid, Druid01, Druid02, Druid03, Druid04)) {
-        //WriteTimestampedLogEntry("In Combat Exit");
+        WriteTimestampedLogEntry("In Combat Exit");
         return ;
     }
 
@@ -62,16 +62,16 @@ void main()
     // if a dm has disabled the scene or its not in progress skip out.
     if(state == DM_DISABLED_STATE || state == NO_STATE  || state == DONE_STATE
         || state == ATTACKING_STATE){
-        //WriteTimestampedLogEntry("In Do Not Run State Exit");
+        WriteTimestampedLogEntry("In Do Not Run State Exit");
         return;
     // if were starting fresh or over spawn or reset peices.
     } else if(state == SPAWN_STATE) {
-        //WriteTimestampedLogEntry("In Spawn State");
+        WriteTimestampedLogEntry("In Spawn State");
         moonwellSpawn(oPC, obHbObj, highDruid, Druid01,
                         Druid02, Druid03, Druid04, state, light);
     // if the peices are set start interogating.
     } else if(state == INTEROGATION_STATE) {
-        //WriteTimestampedLogEntry("In Interogation State");
+        WriteTimestampedLogEntry("In Interogation State");
          // the pc steped into the light
          if(GetDistanceBetween(light, oPC) < 0.6) {
             startConversation(state, oPC, highDruid, obHbObj);
@@ -80,9 +80,26 @@ void main()
         }
     // if were supposed to be talking still and arent talk again.
     } else if(state == CONVERSATION_STATE) {
-        //WriteTimestampedLogEntry("In Conversation State");
+        WriteTimestampedLogEntry("In Conversation State");
         if(!IsInConversation(highDruid)) {
             startConversation(state, oPC, highDruid, obHbObj);
+        }
+    // if we just ended the conversation assign conversation and default convo
+    // and start the timer to leave.
+    } else if(state == CONVO_END_STATE) {
+        // if we are in a conversation do nothing
+        if(IsInConversation(highDruid)) {
+            return;
+        }
+        SetEventScript(highDruid, EVENT_SCRIPT_CREATURE_ON_DIALOGUE,
+                       "_btb_moon_con04");
+        // other wise check if we should leave.
+        int turnsSinceConvo = GetLocalInt(obHbObj, "turns_since_convo");
+        if(turnsSinceConvo > 2) {
+            SetLocalInt(obHbObj, "state", LEAVING_STATE);
+            SetEventScript(highDruid, EVENT_SCRIPT_CREATURE_ON_DIALOGUE, "");
+        } else {
+            SetLocalInt(obHbObj, "turns_since_convo", turnsSinceConvo + 1);
         }
     } else if (state == WARN_STATE) {
         string warnStr = "Leave now this is your final warning!";
@@ -90,7 +107,7 @@ void main()
         SendMessageToPC(oPC, "High Druid: " + warnStr);
         SetLocalInt(OBJECT_SELF, "state", ATTACK_STATE);
     } else if (state == ATTACK_STATE) {
-            //WriteTimestampedLogEntry("In Attack State");
+            WriteTimestampedLogEntry("In Attack State");
             AssignCommand(highDruid, SpeakString(
                 "**Frowns and signals the other druids to attack**"));
             AssignCommand(Druid01, ActionAttack(oPC, TRUE));
@@ -98,11 +115,11 @@ void main()
             AssignCommand(Druid03, ActionAttack(oPC, TRUE));
             AssignCommand(Druid04, ActionAttack(oPC, TRUE));
             AssignCommand(highDruid, ActionAttack(oPC, TRUE));
-            //WriteTimestampedLogEntry("State Change From: " + getState(state) +
-            //             " To: " + getState(ATTACKING_STATE));
+            WriteTimestampedLogEntry("State Change From: " + getState(state) +
+                         " To: " + getState(ATTACKING_STATE));
             SetLocalInt(OBJECT_SELF, "state", ATTACKING_STATE);
     } else if (state == LEAVING_STATE) {
-        //WriteTimestampedLogEntry("In Leave State");
+        WriteTimestampedLogEntry("In Leave State");
         druidsLeave(oPC, obHbObj, highDruid, Druid01, Druid02, Druid03,
                     Druid04, state, light);
     }

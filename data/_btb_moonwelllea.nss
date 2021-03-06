@@ -38,9 +38,20 @@ void druidsLeave(object oPC, object obHbObj, object highDruid, object Druid01,
     location Druid04DespawnLoc = GetLocalLocation(obHbObj,
                                                        "Druid04DespawnLoc");
     location WalkLoc = GetLocalLocation(obHbObj, "WalkLoc");
+    location hdLoc =  GetLocation(highDruid);
 
-    AssignCommand(highDruid, ActionMoveToLocation(WalkLoc));
-    AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc));
+    float walkToDe = GetDistanceBetweenLocations(WalkLoc, HighDruidDespawnLoc);
+    float hdToDe = GetDistanceBetweenLocations(hdLoc, HighDruidDespawnLoc);
+
+    // if the distance from the druid to the despawn is less than the distance
+    // between the walk location and despawn we are past the walk location.
+    if(walkToDe < hdToDe) {
+        AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc));
+    } else {
+        AssignCommand(highDruid, ActionMoveToLocation(WalkLoc));
+        AssignCommand(highDruid, ActionMoveToLocation(HighDruidDespawnLoc));
+    }
+
     AssignCommand(Druid01, ActionMoveToLocation(Druid01DespawnLoc));
     AssignCommand(Druid02, ActionMoveToLocation(Druid02DespawnLoc));
     AssignCommand(Druid03, ActionMoveToLocation(Druid03DespawnLoc));

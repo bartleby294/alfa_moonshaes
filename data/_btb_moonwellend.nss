@@ -12,5 +12,7 @@ void main()
     //WriteTimestampedLogEntry("State Change From: " + getState(state) +
     //                         " To: " + getState(LEAVING_STATE));
 
-    SetLocalInt(obHbObj, "state", LEAVING_STATE);
+    //SetLocalInt(obHbObj, "state", LEAVING_STATE);
+    SetLocalInt(obHbObj, "state", CONVO_END_STATE);
+    SetLocalInt(obHbObj, "turns_since_convo", 0);
 }
