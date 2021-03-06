@@ -89,16 +89,20 @@ void main()
     } else if(state == CONVO_END_STATE) {
         // if we are in a conversation do nothing
         if(IsInConversation(highDruid)) {
+            WriteTimestampedLogEntry("Druid in conversation exiting");
             return;
         }
         SetEventScript(highDruid, EVENT_SCRIPT_CREATURE_ON_DIALOGUE,
                        "_btb_moon_con04");
         // other wise check if we should leave.
         int turnsSinceConvo = GetLocalInt(obHbObj, "turns_since_convo");
+        WriteTimestampedLogEntry("turns_since_convo: " + IntToString(turnsSinceConvo));
         if(turnsSinceConvo > 2) {
+            WriteTimestampedLogEntry("Set to leaving state");
             SetLocalInt(obHbObj, "state", LEAVING_STATE);
             SetEventScript(highDruid, EVENT_SCRIPT_CREATURE_ON_DIALOGUE, "");
         } else {
+            WriteTimestampedLogEntry("increment turns waited");
             SetLocalInt(obHbObj, "turns_since_convo", turnsSinceConvo + 1);
         }
     } else if (state == WARN_STATE) {

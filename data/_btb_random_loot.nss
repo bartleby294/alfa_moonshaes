@@ -226,3 +226,71 @@ void generateLoot(int goldAmount, object chest, int difficulty_lvl)
         CreateItemOnObject("nw_it_gold001", chest, goldToAddToChest);
     }
 }
+
+//void fillChest(object chest, int goldAmount, int difficulty_lvl)
+void generateLootByChance(int goldAmount, object chest, int difficulty_lvl,
+    int goldChance, int potionChance, int armorChance, int gemChance,
+    int jeweleryChance, int weaponChance)
+{
+    int goldToAddToChest = 0;
+    int tries = 0;
+    int goldMin = 0;
+    int goldMax = goldMin + goldChance;
+    int potionMin = goldMax;
+    int potionMax = potionMin + potionChance;
+    int armorMin = potionMax;
+    int armorMax = armorMin + armorChance;
+    int gemMin = armorMax;
+    int gemMax = gemMin + gemChance;
+    int jeweleryMin = gemMax;
+    int jeweleryMax = jeweleryMin + jeweleryChance;
+    int weaponMin = jeweleryMax;
+    int weaponMax = weaponMin + weaponChance;
+
+    while(goldAmount > 0 && tries < goldMax) {
+        int randChance = Random(weaponMax);
+        // 30% chance its gold
+        if(randChance >= goldMin && randChance < 30) {
+            // if were at the dregs just throw it all in gold.
+            if(goldAmount < 150) {
+                goldToAddToChest = goldToAddToChest + goldAmount;
+                goldAmount = goldAmount - goldAmount;
+            } else {
+                int randGold = Random(goldAmount);
+                goldToAddToChest = goldToAddToChest + randGold;
+                goldAmount = goldAmount - randGold;
+            }
+        // %15 chance its a potion
+        } else if(randChance >= potionMin && randChance < potionMax) {
+           //WriteTimestampedLogEntry("createPotionInChest");
+           goldAmount = createPotionInChest(chest, goldAmount, difficulty_lvl);
+           //WriteTimestampedLogEntry("createPotionInChest - end");
+        // %10 chance its an armor
+        } else if(randChance >= armorMin && randChance < armorMax) {
+            //WriteTimestampedLogEntry("createArmorInChest");
+            goldAmount = createArmorInChest(chest, goldAmount, difficulty_lvl);
+            //WriteTimestampedLogEntry("createArmorInChest - end");
+        // %20 chance its a gem
+        } else if(randChance >= gemMin && randChance < gemMax) {
+            //WriteTimestampedLogEntry("createGemInChest");
+            goldAmount = createGemInChest(chest, goldAmount, difficulty_lvl);
+            //WriteTimestampedLogEntry("createGemInChest - end");
+        // %15 chance its jewelery
+        } else if(randChance >= jeweleryMin && randChance < jeweleryMax) {
+            //WriteTimestampedLogEntry("createJewelryInChest");
+            goldAmount = createJewelryInChest(chest, goldAmount, difficulty_lvl);
+            //WriteTimestampedLogEntry("createJewelryInChest - end");
+        // %10 chance its a weapon
+        } else if(randChance >= weaponMin && randChance <= weaponMax) {
+            //WriteTimestampedLogEntry("createWeaponInChest");
+            goldAmount = createWeaponInChest(chest, goldAmount, difficulty_lvl);
+            //WriteTimestampedLogEntry("createWeaponInChest - end");
+        }
+
+        tries = tries + 1;
+    }
+    //WriteTimestampedLogEntry("The End");
+    if(goldToAddToChest > 0) {
+        CreateItemOnObject("nw_it_gold001", chest, goldToAddToChest);
+    }
+}

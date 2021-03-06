@@ -13,9 +13,11 @@ void callDruid(object oPC) {
         //SendMessageToPC(oPC, "you said high druid");
         object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
         float druidDist = GetDistanceBetween(obHbObj, oPC);
+        int state = GetLocalInt(obHbObj, "state");
+        WriteTimestampedLogEntry("Called Druid: State Change From: " + getState(state) +
+                                     " To: " + getState(SPAWN_STATE));
         //SendMessageToPC(oPC, "druidDist Dist: " + FloatToString(druidDist));
         if(druidDist > 0.0 && druidDist < 15.0) {
-            int state = GetLocalInt(obHbObj, "state");
             if(!GetIsPC(oPC) || state == DM_DISABLED_STATE
                 || state == ATTACKING_STATE){
                 return;
@@ -26,8 +28,8 @@ void callDruid(object oPC) {
             SetLocalInt(obHbObj, "timer", 0);
             //WriteTimestampedLogEntry("###############################################");
             //WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
-            //WriteTimestampedLogEntry("State Change From: " + getState(state) +
-            //                         " To: " + getState(SPAWN_STATE));
+            WriteTimestampedLogEntry("Called Druid: State Change From: " + getState(state) +
+                                     " To: " + getState(SPAWN_STATE));
 
         }
     }
