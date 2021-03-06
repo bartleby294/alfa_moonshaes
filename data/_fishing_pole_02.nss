@@ -7,10 +7,10 @@ void main()
     object oPC = OBJECT_SELF;
     int randomnum = d100(1);
     location FishSpawnLoc = GetLocation(oPC);
-    //string randstring = IntToString(randomnum);
-    //
-   //AssignCommand(oPC, ActionSpeakString("which fish"));
-   //AssignCommand(oPC, ActionSpeakString(randstring));
+
+    string uuid = GetPCPublicCDKey(oPC)+GetName(oPC);
+    int fishCaught = GetCampaignInt("fish_caught", uuid);
+    SetCampaignInt("fish_caught", uuid, fishCaught + 1);
 
     if(randomnum > 94)
     {
