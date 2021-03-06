@@ -93,6 +93,11 @@ int GetPlayerOnShip(string triggerTag) {
     object oArea = GetArea(oShipTrigger);
     object oPC = GetFirstPCInArea(oArea);
 
+    // If its a dm and not dm possessing let the ship leave.
+    if(GetIsDM(oPC) == TRUE && GetIsDMPossessed(oPC) == FALSE) {
+        return FALSE;
+    }
+
     while(oPC != OBJECT_INVALID) {
         if(NWNX_Object_GetPositionIsInTrigger(oShipTrigger, GetPosition(oPC))) {
             return TRUE;

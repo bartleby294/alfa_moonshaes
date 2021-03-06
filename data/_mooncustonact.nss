@@ -204,14 +204,10 @@ int MoonshaesCustom(object oPC)
     }
 
    if(GetTag(oItem) == "sahraskiss") {
-        effect eSearch = GetFirstEffect(oPC);
-        while (GetIsEffectValid(eSearch))   {
-            if(GetEffectSpellId(eSearch) == EFFECT_TYPE_POISON) {
-                RemoveEffect(oPC, eSearch);
-                break;
-            }
-            eSearch = GetNextEffect(oPC);
-        }
+        ActionCastSpellAtObject(SPELL_NEUTRALIZE_POISON, oPC,
+                                METAMAGIC_ANY, FALSE, 0,
+                                PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+        return TRUE;
    }
 
     return FALSE;
