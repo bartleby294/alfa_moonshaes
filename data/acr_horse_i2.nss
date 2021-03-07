@@ -232,6 +232,7 @@ void ALFA_OnActivateHorseItem2() {
     object oPC = GetItemActivator();
     //string sResRef = "msplayerhorse_03";//GetLocalString(oItem, _HORSE_RESREF_LS);
     string sResRef = "ms" + GetLocalString(oItem, _HORSE_RESREF_LS);
+    SendMessageToPC(oPC, "sResRef: " + sResRef);
     //object oHorse = OBJECT_INVALID; //GetLocalObject(oItem, _SUMMONED_HORSE_LO);
     object oHorse = GetLocalObject(oItem, _SUMMONED_HORSE_LO);
     object oLastBridle = GetLocalObject(oPC, _MOUNTED_HORSE_ITEM_LO);
