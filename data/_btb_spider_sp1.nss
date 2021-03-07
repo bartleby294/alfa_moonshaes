@@ -5,7 +5,7 @@ void spawnSpiders(int spiderCap, object web)
     int curSpider;
 
     while (curSpider < spiderCap) {
-        location spiderSpawn = pickLoc(web, Random(30)/10.0,
+        location spiderSpawn = pickLoc(web, Random(30)/10.0 + 2.0,
                                         IntToFloat(Random(360)));
         switch (Random(10)) {
         case 0:

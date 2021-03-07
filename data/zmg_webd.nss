@@ -2,5 +2,5 @@
 
 void main()
 {
-    spawnSpiders(d2() + 4, OBJECT_SELF);
+    spawnSpiders(d2() + 2, OBJECT_SELF);
 }
