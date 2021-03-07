@@ -1,6 +1,6 @@
-#include "_moonwell01const"
+#include "_btb_moonwellcon"
 #include "_btb_moonwelluti"
-
+#include "nwnx_time"
 
 void callDruid(object oPC) {
     string sCommand = GetStringLowerCase(GetPCChatMessage());
@@ -22,10 +22,18 @@ void callDruid(object oPC) {
                 || state == ATTACKING_STATE){
                 return;
             }
+
+            int lastCall = GetLocalInt(obHbObj, "lastCall");
+            if(NWNX_Time_GetTimeStamp() - lastCall < HIGHDRUID_DELAY) {
+                SpeakString("Patience");
+                return;
+            }
+
             SetLocalInt(obHbObj, "state", SPAWN_STATE);
             SetLocalObject(obHbObj, "oPC", oPC);
             SetLocalInt(obHbObj, "leaveCnt", 0);
             SetLocalInt(obHbObj, "timer", 0);
+            SetLocalInt(obHbObj, "lastCall", lastCall);
             WriteTimestampedLogEntry("###############################################");
             WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
             WriteTimestampedLogEntry("Called Druid: State Change From: " + getState(state) +

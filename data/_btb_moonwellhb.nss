@@ -93,12 +93,10 @@ void main()
             WriteTimestampedLogEntry("Druid in conversation exiting");
             return;
         }
-        SetEventScript(highDruid, EVENT_SCRIPT_CREATURE_ON_DIALOGUE,
-                       "_btb_moon_con04");
         // other wise check if we should leave.
         int turnsSinceConvo = GetLocalInt(obHbObj, "turns_since_convo");
         WriteTimestampedLogEntry("turns_since_convo: " + IntToString(turnsSinceConvo));
-        if(turnsSinceConvo > 2) {
+        if(turnsSinceConvo > 1) {
             WriteTimestampedLogEntry("Set to leaving state");
             SetLocalInt(obHbObj, "state", LEAVING_STATE);
             SetEventScript(highDruid, EVENT_SCRIPT_CREATURE_ON_DIALOGUE, "");

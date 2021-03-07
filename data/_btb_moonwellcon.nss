@@ -1,3 +1,5 @@
+const int HIGHDRUID_DELAY = 15000;
+
 const int NO_STATE = 0;
 const int SPAWN_STATE = 1;
 const int INTEROGATION_STATE = 2;
