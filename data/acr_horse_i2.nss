@@ -906,7 +906,8 @@ void _NameMount(object oMount, object oPC) {
 
 
 object _MakeHorseFromItemAtLocation(object oItem, location lLocation, int bMakeHenchman = 1) {
-    string sResRef = "msplayerhorse_03";//GetLocalString(oItem, _HORSE_RESREF_LS);
+    //string sResRef = "msplayerhorse_03";//GetLocalString(oItem, _HORSE_RESREF_LS);
+    string sResRef = "ms" +GetLocalString(oItem, _HORSE_RESREF_LS);
     object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lLocation, TRUE);
     PrintString("acr_horse_i::_MakeHorseFromItemAtLocation: Making horse '" + GetName(oHorse) + "' from resref '" + sResRef + "'.");
     object oPC = GetItemPossessor(oItem);
