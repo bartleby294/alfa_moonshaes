@@ -1,3 +1,4 @@
+#include "nwnx_visibility"
 
 void MyGetVector(object oPC){
     vector vAreaVec = GetPosition(oPC);
@@ -12,6 +13,17 @@ void WaterCheck(object oArea, object oPC) {
     } else if(GetMaster(oPC) != OBJECT_INVALID
                 && GetLocalInt(oArea, "AREA_UNDERWATER") == TRUE) {
         ExecuteScript("vg_area_enter", OBJECT_SELF);
+    }
+}
+
+void setVisibleObjets(object oPC) {
+    int i = 1;
+    object visibilObject = GetNearestObjectByTag("visableScenery", oPC, i);
+    while(visibilObject != OBJECT_INVALID) {
+        NWNX_Visibility_SetVisibilityOverride(oPC, visibilObject,
+                                              NWNX_VISIBILITY_ALWAYS_VISIBLE);
+        i++;
+        visibilObject = GetNearestObjectByTag("visableScenery", oPC, i);
     }
 }
 
@@ -33,6 +45,8 @@ void main() {
     if(!GetIsPC(oPC)) {
         return;
     }
+
+    setVisibleObjets(oPC);
 
     /*************** This section fires for all players, and DMs***************/
 
@@ -67,6 +81,9 @@ void main() {
         SendMessageToPC(oPC, "You have gained experience for finding a new area.");
         SetCampaignInt("ExploreXPDB", sTrigTag+GetName(oPC) + "Fired", TRUE);
     }
+
+    WriteTimestampedLogEntry("AREA TRACKING: " + GetName(oPC) + " Traveled to: "
+                             + GetName(oArea) + " resref: " + GetResRef(oArea));
 
     //Location tracking
     SetCampaignInt("Location", "updated", 2, oPC);

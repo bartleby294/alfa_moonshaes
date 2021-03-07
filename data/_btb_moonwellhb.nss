@@ -1,3 +1,4 @@
+#include "nw_i0_plot"
 #include "_btb_util"
 #include "_btb_moonwellcon"
 #include "_btb_moonwelluti"
@@ -6,12 +7,33 @@
 #include "_btb_moonwellint"
 #include "_btb_moonwelllea"
 
+// Returns the nearest object that can be seen, then checks for the nearest heard target.
+object GetNearestSeenOrHeardEnemy(object perceiver)
+{
+    object oTarget = GetNearestCreature(CREATURE_TYPE_REPUTATION,
+                                        REPUTATION_TYPE_ENEMY, perceiver, 1,
+                                        CREATURE_TYPE_PERCEPTION,
+                                        PERCEPTION_SEEN);
+    if(!GetIsObjectValid(oTarget))
+    {
+        oTarget = GetNearestCreature(CREATURE_TYPE_REPUTATION,
+                                     REPUTATION_TYPE_ENEMY, perceiver, 1,
+                                     CREATURE_TYPE_PERCEPTION,
+                                     PERCEPTION_HEARD_AND_NOT_SEEN);
+        if(!GetIsObjectValid(oTarget))
+        {
+           return OBJECT_INVALID;
+        }
+    }
+    return oTarget;
+}
+
 /**
  *  Check if no PCs in area if there are none clean up.
  */
 int checkCleanUp(object obHbObj, object highDruid, object Druid01,
                   object Druid02, object Druid03, object Druid04,
-                  object light) {
+                  object light, int state) {
 
     object firstPCInArea = GetFirstPCInArea(GetArea(obHbObj));
     if(firstPCInArea == OBJECT_INVALID) {
@@ -26,6 +48,31 @@ int checkCleanUp(object obHbObj, object highDruid, object Druid01,
         DestroyObject(obHbObj, 1.1);
         WriteTimestampedLogEntry("No PCs in the area tearing everything down.");
         return TRUE;
+    }
+
+    if(state == ATTACKING_STATE) {
+        object enemy = GetNearestSeenOrHeardEnemy(highDruid);
+        if(enemy == OBJECT_INVALID) {
+            enemy = GetNearestSeenOrHeardEnemy(Druid01);
+        } else if(enemy == OBJECT_INVALID) {
+            enemy = GetNearestSeenOrHeardEnemy(Druid02);
+        } else if(enemy == OBJECT_INVALID) {
+            enemy = GetNearestSeenOrHeardEnemy(Druid03);
+        } else if(enemy == OBJECT_INVALID) {
+            enemy = GetNearestSeenOrHeardEnemy(Druid04);
+        }
+
+        // No enemies Seen.
+        if(enemy == OBJECT_INVALID) {
+            int enemyNotSeenIn = GetLocalInt(OBJECT_SELF, "enemyNotSeenIn");
+            if(enemyNotSeenIn > 3) {
+                SetLocalInt(OBJECT_SELF, "state", LEAVING_STATE);
+            } else {
+                SetLocalInt(OBJECT_SELF, "enemyNotSeenIn", enemyNotSeenIn + 1);
+            }
+        } else {
+            SetLocalInt(OBJECT_SELF, "enemyNotSeenIn", 0);
+        }
     }
 
     return FALSE;
@@ -55,7 +102,8 @@ void main()
     }
 
     // check if we need to clean things up.
-    if(checkCleanUp(obHbObj,highDruid,Druid01,Druid02,Druid03,Druid04,light)) {
+    if(checkCleanUp(obHbObj, highDruid, Druid01, Druid02, Druid03, Druid04,
+                    light, state)) {
         return;
     }
 
