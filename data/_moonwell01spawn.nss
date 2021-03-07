@@ -1,4 +1,4 @@
- #include "_moonwell01const"
+ #include "_btb_moonwellcon"
 #include "_btb_util"
 
 void moonwellSpawn(object oPC, object obHbObj) {

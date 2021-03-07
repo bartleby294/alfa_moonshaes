@@ -35,11 +35,12 @@ int DestroyWings(object curItem, int batwingsDestroyed, int batWingsTurnIn) {
 void main() {
 
     int i;
+    int batWingsPerSalve = 4;
     object oPC = GetPCSpeaker();
     int itemCnt = GetNumItems(oPC, sItemTag);
-    int remainder = itemCnt % 5;
+    int remainder = itemCnt % batWingsPerSalve;
     int batWingsTurnIn = itemCnt - remainder;
-    int healingSalves = batWingsTurnIn / 5;
+    int healingSalves = batWingsTurnIn / batWingsPerSalve;
 
     // Log the player and the payout.
     if(batWingsTurnIn > 0) {

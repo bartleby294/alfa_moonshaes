@@ -1,4 +1,5 @@
 #include "_btb_util"
+#include "nwnx_visibility"
 
 void ShutOffHeartbeat() {
     // If the area is still empty shut down heartbeat.
@@ -9,6 +10,17 @@ void ShutOffHeartbeat() {
         SetEventScript(OBJECT_SELF, EVENT_SCRIPT_AREA_ON_HEARTBEAT, "");
     }
     return;
+}
+
+void setVisibleObjets(object oPC) {
+    int i = 1;
+    object visibilObject = GetNearestObjectByTag("visableScenery", oPC, i);
+    while(visibilObject != OBJECT_INVALID) {
+        NWNX_Visibility_SetVisibilityOverride(oPC, visibilObject,
+                                              NWNX_VISIBILITY_DEFAULT);
+        i++;
+        visibilObject = GetNearestObjectByTag("visableScenery", oPC, i);
+    }
 }
 
 void main()
@@ -26,6 +38,8 @@ void main()
     if(GetFirstPCInArea(GetArea(OBJECT_SELF)) == OBJECT_INVALID) {
         DelayCommand(540.00, ShutOffHeartbeat());
     }
+
+    setVisibleObjets(oPC);
 
     return;
 }

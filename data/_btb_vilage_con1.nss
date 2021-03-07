@@ -50,6 +50,10 @@ void InitalizeCounts() {
 
 int RandomTavern(int tavernCnt) {
 
+    if(tavernCnt == 0) {
+        return 0;
+    }
+
     int tavernToHome = Random(10);
     if(GetIsNight() == TRUE) {
         tavernToHome = Random(20);
@@ -62,21 +66,21 @@ int RandomTavern(int tavernCnt) {
 }
 
 void SpawnVillager(int homesCnt, int cropsCnt,int marketCnt,
-                   int tavernCnt, int waterCnt, int villagerCnt) {
+                   int tavernCnt, int waterCnt, int villagerCnt,
+                   int jumpToActionWP) {
 
     WriteTimestampedLogEntry("Village: Spawning");
     string villagerResRef = SelectVillager();
     int randomHome = Random(homesCnt) + 1;
     int randomTavern = RandomTavern(tavernCnt);
 
-    if(randomTavern == 0) {
+    if(randomTavern == FALSE) {
         object spawnLoc = GetNearestObjectByTag(HOME, OBJECT_SELF, randomHome);
         object villager = CreateObject(OBJECT_TYPE_CREATURE,
                                        villagerResRef,
                                        GetLocation(spawnLoc),
                                        FALSE,
                                        VILLAGER_TAG);
-        AssignCommand(villager, PlaySound("as_dr_woodmedop1"));
         SetLocalObject(villager, HOME, spawnLoc);
         int isFemale = GetGender(villager);
         ChooseVillagerAction(isFemale, cropsCnt, marketCnt, tavernCnt,
@@ -86,6 +90,13 @@ void SpawnVillager(int homesCnt, int cropsCnt,int marketCnt,
         SetEventScript(villager,
                        EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
                        "_btb_villag_onhb");
+
+        if(jumpToActionWP == TRUE) {
+            object wp = GetLocalObject(villager, ACTION_WP);
+            AssignCommand(villager, ActionJumpToObject(wp));
+        } else {
+            AssignCommand(villager, PlaySound("as_dr_woodmedop1"));
+        }
     } else {
         object spawnLoc =GetNearestObjectByTag(TAVERN,OBJECT_SELF,randomTavern);
         object homeLoc = GetNearestObjectByTag(HOME, OBJECT_SELF, randomHome);
@@ -147,7 +158,7 @@ void main() {
     if(isInitalized == FALSE) {
         while( i < homesCnt/2) {
             SpawnVillager(homesCnt, cropsCnt, marketCnt, tavernCnt, waterCnt,
-                          villagerCnt);
+                          villagerCnt, TRUE);
             i++;
         }
         return;
@@ -170,6 +181,6 @@ void main() {
                              + ")");
     if(chance > FloatToInt(celing)) {
         SpawnVillager(homesCnt, cropsCnt, marketCnt, tavernCnt, waterCnt,
-                      villagerCnt);
+                      villagerCnt, FALSE);
     }
 }
