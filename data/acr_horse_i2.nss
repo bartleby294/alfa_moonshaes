@@ -230,8 +230,10 @@ void _DoBridleOnExit(object oPC, object oItem);
 void ALFA_OnActivateHorseItem2() {
     object oItem = GetItemActivated();
     object oPC = GetItemActivator();
-    string sResRef = "msplayerhorse_03";//GetLocalString(oItem, _HORSE_RESREF_LS);
-    object oHorse = OBJECT_INVALID; //GetLocalObject(oItem, _SUMMONED_HORSE_LO);
+    //string sResRef = "msplayerhorse_03";//GetLocalString(oItem, _HORSE_RESREF_LS);
+    string sResRef = "ms" + GetLocalString(oItem, _HORSE_RESREF_LS);
+    //object oHorse = OBJECT_INVALID; //GetLocalObject(oItem, _SUMMONED_HORSE_LO);
+    object oHorse = GetLocalObject(oItem, _SUMMONED_HORSE_LO);
     object oLastBridle = GetLocalObject(oPC, _MOUNTED_HORSE_ITEM_LO);
 
     FloatingTextStringOnCreature("IN CUSTOM SCRIPT!!!", oPC, FALSE);
@@ -402,11 +404,11 @@ void ALFA_MountHorse(object oPC, object oHorse) {
     int nPhenotype = 0;
     if(GetPhenoType(oPC) == 0){
         if(GetLocalInt(oItem, _IS_WARHORSE) == 1) nPhenotype = 6;
-        else nPhenotype = 9;
+        else nPhenotype = 3;
     }
     if(GetPhenoType(oPC) == 2){
         if(GetLocalInt(oItem, _IS_WARHORSE) == 1) nPhenotype = 8;
-        else nPhenotype = 5;
+        else nPhenotype = 6;
     }
     WriteTimestampedLogEntry("nPhenotype: " + IntToString(nPhenotype));
     if(nPhenotype) {
