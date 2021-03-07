@@ -619,7 +619,8 @@ void ALFA_PickUpHorse(object oPC, object oHorse) {
 
 // Self-explanatory.
 int ALFA_GetIsMounted(object oPC) {
-    return GetPhenoType(oPC) > 4;
+    int pheno = GetPhenoType(oPC);
+    return (pheno == 3 || pheno == 5 || pheno == 6 || pheno == 8);
 }
 
 void ALFA_HorseOnAcquireItem() {
