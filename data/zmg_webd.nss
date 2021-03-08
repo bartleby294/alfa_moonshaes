@@ -11,7 +11,7 @@ void main()
     object secondWeb = GetNearestObjectByTag("destroyspiderweb", OBJECT_SELF, cnt);
     while(secondWeb != OBJECT_INVALID) {
         cnt++;
-        if(GetDistanceBetween(OBJECT_SELF, secondWeb) < 1.5) {
+        if(GetDistanceBetween(OBJECT_SELF, secondWeb) < 3.0) {
             DestroyObject(secondWeb);
         }
         GetNearestObjectByTag("destroyspiderweb", OBJECT_SELF, cnt);
@@ -22,7 +22,7 @@ void main()
     object solidObject = GetNearestObjectByTag("invisspiderblock", OBJECT_SELF, cnt);
     while(solidObject != OBJECT_INVALID) {
         cnt++;
-        if(GetDistanceBetween(OBJECT_SELF, solidObject) < 1.5) {
+        if(GetDistanceBetween(OBJECT_SELF, solidObject) < 3.0) {
             DestroyObject(solidObject);
         }
         GetNearestObjectByTag("invisspiderblock", OBJECT_SELF, cnt);
