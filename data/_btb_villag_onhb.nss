@@ -164,11 +164,15 @@ void main()
     // If we are stuck move us to a random position to unstuck
     } else if(GetDistanceBetweenLocations(curLoc, lastKnownLoc) < 3.0) {
         if(turnsStuck > 2) {
-            ActionMoveToLocation(pickLoc(OBJECT_SELF, IntToFloat(Random(4)),
-                                         IntToFloat(Random(360))));
+            ClearAllActions();
+
             // Go home
             if(d2() == 1) {
                 SetLocalObject(OBJECT_SELF, ACTION_WP, spawnLoc);
+            } else {
+                ActionMoveToLocation(pickLoc(OBJECT_SELF,
+                                             IntToFloat(Random(10)),
+                                             IntToFloat(Random(360))));
             }
         } else {
             SetLocalInt(OBJECT_SELF, TURNS_STUCK, turnsStuck + 1);

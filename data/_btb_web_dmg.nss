@@ -1,4 +1,5 @@
 #include "x2_i0_spells"
+#include "_btb_spider_sp1"
 
 void main()
 {
@@ -60,5 +61,10 @@ void main()
         WriteTimestampedLogEntry("WEB: Damage healed: "
                                  + IntToString(restorAmt));
         SendMessageToPC(oPC, "That did seem to have much of an effect.");
+
+   }
+
+    if(Random(2) == 1) {
+        spawnSpiders(d2(), OBJECT_SELF);
     }
 }
