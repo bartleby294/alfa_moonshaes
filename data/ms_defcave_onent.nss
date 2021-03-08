@@ -47,7 +47,7 @@ void BuildNewWebs() {
     while(curWeb != OBJECT_INVALID) {
          cnt++;
          WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building a blocker");
-         CreateObject(OBJECT_TYPE_PLACEABLE, "destroyspiderweb",
+         CreateObject(OBJECT_TYPE_PLACEABLE, "invisspiderblock",
                       GetLocation(curWeb));
          curWeb = GetNearestObjectByTag("invisspiderblockwp", baseObj, cnt);
     }
