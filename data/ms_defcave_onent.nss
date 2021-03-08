@@ -75,7 +75,16 @@ void main()
     // check to see the last time spider webs were destoryed.  If time has
     // elapsed tear any existing webs down and put up new ones.
     int lastDestoryed = GetLocalInt(oArea, "lastSpiderWebDestroy");
-    if(NWNX_Time_GetTimeStamp() - lastDestoryed > SPIDER_WEB_DELAY_SECONDS) {
+    int curTime = NWNX_Time_GetTimeStamp();
+    WriteTimestampedLogEntry("curTime : " + IntToString(curTime)
+                             + " - lastDestoryed: " + IntToString(lastDestoryed)
+                             +" > SPIDER_WEB_DELAY_SECONDS: "
+                             + IntToString(SPIDER_WEB_DELAY_SECONDS));
+    WriteTimestampedLogEntry("curTime  - lastDestoryed: "
+                             + IntToString(curTime - lastDestoryed)
+                             +" > SPIDER_WEB_DELAY_SECONDS: "
+                             + IntToString(SPIDER_WEB_DELAY_SECONDS));
+    if(curTime - lastDestoryed > SPIDER_WEB_DELAY_SECONDS) {
         SetLocalInt(oArea, "processingWebs", TRUE);
         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Tearing down webs");
         TearWebsDown();
