@@ -3,18 +3,32 @@
 
 void main()
 {
+    // Spawn spiders to react to their web being disturbed.
     spawnSpiders(d2() + 2, OBJECT_SELF);
-    object secondWeb = GetNearestObjectByTag("destroyspiderweb");
-    object solidObject = GetNearestObjectByTag("invisspiderblock");
 
-    if(GetDistanceBetween(OBJECT_SELF, secondWeb) < 2.0) {
-        DestroyObject(secondWeb);
+    // Destroy all webs with in range destroying this one represnts destroying the group
+    int cnt = 1;
+    object secondWeb = GetNearestObjectByTag("destroyspiderweb", OBJECT_SELF, cnt);
+    while(secondWeb != OBJECT_INVALID) {
+        cnt++;
+        if(GetDistanceBetween(OBJECT_SELF, secondWeb) < 1.5) {
+            DestroyObject(secondWeb);
+        }
+        GetNearestObjectByTag("destroyspiderweb", OBJECT_SELF, cnt);
     }
 
-    if(GetDistanceBetween(OBJECT_SELF, solidObject) < 2.0) {
-        DestroyObject(solidObject);
+    // Remove the blocker as the webs are gone.
+    cnt = 1;
+    object solidObject = GetNearestObjectByTag("invisspiderblock", OBJECT_SELF, cnt);
+    while(solidObject != OBJECT_INVALID) {
+        cnt++;
+        if(GetDistanceBetween(OBJECT_SELF, solidObject) < 1.5) {
+            DestroyObject(solidObject);
+        }
+        GetNearestObjectByTag("invisspiderblock", OBJECT_SELF, cnt);
     }
 
+    // Track the last time a web was destoryed in the area.
     SetLocalInt(GetArea(OBJECT_SELF),
         "lastSpiderWebDestroy", NWNX_Time_GetTimeStamp());
 }

@@ -12,7 +12,7 @@ void TearWebsDown() {
     while(curWeb != OBJECT_INVALID) {
          cnt++;
          WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Destroying a web");
-         DestroyObject(curWeb, 1.0);
+         DestroyObject(curWeb);
          curWeb = GetNearestObjectByTag("destroyspiderweb", baseObj, cnt);
     }
 
@@ -22,7 +22,7 @@ void TearWebsDown() {
     while(curWeb != OBJECT_INVALID) {
          cnt++;
          WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Destroying a blocker");
-         DestroyObject(curWeb, 1.0);
+         DestroyObject(curWeb);
          curWeb = GetNearestObjectByTag("invisspiderblock", baseObj, cnt);
     }
 }
@@ -36,8 +36,10 @@ void BuildNewWebs() {
     while(curWeb != OBJECT_INVALID) {
          cnt++;
          WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building a web");
-         CreateObject(OBJECT_TYPE_PLACEABLE, "destroyspiderweb",
-                      GetLocation(curWeb));
+         float scale = StringToFloat(GetName(curWeb));
+         object web = CreateObject(OBJECT_TYPE_PLACEABLE, "destroyspiderweb",
+                                    GetLocation(curWeb));
+         SetObjectVisualTransform(web , OBJECT_VISUAL_TRANSFORM_SCALE, scale);
          curWeb = GetNearestObjectByTag("destroyspiderwebwp", baseObj, cnt);
     }
 
