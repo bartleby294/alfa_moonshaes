@@ -15,7 +15,7 @@ void main()
             WriteTimestampedLogEntry("DESTROY WEBS: Destroying a web - cnt:" + IntToString(cnt));
             DestroyObject(secondWeb, 1.0);
         }
-        GetNearestObjectByTag("destroyspiderweb", OBJECT_SELF, cnt);
+        secondWeb = GetNearestObjectByTag("destroyspiderweb", OBJECT_SELF, cnt);
     }
 
     // Remove the blocker as the webs are gone.
@@ -27,7 +27,7 @@ void main()
             WriteTimestampedLogEntry("DESTROY WEBS: Destroying invis - cnt:" + IntToString(cnt));
             DestroyObject(solidObject, 1.0);
         }
-        GetNearestObjectByTag("invisspiderblock", OBJECT_SELF, cnt);
+        solidObject = GetNearestObjectByTag("invisspiderblock", OBJECT_SELF, cnt);
     }
 
     // Track the last time a web was destoryed in the area.
