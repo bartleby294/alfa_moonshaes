@@ -1,4 +1,5 @@
 #include "_btb_spider_sp1"
+#include "nwnx_time"
 
 void main()
 {
@@ -13,4 +14,7 @@ void main()
     if(GetDistanceBetween(OBJECT_SELF, solidObject) < 2.0) {
         DestroyObject(solidObject);
     }
+
+    SetLocalInt(GetArea(OBJECT_SELF),
+        "lastSpiderWebDestroy", NWNX_Time_GetTimeStamp());
 }
