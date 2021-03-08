@@ -1,7 +1,7 @@
 #include "nwnx_time"
 #include "nwnx_area"
 
-int SPIDER_WEB_DELAY_SECONDS = 120000; // 120 second
+int SPIDER_WEB_DELAY_SECONDS = 120; // 120 seconds
 
 void TearWebsDown() {
     int cnt = 1;
