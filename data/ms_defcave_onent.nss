@@ -11,6 +11,7 @@ void TearWebsDown() {
     object curWeb = GetNearestObjectByTag("destroyspiderweb", baseObj, cnt);
     while(curWeb != OBJECT_INVALID) {
          cnt++;
+         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Destroying a web");
          DestroyObject(curWeb, 1.0);
          curWeb = GetNearestObjectByTag("destroyspiderweb", baseObj, cnt);
     }
@@ -20,6 +21,7 @@ void TearWebsDown() {
     curWeb = GetNearestObjectByTag("invisspiderblock", baseObj, cnt);
     while(curWeb != OBJECT_INVALID) {
          cnt++;
+         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Destroying a blocker");
          DestroyObject(curWeb, 1.0);
          curWeb = GetNearestObjectByTag("invisspiderblock", baseObj, cnt);
     }
@@ -29,20 +31,22 @@ void BuildNewWebs() {
     int cnt = 1;
     object baseObj = GetObjectByTag("defiledCavernSpiderUniqueTag");
 
-    // Clean up any old webs.
+    // Build new webs.
     object curWeb = GetNearestObjectByTag("destroyspiderwebwp", baseObj, cnt);
     while(curWeb != OBJECT_INVALID) {
          cnt++;
+         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building a web");
          CreateObject(OBJECT_TYPE_PLACEABLE, "destroyspiderweb",
                       GetLocation(curWeb));
          curWeb = GetNearestObjectByTag("destroyspiderwebwp", baseObj, cnt);
     }
 
-    // Clean up any old blockers.
+    // Build new blockers.
     cnt = 1;
     curWeb = GetNearestObjectByTag("invisspiderblockwp", baseObj, cnt);
     while(curWeb != OBJECT_INVALID) {
          cnt++;
+         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building a blocker");
          CreateObject(OBJECT_TYPE_PLACEABLE, "destroyspiderweb",
                       GetLocation(curWeb));
          curWeb = GetNearestObjectByTag("invisspiderblockwp", baseObj, cnt);
@@ -54,8 +58,11 @@ void main()
     object oArea = GetArea(OBJECT_SELF);
     ExecuteScript("ms_on_area_enter", oArea);
 
+    WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Numer of Players: "
+                             + IntToString(NWNX_Area_GetNumberOfPlayersInArea(oArea)));
     // if players are in the area dont change spider state
-    if(NWNX_Area_GetNumberOfPlayersInArea(oArea) > 0) {
+    if(NWNX_Area_GetNumberOfPlayersInArea(oArea) > 1) {
+        WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: EXIT 1");
         return;
     }
 
@@ -63,7 +70,9 @@ void main()
     // elapsed tear any existing webs down and put up new ones.
     int lastDestoryed = GetLocalInt(oArea, "lastSpiderWebDestroy");
     if(NWNX_Time_GetTimeStamp() - lastDestoryed > SPIDER_WEB_DELAY_SECONDS) {
+        WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Tearing down webs");
         TearWebsDown();
+        WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building webs");
         BuildNewWebs();
     }
 
