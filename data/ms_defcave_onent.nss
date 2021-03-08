@@ -58,6 +58,11 @@ void BuildNewWebs() {
 void main()
 {
     object oArea = GetArea(OBJECT_SELF);
+    object oPC = GetEnteringObject();
+
+    if(GetIsPC(oPC) == FALSE) {
+        return;
+    }
 
     WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Numer of Players: "
                              + IntToString(NWNX_Area_GetNumberOfPlayersInArea(oArea)));
@@ -70,9 +75,7 @@ void main()
     // check to see the last time spider webs were destoryed.  If time has
     // elapsed tear any existing webs down and put up new ones.
     int lastDestoryed = GetLocalInt(oArea, "lastSpiderWebDestroy");
-    int processingWebs = GetLocalInt(oArea, "processingWebs");
-    if(NWNX_Time_GetTimeStamp() - lastDestoryed > SPIDER_WEB_DELAY_SECONDS &&
-        processingWebs == FALSE) {
+    if(NWNX_Time_GetTimeStamp() - lastDestoryed > SPIDER_WEB_DELAY_SECONDS) {
         SetLocalInt(oArea, "processingWebs", TRUE);
         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Tearing down webs");
         TearWebsDown();
@@ -80,6 +83,5 @@ void main()
         DelayCommand(0.5, BuildNewWebs());
     }
 
-    //ExecuteScript("ms_on_area_enter", oArea);
-    SetLocalInt(oArea, "processingWebs", FALSE);
+    ExecuteScript("ms_on_area_enter", oArea);
 }
