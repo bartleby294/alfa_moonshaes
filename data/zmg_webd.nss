@@ -12,6 +12,7 @@ void main()
     while(secondWeb != OBJECT_INVALID) {
         cnt++;
         if(GetDistanceBetween(OBJECT_SELF, secondWeb) < 3.0) {
+            WriteTimestampedLogEntry("DESTROY WEBS: Destroying a web - cnt:" + IntToString(cnt));
             DestroyObject(secondWeb);
         }
         GetNearestObjectByTag("destroyspiderweb", OBJECT_SELF, cnt);
@@ -23,6 +24,7 @@ void main()
     while(solidObject != OBJECT_INVALID) {
         cnt++;
         if(GetDistanceBetween(OBJECT_SELF, solidObject) < 3.0) {
+            WriteTimestampedLogEntry("DESTROY WEBS: Destroying invis - cnt:" + IntToString(cnt));
             DestroyObject(solidObject);
         }
         GetNearestObjectByTag("invisspiderblock", OBJECT_SELF, cnt);

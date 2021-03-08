@@ -77,7 +77,7 @@ void main()
         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Tearing down webs");
         TearWebsDown();
         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building webs");
-        BuildNewWebs();
+        DelayCommand(0.5, BuildNewWebs());
     }
 
     //ExecuteScript("ms_on_area_enter", oArea);
