@@ -80,6 +80,6 @@ void main()
         BuildNewWebs();
     }
 
-    ExecuteScript("ms_on_area_enter", oArea);
+    //ExecuteScript("ms_on_area_enter", oArea);
     SetLocalInt(oArea, "processingWebs", FALSE);
 }
