@@ -11,7 +11,7 @@ void TearWebsDown() {
     object curWeb = GetNearestObjectByTag("destroyspiderweb", baseObj, cnt);
     while(curWeb != OBJECT_INVALID) {
          cnt++;
-         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Destroying a web");
+         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Destroying a web - cnt:" + IntToString(cnt));
          DestroyObject(curWeb);
          curWeb = GetNearestObjectByTag("destroyspiderweb", baseObj, cnt);
     }
@@ -21,7 +21,7 @@ void TearWebsDown() {
     curWeb = GetNearestObjectByTag("invisspiderblock", baseObj, cnt);
     while(curWeb != OBJECT_INVALID) {
          cnt++;
-         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Destroying a blocker");
+         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Destroying a blocker - cnt:" + IntToString(cnt));
          DestroyObject(curWeb);
          curWeb = GetNearestObjectByTag("invisspiderblock", baseObj, cnt);
     }
@@ -35,7 +35,7 @@ void BuildNewWebs() {
     object curWeb = GetNearestObjectByTag("destroyspiderwebwp", baseObj, cnt);
     while(curWeb != OBJECT_INVALID) {
          cnt++;
-         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building a web");
+         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building a web - cnt:" + IntToString(cnt));
          float scale = StringToFloat(GetName(curWeb));
          object web = CreateObject(OBJECT_TYPE_PLACEABLE, "destroyspiderweb",
                                     GetLocation(curWeb));
@@ -48,7 +48,7 @@ void BuildNewWebs() {
     curWeb = GetNearestObjectByTag("invisspiderblockwp", baseObj, cnt);
     while(curWeb != OBJECT_INVALID) {
          cnt++;
-         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building a blocker");
+         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building a blocker - cnt:" + IntToString(cnt));
          CreateObject(OBJECT_TYPE_PLACEABLE, "invisspiderblock",
                       GetLocation(curWeb));
          curWeb = GetNearestObjectByTag("invisspiderblockwp", baseObj, cnt);
@@ -58,7 +58,6 @@ void BuildNewWebs() {
 void main()
 {
     object oArea = GetArea(OBJECT_SELF);
-    ExecuteScript("ms_on_area_enter", oArea);
 
     WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Numer of Players: "
                              + IntToString(NWNX_Area_GetNumberOfPlayersInArea(oArea)));
@@ -71,12 +70,16 @@ void main()
     // check to see the last time spider webs were destoryed.  If time has
     // elapsed tear any existing webs down and put up new ones.
     int lastDestoryed = GetLocalInt(oArea, "lastSpiderWebDestroy");
-    if(NWNX_Time_GetTimeStamp() - lastDestoryed > SPIDER_WEB_DELAY_SECONDS) {
+    int processingWebs = GetLocalInt(oArea, "processingWebs");
+    if(NWNX_Time_GetTimeStamp() - lastDestoryed > SPIDER_WEB_DELAY_SECONDS &&
+        processingWebs == FALSE) {
+        SetLocalInt(oArea, "processingWebs", TRUE);
         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Tearing down webs");
         TearWebsDown();
         WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building webs");
         BuildNewWebs();
     }
 
-
+    ExecuteScript("ms_on_area_enter", oArea);
+    SetLocalInt(oArea, "processingWebs", FALSE);
 }
