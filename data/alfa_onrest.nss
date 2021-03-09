@@ -15,11 +15,19 @@
 #include "nwnx_player"
 #include "nwnx_consts"
 
+void SetRestAnimation() {
+    object oPC = GetLastPCRested();
+    int sleepStyle = GetLocalInt(OBJECT_SELF, "sleep_style");
+    if(sleepStyle == 0) {
+        sleepStyle =
+            NWNX_Consts_TranslateNWScriptAnimation(ANIMATION_LOOPING_DEAD_BACK);
+    }
+    NWNX_Player_SetRestAnimation(oPC, sleepStyle);
+}
+
 void main()
 {
-    object oPC = GetLastPCRested();
-    NWNX_Player_SetRestAnimation(oPC,
-        NWNX_Consts_TranslateNWScriptAnimation(ANIMATION_LOOPING_DEAD_BACK));
+    SetRestAnimation();
     ALFA_OnRest();
 
     /**************** Add Custom Code Here ***************/
