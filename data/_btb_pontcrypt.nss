@@ -1,3 +1,8 @@
+//Bartleby's random loot scripts
+//parameters of 'generateLootByChance' are as follows:
+//generateLootByChance(GPVALUEOFCHEST, OBJECTFORLOOT, DIFFICULTYLEVELOFLOOT, %GOLDCHANCE,
+//%POTIONSCHANCE, %ARMOR CHANCE, %GEMSCHANCE, %JEWELRYCHANCE, %WEAPONSCHANCE)
+
 #include "_btb_random_loot"
 
 void main() {
@@ -7,5 +12,5 @@ void main() {
      }
      SetLocalInt(OBJECT_SELF, "lootgenyet", TRUE);
 
-)
+}
 
