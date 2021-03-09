@@ -17,7 +17,7 @@
 
 void SetRestAnimation() {
     object oPC = GetLastPCRested();
-    int sleepStyle = GetLocalInt(OBJECT_SELF, "sleep_style");
+    int sleepStyle = GetLocalInt(oPC, "sleep_style");
     if(sleepStyle == 0) {
         sleepStyle =
             NWNX_Consts_TranslateNWScriptAnimation(ANIMATION_LOOPING_DEAD_BACK);

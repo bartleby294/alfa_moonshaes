@@ -3,6 +3,6 @@
 void main()
 {
     // Sitting
-    SetLocalInt(OBJECT_SELF, "sleep_style",
+    SetLocalInt(GetPCSpeaker(), "sleep_style",
         NWNX_Consts_TranslateNWScriptAnimation(ANIMATION_LOOPING_SIT_CROSS));
 }
