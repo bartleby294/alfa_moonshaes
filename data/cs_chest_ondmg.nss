@@ -1,6 +1,0 @@
-//chest OnDamaged
-
-void main()
-{
-
-}
