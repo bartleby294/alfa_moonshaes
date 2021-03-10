@@ -1363,12 +1363,10 @@ SendMessageToPC(oPC, "Roll: "+ IntToString(iRoll) + ", Skill: " + IntToString(iS
 
 if(iRoll == 1 || (iRoll + iSkill < iDC)){
   SendMessageToPC(oPC, "Failure! ");
-  GiveXPToCreature(oPC, GetSkillRank(SKILL_CRAFT_WEAPON, oPC, TRUE));
   CleanItems();
   if(d20() == 1 || (iRoll + iSkill <= iDC - 10)){
     SendMessageToPC(oPC, "Critical Failure! ");
     DestroyObject(oWeapon);
-    GiveXPToCreature(oPC, GetSkillRank(SKILL_CRAFT_WEAPON, oPC, TRUE) * 10);
   }
 }
 else{

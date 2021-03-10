@@ -76,6 +76,7 @@
 
 // This is required for all spawn in options!
 #include "J_INC_SPAWNIN"
+#include "ms_xp_util"
 
 void main()
 {
@@ -481,7 +482,7 @@ void main()
 
     // This is REQUIRED if we use any Pre-events. If not there, it will default
     // to the default User Defined Event script for the default AI.
-    SetCustomUDEFileName("jc_skell_ude");
+    //SetCustomUDEFileName("jc_skell_ude");
 
     //SetSpawnInCondition(AI_FLAG_UDE_HEARTBEAT_EVENT, AI_UDE_MASTER);             // UDE 1001
     //SetSpawnInCondition(AI_FLAG_UDE_HEARTBEAT_PRE_EVENT, AI_UDE_MASTER);         // UDE 1021
@@ -616,6 +617,7 @@ void main()
 ************************* [User] **********************************************/
     // Example (and default) of user addition:
     // - If we are from an encounter, set mobile (move around) animations.
+    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);

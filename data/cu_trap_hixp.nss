@@ -4,6 +4,8 @@
 #include "CU_FUNCTIONS"
 #include "nw_i0_tool"
 #include "sos_include"
+#include "_btb_util"
+#include "ms_xp_util"
 
 void main()
 {
@@ -15,7 +17,7 @@ void main()
         {nTrapXPGain = 10;}
     if (nOnce==FALSE)                //If not given XP before for disarming this trap, then run the routine now
     {
-    GiveXPToCreature (GetLastDisarmed(), nTrapXPGain*2); // Give XP (nTrapXPGain) to disarming PC (in this case doubled as hard trap).
+    GiveAndLogXP(GetLastDisarmed(), nTrapXPGain*2, "TRAP DISARM", "for disarming a trap.");
     FloatingTextStringOnCreature("XP Gained - use of skill",GetLastDisarmed()); //Inform PC of XP for use of skill
     PartyGotEntry(sTrapName,oPC,nTrapXPGain/2, "XP gain - trap disarmed");  //Reward whole party TrapXPGain/2 for trap removal, tell all party members what XP is for, and set the variable so the XP cannot be gained again for this trap.
     }

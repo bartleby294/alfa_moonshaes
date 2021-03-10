@@ -5,13 +5,15 @@
 //:: Created By: Script Wizard
 //:: Created On: 2
 //:://////////////////////////////////////////////
+#include "ms_xp_util"
+
 void main()
 {
     // Give the speaker some gold
     GiveGoldToCreature(GetPCSpeaker(), 20);
 
     // Give the speaker some XP
-    GiveXPToCreature(GetPCSpeaker(), 20);
+    GiveAndLogXP(GetPCSpeaker(), 20, "ELSWRTH LTR2", "dlg_elswrth_ltr2.");
 
     // Remove items from the player's inventory
     object oItemToTake;

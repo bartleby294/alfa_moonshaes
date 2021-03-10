@@ -19,6 +19,7 @@ const int DAMAGE_WE_DONT_LIKE = DAMAGE_TYPE_SONIC;
 #include "j_inc_other_ai"
 //  This contains some useful things to get NPC's to attack and so on.
 #include "j_inc_npc_attack"
+#include "ms_xp_util"
 
 void main()
 {
@@ -37,7 +38,8 @@ void main()
                 effect eDeath = EffectDeath(TRUE);
                 object oDamager = GetLastDamager();
                 // As it kills oursleves, we award XP to the damager 50 x Hit Dice.
-                GiveXPToCreature(oDamager, 50 * GetHitDice(OBJECT_SELF));
+                GiveAndLogXP(oDamager, 50 * GetHitDice(OBJECT_SELF),
+                             "DAMDIE", "for j_ude_damdie.");
                 // Set ignore so to not be raised
                 SetIgnore(OBJECT_SELF);
                 // Finally apply death

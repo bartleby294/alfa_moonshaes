@@ -61,12 +61,12 @@ const int PFP_PERMANENT_DEATH = 1;
 const int gALFA_LOCATION_SAVE_TIMER = TRUE;
 
 // Auto Char Location Save Interval (seconds)
-const float gALFA_LOCATION_SAVE_INTERVAL  = 45.0;
+const float gALFA_LOCATION_SAVE_INTERVAL  = 30.0;
 
 // Display text to the PC that their location has been saved.
 const int gALFA_LOCATION_SAVE_DISPLAYTEXT = FALSE;
 
-const int gALFA_SAVE_DM_LOC = FALSE;
+const int gALFA_SAVE_DM_LOC = TRUE;
 
 const int gALFA_MODULE_HAS_UNIQUE_AREA_TAGS = FALSE;
 
@@ -96,10 +96,10 @@ const int gALFA_TIME_YEAR = 1373;
 
  // ALFA Gobal Weather variables
 const int ALFA_WEATHER_CHANCE_AREA_DEFAULT = 0;
-const int ALFA_WEATHER_CHANCE_OVERCAST = 20;
+const int ALFA_WEATHER_CHANCE_OVERCAST = 30;
 const int ALFA_WEATHER_CHANCE_RAINY = 50;
 const int ALFA_WEATHER_CHANCE_STORMY = 10;
-const int ALFA_WEATHER_CHANCE_SNOW = 80;
+const int ALFA_WEATHER_CHANCE_SNOW = 10;
 const int ALFA_WEATHER_CLEAR_SKYBOX = SKYBOX_WINTER_CLEAR;
 const int ALFA_WEATHER_RAIN_SKYBOX = SKYBOX_GRASS_STORM;
 const int ALFA_WEATHER_SNOW_SKYBOX = SKYBOX_GRASS_STORM;

@@ -1,5 +1,7 @@
 #include "nw_i0_plot"
 #include "_btb_util"
+#include "ms_xp_util"
+
 
 string sItemTag = "BatWing";
 
@@ -62,7 +64,8 @@ void main() {
     }
 
     for (i = 0; i < (batWingsTurnIn); i++) {
-        GiveXPToCreature(oPC, getXpToGive(getXPForLevel(GetXP(oPC))));
+        GiveAndLogXP(oPC, getXpToGive(getXPForLevel(GetXP(oPC))),
+                     "BAT WING HAND IN", "for handing in bat wings.");
     }
 
     for (i = 0; i < (healingSalves); i++) {

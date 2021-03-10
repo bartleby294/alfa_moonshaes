@@ -4,6 +4,7 @@
 #include "alfa_include"
 #include "spawn_functions"
 #include "x2_inc_toollib"
+#include "ms_xp_util"
 //    Purpose:
 //    Prevent a bug in NWN that causes shadow artifacts
 //    and odd shadow behavior when transitioning with a light

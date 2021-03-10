@@ -1,5 +1,6 @@
 #include "nw_i0_plot"
 #include "_btb_util"
+#include "ms_xp_util"
 
 string sItemTag = "CopperBanditRing";
 
@@ -34,7 +35,8 @@ void main() {
 
     for (i = 0; i < (itemCnt); i++) {
         GiveGoldToCreature(oPC, 5);
-        GiveXPToCreature(oPC, getXpToGive(getXPForLevel(GetXP(oPC))));
+        GiveAndLogXP(oPC, getXpToGive(getXPForLevel(GetXP(oPC))),
+                     "BANDIT REWARD", "for handing in bandit rings.");
     }
 
     // Remove all the objects

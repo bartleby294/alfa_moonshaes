@@ -76,6 +76,8 @@
 
 // This is required for all spawn in options!
 #include "J_INC_SPAWNIN"
+#include "ms_xp_util"
+
 //#include "j_inc_constants"
 
 void main()
@@ -483,7 +485,7 @@ void main()
 
     // This is REQUIRED if we use any Pre-events. If not there, it will default
     // to the default User Defined Event script for the default AI.
-    SetCustomUDEFileName("k_ai_onuserdef");
+    //SetCustomUDEFileName("k_ai_onuserdef");
 
     //SetSpawnInCondition(AI_FLAG_UDE_HEARTBEAT_EVENT, AI_UDE_MASTER);             // UDE 1001
     //SetSpawnInCondition(AI_FLAG_UDE_HEARTBEAT_PRE_EVENT, AI_UDE_MASTER);         // UDE 1021
@@ -568,7 +570,7 @@ void main()
 /************************ [Bioware: Animations/Waypoints/Treasure] *************
     All Bioware Stuff. I'd check out "x0_c2_spwn_def" for the SoU/Hordes revisions.
 ************************* [Bioware: Animations/Waypoints/Treasure] ************/
-
+     int NW_FLAG_STEALTH                       = 0x00000004;
      SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);
     // SetSpawnInCondition(NW_FLAG_SEARCH, NW_GENERIC_MASTER);
         // Uses said skill while WalkWaypoints()
@@ -618,6 +620,7 @@ void main()
 ************************* [User] **********************************************/
     // Example (and default) of user addition:
     // - If we are from an encounter, set mobile (move around) animations.
+    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);

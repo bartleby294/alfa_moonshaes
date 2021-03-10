@@ -5,9 +5,11 @@
 //:: Created By: Script Wizard
 //:: Created On: 0
 //:://////////////////////////////////////////////
+#include "ms_xp_util"
+
 void main()
 {
-	// Give the speaker some XP
-	GiveXPToCreature(GetPCSpeaker(), 15);
+    // Give the speaker some XP
+    GiveAndLogXP(GetPCSpeaker(), 15, "GIVE XP 15", "for give_xp_15.");
 
 }

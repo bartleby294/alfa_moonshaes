@@ -12,6 +12,8 @@
 //////////////////////////////////////////////////
 #include "Alfa_Ev_Const"
 #include "NW_I0_PLOT"
+#include "ms_xp_util"
+
 //////////////////////////////////////////////////
 
 //////////////////////////////////////////////////
@@ -359,7 +361,7 @@ void ALFA_BountyReward( object oPC, string sTag, int iItemGp, int iItemXp = 0,
     {
         if ( GetArea( oPC ) == GetArea( oMember ) )
         {
-            GiveXPToCreature( oMember , iXp );
+            GiveAndLogXP(oMember, iXp, "EVAINE", "for alfa_evaine.");
         }
         oMember = GetNextFactionMember ( oPC , TRUE );
 

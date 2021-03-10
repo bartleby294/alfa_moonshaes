@@ -22,6 +22,7 @@ const int XP_GIVE = 50;
 #include "j_inc_other_ai"
 //  This contains some useful things to get NPC's to attack and so on.
 #include "j_inc_npc_attack"
+#include "ms_xp_util"
 
 void main()
 {
@@ -38,7 +39,8 @@ void main()
             if(GetIsObjectValid(oDisturber) && GetIsPC(oDisturber))
             {
                 // Award the XP.
-                GiveXPToCreature(oDisturber, XP_GIVE);
+                GiveAndLogXP(oDisturber, XP_GIVE, "pickpkxp",
+                             "for j_ude_pickpkxp.");
             }
         }
         break;

@@ -10,6 +10,8 @@
 //void main(){}
 #include "math_protos"
 #include "hc_inc"
+#include "ms_xp_util"
+
 const string campaign="tpi";
 
 string GetPCKey( object oPC)
@@ -486,7 +488,7 @@ void RestorePCXP( object oPC)
     if( iCurrent < iTarget)
     {
         PrintString("Adjusting XP");
-        GiveXPToCreature( oPC, iTarget-iCurrent);
+        GiveAndLogXP(oPC, iTarget-iCurrent, "HC_INC", "for hc_inc_pwdb_func");
     }
 }
 

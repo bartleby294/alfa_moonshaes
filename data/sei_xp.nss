@@ -17,6 +17,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 #include "dim_returns"
+#include "ms_xp_util"
 
 //void main(){}
 
@@ -213,7 +214,7 @@ void XP_RewardXP( object a_oCharacter, int a_nXP )
         nXP = XP_CapXPToMaxGain( a_oCharacter, nXP );
     }
 
-    GiveXPToCreature( a_oCharacter, nXP );
+    GiveAndLogXP(a_oCharacter, nXP, "SEI XP", "for sei_xp.");
 
 } // End XP_RewardXP
 

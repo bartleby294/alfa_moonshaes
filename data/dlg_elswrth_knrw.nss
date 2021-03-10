@@ -5,9 +5,10 @@
 //:: Created By: Script Wizard
 //:: Created On: 2
 //:://////////////////////////////////////////////
+#include "_btb_util"
+
 void main()
 {
-	// Give the speaker some XP
-	GiveXPToCreature(GetPCSpeaker(), 40);
-
+    // Give the speaker some XP
+    GiveAndLogXP(GetPCSpeaker(), 40, "ELSWRTH KNRW", "for dlg_elswrth_knrw.");
 }

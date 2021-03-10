@@ -11,6 +11,8 @@
 #include "nw_i0_tool"
 #include "x0_i0_partywide"
 #include "custom_tokens"
+#include "ms_xp_util"
+
 
 void main()
 {
@@ -29,7 +31,7 @@ void main()
     GiveGoldToCreature(oPC, AMOUNT_FOR_MAIL_GOLD);
 
     // Give the speaker some XP (XP to Party)
-    GiveXPToCreature(oPC, iXp);
+    GiveAndLogXP(oPC, iXp, "MAIL QST", "for qst_gv_rd_mail_t.");
 
     // Take the Mail.
     RemoveItemFromParty(oPC, sGet_Item);

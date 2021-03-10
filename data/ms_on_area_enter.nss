@@ -1,4 +1,5 @@
 #include "nwnx_visibility"
+#include "ms_xp_util"
 
 void MyGetVector(object oPC){
     vector vAreaVec = GetPosition(oPC);
@@ -77,7 +78,7 @@ void main() {
     if((GetCampaignInt("ExploreXPDB", sTrigTag + GetName(oPC) + "Fired")!= TRUE)
             && GetIsPC(oPC)) {
         //Base 15xp for exploring a new area
-        GiveXPToCreature(oPC, 15);
+        GiveAndLogXP(oPC, 15, "AREA EXPLORATION", "for exploring.");
         SendMessageToPC(oPC, "You have gained experience for finding a new area.");
         SetCampaignInt("ExploreXPDB", sTrigTag+GetName(oPC) + "Fired", TRUE);
     }
