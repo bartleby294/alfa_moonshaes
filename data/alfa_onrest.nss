@@ -19,6 +19,7 @@ void main()
     object oPC = GetLastPCRested();
     if(RestingAllowed(oPC) == FALSE) {
         SendMessageToPC(oPC, "This doesn't seem like a good place to rest.");
+        return;
     }
 
     SetRestAnimation(oPC);
