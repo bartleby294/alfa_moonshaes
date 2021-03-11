@@ -11,6 +11,7 @@
 #include "x0_i0_partywide"
 #include "custom_tokens"
 #include "NW_I0_PLOT"
+#include "ms_xp_util"
 
 void UpdateJournal(object oPC, string sName, string sGve_Item)
 {
@@ -44,7 +45,7 @@ void main()
     GiveGoldToCreature(oPC, iGold);
 
     // Give the speaker some XP (XP to Party)
-    GiveXPToCreature(oPC, iXp);
+    GiveAndLogXP(oPC, iXp, "MAIL QST", "for qst_gv_rd_mail_2.");
 
     // Remove items from the player's inventory
     RemoveItemFromParty(oPC, sGet_Item);

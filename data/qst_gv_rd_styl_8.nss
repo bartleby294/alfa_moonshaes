@@ -11,6 +11,7 @@
 #include "nw_i0_tool"
 #include "x0_i0_partywide"
 #include "custom_tokens"
+#include "ms_xp_util"
 
 void main()
 {
@@ -38,7 +39,7 @@ void main()
     // Remove PC from Party since this is an individual Quest
     RemoveFromParty(oPC);
     // Give the speaker some xp
-    GiveXPToCreature(oPC, iXp);
+    GiveAndLogXP(oPC, iXp, "MAIL QST", "for qst_gv_rd_mail_8.");
 
     // Give the speaker some gold
     GiveGoldToCreature(oPC, iGold);
@@ -99,7 +100,7 @@ void main()
         case 8:
             GiveGoldToCreature(oPC, fGold);
             // Give the party some XP
-            GiveXPToCreature(oPC, fXp);
+            GiveAndLogXP(oPC, fXp, "MAIL QST", "for qst_gv_rd_mail_8.");
             // Give the speaker the items
             SetIdentified(CreateItemOnObject(sGve_Item, oPC, 1), TRUE);
             SetItemCursedFlag(oGve_Item, SET_CURSE_FLAG);

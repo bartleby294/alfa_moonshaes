@@ -5,10 +5,12 @@
 //:: Created By: Script Wizard
 //:: Created On: 2
 //:://////////////////////////////////////////////
+#include "ms_xp_util"
+
 void main()
 {
     // Give the speaker some XP
-    GiveXPToCreature(GetPCSpeaker(), 75);
+    GiveAndLogXP(GetPCSpeaker(), 75, "ELSWRTH RWD2", "dlg_elswrth_rwd2.");
 
 
                             // Set the variables

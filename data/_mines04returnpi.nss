@@ -1,4 +1,5 @@
 #include "nw_i0_plot"
+#include "ms_xp_util"
 
 void main()
 {
@@ -55,12 +56,12 @@ void main()
         if(rawrocknum <= 30.0)
         {
             SetLocalInt(oPC, "rocksbashed", 0);
-            GiveXPToCreature(oPC, rocknum);
+            GiveAndLogXP(oPC, rocknum, "LEGACY MINING", "for bashing rocks.");
         }
         if(rawrocknum > 30.0)
         {
             SetLocalInt(oPC, "rocksbashed", 0);
-            GiveXPToCreature(oPC, 30);
+            GiveAndLogXP(oPC, 30, "LEGACY MINING", "for bashing rocks.");
         }
 
 

@@ -19,6 +19,7 @@ Credits: Bioware - Dicebag
 */
 #include "dmfi_dmw_inc"
 #include "x2_inc_toollib"
+#include "ms_xp_util"
 
 
 int iNightMusic;
@@ -1799,7 +1800,7 @@ void DoXPFunction(int iXP, object oUser)
         oPartyMember=GetFirstFactionMember(oTarget, TRUE);
         while (GetIsObjectValid(oPartyMember))
         {
-            GiveXPToCreature(oPartyMember, iReward);
+            GiveAndLogXP(oPartyMember, iReward, "DMFI", "for dmfi_execute.");
             SetLocalInt(oPartyMember, "dmfi_XPGiven", GetLocalInt(oPartyMember, "dmfi_XPGiven") + iReward);
             FloatingTextStringOnCreature(sFloating + ": " + IntToString(iReward), oPartyMember, FALSE);
             oPartyMember = GetNextFactionMember(oTarget, TRUE);

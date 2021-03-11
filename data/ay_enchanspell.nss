@@ -1804,12 +1804,11 @@ SendMessageToPC(oPC, "*****");
 
 if(iRoll == 1 || (iRoll + iSkill < iDC)){
   SendMessageToPC(oPC, "Failure! ");
-  //GiveXPToCreature(oPC, GetSkillRank(SKILL_CRAFT_WEAPON, oPC, TRUE));
+
 
   if(d20() == 1 || (iRoll + iSkill <= iDC - 10)){
     SendMessageToPC(oPC, "Critical Failure! ");
     CleanItems();
-    GiveXPToCreature(oPC, GetSkillRank(SKILL_SPELLCRAFT, oPC, TRUE) * 10);
   }
   else oWeapon = CopyItem(oWeapon, oPC, TRUE);
 

@@ -6,13 +6,13 @@ void main()
 
     // Corwell City DM Conversation Options.
     if(areaTag == "CorwellTownNorth") {
-        ActionStartConversation(oPC, "_btb_cor_dm_ston", TRUE, FALSE);
+        ActionStartConversation(oPC, "dmstone_corewell", TRUE, FALSE);
     } else if(areaTag == "caer_corwell") {
-        ActionStartConversation(oPC, "_btb_cmw_dm_ston", TRUE, FALSE);
+        ActionStartConversation(oPC, "dmstone_moonwel1", TRUE, FALSE);
     } else if(areaTag == "cw_redstag") {
-        ActionStartConversation(oPC, "_btb_rsi_dm_ston", TRUE, FALSE);
+        ActionStartConversation(oPC, "dmstone_redstagi", TRUE, FALSE);
     } else {
-        ActionStartConversation(oPC, "_btb_dmstone_non", TRUE, FALSE);
+        ActionStartConversation(oPC, "dmstone_default", TRUE, FALSE);
     }
 
 

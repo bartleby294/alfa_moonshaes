@@ -1,3 +1,5 @@
+#include "ms_xp_util"
+
 /*
 Descriptive Skill Triggers 1.00
 Descriptions/Flavor Text, Skill Checks, Ability Checks
@@ -399,11 +401,15 @@ void DSTGiveXPToParty(object oPC, int iAmount, int bAllParty=TRUE)
         object oPartyMember = GetFirstFactionMember(oPC);
         while (GetIsObjectValid(oPartyMember))
         {
-            GiveXPToCreature(oPartyMember, iAmount);
+            GiveAndLogXP(oPartyMember, iAmount, "PHB SKILL",
+                         "for phb_skill_desc.");
             oPartyMember = GetNextFactionMember(oPC);
         }
     }
-    else GiveXPToCreature(oPC, iAmount);
+    else {
+    GiveAndLogXP(oPC, iAmount, "PHB SKILL",
+                         "for phb_skill_desc.");
+    }
 }
 
 // ****************************************************************************

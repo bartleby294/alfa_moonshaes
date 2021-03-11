@@ -29,6 +29,8 @@
 ///////////////////////// [On Conversation] //////////////////////////////////*/
 
 #include "J_INC_OTHER_AI"
+#include "ms_xp_util"
+
 
 void SetGlobalIgnore(){
   object oMod = GetModule();
@@ -48,7 +50,7 @@ int GetGlobalIgnore(){
 void main()
 {
     // Pre-conversation-event. Returns TRUE if we interrupt this script call.
-    if(FirePreUserEvent(AI_FLAG_UDE_ON_DIALOGUE_PRE_EVENT, EVENT_ON_DIALOGUE_PRE_EVENT)) return;
+    //if(FirePreUserEvent(AI_FLAG_UDE_ON_DIALOGUE_PRE_EVENT, EVENT_ON_DIALOGUE_PRE_EVENT))return;
 
     if(GetGlobalIgnore() == 1){
       //Too much shit going on, ignore for lag sake
@@ -113,7 +115,7 @@ void main()
     {
         //SendMessageToAllDMs("Conversation Script: -1 match");
         // * Don't speak when dead. 1.4 change (an obvious one to make)
-        if(CanSpeak())
+        /*if(CanSpeak())
         {
             // Make sure it is a PC and we are not fighting.
             if(!GetIsFighting() && (GetIsPC(oShouter) || GetIsDMPossessed(oShouter)))
@@ -138,7 +140,7 @@ void main()
                     BeginConversation();
                 }
             }
-        }
+        }*/
     }
     // If it is a valid shout...and a valid shouter.
     // - Not a DM. Not ignoring shouting. Not a Debug String.
@@ -157,7 +159,7 @@ void main()
             //SendMessageToAllDMs("Conversation Script: Valid friend");
 
 
-            if(nMatch >= 0 && nMatch != AI_SHOUT_ANYTHING_SAID_CONSTANT &&
+            if(nMatch >= 0 /*&& nMatch != AI_SHOUT_ANYTHING_SAID_CONSTANT*/ &&
               !GetIsPC(oShouter) && !GetIsPC(GetMaster(oShouter)))
             {
                 // Respond to the shout
@@ -228,7 +230,7 @@ void main()
                 // 0+ are my shouts. 0 is anything
             {
                 // We make sure it isn't an emote (set by default)
-                if(nMatch == AI_SHOUT_ANYTHING_SAID_CONSTANT &&
+                if(/*nMatch == AI_SHOUT_ANYTHING_SAID_CONSTANT &&*/
                    GetSpawnInCondition(AI_FLAG_OTHER_DONT_RESPOND_TO_EMOTES, AI_OTHER_MASTER))
                 {
                     // Jump out if its an emote - "*Nods*"
@@ -253,7 +255,7 @@ void main()
                 ActionAttack(oShouter);
 
                 // Shout to allies to attack the shouter
-                AISpeakString(AI_SHOUT_I_WAS_ATTACKED);
+                //AISpeakString(AI_SHOUT_I_WAS_ATTACKED);
             }
         }
     }

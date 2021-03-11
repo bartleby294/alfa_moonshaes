@@ -12,6 +12,7 @@
 /* Includes */
 //#include "alfa_include"
 //#include "spawn_main"
+#include "ms_xp_util"
 void MyGetVector(object oPC){
 vector vAreaVec; // = GetPosition(oPC);
 
@@ -73,7 +74,7 @@ void main()
     {
     //Base 15xp for exploring a new area
     int iXP = 15; //GetLocalInt(OBJECT_SELF,"ExploreXP");
-    GiveXPToCreature(oPC, iXP);
+    GiveAndLogXP(oPC, iXP, "AREA EXPLORATION", "for exploring.");
     SendMessageToPC(oPC, "You have gained experience for finding a new area.");
 
     SetCampaignInt("ExploreXPDB",sTrigTag+GetName(oPC)+"Fired",1);

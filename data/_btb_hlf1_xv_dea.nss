@@ -22,6 +22,7 @@
 //****************** ALFA Mod
 #include "subraces"
 #include "alfa_deathnotify"
+#include "ms_xp_util"
 //****************** End ALFA Mod
 
 // We need a wrapper. If the amount of deaths, got in this, is not equal to iDeaths,

@@ -3,6 +3,7 @@ Lilac Soul's NWN Script Generator, v. 1.4
 
 For download info, please visit:
 http://www.lilacsoul.revility.com    */
+#include "ms_xp_util"
 
 //Put this OnUsed
 void main()
@@ -52,7 +53,7 @@ nInt = GetObjectType(oTarget);
 
 if (nInt != OBJECT_TYPE_WAYPOINT) ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_IMP_UNSUMMON), oTarget);
 else ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_IMP_UNSUMMON), GetLocation(oTarget));
-GiveXPToCreature(oPC, 1);
+GiveAndLogXP(oPC, 1, "NEWTOON", "for new toon check.");
 //GiveGoldToCreature(oPC, 10000);
 return;
 }
@@ -88,7 +89,7 @@ nInt = GetObjectType(oTarget);
 
 if (nInt != OBJECT_TYPE_WAYPOINT) ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_IMP_UNSUMMON), oTarget);
 else ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_IMP_UNSUMMON), GetLocation(oTarget));
-GiveXPToCreature(oPC, 1);
+GiveAndLogXP(oPC, 1, "NEWTOON", "for new toon check.");
 //GiveGoldToCreature(oPC, 10000);
 }
 

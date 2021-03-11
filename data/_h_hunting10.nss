@@ -1,3 +1,5 @@
+#include "ms_xp_util"
+
 void main()
 {
      object oNpC =  GetObjectByTag("_h_Ham_butch");
@@ -17,7 +19,7 @@ void main()
                 if(deercount < 15)
                 {
                     DestroyObject(oItem, 0.0);
-                    GiveXPToCreature(oPC, oXP);
+                    GiveAndLogXP(oPC, oXP, "LEGACY BUTCHER", "for handing in deer.");
                     GiveGoldToCreature(oPC, oGP);
                     deercount = deercount +1;
                 }

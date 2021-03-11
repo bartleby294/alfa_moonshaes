@@ -1,5 +1,7 @@
 #include "nw_i0_plotwizard"
 #include "NW_I0_GENERIC"
+#include "ms_xp_util"
+
 void main()
 {
     object oItemToTake = GetItemPossessedBy(GetPCSpeaker(), "SignedHammerstaadPact");
@@ -13,7 +15,7 @@ void main()
         if( (GetCampaignInt("moonshaes", "pace_merch_quest_state",PartyMember) == 1))
         {
             SetCampaignInt("moonshaes", "pace_merch_quest_state", 2, PartyMember);
-            GiveXPToCreature(PartyMember, 30);
+            GiveAndLogXP(PartyMember, 30, "EMBLA", "for embla_quest_state.");
         }
         else
         {

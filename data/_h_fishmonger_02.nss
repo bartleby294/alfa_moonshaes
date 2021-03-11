@@ -1,3 +1,5 @@
+#include "ms_xp_util"
+
 void main()
 {
     object oPC =  GetPCSpeaker();
@@ -35,7 +37,7 @@ void main()
         int numgive = (countnum/2);
 
         GiveGoldToCreature(oPC, numgive);
-        GiveXPToCreature(oPC, numgive);
+        GiveAndLogXP(oPC, numgive, "LEGACY FISH MONGER", "for handing in fish.");
 
         ExecuteScript("_h_fishmong_sit1", OBJECT_SELF);
 }

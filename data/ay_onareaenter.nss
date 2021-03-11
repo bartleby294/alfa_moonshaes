@@ -219,7 +219,7 @@ void main()
     {
     //Base 15xp for exploring a new area
     int iXP = 15;
-    GiveXPToCreature(oPC, iXP);
+
     SendMessageToPC(oPC, "You have gained experience for finding a new area.");
 
     SetCampaignInt("ExploreXPDB",sTrigTag+GetName(oPC)+"Fired",1);

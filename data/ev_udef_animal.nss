@@ -12,7 +12,7 @@
 
 #include "ALFA_EVAINE"
 #include "NW_I0_GENERIC"
-
+#include "ms_xp_util"
 
 
 void SetAlert( int bAlert )

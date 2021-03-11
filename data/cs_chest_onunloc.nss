@@ -6,6 +6,9 @@
 // Include cu_functions for AllParty to work  (prevents multiple characters getting the same xp in the same party)
 #include "CU_FUNCTIONS"
 #include "sos_include"
+#include "_btb_util"
+#include "ms_xp_util"
+
 //#include "nw_i0_tool"
 
 void main()
@@ -18,7 +21,7 @@ void main()
         {nLockXPGain = 10;}
     if (nOnce==FALSE)                //If not given XP before for unlocking this Lock, then run the routine now
     {
-    GiveXPToCreature (GetLastUnlocked(), nLockXPGain); // Give XP (nLockXPGain) to unlocking PC.
+    GiveAndLogXP(GetLastUnlocked(), nLockXPGain, "LOCKPICK GAIN", "for picking lock.");
     FloatingTextStringOnCreature("XP Gained - use of skill",GetLastUnlocked()); //Inform PC of XP for use of skill
     AllParty(sLockName,oPC,1);  //Set so no one else in the party (and the opener) can get this xp again.
     }

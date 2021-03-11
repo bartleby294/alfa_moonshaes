@@ -204,9 +204,19 @@ int MoonshaesCustom(object oPC)
     }
 
    if(GetTag(oItem) == "sahraskiss") {
-        ActionCastSpellAtObject(SPELL_NEUTRALIZE_POISON, oPC,
-                                METAMAGIC_ANY, FALSE, 0,
-                                PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+        //ActionCastSpellAtObject(SPELL_NEUTRALIZE_POISON, oPC,
+        //                        METAMAGIC_ANY, FALSE, 0,
+        //                        PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+
+        effect eCheck = GetFirstEffect(oPC);
+        while(GetIsEffectValid(eCheck)) {
+            if(GetEffectType(eCheck) == EFFECT_TYPE_POISON){
+                RemoveEffect(oPC, eCheck);
+                break;
+            }
+            eCheck = GetNextEffect(oPC);
+        }
+
         return TRUE;
    }
 
