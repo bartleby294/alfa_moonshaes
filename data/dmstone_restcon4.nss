@@ -3,9 +3,9 @@
 
 void main()
 {
-    SetCampaignInt(REST_DATABASE, GetResRef(GetArea(GetPCSpeaker())), 0);
+    SetCampaignInt(REST_DATABASE, GetResRef(GetArea(GetPCSpeaker())), 4);
 
     WriteTimestampedLogEntry("SET RESTING: rest state for "
                               + GetResRef(GetArea(GetPCSpeaker())) + " = "
-                              + IntToString(0));
+                              + IntToString(4));
 }
