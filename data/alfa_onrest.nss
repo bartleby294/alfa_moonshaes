@@ -18,7 +18,9 @@ void main()
 {
     object oPC = GetLastPCRested();
     if(RestingAllowed(oPC) == FALSE) {
-        SendMessageToPC(oPC, "This doesn't seem like a good place to rest.");
+        if(GetLastRestEventType() == REST_EVENTTYPE_REST_STARTED) {
+            SendMessageToPC(oPC, "This doesn't seem like a good place to rest.");
+        }
         AssignCommand( oPC, ClearAllActions());
         return;
     }

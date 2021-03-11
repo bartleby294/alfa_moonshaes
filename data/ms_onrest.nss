@@ -45,6 +45,9 @@ string GetRestTriggerType(object oPC) {
 
 int RestingAllowed(object oPC) {
     int restState = GetCampaignInt(REST_DATABASE, GetResRef(GetArea(oPC)));
+    WriteTimestampedLogEntry("RESTING: rest state for "
+                              + GetResRef(GetArea(oPC)) + " = "
+                              + IntToString(restState));
 
     if(restState == RESTING_DM_DISABLED) {
         return FALSE;
