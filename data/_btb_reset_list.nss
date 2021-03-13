@@ -4,9 +4,10 @@ void main() {
     object oArea = GetFirstArea();
     while (GetIsObjectValid(oArea)) {
         string areaResRef = GetResRef(oArea);
-        if(GetStringLeft(areaResRef, 1) == "|") {
-            string message =  GetResRef(oArea) + ": ";
-            int restState = GetCampaignInt(REST_DATABASE, GetResRef(oArea));
+        string areaName = GetName(oArea);
+        if(GetStringLeft(areaName, 1) == "|") {
+            string message =  areaResRef + ": ";
+            int restState = GetCampaignInt(REST_DATABASE, areaResRef);
             if( restState == TRUE) {
                 message += "TRUE";
             } else {

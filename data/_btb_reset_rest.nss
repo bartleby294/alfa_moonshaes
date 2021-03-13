@@ -5,7 +5,8 @@ void main() {
     object oArea = GetFirstArea();
     while (GetIsObjectValid(oArea)) {
         string areaResRef = GetResRef(oArea);
-        if(GetStringLeft(areaResRef, 1) == "|") {
+        string areaName = GetName(oArea);
+        if(GetStringLeft(areaName, 1) == "|") {
             SetDefaultRestState(oArea);
         }
         oArea = GetNextArea();
