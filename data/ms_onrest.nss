@@ -2,6 +2,7 @@
 #include "nwnx_consts"
 #include "nwnx_object"
 #include "ms_rest_consts"
+#include "_btb_util"
 
 void SetRestAnimation(object oPC) {
     int sleepStyle = GetLocalInt(oPC, "sleep_style");
@@ -10,6 +11,71 @@ void SetRestAnimation(object oPC) {
             NWNX_Consts_TranslateNWScriptAnimation(ANIMATION_LOOPING_DEAD_BACK);
     }
     NWNX_Player_SetRestAnimation(oPC, sleepStyle);
+}
+
+/*
+ * Return if our area is on the dont rest list
+ */
+int GetOverRideDisallowRest(string areaResRef) {
+    return FALSE;
+}
+
+/*
+ * Return if our area is on the rest list
+ */
+int GetOverRideAllowRest(string areaResRef) {
+    return FALSE;
+}
+
+/**
+ * Any wilderness area that doesn't have resting triggers in it will be flagged
+ * as restable.
+ *
+ * Any area called out on the allowed rest area list will also be marked as
+ * called out.
+ */
+
+void SetDefaultRestState(object oArea){
+
+    string areaResRef = GetResRef(oArea);
+
+    if(GetOverRideDisallowRest(areaResRef)){
+        SetCampaignInt(REST_DATABASE, areaResRef, 0);
+        WriteTimestampedLogEntry("SET RESTING: rest state for " + areaResRef
+                                 + " = " + IntToString(0));
+        return;
+    } else if(GetOverRideAllowRest(areaResRef)){
+        SetCampaignInt(REST_DATABASE, areaResRef, 1);
+        WriteTimestampedLogEntry("SET RESTING: rest state for " + areaResRef
+                                 + " = " + IntToString(1));
+        return;
+    }
+
+
+    int isWilderness = GetIsAreaNatural(oArea);
+
+    int areaHasRestingTag = FALSE;
+    if(AreaContainsObjectWithTag(SLEEPING_ZONE_FREE, oArea)) {
+        areaHasRestingTag = TRUE;
+    } else if(AreaContainsObjectWithTag(SLEEPING_ZONE_LOW, oArea)) {
+        areaHasRestingTag = TRUE;
+    }  else if(AreaContainsObjectWithTag(SLEEPING_ZONE_MIDDLE, oArea)) {
+        areaHasRestingTag = TRUE;
+    } else if(AreaContainsObjectWithTag(SLEEPING_ZONE_UPPER, oArea)) {
+        areaHasRestingTag = TRUE;
+    } else if(AreaContainsObjectWithTag(SLEEPING_ZONE_HIGH, oArea)) {
+        areaHasRestingTag = TRUE;
+    }
+
+    if(isWilderness == AREA_NATURAL && areaHasRestingTag == FALSE) {
+         SetCampaignInt(REST_DATABASE, areaResRef, 1);
+         WriteTimestampedLogEntry("SET RESTING: rest state for " + areaResRef
+                                 + " = " + IntToString(1));
+    } else {
+        SetCampaignInt(REST_DATABASE, areaResRef, 0);
+        WriteTimestampedLogEntry("SET RESTING: rest state for " + areaResRef
+                                 + " = " + IntToString(0));
+    }
 }
 
 string GetRestTriggerType(object oPC) {
@@ -85,3 +151,5 @@ void RestPerks(object oPC) {
     int healAmount = FloatToInt(healMultiplier * IntToFloat(nHD));
     ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(healAmount), oPC);
 }
+
+

@@ -4,6 +4,24 @@ float getFacing(vector centerPoint, vector otherPoint) {
                                 0.0));
 }
 
+
+int AreaContainsObjectWithTag(string tag, object oArea){
+    object firstObject = GetFirstObjectInArea(oArea);
+    string firstobjectTag = GetTag(firstObject);
+
+    if(firstobjectTag == tag) {
+        return TRUE;
+    }
+
+    object closestObj = GetNearestObjectByTag(tag, firstObject);
+
+    if(closestObj != OBJECT_INVALID) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
 /**
     Return a location some units of distance away on a straight line taking
     rotations into account.
