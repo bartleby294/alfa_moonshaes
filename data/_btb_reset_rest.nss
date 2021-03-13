@@ -6,6 +6,7 @@ void main() {
     while (GetIsObjectValid(oArea)) {
         string areaResRef = GetResRef(oArea);
         string areaName = GetName(oArea);
+        SendMessageToPC(GetItemActivator(), areaName);
         if(GetStringLeft(areaName, 1) == "|") {
             SetDefaultRestState(oArea);
         }
