@@ -9,7 +9,7 @@ int StartingConditional()
 {
 
     // Inspect local variables
-    if(!(GetLocalInt(GetPCSpeaker(), "sMauraquest") < 1))
+    if(!(GetLocalInt(GetPCSpeaker(), "iMauraquest") < 1))
         return FALSE;
 
     return TRUE;

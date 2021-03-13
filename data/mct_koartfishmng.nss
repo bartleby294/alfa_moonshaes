@@ -11,7 +11,7 @@ void main()
 {
 
     // Either open the store with that tag or let the user know that no store exists.
-    object oStore = GetNearestObjectByTag("koartfishmonger");
+    object oStore = GetNearestObjectByTag("koartfishmerchant");
     if(GetObjectType(oStore) == OBJECT_TYPE_STORE)
         gplotAppraiseOpenStore(oStore, GetPCSpeaker());
     else
