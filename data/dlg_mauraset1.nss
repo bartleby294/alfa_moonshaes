@@ -2,12 +2,23 @@
 //:: FileName dlg_mauraset1
 //:://////////////////////////////////////////////
 //:://////////////////////////////////////////////
-//:: Created By: Script Wizard
-//:: Created On: 0
+//:: Created By: El Grillo
+//:: Created On: 16/3/2021
 //:://////////////////////////////////////////////
+//This uses 'SetCampaignInt' instead of the standard script wizard 'SetLocalInt', in order to make sure that quest integers are preserved in
+//(an automatically created) database, making them persistent across server resets.
+//
+//
+//void SetCampaignInt(
+//string sCampaignName,
+//string sVarName,
+//int nInt,
+//object oPlayer = OBJECT_INVALID
+//);
+
 void main()
 {
-	// Set the variables
-	SetLocalInt(GetPCSpeaker(), "iMauraquest", 1);
+    // Set the variables
+    SetCampaignInt("MinorQuests", "iMauraquest", 1, GetPCSpeaker());
 
 }
