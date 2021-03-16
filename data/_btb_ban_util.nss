@@ -263,8 +263,9 @@ object spawnBandit(string resref, string race, string class,
 void onAttackActions(string yellString) {
    int myAction = GetLocalInt(OBJECT_SELF, "action");
     // Need to call other bandits to help and attack who attacked you.
-    AssignCommand(OBJECT_SELF, ClearAllActions());
+    //AssignCommand(OBJECT_SELF, ClearAllActions()); - removed
     if(myAction > 0) {
+        AssignCommand(OBJECT_SELF, ClearAllActions());
         writeToLog(" new combat PA");
         int i = 1;
         object lastAttacker = GetLastAttacker(OBJECT_SELF);

@@ -24,6 +24,16 @@ void writeToLog(string str) {
     WriteTimestampedLogEntry("Xvart Corn Raid: " + oAreaName + ": " +  str);
 }
 
+void writeToDB(int cornCnt) {
+    string indexStr = IntToString(NWNX_Time_GetTimeStamp()) + "|";
+    object oPC = GetFirstPCInArea(GetArea(OBJECT_SELF));
+    while(oPC != OBJECT_INVALID) {
+        indexStr += GetPCPublicCDKey(oPC) + GetPCPlayerName(oPC) + "|";
+        oPC = GetNextPCInArea(GetArea(OBJECT_SELF));
+    }
+    SetCampaignInt("xvart_corn_raid", indexStr, cornCnt);
+}
+
 int isObjectInArea(string objTag) {
     int objectFound = 0;
     object obj = GetFirstObjectInArea();
@@ -271,6 +281,7 @@ void rewardCorn() {
     CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 0),
         cornCnt * 2, "corn");
     writeToLog(IntToString(cornCnt) + " corn was saved!");
+    writeToDB(cornCnt);
 }
 
 void logPlayers() {

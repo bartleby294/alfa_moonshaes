@@ -638,6 +638,8 @@ string DSTStrTok(string sStr, int i, int bGetRest = FALSE)
 
 void main()
 {
+    // Temporarily disabled as it seems it may not be tracking/persisting
+    return;
     // Got to love the fact that GetEnteringObject and GetClickingObject are
     // the same function.
     object oPC = GetEnteringObject();
