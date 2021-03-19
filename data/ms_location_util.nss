@@ -10,7 +10,7 @@ int getRandomDimensionOffBorder(int dimension, int buffer) {
     return Random(dimension - doubleBuffer) + buffer;
 }
 
-location GetLocationInAreaWithBuffer(object area, int buffer)
+location GetLocationInAreaWithBuffer(object oArea, int buffer)
 {
    // each area size if 10m so multiply by 10
     int areaHeight = GetAreaSize(AREA_HEIGHT, oArea) * 10;

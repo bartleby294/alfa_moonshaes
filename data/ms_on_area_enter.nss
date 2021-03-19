@@ -1,5 +1,6 @@
 #include "nwnx_visibility"
 #include "ms_xp_util"
+#include "ms_area_seed"
 
 void MyGetVector(object oPC){
     vector vAreaVec = GetPosition(oPC);
@@ -55,6 +56,8 @@ void main() {
       SetEventScript(OBJECT_SELF, EVENT_SCRIPT_AREA_ON_HEARTBEAT,
                                         "spawn_sample_hb");
     }
+
+    RandomAreaSeed(oArea);
 
     // WE NEED dbhsc_oe_trapme BEFORE WE TURN THIS BACK ON!
     //if(GetLocalInt(oArea, "TRAPS") == 1){

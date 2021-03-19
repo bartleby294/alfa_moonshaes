@@ -4,6 +4,15 @@ float getFacing(vector centerPoint, vector otherPoint) {
                                 0.0));
 }
 
+int GetIsLocationWalkable(location loc) {
+
+    // Get the surface type
+    int nSurfaceType = GetSurfaceMaterial(loc);
+
+    // Is this waypoint on a valid, walkable, surface? Eg; we can spawn a creature
+    return StringToInt(Get2DAString("surfacemat", "Walk", nSurfaceType));
+}
+
 
 int AreaContainsObjectWithTag(string tag, object oArea){
     object firstObject = GetFirstObjectInArea(oArea);
