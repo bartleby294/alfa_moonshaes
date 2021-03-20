@@ -6,8 +6,10 @@
 const string AREA_TERRAIN_MAPPED_STATE = "area_terrain_mapped_state";
 
 void PersistTerrainType(object oArea, string terrainType, int x, int y) {
+    WriteTimestampedLogEntry("PersistTerrainType Start");
     string xyStr = IntToString(x) + "|" + IntToString(y);
     NWNX_Data_Array_PushBack_Str(oArea, terrainType, xyStr);
+    WriteTimestampedLogEntry("PersistTerrainType End");
 }
 
 void MapAreaTerrain(object oArea) {
@@ -18,9 +20,10 @@ void MapAreaTerrain(object oArea) {
     int areaWidth = GetAreaSize(AREA_WIDTH, oArea);
 
     WriteTimestampedLogEntry("MapAreaTerrain Start");
-
     while(x < areaWidth) {
+        WriteTimestampedLogEntry("MapAreaTerrain x: " + IntToString(x));
         while (y < areaHeight) {
+            WriteTimestampedLogEntry("MapAreaTerrain y: " + IntToString(y));
             float curX = (x * 10.0) + 5.0;
             float curY = (y * 10.0) + 5.0;
             vector curPos = Vector(curX, curY, 0.0);
