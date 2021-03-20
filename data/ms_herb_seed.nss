@@ -54,7 +54,9 @@ int CreateHerb(struct Herb herbStruct, location loc) {
     if(newLocTry >= 40) {
         return FALSE;
     }
-
+    vector pos = GetPositionFromLocation(loc);
+    WriteTimestampedLogEntry("CreateHerb: " + herbStruct.containerResRef +
+                             " - at x: " + pos.x + " y: " + pos.y);
     object oHerb = CreateObject(OBJECT_TYPE_PLACEABLE,
                                 herbStruct.containerResRef,
                                 loc,
@@ -77,18 +79,25 @@ int CreateHerb(struct Herb herbStruct, location loc) {
 
 int CreateHerbForTerrainType(location loc, string terrainType) {
     if (terrainType == TERRAIN_FRESH_WATER) {
+        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_FRESH_WATER);
         return CreateHerb(GetLesserRandomFreshWaterHerb(), loc);
     } else if (terrainType == TERRAIN_SALT_WATER) {
+        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_SALT_WATER);
         return CreateHerb(GetLesserRandomSaltWaterHerb(), loc);
     } else if (terrainType == TERRAIN_FIELD) {
+        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_FIELD);
         return CreateHerb(GetLesserRandomFieldHerb(), loc);
     } else if (terrainType == TERRAIN_FOREST) {
+        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_FOREST);
         return CreateHerb(GetLesserRandomForestHerb(), loc);
     } else if (terrainType == TERRAIN_MOUNTAIN) {
+        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_MOUNTAIN);
         return CreateHerb(GetLesserRandomMountainHerb(), loc);
     } else if (terrainType == TERRAIN_ROCKY) {
+        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_ROCKY);
         return CreateHerb(GetLesserRandomRockyHerb(), loc);
     } else if (terrainType == TERRAIN_HILL) {
+        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_HILL);
         return CreateHerb(GetLesserRandomFieldHerb(), loc);
     }
 
