@@ -69,7 +69,7 @@
 
 void main()
 {
-    effect eGoFast = EffectMovementSpeedIncrease(10);
+    effect eGoFast = EffectMovementSpeedIncrease(50);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eGoFast, OBJECT_SELF);
 
 /************************ [Important Spawn Settings] **************************/

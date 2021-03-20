@@ -40,12 +40,20 @@ int CreateHerb(struct Herb herbStruct, location loc) {
         vector locPos = GetPositionFromLocation(loc);
         int baseX = FloatToInt(locPos.x/10.0);
         int baseY = FloatToInt(locPos.y/10.0);
+        WriteTimestampedLogEntry("locPos.x: " + FloatToString(locPos.y));
+        WriteTimestampedLogEntry("locPos.y: " + FloatToString(locPos.y));
+        WriteTimestampedLogEntry("baseX: " + IntToString(baseX));
+        WriteTimestampedLogEntry("baseY: " + IntToString(baseY));
         float baseXf = baseX * 10.0;
         float baseYf = baseY * 10.0;
+        WriteTimestampedLogEntry("baseXf: " + FloatToString(baseXf));
+        WriteTimestampedLogEntry("baseYf: " + FloatToString(baseYf));
         while(newLocTry < 40 && GetIsLocationWalkable(loc) == FALSE) {
             newLocTry++;
             float randXf = baseX + IntToFloat(Random(100))/10;
             float randYf = baseY + IntToFloat(Random(100))/10;
+            WriteTimestampedLogEntry("randXf: " + FloatToString(randXf));
+            WriteTimestampedLogEntry("randYf: " + FloatToString(randYf));
             loc = Location(GetAreaFromLocation(loc),
                            Vector(randXf, randYf, locPos.z), 0.0);
             loc = Location(GetAreaFromLocation(loc),
@@ -106,24 +114,6 @@ int CreateHerbForTerrainType(location loc, string terrainType) {
     }
 
     return FALSE;
-}
-
-void SeedRandomHerbsOLD(object oArea, int maxHerbs) {
-    int i = 0;
-    int attempts = 0;
-    while(i < maxHerbs && attempts < 60) {
-        attempts++;
-        location randomLoc = GetLocationInAreaWithBuffer(oArea, 20);
-        vector randomLocVec = GetPositionFromLocation(randomLoc);
-        string tileResRef = NWNX_Area_GetTileModelResRef(oArea,
-                                                         randomLocVec.x,
-                                                         randomLocVec.y);
-        string terrainType = GetTerrainType(tileResRef, randomLoc);
-        int herbCreated = CreateHerbForTerrainType(randomLoc, terrainType);
-        if(herbCreated == TRUE) {
-            i++;
-        }
-    }
 }
 
 float GetRandomXFrom(string xyStr) {
