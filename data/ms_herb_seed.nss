@@ -40,20 +40,20 @@ int CreateHerb(struct Herb herbStruct, location loc) {
         vector locPos = GetPositionFromLocation(loc);
         int baseX = FloatToInt(locPos.x/10.0);
         int baseY = FloatToInt(locPos.y/10.0);
-        WriteTimestampedLogEntry("locPos.x: " + FloatToString(locPos.x));
-        WriteTimestampedLogEntry("locPos.y: " + FloatToString(locPos.y));
-        WriteTimestampedLogEntry("baseX: " + IntToString(baseX));
-        WriteTimestampedLogEntry("baseY: " + IntToString(baseY));
+        //WriteTimestampedLogEntry("locPos.x: " + FloatToString(locPos.x));
+        //WriteTimestampedLogEntry("locPos.y: " + FloatToString(locPos.y));
+        //WriteTimestampedLogEntry("baseX: " + IntToString(baseX));
+        //WriteTimestampedLogEntry("baseY: " + IntToString(baseY));
         float baseXf = baseX * 10.0;
         float baseYf = baseY * 10.0;
-        WriteTimestampedLogEntry("baseXf: " + FloatToString(baseXf));
-        WriteTimestampedLogEntry("baseYf: " + FloatToString(baseYf));
+        //WriteTimestampedLogEntry("baseXf: " + FloatToString(baseXf));
+        //WriteTimestampedLogEntry("baseYf: " + FloatToString(baseYf));
         while(newLocTry < 40 && GetIsLocationWalkable(loc) == FALSE) {
             newLocTry++;
             float randXf = baseXf + IntToFloat(Random(100))/10;
             float randYf = baseYf + IntToFloat(Random(100))/10;
-            WriteTimestampedLogEntry("randXf: " + FloatToString(randXf));
-            WriteTimestampedLogEntry("randYf: " + FloatToString(randYf));
+            //WriteTimestampedLogEntry("randXf: " + FloatToString(randXf));
+            //WriteTimestampedLogEntry("randYf: " + FloatToString(randYf));
             loc = Location(GetAreaFromLocation(loc),
                            Vector(randXf, randYf, locPos.z), 0.0);
             loc = Location(GetAreaFromLocation(loc),
@@ -91,25 +91,25 @@ int CreateHerb(struct Herb herbStruct, location loc) {
 
 int CreateHerbForTerrainType(location loc, string terrainType) {
     if (terrainType == TERRAIN_FRESH_WATER) {
-        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_FRESH_WATER);
+        //WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_FRESH_WATER);
         return CreateHerb(GetLesserRandomFreshWaterHerb(), loc);
     } else if (terrainType == TERRAIN_SALT_WATER) {
-        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_SALT_WATER);
+        //WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_SALT_WATER);
         return CreateHerb(GetLesserRandomSaltWaterHerb(), loc);
     } else if (terrainType == TERRAIN_FIELD) {
-        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_FIELD);
+        //WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_FIELD);
         return CreateHerb(GetLesserRandomFieldHerb(), loc);
     } else if (terrainType == TERRAIN_FOREST) {
-        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_FOREST);
+        //WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_FOREST);
         return CreateHerb(GetLesserRandomForestHerb(), loc);
     } else if (terrainType == TERRAIN_MOUNTAIN) {
-        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_MOUNTAIN);
+        //WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_MOUNTAIN);
         return CreateHerb(GetLesserRandomMountainHerb(), loc);
     } else if (terrainType == TERRAIN_ROCKY) {
-        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_ROCKY);
+        //WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_ROCKY);
         return CreateHerb(GetLesserRandomRockyHerb(), loc);
     } else if (terrainType == TERRAIN_HILL) {
-        WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_HILL);
+        //WriteTimestampedLogEntry("CreateHerbForTerrainType: " +  TERRAIN_HILL);
         return CreateHerb(GetLesserRandomFieldHerb(), loc);
     }
 
@@ -159,7 +159,7 @@ int CreateOneOfEachTerrainType(object oArea, int maxHerbs) {
     int hillCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
                                          TERRAIN_HILL);
 
-    WriteTimestampedLogEntry("CreateOneOfEachTerrainType Start");
+    //WriteTimestampedLogEntry("CreateOneOfEachTerrainType Start");
     if(fWaterCnt > 0 && i < maxHerbs) {
         if(CreateHerbByTerrianType(oArea, TERRAIN_FRESH_WATER) == TRUE) {
             i++;
@@ -195,7 +195,7 @@ int CreateOneOfEachTerrainType(object oArea, int maxHerbs) {
             i++;
         }
     }
-    WriteTimestampedLogEntry("CreateOneOfEachTerrainType End");
+    //WriteTimestampedLogEntry("CreateOneOfEachTerrainType End");
 
     return i;
 }
