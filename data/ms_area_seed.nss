@@ -17,6 +17,8 @@ void MapAreaTerrain(object oArea) {
     int areaHeight = GetAreaSize(AREA_HEIGHT, oArea);
     int areaWidth = GetAreaSize(AREA_WIDTH, oArea);
 
+    WriteTimestampedLogEntry("MapAreaTerrain Start");
+
     while(x < areaWidth) {
         while (y < areaHeight) {
             float curX = (x * 10.0) + 5.0;
@@ -33,6 +35,7 @@ void MapAreaTerrain(object oArea) {
     }
 
     SetLocalInt(oArea, AREA_TERRAIN_MAPPED_STATE, TRUE);
+    WriteTimestampedLogEntry("MapAreaTerrain End");
 }
 
 void RandomAreaSeed(object oArea) {

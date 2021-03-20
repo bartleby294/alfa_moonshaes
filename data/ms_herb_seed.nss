@@ -153,6 +153,7 @@ int CreateOneOfEachTerrainType(object oArea, int maxHerbs) {
     int hillCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
                                          TERRAIN_HILL);
 
+    WriteTimestampedLogEntry("CreateOneOfEachTerrainType Start");
     if(fWaterCnt > 0 && i < maxHerbs) {
         if(CreateHerbByTerrianType(oArea, TERRAIN_FRESH_WATER) == TRUE) {
             i++;
@@ -188,6 +189,7 @@ int CreateOneOfEachTerrainType(object oArea, int maxHerbs) {
             i++;
         }
     }
+    WriteTimestampedLogEntry("CreateOneOfEachTerrainType End");
 
     return i;
 }
@@ -220,7 +222,9 @@ void SeedRandomHerbs(object oArea, int maxHerbs) {
     // spend the rest randomly
     while(i < maxHerbs && attempts < 120) {
         attempts++;
-        if(CreateHerbByTerrianType(oArea, GetRandomTerrainType()) == TRUE) {
+        string randTerrianType = GetRandomTerrainType();
+        WriteTimestampedLogEntry("SeedRandomHerbs for: " + randTerrianType);
+        if(CreateHerbByTerrianType(oArea, randTerrianType) == TRUE) {
             i++;
         }
     }
