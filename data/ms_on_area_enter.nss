@@ -1,6 +1,7 @@
 #include "nwnx_visibility"
 #include "ms_xp_util"
 #include "ms_area_seed"
+#include "ms_terrain_id"
 
 void MyGetVector(object oPC){
     vector vAreaVec = GetPosition(oPC);
@@ -34,6 +35,8 @@ void main() {
     object oPC = GetEnteringObject();
     int iFired = GetLocalInt(OBJECT_SELF, "setup");
     int iNumPlayers = 0;
+
+    MapAreaTerrain(oArea);
 
     /************* This section fires for all players, NPCs, and DMs***********/
     if(iFired != 1) {

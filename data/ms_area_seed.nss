@@ -1,52 +1,7 @@
 #include "ms_herb_seed"
 #include "nwnx_time"
-#include "nwnx_area"
-#include "nwnx_data"
-
-const string AREA_TERRAIN_MAPPED_STATE = "area_terrain_mapped_state";
-
-void PersistTerrainType(object oArea, string terrainType, int x, int y) {
-    WriteTimestampedLogEntry("PersistTerrainType Start");
-    string xyStr = IntToString(x) + "|" + IntToString(y);
-    NWNX_Data_Array_PushBack_Str(oArea, terrainType, xyStr);
-    WriteTimestampedLogEntry("PersistTerrainType End");
-}
-
-void MapAreaTerrain(object oArea) {
-
-    int x = 0;
-    int y = 0;
-    int areaHeight = GetAreaSize(AREA_HEIGHT, oArea);
-    int areaWidth = GetAreaSize(AREA_WIDTH, oArea);
-
-    WriteTimestampedLogEntry("MapAreaTerrain Start");
-    while(x < areaWidth) {
-        WriteTimestampedLogEntry("MapAreaTerrain x: " + IntToString(x));
-        while (y < areaHeight) {
-            WriteTimestampedLogEntry("MapAreaTerrain y: " + IntToString(y));
-            float curX = (x * 10.0) + 5.0;
-            float curY = (y * 10.0) + 5.0;
-            vector curPos = Vector(curX, curY, 0.0);
-            location curLoc = Location(oArea, curPos, 0.0);
-            string tileResRef = NWNX_Area_GetTileModelResRef(oArea, curX, curY);
-            string terrainType = GetTerrainType(tileResRef, curLoc);
-            PersistTerrainType(oArea, terrainType, x, y);
-            y++;
-        }
-        y = 0;
-        x++;
-    }
-
-    SetLocalInt(oArea, AREA_TERRAIN_MAPPED_STATE, TRUE);
-    WriteTimestampedLogEntry("MapAreaTerrain End");
-}
 
 void RandomAreaSeed(object oArea) {
-    WriteTimestampedLogEntry("RandomAreaSeed in function Start");
-    if(GetLocalInt(oArea, AREA_TERRAIN_MAPPED_STATE) == FALSE) {
-        MapAreaTerrain(oArea);
-    }
-
     int maxHerbs = GetCampaignInt(MAX_HERBS_PER_AREA, GetResRef(oArea));
     if(maxHerbs > 0) {
         if(NWNX_Area_GetNumberOfPlayersInArea(oArea) > 1) {
