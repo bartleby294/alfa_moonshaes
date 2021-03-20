@@ -35,7 +35,8 @@ int CreateHerb(struct Herb herbStruct, location loc) {
                                 loc,
                                 FALSE,
                                 MS_HERB_CONTAINER);
-
+    NWNX_Object_SetPlaceableIsStatic(oHerb, FALSE);
+    SetUseableFlag(oHerb, TRUE);
     SetName(oHerb, herbStruct.containerName);
     /* Set it as a container just in case its not */
     NWNX_Object_SetHasInventory(oHerb, TRUE);

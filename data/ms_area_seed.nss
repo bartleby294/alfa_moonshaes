@@ -2,6 +2,14 @@
 #include "nwnx_time"
 #include "nwnx_area"
 
+void CleanHerbInventory(object oHerb) {
+    object herb = GetFirstItemInInventory(oHerb);
+    while(herb != OBJECT_INVALID) {
+        DestroyObject(herb, 0.1);
+        herb = GetNextItemInInventory(oHerb);
+    }
+}
+
 void HerbTearDown(object oArea) {
     int cnt = 1;
     object baseObj = GetFirstObjectInArea(oArea);
@@ -10,8 +18,9 @@ void HerbTearDown(object oArea) {
     object curHerb = GetNearestObjectByTag(MS_HERB_CONTAINER, baseObj, cnt);
     while(curHerb != OBJECT_INVALID) {
          cnt++;
+         CleanHerbInventory(curHerb);
          WriteTimestampedLogEntry("MS HERBS: Destroying an herb - cnt:" + IntToString(cnt));
-         DestroyObject(curHerb);
+         DestroyObject(curHerb, 0.2);
          curHerb = GetNearestObjectByTag(MS_HERB_CONTAINER, baseObj, cnt);
     }
 }
