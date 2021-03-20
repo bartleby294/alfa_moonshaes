@@ -48,6 +48,8 @@ int CreateHerb(struct Herb herbStruct, location loc) {
             float randYf = baseY + IntToFloat(Random(100))/10;
             loc = Location(GetAreaFromLocation(loc),
                            Vector(randXf, randYf, locPos.z), 0.0);
+            loc = Location(GetAreaFromLocation(loc),
+                           Vector(randXf, randYf, GetGroundHeight(loc)), 0.0);
         }
     }
 
@@ -143,6 +145,9 @@ int CreateHerbByTerrianType(object oArea, string terrainType) {
     float randX = GetRandomXFrom(xyStr);
     float randY = GetRandomYFrom(xyStr);
     location randomLoc = Location(oArea, Vector(randX, randY, 0.0), 0.0);
+    randomLoc =  Location(oArea,
+                          Vector(randX, randY, GetGroundHeight(randomLoc)),
+                          0.0);
     return CreateHerbForTerrainType(randomLoc, terrainType);
 }
 
