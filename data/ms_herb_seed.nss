@@ -40,7 +40,7 @@ int CreateHerb(struct Herb herbStruct, location loc) {
         vector locPos = GetPositionFromLocation(loc);
         int baseX = FloatToInt(locPos.x/10.0);
         int baseY = FloatToInt(locPos.y/10.0);
-        WriteTimestampedLogEntry("locPos.x: " + FloatToString(locPos.y));
+        WriteTimestampedLogEntry("locPos.x: " + FloatToString(locPos.x));
         WriteTimestampedLogEntry("locPos.y: " + FloatToString(locPos.y));
         WriteTimestampedLogEntry("baseX: " + IntToString(baseX));
         WriteTimestampedLogEntry("baseY: " + IntToString(baseY));
@@ -50,8 +50,8 @@ int CreateHerb(struct Herb herbStruct, location loc) {
         WriteTimestampedLogEntry("baseYf: " + FloatToString(baseYf));
         while(newLocTry < 40 && GetIsLocationWalkable(loc) == FALSE) {
             newLocTry++;
-            float randXf = baseX + IntToFloat(Random(100))/10;
-            float randYf = baseY + IntToFloat(Random(100))/10;
+            float randXf = baseXf + IntToFloat(Random(100))/10;
+            float randYf = baseYf + IntToFloat(Random(100))/10;
             WriteTimestampedLogEntry("randXf: " + FloatToString(randXf));
             WriteTimestampedLogEntry("randYf: " + FloatToString(randYf));
             loc = Location(GetAreaFromLocation(loc),
