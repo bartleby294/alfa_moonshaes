@@ -15,9 +15,9 @@ struct Herb GetLesserRandomFreshWaterHerb() {
 
     switch(0){
         case 0:
-            freshWaterHerb.itemResRef = "vegetationdiv076";
+            freshWaterHerb.itemResRef = "comfrey";
             freshWaterHerb.containerName = "Comfrey";
-            freshWaterHerb.containerResRef = "comfrey";
+            freshWaterHerb.containerResRef = "vegetationdiv076";
             freshWaterHerb.terrain = TERRAIN_FRESH_WATER;
     }
 
