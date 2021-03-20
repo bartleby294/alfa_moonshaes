@@ -1,6 +1,7 @@
 #include "nwnx_regex"
 #include "nwnx_area"
 #include "nwnx_data"
+#include "nwnx_util"
 
 const string AREA_TERRAIN_MAPPED_STATE = "area_terrain_mapped_state";
 
@@ -108,6 +109,8 @@ void MapAreaTerrain(object oArea) {
     if(GetLocalInt(oArea, AREA_TERRAIN_MAPPED_STATE) == TRUE) {
         return;
     }
+    // This may take a while
+    NWNX_Util_SetInstructionLimit(16777215);
 
     int x = 0;
     int y = 0;
@@ -134,4 +137,5 @@ void MapAreaTerrain(object oArea) {
 
     SetLocalInt(oArea, AREA_TERRAIN_MAPPED_STATE, TRUE);
     WriteTimestampedLogEntry("MapAreaTerrain End");
+    NWNX_Util_SetInstructionLimit(-1);
 }
