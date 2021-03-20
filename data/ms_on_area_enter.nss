@@ -57,8 +57,9 @@ void main() {
                                         "spawn_sample_hb");
     }
 
+    WriteTimestampedLogEntry("RandomAreaSeed Start");
     RandomAreaSeed(oArea);
-
+    WriteTimestampedLogEntry("RandomAreaSeed End");
     // WE NEED dbhsc_oe_trapme BEFORE WE TURN THIS BACK ON!
     //if(GetLocalInt(oArea, "TRAPS") == 1){
     //    ExecuteScript("dbhsc_oe_trapme", OBJECT_SELF);

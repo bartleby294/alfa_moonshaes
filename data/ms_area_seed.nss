@@ -39,6 +39,7 @@ void MapAreaTerrain(object oArea) {
 }
 
 void RandomAreaSeed(object oArea) {
+    WriteTimestampedLogEntry("RandomAreaSeed in function Start");
     if(GetLocalInt(oArea, AREA_TERRAIN_MAPPED_STATE) == FALSE) {
         MapAreaTerrain(oArea);
     }
