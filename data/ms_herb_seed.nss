@@ -124,12 +124,12 @@ void SeedRandomHerbsOLD(object oArea, int maxHerbs) {
 }
 
 float GetRandomXFrom(string xyStr) {
-     int baseX = StringToInt(GetTokenByPosition(xyStr, "|", 0));
+     int baseX = StringToInt(GetTokenByPosition(xyStr, "|", 0)) * 10;
      return baseX + IntToFloat(Random(100))/10;
 }
 
 float GetRandomYFrom(string xyStr) {
-     int baseY = StringToInt(GetTokenByPosition(xyStr, "|", 1));
+     int baseY = StringToInt(GetTokenByPosition(xyStr, "|", 1)) * 10;
      return baseY + IntToFloat(Random(100))/10;
 }
 
