@@ -1,15 +1,22 @@
 #include "nwnx_regex"
 
-const int TERRAIN_UNKNOWN = 0;
-const int TERRAIN_FRESH_WATER = 1;
-const int TERRAIN_SALT_WATER = 2;
-const int TERRAIN_FIELD = 3;
-const int TERRAIN_FOREST = 4;
-const int TERRAIN_MOUNTAIN = 5;
-const int TERRAIN_ROCKY = 6;
-const int TERRAIN_HILL = 7;
-const int TERRAIN_CITY = 8;
-const int TERRAIN_ROAD = 6;
+const string TERRAIN_UNKNOWN = "terrain_unknown";
+const string TERRAIN_FRESH_WATER = "terrain_fresh_water";
+const string TERRAIN_SALT_WATER = "terrain_salt_water";
+const string TERRAIN_FIELD = "terrain_field";
+const string TERRAIN_FOREST = "terrain_forest";
+const string TERRAIN_MOUNTAIN = "terrain_mountain";
+const string TERRAIN_ROCKY = "terrain_rocky";
+const string TERRAIN_HILL = "terrain_hill";
+const string TERRAIN_CITY = "terrain_city";
+const string TERRAIN_ROAD = "terrain_road";
+
+struct Terrain
+{
+    int x;
+    int y;
+    string terrain;
+};
 
 // tno01_p02_01 - tno01_p[0-9]{2}_[0-9]{2} - TERRAIN_FIELD
 // tno01_r01_01 - tno01_r[0-9]{2}_[0-9]{2} - TERRAIN_ROCKY
@@ -20,7 +27,7 @@ const int TERRAIN_ROAD = 6;
 // tno01_h02_01 - tno01_h[0-9]{2}_[0-9]{2} - TERRAIN_ROAD
 // tno01_o01_01 - tno01_o[0-9]{2}_[0-9]{2} - TERRAIN_FIELD
 
-int GetTerrainTypeFromResRef(string resRef) {
+string GetTerrainTypeFromResRef(string resRef) {
 
     if(NWNX_Regex_Search(resRef, "tno01_p[0-9]{2}_[0-9]{2}") == TRUE) {
         return TERRAIN_FIELD;
@@ -68,9 +75,9 @@ int NearByTreeCount(location tileLoc){
     return treeCount;
 }
 
-int GetTerrainType(string resRef, location tileLoc) {
+string GetTerrainType(string resRef, location tileLoc) {
 
-    int resRefTerrain = GetTerrainTypeFromResRef(resRef);
+    string resRefTerrain = GetTerrainTypeFromResRef(resRef);
 
     /*
      *  If the terrain is field or hill check for tree density

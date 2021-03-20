@@ -6,6 +6,31 @@
 #include "_btb_util"
 #include "nwnx_object"
 #include "nwnx_visibility"
+#include "nwnx_data"
+#include "x0_i0_stringlib"
+
+void CleanHerbInventory(object oHerb) {
+    object herb = GetFirstItemInInventory(oHerb);
+    while(herb != OBJECT_INVALID) {
+        DestroyObject(herb, 0.1);
+        herb = GetNextItemInInventory(oHerb);
+    }
+}
+
+void HerbTearDown(object oArea) {
+    int cnt = 1;
+    object baseObj = GetFirstObjectInArea(oArea);
+
+    // Clean up any old herbs.
+    object curHerb = GetNearestObjectByTag(MS_HERB_CONTAINER, baseObj, cnt);
+    while(curHerb != OBJECT_INVALID) {
+         cnt++;
+         CleanHerbInventory(curHerb);
+         WriteTimestampedLogEntry("MS HERBS: Destroying an herb - cnt:" + IntToString(cnt));
+         DestroyObject(curHerb, 0.2);
+         curHerb = GetNearestObjectByTag(MS_HERB_CONTAINER, baseObj, cnt);
+    }
+}
 
 int CreateHerb(struct Herb herbStruct, location loc) {
 
@@ -50,7 +75,7 @@ int CreateHerb(struct Herb herbStruct, location loc) {
     return TRUE;
 }
 
-int CreateHerbForTerrainType(location loc, int terrainType) {
+int CreateHerbForTerrainType(location loc, string terrainType) {
     if (terrainType == TERRAIN_FRESH_WATER) {
         return CreateHerb(GetLesserRandomFreshWaterHerb(), loc);
     } else if (terrainType == TERRAIN_SALT_WATER) {
@@ -70,7 +95,7 @@ int CreateHerbForTerrainType(location loc, int terrainType) {
     return FALSE;
 }
 
-void SeedRandomHerbs(object oArea, int maxHerbs) {
+void SeedRandomHerbsOLD(object oArea, int maxHerbs) {
     int i = 0;
     int attempts = 0;
     while(i < maxHerbs && attempts < 60) {
@@ -80,9 +105,122 @@ void SeedRandomHerbs(object oArea, int maxHerbs) {
         string tileResRef = NWNX_Area_GetTileModelResRef(oArea,
                                                          randomLocVec.x,
                                                          randomLocVec.y);
-        int terrainType = GetTerrainType(tileResRef, randomLoc);
+        string terrainType = GetTerrainType(tileResRef, randomLoc);
         int herbCreated = CreateHerbForTerrainType(randomLoc, terrainType);
         if(herbCreated == TRUE) {
+            i++;
+        }
+    }
+}
+
+float GetRandomXFrom(string xyStr) {
+     int baseX = StringToInt(GetTokenByPosition(xyStr, "|", 0));
+     return baseX + IntToFloat(Random(100))/10;
+}
+
+float GetRandomYFrom(string xyStr) {
+     int baseY = StringToInt(GetTokenByPosition(xyStr, "|", 1));
+     return baseY + IntToFloat(Random(100))/10;
+}
+
+int CreateHerbByTerrianType(object oArea, string terrainType) {
+    int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
+                                         terrainType);
+    if(arraySize == 0) {
+        return FALSE;
+    }
+    string xyStr = NWNX_Data_Array_At_Str(oArea, terrainType,Random(arraySize));
+    float randX = GetRandomXFrom(xyStr);
+    float randY = GetRandomYFrom(xyStr);
+    location randomLoc = Location(oArea, Vector(randX, randY, 0.0), 0.0);
+    return CreateHerbForTerrainType(randomLoc, terrainType);
+}
+
+int CreateOneOfEachTerrainType(object oArea, int maxHerbs) {
+    int i = 0;
+    int fWaterCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
+                                         TERRAIN_FRESH_WATER);
+    int sWaterCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
+                                         TERRAIN_SALT_WATER);
+    int fieldCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
+                                         TERRAIN_FIELD);
+    int forestCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
+                                         TERRAIN_FOREST);
+    int mountainCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
+                                         TERRAIN_MOUNTAIN);
+    int rockyCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
+                                         TERRAIN_ROCKY);
+    int hillCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
+                                         TERRAIN_HILL);
+
+    if(fWaterCnt > 0 && i < maxHerbs) {
+        if(CreateHerbByTerrianType(oArea, TERRAIN_FRESH_WATER) == TRUE) {
+            i++;
+        }
+    }
+    if(sWaterCnt > 0 && i < maxHerbs) {
+        if(CreateHerbByTerrianType(oArea, TERRAIN_SALT_WATER) == TRUE) {
+            i++;
+        }
+    }
+    if(fieldCnt > 0 && i < maxHerbs) {
+        if(CreateHerbByTerrianType(oArea, TERRAIN_FIELD) == TRUE) {
+            i++;
+        }
+    }
+    if(forestCnt > 0 && i < maxHerbs) {
+        if(CreateHerbByTerrianType(oArea, TERRAIN_FOREST) == TRUE) {
+            i++;
+        }
+    }
+    if(mountainCnt > 0 && i < maxHerbs) {
+        if(CreateHerbByTerrianType(oArea, TERRAIN_MOUNTAIN) == TRUE) {
+            i++;
+        }
+    }
+    if(rockyCnt > 0 && i < maxHerbs) {
+        if(CreateHerbByTerrianType(oArea, TERRAIN_ROCKY) == TRUE) {
+            i++;
+        }
+    }
+    if(hillCnt > 0 && i < maxHerbs) {
+        if(CreateHerbByTerrianType(oArea, TERRAIN_FIELD) == TRUE) {
+            i++;
+        }
+    }
+
+    return i;
+}
+
+string GetRandomTerrainType() {
+    switch(Random(7)){
+        case 0:
+            return TERRAIN_FRESH_WATER;
+        case 1:
+            return TERRAIN_SALT_WATER;
+        case 2:
+            return TERRAIN_FIELD;
+        case 3:
+            return TERRAIN_FOREST;
+        case 4:
+            return TERRAIN_MOUNTAIN;
+        case 5:
+            return TERRAIN_ROCKY;
+        case 6:
+            return TERRAIN_HILL;
+    }
+
+    return TERRAIN_FIELD;
+}
+
+void SeedRandomHerbs(object oArea, int maxHerbs) {
+    int i = CreateOneOfEachTerrainType(oArea, maxHerbs);
+    int attempts = 0;
+
+    // spend the rest randomly
+    while(i < maxHerbs && attempts < 120) {
+        attempts++;
+        if(CreateHerbByTerrianType(oArea, GetRandomTerrainType()) == TRUE) {
             i++;
         }
     }

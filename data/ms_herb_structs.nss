@@ -6,7 +6,7 @@ struct Herb
     string containerName;
     string containerNewTag;
     string containerResRef;
-    int terrain;
+    string terrain;
 };
 
 struct Herb GetLesserRandomFreshWaterHerb() {
