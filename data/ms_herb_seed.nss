@@ -59,7 +59,8 @@ int CreateHerb(struct Herb herbStruct, location loc) {
     vector pos = GetPositionFromLocation(loc);
     WriteTimestampedLogEntry("CreateHerb: " + herbStruct.containerResRef +
                              " - at x: " + FloatToString(pos.x) + " y: " +
-                             FloatToString(pos.y));
+                             FloatToString(pos.y)+ " z: " +
+                             FloatToString(pos.z));
     object oHerb = CreateObject(OBJECT_TYPE_PLACEABLE,
                                 herbStruct.containerResRef,
                                 loc,
