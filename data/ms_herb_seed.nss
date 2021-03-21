@@ -39,13 +39,18 @@ void CreateHerbTrigger(struct Herb herbStruct, location loc){
                                                     locVec.y,
                                                     locVec.z,
                                                     MS_HERB_CONTAINER,
-                                                    3.0f);
+                                                    9.0f);
+    // For now lets leave them squares
     //NWNX_Object_SetTriggerGeometry(trigger,
     //                               "{1.0, 1.0}{4.0, 1.0}{4.0, 4.0}{1.0, 4.0}");
     WriteTimestampedLogEntry("CreateHerbTrigger: at x: "
                              + FloatToString(locVec.x) + " y: "
                              + FloatToString(locVec.y) + " z: "
                              + FloatToString(locVec.z));
+    SetEventScript(trigger, EVENT_SCRIPT_TRIGGER_ON_OBJECT_ENTER,
+                   "ms_herb_trigger");
+    SetLocalInt(trigger, MS_HERB_TRIGGER_SEARCH_DIFF, 14);
+    SetLocalInt(trigger, MS_HERB_TRIGGER_LORE_DIFF, 12);
 }
 
 int CreateHerb(struct Herb herbStruct, location loc) {
