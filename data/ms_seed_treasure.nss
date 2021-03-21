@@ -61,8 +61,8 @@ int CreateTreasure(struct Treasure treasureStruct, location loc) {
         int baseY = FloatToInt(locPos.y/10.0);
         float baseXf = baseX * 10.0;
         float baseYf = baseY * 10.0;
-        while(newLocTry < 40 && GetIsLocationWalkable(loc) == FALSE
-              && isHeightWrong(loc) == TRUE) {
+        while(newLocTry < 40 && (GetIsLocationWalkable(loc) == FALSE
+              || isHeightWrong(loc) == TRUE)) {
             newLocTry++;
             float randXf = baseXf + IntToFloat(Random(100))/10;
             float randYf = baseYf + IntToFloat(Random(100))/10;
