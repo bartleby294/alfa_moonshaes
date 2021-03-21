@@ -1,5 +1,7 @@
 #include "nwnx_visibility"
 #include "ms_xp_util"
+#include "ms_area_seed"
+#include "ms_terrain_id"
 
 void MyGetVector(object oPC){
     vector vAreaVec = GetPosition(oPC);
@@ -34,6 +36,8 @@ void main() {
     int iFired = GetLocalInt(OBJECT_SELF, "setup");
     int iNumPlayers = 0;
 
+    MapAreaTerrain(oArea);
+
     /************* This section fires for all players, NPCs, and DMs***********/
     if(iFired != 1) {
         SetLocalInt(oArea, "X2_L_WILD_MAGIC", 1);
@@ -56,6 +60,9 @@ void main() {
                                         "spawn_sample_hb");
     }
 
+    WriteTimestampedLogEntry("RandomAreaSeed Start");
+    RandomAreaSeed(oArea);
+    WriteTimestampedLogEntry("RandomAreaSeed End");
     // WE NEED dbhsc_oe_trapme BEFORE WE TURN THIS BACK ON!
     //if(GetLocalInt(oArea, "TRAPS") == 1){
     //    ExecuteScript("dbhsc_oe_trapme", OBJECT_SELF);

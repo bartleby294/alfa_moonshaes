@@ -69,6 +69,9 @@
 
 void main()
 {
+    effect eGoFast = EffectMovementSpeedIncrease(20);
+    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eGoFast, OBJECT_SELF);
+
 /************************ [Important Spawn Settings] **************************/
     SetAIInteger(AI_INTELLIGENCE, 10);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
