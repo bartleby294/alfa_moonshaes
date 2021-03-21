@@ -138,16 +138,6 @@ int CreateHerbForTerrainType(location loc, string terrainType) {
     return FALSE;
 }
 
-float GetRandomXFrom(string xyStr) {
-     int baseX = StringToInt(GetTokenByPosition(xyStr, "|", 0)) * 10;
-     return baseX + IntToFloat(Random(100))/10;
-}
-
-float GetRandomYFrom(string xyStr) {
-     int baseY = StringToInt(GetTokenByPosition(xyStr, "|", 1)) * 10;
-     return baseY + IntToFloat(Random(100))/10;
-}
-
 int CreateHerbByTerrianType(object oArea, string terrainType) {
     int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
                                          terrainType);
@@ -220,27 +210,6 @@ int CreateOneOfEachTerrainType(object oArea, int maxHerbs) {
     //WriteTimestampedLogEntry("CreateOneOfEachTerrainType End");
 
     return i;
-}
-
-string GetRandomTerrainType() {
-    switch(Random(7)){
-        case 0:
-            return TERRAIN_FRESH_WATER;
-        case 1:
-            return TERRAIN_SALT_WATER;
-        case 2:
-            return TERRAIN_FIELD;
-        case 3:
-            return TERRAIN_FOREST;
-        case 4:
-            return TERRAIN_MOUNTAIN;
-        case 5:
-            return TERRAIN_ROCKY;
-        case 6:
-            return TERRAIN_HILL;
-    }
-
-    return TERRAIN_FIELD;
 }
 
 void SeedRandomHerbs(object oArea, int maxHerbs) {
