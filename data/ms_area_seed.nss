@@ -11,7 +11,7 @@ void RandomAreaSeed(object oArea) {
         } else {
             int lastHerbCreate = GetLocalInt(oArea, LAST_HERB_CREATE);
             int curTime = NWNX_Time_GetTimeStamp();
-            WriteTimestampedLogEntry("curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS"
+            WriteTimestampedLogEntry("curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS "
                                      + IntToString(curTime) + " - "
                                      + IntToString(lastHerbCreate) + " > "
                                      + IntToString(HERB_CREATE_DELAY_SECONDS));
@@ -31,7 +31,7 @@ void RandomAreaSeed(object oArea) {
         } else {
             int lastTreasureCreate = GetLocalInt(oArea, LAST_TREASURE_CREATE);
             int curTime = NWNX_Time_GetTimeStamp();
-            WriteTimestampedLogEntry("curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS"
+            WriteTimestampedLogEntry("curTime - lastTreasureCreate > TREASURE_CREATE_DELAY_SECONDS "
                                      + IntToString(curTime) + " - "
                                      + IntToString(lastTreasureCreate) + " > "
                                      + IntToString(TREASURE_CREATE_DELAY_SECONDS));

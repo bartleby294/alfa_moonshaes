@@ -13,5 +13,6 @@ const string MS_TREASURE_CHEST_GEMS = "ms_treasure_chest_gems";
 const string MS_TREASURE_CHEST_WEAPONS = "ms_treasure_chest_weapons";
 const string MS_TREASURE_CHEST_ARMOR = "ms_treasure_chest_armor";
 const string MS_TREASURE_CHEST_POTIONS = "ms_treasure_chest_potions";
+const string MS_TREASURE_CHEST_JEWLERY = "ms_treasure_chest_jewlery";
+const string MS_TREASURE_CHEST_GOLD = "ms_treasure_chest_gold";
 const string MS_TREASURE_PER_AREA = "ms_treasure_per_area";
-

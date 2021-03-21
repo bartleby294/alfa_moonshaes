@@ -61,7 +61,8 @@ int CreateTreasure(struct Treasure treasureStruct, location loc) {
         int baseY = FloatToInt(locPos.y/10.0);
         float baseXf = baseX * 10.0;
         float baseYf = baseY * 10.0;
-        while(newLocTry < 40 && GetIsLocationWalkable(loc) == FALSE) {
+        while(newLocTry < 40 && GetIsLocationWalkable(loc) == FALSE
+              && isHeightWrong(loc) == TRUE) {
             newLocTry++;
             float randXf = baseXf + IntToFloat(Random(100))/10;
             float randYf = baseYf + IntToFloat(Random(100))/10;
@@ -99,6 +100,11 @@ int CreateTreasure(struct Treasure treasureStruct, location loc) {
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_WEAPONS, treasureStruct.chestWeapons);
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_ARMOR, treasureStruct.chestArmor);
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_POTIONS, treasureStruct.chestPotions);
+    SetLocalInt(oTreasure, MS_TREASURE_CHEST_JEWLERY, treasureStruct.chestJewlery);
+    SetLocalInt(oTreasure, MS_TREASURE_CHEST_GOLD, treasureStruct.chestGold);
+
+    SetEventScript(oTreasure, EVENT_SCRIPT_PLACEABLE_ON_USED,
+                   "ms_treas_on_used");
 
     /* Set it as a container just in case its not */
     //NWNX_Object_SetHasInventory(oTreasure, TRUE);

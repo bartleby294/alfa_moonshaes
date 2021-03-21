@@ -14,6 +14,8 @@ struct Treasure
     int    chestWeapons;
     int    chestArmor;
     int    chestPotions;
+    int    chestJewlery;
+    int    chestGold;
     int    spotDiff;
     string terrain;
 };
@@ -29,13 +31,15 @@ struct Treasure GetLesserRandomFreshWaterTreasure() {
             treasure.burriedResRef = "ms_treasure_eart";
             treasure.chestName = "Small Bandit Cache";
             treasure.chestNewTag = "";
-            treasure.chestResRef = "";
+            treasure.chestResRef = "banditcampsmches";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
-            treasure.chestGems = TRUE;
-            treasure.chestWeapons= FALSE;
-            treasure.chestArmor = FALSE;
-            treasure.chestPotions = TRUE;
+            treasure.chestGems = 20;
+            treasure.chestWeapons= 0;
+            treasure.chestArmor = 0;
+            treasure.chestPotions = 20;
+            treasure.chestJewlery = 20;
+            treasure.chestGold = 40;
             treasure.spotDiff = 16;
             treasure.terrain = TERRAIN_FRESH_WATER;
     }
@@ -54,13 +58,15 @@ struct Treasure GetLesserRandomSaltWaterTreasure() {
             treasure.burriedResRef = "ms_treasure_sand";
             treasure.chestName = "Small Pirate Treasure Chest";
             treasure.chestNewTag = "";
-            treasure.chestResRef = "";
+            treasure.chestResRef = "banditcampsmches";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
-            treasure.chestGems = TRUE;
-            treasure.chestWeapons= FALSE;
-            treasure.chestArmor = FALSE;
-            treasure.chestPotions = TRUE;
+            treasure.chestGems = 20;
+            treasure.chestWeapons= 0;
+            treasure.chestArmor = 0;
+            treasure.chestPotions = 20;
+            treasure.chestJewlery = 20;
+            treasure.chestGold = 40;
             treasure.spotDiff = 16;
             treasure.terrain = TERRAIN_FRESH_WATER;
     }
@@ -79,13 +85,15 @@ struct Treasure GetLesserRandomFieldTreasure() {
             treasure.burriedResRef = "ms_treasure_eart";
             treasure.chestName = "Small Bandit Cache";
             treasure.chestNewTag = "";
-            treasure.chestResRef = "";
+            treasure.chestResRef = "banditcampsmches";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
-            treasure.chestGems = TRUE;
-            treasure.chestWeapons= FALSE;
-            treasure.chestArmor = FALSE;
-            treasure.chestPotions = TRUE;
+            treasure.chestGems = 20;
+            treasure.chestWeapons= 0;
+            treasure.chestArmor = 0;
+            treasure.chestPotions = 20;
+            treasure.chestJewlery = 20;
+            treasure.chestGold = 40;
             treasure.spotDiff = 16;
             treasure.terrain = TERRAIN_FRESH_WATER;
     }
@@ -104,13 +112,15 @@ struct Treasure GetLesserRandomForestTreasure() {
             treasure.burriedResRef = "ms_treasure_eart";
             treasure.chestName = "Small Bandit Cache";
             treasure.chestNewTag = "";
-            treasure.chestResRef = "";
+            treasure.chestResRef = "banditcampsmches";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
-            treasure.chestGems = TRUE;
-            treasure.chestWeapons= FALSE;
-            treasure.chestArmor = FALSE;
-            treasure.chestPotions = TRUE;
+            treasure.chestGems = 20;
+            treasure.chestWeapons= 0;
+            treasure.chestArmor = 0;
+            treasure.chestPotions = 20;
+            treasure.chestJewlery = 20;
+            treasure.chestGold = 40;
             treasure.spotDiff = 16;
             treasure.terrain = TERRAIN_FRESH_WATER;
     }
@@ -129,13 +139,15 @@ struct Treasure GetLesserRandomRockyTreasure() {
             treasure.burriedResRef = "ms_treasure_eart";
             treasure.chestName = "Small Bandit Cache";
             treasure.chestNewTag = "";
-            treasure.chestResRef = "";
+            treasure.chestResRef = "banditcampsmches";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
-            treasure.chestGems = TRUE;
-            treasure.chestWeapons= FALSE;
-            treasure.chestArmor = FALSE;
-            treasure.chestPotions = TRUE;
+            treasure.chestGems = 20;
+            treasure.chestWeapons= 0;
+            treasure.chestArmor = 0;
+            treasure.chestPotions = 20;
+            treasure.chestJewlery = 20;
+            treasure.chestGold = 40;
             treasure.spotDiff = 16;
             treasure.terrain = TERRAIN_FRESH_WATER;
     }
@@ -154,13 +166,15 @@ struct Treasure GetLesserRandomMountainTreasure() {
             treasure.burriedResRef = "ms_treasure_eart";
             treasure.chestName = "Small Bandit Cache";
             treasure.chestNewTag = "";
-            treasure.chestResRef = "";
+            treasure.chestResRef = "banditcampsmches";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
-            treasure.chestGems = TRUE;
-            treasure.chestWeapons= FALSE;
-            treasure.chestArmor = FALSE;
-            treasure.chestPotions = TRUE;
+            treasure.chestGems = 20;
+            treasure.chestWeapons= 0;
+            treasure.chestArmor = 0;
+            treasure.chestPotions = 20;
+            treasure.chestJewlery = 20;
+            treasure.chestGold = 40;
             treasure.spotDiff = 16;
             treasure.terrain = TERRAIN_FRESH_WATER;
     }

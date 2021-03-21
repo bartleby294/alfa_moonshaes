@@ -91,45 +91,6 @@ int isTent(object obj){
 }
 
 /**
- *  Make sure we have valid heights around the location and that they valid
- *  Locations.
- */
-int isHeightWrong(location possibleStructureLoc){
-    vector possibleStructureVec = GetPositionFromLocation(possibleStructureLoc);
-    object oArea = GetAreaFromLocation(possibleStructureLoc);
-
-    float negx = GetGroundHeight(Location(oArea,
-                Vector(possibleStructureVec.x - 1.0,
-                        possibleStructureVec.y, 0.0), 0.0));
-
-    float negy = GetGroundHeight(Location(oArea,
-                Vector(possibleStructureVec.x,
-                        possibleStructureVec.y - 1.0, 0.0), 0.0));
-
-    float posx = GetGroundHeight(Location(oArea,
-            Vector(possibleStructureVec.x + 1.0,
-                    possibleStructureVec.y, 0.0), 0.0));
-
-    float posy = GetGroundHeight(Location(oArea,
-                Vector(possibleStructureVec.x,
-                        possibleStructureVec.y + 1.0, 0.0), 0.0));
-    // GetGroundHeight returns -6.0 for invalid locations.
-    if(negx == -6.0 || negx == -6.0 || negx == -6.0 ||negx == -6.0) {
-        return 1;
-    }
-
-    // if there is too much of a difference in height look for some where else.
-    if(absFloat(possibleStructureVec.z - negx) > 1.0
-        || absFloat(possibleStructureVec.z - negy) > 1.0
-        || absFloat(possibleStructureVec.z - posx) > 1.0
-        || absFloat(possibleStructureVec.z - posy) > 1.0) {
-            return 1;
-        }
-
-    return 0;
-}
-
-/**
  *  Select a random valid Location in camp.
  */
 location selectLocationInCamp(object oArea, location campfireLoc,
