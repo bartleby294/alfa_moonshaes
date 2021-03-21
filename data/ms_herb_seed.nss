@@ -40,8 +40,12 @@ void CreateHerbTrigger(struct Herb herbStruct, location loc){
                                                     locVec.z,
                                                     MS_HERB_CONTAINER,
                                                     3.0f);
-    NWNX_Object_SetTriggerGeometry(trigger,
-                                   "{1.0, 1.0}{4.0, 1.0}{4.0, 4.0}{1.0, 4.0}");
+    //NWNX_Object_SetTriggerGeometry(trigger,
+    //                               "{1.0, 1.0}{4.0, 1.0}{4.0, 4.0}{1.0, 4.0}");
+    WriteTimestampedLogEntry("CreateHerbTrigger: at x: "
+                             + FloatToString(locVec.x) + " y: "
+                             + FloatToString(locVec.y) + " z: "
+                             + FloatToString(locVec.z));
 }
 
 int CreateHerb(struct Herb herbStruct, location loc) {
