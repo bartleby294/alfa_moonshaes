@@ -31,6 +31,7 @@ struct Terrain
 // tno01_x01_01 - tno01_x[0-9]{2}_[0-9]{2} - TERRAIN_CITY
 // tno01_h02_01 - tno01_h[0-9]{2}_[0-9]{2} - TERRAIN_ROAD
 // tno01_o01_01 - tno01_o[0-9]{2}_[0-9]{2} - TERRAIN_FIELD
+// tno01_v24_01 - tno01_v[0-9]{2}_[0-9]{2} - TERRAIN_SALT_WATER
 
 string GetTerrainTypeFromResRef(string resRef) {
 
@@ -57,6 +58,9 @@ string GetTerrainTypeFromResRef(string resRef) {
     }
     if(NWNX_Regex_Search(resRef, "tno01_o[0-9]{2}_[0-9]{2}") == TRUE) {
         return TERRAIN_FIELD;
+    }
+    if(NWNX_Regex_Search(resRef, "tno01_v[0-9]{2}_[0-9]{2}") == TRUE) {
+        return TERRAIN_SALT_WATER;
     }
 
     return TERRAIN_UNKNOWN;
