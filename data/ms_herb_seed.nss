@@ -32,6 +32,18 @@ void HerbTearDown(object oArea) {
     }
 }
 
+void CreateHerbTrigger(struct Herb herbStruct, location loc){
+    vector locVec = GetPositionFromLocation(loc);
+    object trigger = NWNX_Area_CreateGenericTrigger(GetAreaFromLocation(loc),
+                                                    locVec.x,
+                                                    locVec.y,
+                                                    locVec.z,
+                                                    MS_HERB_CONTAINER,
+                                                    3.0f);
+    NWNX_Object_SetTriggerGeometry(trigger,
+                                   "{1.0, 1.0}{4.0, 1.0}{4.0, 4.0}{1.0, 4.0}");
+}
+
 int CreateHerb(struct Herb herbStruct, location loc) {
 
     /* If we cant walk to the point need to find some where we can.*/
@@ -74,6 +86,7 @@ int CreateHerb(struct Herb herbStruct, location loc) {
                                 loc,
                                 FALSE,
                                 MS_HERB_CONTAINER);
+    CreateHerbTrigger(herbStruct, loc);
     NWNX_Object_SetPlaceableIsStatic(oHerb, FALSE);
     SetUseableFlag(oHerb, TRUE);
     SetName(oHerb, herbStruct.containerName);
