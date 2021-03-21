@@ -68,7 +68,8 @@ int CreateTreasure(struct Treasure treasureStruct, location loc) {
             loc = Location(GetAreaFromLocation(loc),
                            Vector(randXf, randYf, locPos.z), 0.0);
             loc = Location(GetAreaFromLocation(loc),
-                           Vector(randXf, randYf, GetGroundHeight(loc)), 0.0);
+                           Vector(randXf, randYf, GetGroundHeight(loc) + 0.2),
+                           0.0);
         }
     }
 

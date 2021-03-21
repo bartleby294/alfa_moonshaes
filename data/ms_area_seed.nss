@@ -11,6 +11,10 @@ void RandomAreaSeed(object oArea) {
         } else {
             int lastHerbCreate = GetLocalInt(oArea, LAST_HERB_CREATE);
             int curTime = NWNX_Time_GetTimeStamp();
+            WriteTimestampedLogEntry("curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS"
+                                     + IntToString(curTime) + " - "
+                                     + IntToString(lastHerbCreate) + " > "
+                                     + IntToString(HERB_CREATE_DELAY_SECONDS));
             if(curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS) {
                 SetLocalInt(oArea, LAST_HERB_CREATE, curTime);
                 HerbTearDown(oArea);
@@ -27,7 +31,11 @@ void RandomAreaSeed(object oArea) {
         } else {
             int lastTreasureCreate = GetLocalInt(oArea, LAST_TREASURE_CREATE);
             int curTime = NWNX_Time_GetTimeStamp();
-            if(curTime - lastHerbCreate > TREASURE_CREATE_DELAY_SECONDS) {
+            WriteTimestampedLogEntry("curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS"
+                                     + IntToString(curTime) + " - "
+                                     + IntToString(lastTreasureCreate) + " > "
+                                     + IntToString(TREASURE_CREATE_DELAY_SECONDS));
+            if(curTime - lastTreasureCreate > TREASURE_CREATE_DELAY_SECONDS) {
                 //if(Random(100) > 80) {
                 if(Random(100) >= 0) { // Testing Mode
                     SetLocalInt(oArea, LAST_TREASURE_CREATE, curTime);
