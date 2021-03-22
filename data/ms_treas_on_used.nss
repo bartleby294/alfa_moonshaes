@@ -32,7 +32,7 @@ void main()
 
     SetLocalString(chest, MS_TREASURE_CHEST_ITEM_RESREF, chestItemResRef);
 
-    SetEventScript(oTreasure, EVENT_SCRIPT_PLACEABLE_ON_INVENTORYDISTURBED,
+    SetEventScript(chest, EVENT_SCRIPT_PLACEABLE_ON_INVENTORYDISTURBED,
                    "ms_treas_on_invd");
 
     DestroyObject(OBJECT_SELF, 0.2);
