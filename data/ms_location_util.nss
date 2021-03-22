@@ -1,4 +1,14 @@
+#include "x0_i0_stringlib"
 
+float GetRandomXFrom(string xyStr) {
+     int baseX = StringToInt(GetTokenByPosition(xyStr, "|", 0)) * 10;
+     return baseX + IntToFloat(Random(100))/10;
+}
+
+float GetRandomYFrom(string xyStr) {
+     int baseY = StringToInt(GetTokenByPosition(xyStr, "|", 1)) * 10;
+     return baseY + IntToFloat(Random(100))/10;
+}
 
 int getRandomDimensionOffBorder(int dimension, int buffer) {
     int doubleBuffer = 2 * buffer;

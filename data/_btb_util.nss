@@ -4,6 +4,16 @@ float getFacing(vector centerPoint, vector otherPoint) {
                                 0.0));
 }
 
+/**
+ * Why doesnt this already exist?
+ */
+float absFloat(float value) {
+    if(value < 0.0) {
+        return value * -1.0;
+    }
+    return value;
+}
+
 int GetIsLocationWalkable(location loc) {
 
     // Get the surface type
@@ -13,6 +23,44 @@ int GetIsLocationWalkable(location loc) {
     return StringToInt(Get2DAString("surfacemat", "Walk", nSurfaceType));
 }
 
+/**
+ *  Make sure we have valid heights around the location and that they valid
+ *  Locations.
+ */
+int isHeightWrong(location possibleStructureLoc){
+    vector possibleStructureVec = GetPositionFromLocation(possibleStructureLoc);
+    object oArea = GetAreaFromLocation(possibleStructureLoc);
+
+    float negx = GetGroundHeight(Location(oArea,
+                Vector(possibleStructureVec.x - 1.0,
+                        possibleStructureVec.y, 0.0), 0.0));
+
+    float negy = GetGroundHeight(Location(oArea,
+                Vector(possibleStructureVec.x,
+                        possibleStructureVec.y - 1.0, 0.0), 0.0));
+
+    float posx = GetGroundHeight(Location(oArea,
+            Vector(possibleStructureVec.x + 1.0,
+                    possibleStructureVec.y, 0.0), 0.0));
+
+    float posy = GetGroundHeight(Location(oArea,
+                Vector(possibleStructureVec.x,
+                        possibleStructureVec.y + 1.0, 0.0), 0.0));
+    // GetGroundHeight returns -6.0 for invalid locations.
+    if(negx == -6.0 || negx == -6.0 || negx == -6.0 ||negx == -6.0) {
+        return 1;
+    }
+
+    // if there is too much of a difference in height look for some where else.
+    if(absFloat(possibleStructureVec.z - negx) > 1.0
+        || absFloat(possibleStructureVec.z - negy) > 1.0
+        || absFloat(possibleStructureVec.z - posx) > 1.0
+        || absFloat(possibleStructureVec.z - posy) > 1.0) {
+            return 1;
+        }
+
+    return 0;
+}
 
 int AreaContainsObjectWithTag(string tag, object oArea){
     object firstObject = GetFirstObjectInArea(oArea);
@@ -141,16 +189,6 @@ location pickSpawnLoc(object oPC, object point, float offset, float rotation) {
             getFacing(pointVector, GetPositionFromLocation(loc)));
 
     return loc;
-}
-
-/**
- * Why doesnt this already exist?
- */
-float absFloat(float value) {
-    if(value < 0.0) {
-        return value * -1.0;
-    }
-    return value;
 }
 
 /** Given a creature and a tag return if it has at least one matching item in

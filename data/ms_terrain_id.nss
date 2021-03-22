@@ -23,6 +23,27 @@ struct Terrain
     string terrain;
 };
 
+string GetRandomTerrainType() {
+    switch(Random(7)){
+        case 0:
+            return TERRAIN_FRESH_WATER;
+        case 1:
+            return TERRAIN_SALT_WATER;
+        case 2:
+            return TERRAIN_FIELD;
+        case 3:
+            return TERRAIN_FOREST;
+        case 4:
+            return TERRAIN_MOUNTAIN;
+        case 5:
+            return TERRAIN_ROCKY;
+        case 6:
+            return TERRAIN_HILL;
+    }
+
+    return TERRAIN_FIELD;
+}
+
 // tno01_p02_01 - tno01_p[0-9]{2}_[0-9]{2} - TERRAIN_FIELD
 // tno01_r01_01 - tno01_r[0-9]{2}_[0-9]{2} - TERRAIN_ROCKY
 // tno01_a21_01 - tno01_a[0-9]{2}_[0-9]{2} - TERRAIN_HILL

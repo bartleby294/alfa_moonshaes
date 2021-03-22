@@ -38,7 +38,6 @@ int getHighestPotionPrice() {
 
 }
 
-
 //////////POTIONS//////////
 string getRandomPotion()
 {
@@ -111,6 +110,22 @@ string getRandomPotion()
             // Potion of Speed
             return "nw_it_mpotion004";
     }
+    return "";
+}
+
+
+string getRandomPotionUnderMaxGP(int max) {
+
+    int try = 0;
+    int breakout = 50;
+    while(try < breakout) {
+        string tag = getRandomPotion();
+        if(getItemCostFromTag(tag) < max) {
+            return tag;
+        }
+        try++;
+    }
+
     return "";
 }
 
