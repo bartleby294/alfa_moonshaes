@@ -37,12 +37,16 @@ void main()
     object treasureTrigger = GetNearestObjectByTag(MS_TREASURE_CONTAINER);
     DestroyObject(treasureTrigger, 0.1);
 
+    vector posLoc = GetPositionFromLocation(loc);
+    location chestLoc = Location(GetAreaFromLocation(loc),
+                                 Vector(posLoc.x + 1.0, posLoc.y, posLoc.z),
+                                 0.0);
 
     object hole = CreateObject(OBJECT_TYPE_PLACEABLE, "shovelhole", loc, FALSE,
                                 MS_TREASURE_CONTAINER);
 
     object chest = CreateObject(OBJECT_TYPE_PLACEABLE, chestResRef,
-                                GetAheadLocation(hole), FALSE,
+                                chestLoc, FALSE,
                                 MS_TREASURE_CONTAINER);
 
     generateLootByChance(chestGoldMin + Random(chestGoldMax - chestGoldMin),
