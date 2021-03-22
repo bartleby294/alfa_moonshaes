@@ -106,9 +106,10 @@ int CreateTreasure(struct Treasure treasureStruct, location loc) {
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_JEWLERY, treasureStruct.chestJewlery);
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_GOLD, treasureStruct.chestGold);
 
-
     SetEventScript(oTreasure, EVENT_SCRIPT_PLACEABLE_ON_USED,
                    "ms_treas_on_used");
+    SetEventScript(oTreasure, EVENT_SCRIPT_PLACEABLE_ON_MELEEATTACKED,
+                   "ms_treas_on_atta");
 
     /* Set it as a container just in case its not */
     //NWNX_Object_SetHasInventory(oTreasure, TRUE);

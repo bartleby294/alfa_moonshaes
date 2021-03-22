@@ -7,7 +7,7 @@ void main()
     object oTreasure = OBJECT_SELF;
     location loc = GetLocation(OBJECT_SELF);
 
-    object oPC = GetLastUsedBy();
+    object oPC = GetLastAttacker();
     object oItem = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oPC);
 
     if(GetStringLowerCase(GetTag(oItem)) != "workingshovel"){

@@ -34,7 +34,7 @@ void main()
 
     // Check if its the last item if so destroy the chest and leave a chest item
     object treasure = GetFirstItemInInventory(OBJECT_SELF);
-    if(treasure != OBJECT_INVALID) {
+    if(treasure == OBJECT_INVALID) {
         string chestItemResRef = GetLocalString(OBJECT_SELF,
                                                 MS_TREASURE_CHEST_ITEM_RESREF);
         if(chestItemResRef != "") {

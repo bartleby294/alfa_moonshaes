@@ -7,9 +7,11 @@ void main()
 
     // only run check for pcs not dms.
     if(GetIsPC(oPC) == FALSE || GetIsDM(oPC) == TRUE) {
-        WriteTimestampedLogEntry("Not a PC or is DM.");
+        //WriteTimestampedLogEntry("Not a PC or is DM.");
         return;
     }
+
+
 
     object treasure = GetNearestObjectByTag(MS_TREASURE_CONTAINER, OBJECT_SELF);
     int spotDiff = GetLocalInt(OBJECT_SELF, MS_TREASURE_TRIGGER_SPOT_DIFF);
@@ -22,7 +24,7 @@ void main()
     // You saw the treasure!
     if(spotCheck >= spotDiff) {
         WriteTimestampedLogEntry("You know it");
-        //NWNX_Visibility_SetVisibilityOverride(oPC, treasure,
-        //                                      NWNX_VISIBILITY_VISIBLE);
+        NWNX_Visibility_SetVisibilityOverride(oPC, treasure,
+                                              NWNX_VISIBILITY_VISIBLE);
     }
 }
