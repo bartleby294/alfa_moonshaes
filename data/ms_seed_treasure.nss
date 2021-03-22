@@ -91,9 +91,12 @@ int CreateTreasure(struct Treasure treasureStruct, location loc) {
     NWNX_Object_SetPlaceableIsStatic(oTreasure, FALSE);
     SetUseableFlag(oTreasure, TRUE);
     SetName(oTreasure, treasureStruct.burriedName);
+
     SetLocalString(oTreasure, MS_TREASURE_CHEST_NAME, treasureStruct.burriedName);
     SetLocalString(oTreasure, MS_TREASURE_CHEST_NEW_TAG, treasureStruct.chestNewTag);
     SetLocalString(oTreasure, MS_TREASURE_CHEST_RESREF, treasureStruct.chestResRef);
+    SetLocalString(oTreasure, MS_TREASURE_CHEST_ITEM_RESREF, treasureStruct.chestItemResRef);
+
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_GOLD_MIN, treasureStruct.chestGoldMin);
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_GOLD_MAX, treasureStruct.chestGoldMax);
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_GEMS, treasureStruct.chestGems);
@@ -102,6 +105,7 @@ int CreateTreasure(struct Treasure treasureStruct, location loc) {
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_POTIONS, treasureStruct.chestPotions);
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_JEWLERY, treasureStruct.chestJewlery);
     SetLocalInt(oTreasure, MS_TREASURE_CHEST_GOLD, treasureStruct.chestGold);
+
 
     SetEventScript(oTreasure, EVENT_SCRIPT_PLACEABLE_ON_USED,
                    "ms_treas_on_used");

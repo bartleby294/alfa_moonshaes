@@ -7,6 +7,7 @@ const string MS_TREASURE_TRIGGER_SPOT_DIFF = "ms_treasure_trigger_spot_diff";
 const string MS_TREASURE_CHEST_NAME = "ms_treasure_chest_name";
 const string MS_TREASURE_CHEST_NEW_TAG = "ms_treasure_chest_new_tag";
 const string MS_TREASURE_CHEST_RESREF = "ms_treasure_chest_resref";
+const string MS_TREASURE_CHEST_ITEM_RESREF = "ms_treasure_chest_item_resref";
 const string MS_TREASURE_CHEST_GOLD_MIN = "ms_treasure_chest_gold_min";
 const string MS_TREASURE_CHEST_GOLD_MAX = "ms_treasure_chest_gold_max";
 const string MS_TREASURE_CHEST_GEMS = "ms_treasure_chest_gems";

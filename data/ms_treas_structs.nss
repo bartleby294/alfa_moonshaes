@@ -8,6 +8,7 @@ struct Treasure
     string chestName;
     string chestNewTag;
     string chestResRef;
+    string chestItemResRef;
     int    chestGoldMin;
     int    chestGoldMax;
     int    chestGems;
@@ -32,6 +33,7 @@ struct Treasure GetLesserRandomFreshWaterTreasure() {
             treasure.chestName = "Small Bandit Cache";
             treasure.chestNewTag = "";
             treasure.chestResRef = "banditcampsmches";
+            treasure.chestItemResRef = "randtreaschesite";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
             treasure.chestGems = 20;
@@ -59,6 +61,7 @@ struct Treasure GetLesserRandomSaltWaterTreasure() {
             treasure.chestName = "Small Pirate Treasure Chest";
             treasure.chestNewTag = "";
             treasure.chestResRef = "banditcampsmches";
+            treasure.chestItemResRef = "randtreaschesite";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
             treasure.chestGems = 20;
@@ -86,6 +89,7 @@ struct Treasure GetLesserRandomFieldTreasure() {
             treasure.chestName = "Small Bandit Cache";
             treasure.chestNewTag = "";
             treasure.chestResRef = "banditcampsmches";
+            treasure.chestItemResRef = "randtreaschesite";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
             treasure.chestGems = 20;
@@ -113,6 +117,7 @@ struct Treasure GetLesserRandomForestTreasure() {
             treasure.chestName = "Small Bandit Cache";
             treasure.chestNewTag = "";
             treasure.chestResRef = "banditcampsmches";
+            treasure.chestItemResRef = "randtreaschesite";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
             treasure.chestGems = 20;
@@ -140,6 +145,7 @@ struct Treasure GetLesserRandomRockyTreasure() {
             treasure.chestName = "Small Bandit Cache";
             treasure.chestNewTag = "";
             treasure.chestResRef = "banditcampsmches";
+            treasure.chestItemResRef = "randtreaschesite";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
             treasure.chestGems = 20;
@@ -167,6 +173,7 @@ struct Treasure GetLesserRandomMountainTreasure() {
             treasure.chestName = "Small Bandit Cache";
             treasure.chestNewTag = "";
             treasure.chestResRef = "banditcampsmches";
+            treasure.chestItemResRef = "randtreaschesite";
             treasure.chestGoldMin = 300;
             treasure.chestGoldMax = 500;
             treasure.chestGems = 20;
