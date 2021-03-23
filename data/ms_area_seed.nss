@@ -7,11 +7,11 @@ void RandomAreaSeed(object oArea) {
     int maxHerbs = GetCampaignInt(MAX_HERBS_PER_AREA, GetResRef(oArea));
     if(maxHerbs > 0) {
         if(NWNX_Area_GetNumberOfPlayersInArea(oArea) > 1) {
-            WriteTimestampedLogEntry("HERBS ON ENTER: EXIT 1");
+            WriteTimestampedLogEntry("MS HERBS: ON ENTER EXIT 1");
         } else {
             int lastHerbCreate = GetLocalInt(oArea, LAST_HERB_CREATE);
             int curTime = NWNX_Time_GetTimeStamp();
-            WriteTimestampedLogEntry("curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS "
+            WriteTimestampedLogEntry("MS HERBS: curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS "
                                      + IntToString(curTime) + " - "
                                      + IntToString(lastHerbCreate) + " > "
                                      + IntToString(HERB_CREATE_DELAY_SECONDS));
@@ -27,7 +27,7 @@ void RandomAreaSeed(object oArea) {
     int treasure = GetCampaignInt(MS_TREASURE_PER_AREA, GetResRef(oArea));
     if(treasure > 0) {
         if(NWNX_Area_GetNumberOfPlayersInArea(oArea) > 1) {
-            WriteTimestampedLogEntry("TREASURE ON ENTER: EXIT 1");
+            WriteTimestampedLogEntry("MS TREASURE: ON ENTER EXIT 1");
         } else {
             int lastTreasureCreate = GetLocalInt(oArea, LAST_TREASURE_CREATE);
             int curTime = NWNX_Time_GetTimeStamp();

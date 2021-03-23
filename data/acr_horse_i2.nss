@@ -411,9 +411,9 @@ void ALFA_MountHorse(object oPC, object oHorse) {
         if(GetLocalInt(oItem, _IS_WARHORSE) == 1) nPhenotype = 8;
         else nPhenotype = 6;
     }
-    WriteTimestampedLogEntry("nPhenotype: " + IntToString(nPhenotype));
+    //WriteTimestampedLogEntry("nPhenotype: " + IntToString(nPhenotype));
     if(nPhenotype) {
-        WriteTimestampedLogEntry("nPhenotype: " + IntToString(nPhenotype));
+        //WriteTimestampedLogEntry("nPhenotype: " + IntToString(nPhenotype));
         AssignCommand( oPC, ActionEquipItem(oItem, INVENTORY_SLOT_LEFTHAND) );
         SetLocalInt(oItem, _ORIGINAL_FOOTSTEP_TYPE, GetFootstepType(oPC));
         SetFootstepType( GetFootstepType(oHorse), oPC );

@@ -10,7 +10,7 @@ void main()
 
     if(GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON) >= 1
        && GetSlashingWeapon(oWeapon) == TRUE) {
-        WriteTimestampedLogEntry("WEB: Slashing Weapon.");
+       //WriteTimestampedLogEntry("WEB: Slashing Weapon.");
         SendMessageToPC(oPC, "You're able to slash the spider web.");
         ApplyEffectToObject(DURATION_TYPE_INSTANT,
                             EffectDamage(10,
@@ -18,18 +18,18 @@ void main()
                                         DAMAGE_POWER_NORMAL),
                             OBJECT_SELF);
     } else {
-        WriteTimestampedLogEntry("WEB: Not Slashing Weapon.");
+        //WriteTimestampedLogEntry("WEB: Not Slashing Weapon.");
         restorAmt += GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON);
     }
 
     if (GetDamageDealtByType(DAMAGE_TYPE_COLD) >= 1) {
-        WriteTimestampedLogEntry("WEB: DAMAGE_TYPE_COLD");
+        //WriteTimestampedLogEntry("WEB: DAMAGE_TYPE_COLD");
         restorAmt += GetDamageDealtByType(DAMAGE_TYPE_COLD);
     }  else if (GetDamageDealtByType(DAMAGE_TYPE_ELECTRICAL) >= 1) {
-        WriteTimestampedLogEntry("WEB: DAMAGE_TYPE_ELECTRICAL");
+        //WriteTimestampedLogEntry("WEB: DAMAGE_TYPE_ELECTRICAL");
         restorAmt += GetDamageDealtByType(DAMAGE_TYPE_ELECTRICAL);
     } else if (GetDamageDealtByType(DAMAGE_TYPE_SONIC) >= 1) {
-        WriteTimestampedLogEntry("WEB: DAMAGE_TYPE_SONIC");
+        //WriteTimestampedLogEntry("WEB: DAMAGE_TYPE_SONIC");
         restorAmt += GetDamageDealtByType(DAMAGE_TYPE_SONIC);
     // If any acid damage was done
     } else if (GetDamageDealtByType(DAMAGE_TYPE_ACID) >= 1) {
@@ -58,8 +58,8 @@ void main()
     if(restorAmt > 0) {
         ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(restorAmt),
                             OBJECT_SELF);
-        WriteTimestampedLogEntry("WEB: Damage healed: "
-                                 + IntToString(restorAmt));
+        //WriteTimestampedLogEntry("WEB: Damage healed: "
+        //                         + IntToString(restorAmt));
         SendMessageToPC(oPC, "That did seem to have much of an effect.");
 
    }

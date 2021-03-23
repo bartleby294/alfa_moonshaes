@@ -73,25 +73,25 @@ void logDruidInitialCond(object highDruid, object Druid01,  object Druid02,
 void checkInputs(object obHbObj, object highDruid, object Druid01,
                 object Druid02, object Druid03, object Druid04, object oPC) {
     if(obHbObj == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("_btb_moonwelluti 1 - WARN: obHbObj == OBJECT_INVALID" );
+        //WriteTimestampedLogEntry("_btb_moonwelluti 1 - WARN: obHbObj == OBJECT_INVALID" );
     }
     if(highDruid == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("WARN: highDruid == OBJECT_INVALID" );
+        //WriteTimestampedLogEntry("WARN: highDruid == OBJECT_INVALID" );
     }
     if(Druid01 == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("WARN: Druid01 == OBJECT_INVALID" );
+        //WriteTimestampedLogEntry("WARN: Druid01 == OBJECT_INVALID" );
     }
     if(Druid02 == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("WARN: Druid02 == OBJECT_INVALID" );
+        //WriteTimestampedLogEntry("WARN: Druid02 == OBJECT_INVALID" );
     }
     if(Druid03 == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("WARN: Druid03 == OBJECT_INVALID" );
+        //WriteTimestampedLogEntry("WARN: Druid03 == OBJECT_INVALID" );
     }
     if(Druid04 == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("WARN: Druid04 == OBJECT_INVALID" );
+       //WriteTimestampedLogEntry("WARN: Druid04 == OBJECT_INVALID" );
     }
     if(oPC == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("WARN: oPC == OBJECT_INVALID" );
+        //WriteTimestampedLogEntry("WARN: oPC == OBJECT_INVALID" );
     }
 }
 

@@ -3,7 +3,7 @@
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
     string uuid = GetLocalString(OBJECT_SELF, "uuid");
-    WriteTimestampedLogEntry(uuid + " Bandit Camp: " + oAreaName + ": " +  str);
+    WriteTimestampedLogEntry("Bandit Camp: " + oAreaName + ": " + uuid + str);
 }
 
 int GetBaseGroup(int nItem) {
@@ -257,6 +257,7 @@ object spawnBandit(string resref, string race, string class,
     }
     // Add prefix to name based on lvl.
     SetName(bandit, getBanditPrefix(banditLvl) + GetName(bandit));
+    writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
     return bandit;
 }
 

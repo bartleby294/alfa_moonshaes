@@ -18,8 +18,8 @@ void main()
     object oPC = GetPCSpeaker();
     object oHorse = OBJECT_SELF;
 
-    WriteTimestampedLogEntry("oPC: " + GetName(oPC));
-    WriteTimestampedLogEntry("oHorse: " + GetName(oHorse));
+    //WriteTimestampedLogEntry("oPC: " + GetName(oPC));
+    //WriteTimestampedLogEntry("oHorse: " + GetName(oHorse));
 
     ALFA_MountHorse(oPC, oHorse);
     if(GetHasFeat(3075, oPC)) ExecuteScript("alfa_mountcombat", oPC);

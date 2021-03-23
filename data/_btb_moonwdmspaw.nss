@@ -81,7 +81,7 @@ void moonwellStaticSpawn(object oPC) {
         Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
                               Druid03SpawnLoc, FALSE, "moonwelldruid003");
     } else {
-        WriteTimestampedLogEntry("Using Existing Druid03");
+        //WriteTimestampedLogEntry("Using Existing Druid03");
     }
     if(Druid04 == OBJECT_INVALID) {
         //WriteTimestampedLogEntry("Creating New Druid04");

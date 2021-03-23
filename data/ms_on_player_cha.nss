@@ -14,8 +14,8 @@ void callDruid(object oPC) {
         object obHbObj = GetNearestObjectByTag("moonwell01onhbob", oPC);
         float druidDist = GetDistanceBetween(obHbObj, oPC);
         int state = GetLocalInt(obHbObj, "state");
-        WriteTimestampedLogEntry("Called Druid: State Change From: " + getState(state) +
-                                     " To: " + getState(SPAWN_STATE));
+        //WriteTimestampedLogEntry("Called Druid: State Change From: " + getState(state) +
+        //                             " To: " + getState(SPAWN_STATE));
         //SendMessageToPC(oPC, "druidDist Dist: " + FloatToString(druidDist));
         if(druidDist > 0.0 && druidDist < 15.0) {
             if(!GetIsPC(oPC) || state == DM_DISABLED_STATE
@@ -34,10 +34,10 @@ void callDruid(object oPC) {
             SetLocalInt(obHbObj, "leaveCnt", 0);
             SetLocalInt(obHbObj, "timer", 0);
             SetLocalInt(obHbObj, "lastCall", lastCall);
-            WriteTimestampedLogEntry("###############################################");
-            WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
-            WriteTimestampedLogEntry("Called Druid: State Change From: " + getState(state) +
-                                     " To: " + getState(SPAWN_STATE));
+            //WriteTimestampedLogEntry("###############################################");
+            //WriteTimestampedLogEntry("HB Object UUID: " + GetObjectUUID(obHbObj));
+            //WriteTimestampedLogEntry("Called Druid: State Change From: " + getState(state) +
+            //                        " To: " + getState(SPAWN_STATE));
 
         }
     }

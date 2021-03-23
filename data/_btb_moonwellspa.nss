@@ -54,7 +54,7 @@ void moonwellSpawn(object oPC, object obHbObj, object highDruid, object Druid01,
         effect Walk = EffectMovementSpeedDecrease(50);
         ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk, highDruid);
     } else {
-        WriteTimestampedLogEntry("Using Existing High Druid");
+        //WriteTimestampedLogEntry("Using Existing High Druid");
     }
     if(Druid01 == OBJECT_INVALID) {
         //WriteTimestampedLogEntry("Creating New Druid01");
@@ -75,7 +75,7 @@ void moonwellSpawn(object oPC, object obHbObj, object highDruid, object Druid01,
         Druid03 = CreateObject(OBJECT_TYPE_CREATURE, "moonwelldruid003",
                               Druid03SpawnLoc, FALSE, "moonwelldruid003");
     } else {
-        WriteTimestampedLogEntry("Using Existing Druid03");
+        //WriteTimestampedLogEntry("Using Existing Druid03");
     }
     if(Druid04 == OBJECT_INVALID) {
         //WriteTimestampedLogEntry("Creating New Druid04");

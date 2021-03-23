@@ -98,7 +98,7 @@ void startConversation(int state, object oPC, object highDruid, object obHbObj){
     if(pcDist == -1.0) {
         //WriteTimestampedLogEntry("WARN: pcDist == -1");
     } else if(pcDist < 5.0) {
-        WriteTimestampedLogEntry("PC Distance < 5.0");
+        //WriteTimestampedLogEntry("PC Distance < 5.0");
         if(druidLevel(playerToTalkTo) > 0
             && GetLocalInt(playerToTalkTo, "Moonwell01Known") == 1) {
             // Execute I know you Druid Hello

@@ -28,7 +28,7 @@ void TearTreasureDown(object oArea) {
     while(curTreasure != OBJECT_INVALID) {
          cnt++;
          CleanTreasureInventory(curTreasure);
-         WriteTimestampedLogEntry("MS HERBS: Destroying treasure - cnt:" + IntToString(cnt));
+         WriteTimestampedLogEntry("MS TREASURE: Destroying treasure - cnt:" + IntToString(cnt));
          DestroyObject(curTreasure, 0.2);
          curTreasure = GetNearestObjectByTag(MS_TREASURE_CONTAINER, baseObj, cnt);
     }
@@ -42,10 +42,10 @@ void CreateTreasureTrigger(struct Treasure treasureStruct, location loc){
                                                     locVec.z,
                                                     MS_TREASURE_CONTAINER,
                                                     9.0f);
-    WriteTimestampedLogEntry("CreateTreasureTrigger: at x: "
-                             + FloatToString(locVec.x) + " y: "
-                             + FloatToString(locVec.y) + " z: "
-                             + FloatToString(locVec.z));
+    //WriteTimestampedLogEntry("CreateTreasureTrigger: at x: "
+    //                         + FloatToString(locVec.x) + " y: "
+    //                        + FloatToString(locVec.y) + " z: "
+    //                        + FloatToString(locVec.z));
     SetEventScript(trigger, EVENT_SCRIPT_TRIGGER_ON_OBJECT_ENTER,
                    "ms_treasure_trigger");
     SetLocalInt(trigger, MS_TREASURE_TRIGGER_SPOT_DIFF, treasureStruct.spotDiff);
@@ -78,7 +78,7 @@ int CreateTreasure(struct Treasure treasureStruct, location loc) {
         return FALSE;
     }
     vector pos = GetPositionFromLocation(loc);
-    WriteTimestampedLogEntry("CreateHerb: " + treasureStruct.burriedResRef +
+    WriteTimestampedLogEntry("MS TREASURE: CreateTreasure " + treasureStruct.burriedResRef +
                              " - at x: " + FloatToString(pos.x) + " y: " +
                              FloatToString(pos.y)+ " z: " +
                              FloatToString(pos.z));
@@ -174,7 +174,7 @@ void SeedRandomTreasure(object oArea, int maxTreasure) {
     while(i < maxTreasure && attempts < 20) {
         attempts++;
         string randTerrianType = GetRandomTerrainType();
-        WriteTimestampedLogEntry("SeedRandomTreasure for: " + randTerrianType);
+        //WriteTimestampedLogEntry("SeedRandomTreasure for: " + randTerrianType);
         if(CreateTreasureByTerrianType(oArea, randTerrianType) == TRUE) {
             i++;
         }

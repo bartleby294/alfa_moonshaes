@@ -155,7 +155,7 @@ object createBanditStructure(object oArea, location campfireLoc,
     }
 
     string resref = pickStructureObject();
-    //writeToLog("Create: " + resref);
+    writeToLog("Create: " + resref);
     return CreateObject(OBJECT_TYPE_PLACEABLE, resref, possibleStructureLoc,
                   FALSE, resref);
 }
@@ -196,7 +196,7 @@ object createBanditTrap(object oArea, location campfireLoc, int circle_min,
     }
 
     string resref = pickStructureObject();
-    //writeToLog("Trap: " + resref);
+    writeToLog("Trap: " + resref);
     return CreateTrapAtLocation(randomBanditTrap(difficulty_lvl),
                                   possibleTrapLoc, 2.0, "bandit_trap",
                                   STANDARD_FACTION_HOSTILE, "", "");
@@ -215,7 +215,7 @@ object createBanditChest(object oArea, location campfireLoc, int circle_min,
     }
 
     string resref = pickChestObject();
-    //writeToLog("Chest: " + resref);
+    writeToLog("Chest: " + resref);
 
     object chest = CreateObject(OBJECT_TYPE_PLACEABLE, resref, possibleChestLoc,
                                     FALSE, resref);
@@ -254,7 +254,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         //writeToLog("randX: " + FloatToString(randX));
         //writeToLog("randY: " + FloatToString(randY));
         //writeToLog("randZ: " + FloatToString(randY));
-        //writeToLog("Camp fire created.");
+        writeToLog("Camp fire created.");
 
         campfireLoc = Location(oArea, Vector(randX, randY, randZ), 0.0);
         if(campfireLocationGood(campfireLoc) == 1) {
@@ -320,7 +320,6 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         string class = pickClass();
         string resref = race + class + "m_bandit_1";
         int banditLvl = Random(difficulty_lvl) + 2;
-        //writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
         location spawnLoc = selectLocationInCamp(oArea, campfireLoc, circle_min,
                                                  circle_max, 2.0);
         if(GetAreaFromLocation(spawnLoc) != OBJECT_INVALID) {
@@ -415,8 +414,8 @@ void main()
         difficulty_lvl = 3;
     }
 
-    //writeToLog("===================================");
-    //writeToLog("BANDIT CAMP HEARTBEAT");
+    writeToLog("===================================");
+    writeToLog("BANDIT CAMP HEARTBEAT");
     object campFire = GetNearestObjectByTag("banditcampfire1", OBJECT_SELF);
     // If camp is already spawned dont spawn a new one.
     if(campFire != OBJECT_INVALID) {
@@ -430,12 +429,12 @@ void main()
         }
     } else {
         writeToLog("Setting up level " + IntToString(circle_max) + " camp.");
-        //writeToLog("maxStructures = " + IntToString(maxStructures));
-        //writeToLog("minStructures = " + IntToString(minStructures));
-        //writeToLog("min_traps = " + IntToString(min_traps));
-        //writeToLog("max_traps = " + IntToString(max_traps));
-        //writeToLog("circle_min = " + IntToString(circle_min));
-        //writeToLog("circle_max = " + IntToString(circle_max));
+        writeToLog("maxStructures = " + IntToString(maxStructures));
+        writeToLog("minStructures = " + IntToString(minStructures));
+        writeToLog("min_traps = " + IntToString(min_traps));
+        writeToLog("max_traps = " + IntToString(max_traps));
+        writeToLog("circle_min = " + IntToString(circle_min));
+        writeToLog("circle_max = " + IntToString(circle_max));
         SetupCamp(oArea, maxStructures, minStructures, min_traps, max_traps,
                    circle_min, circle_max, difficulty_lvl);
     }
