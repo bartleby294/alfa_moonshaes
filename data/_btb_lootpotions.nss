@@ -1,14 +1,12 @@
-//Bartleby's random loot scripts
-//parameters of 'generateLootByChance' are as follows:
-//generateLootByChance(GPVALUEOFCHEST, OBJECTFORLOOT, DIFFICULTYLEVELOFLOOT, %GOLDCHANCE,
-//%POTIONSCHANCE, %ARMOR CHANCE, %GEMSCHANCE, %JEWELRYCHANCE, %WEAPONSCHANCE)
+//Bartleby's random potion loot script
 
-#include "_btb_random_loot"
+#include "_btb_rand_potion"
 
-void main() {
-     int lootGened = GetLocalInt(OBJECT_SELF, "lootgenyet");
-
-            generateLootByChance(33, OBJECT_SELF, 5, 1, 99, 0, 0, 0, 0) ;
-
-     SetLocalInt(OBJECT_SELF, "lootgenyet", TRUE);
-        }
+void main(){
+    int lootGened = GetLocalInt(OBJECT_SELF, "lootgenyet");
+    if(lootGened == FALSE && Random (2) == 1) {
+        string resref = getRandomPotionUnderMaxGP(50);
+        CreateItemOnObject(resref);
+    }
+    SetLocalInt(OBJECT_SELF, "lootgetyet", TRUE);
+}
