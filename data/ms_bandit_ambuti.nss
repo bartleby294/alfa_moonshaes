@@ -45,6 +45,11 @@ struct AmbushMetrics GatherAmbushMetrics(object ambushTrigger) {
     int bandListen = GetLocalInt(ambushTrigger, MS_BANDIT_AMBUSH_BANDIT_LISTEN);
     int bandAppraise = GetLocalInt(ambushTrigger, MS_BANDIT_AMBUSH_BANDIT_APP);
 
+    writeToLog("bandSpot: " + IntToString(bandSpot));
+    writeToLog("bandListen: " + IntToString(bandListen));
+    writeToLog("bandAppraise: " + IntToString(bandAppraise));
+    writeToLog("arraySize: " + IntToString(arraySize));
+
     while(i < arraySize) {
         object oPC = NWNX_Data_Array_At_Obj(ambushTrigger,
                                             MS_BANDIT_AMBUSH_PC_ARRAY,
@@ -88,6 +93,10 @@ struct AmbushMetrics GatherAmbushMetrics(object ambushTrigger) {
 int DecideIfAttack(int totalEstPCWealth, int totalPCLvls, int totalPCs,
                    int bandSenseMotive, int banditActivityLevel,
                    int bandXPAllocation) {
+
+    if(totalPCs == 0) {
+        return FALSE;
+    }
 
     int estAvgPCWealth = totalEstPCWealth/totalPCs;
     int avgPCLvl = totalPCLvls/totalPCs;
