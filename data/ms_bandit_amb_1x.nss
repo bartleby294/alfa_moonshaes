@@ -16,13 +16,15 @@
 
 void main()
 {
-    object oPC = GetEnteringObject();
+    object oPC = GetExitingObject();
 
     if(GetIsPC(oPC) == FALSE || GetIsDM(oPC) == TRUE) {
         return;
     }
 
     object banditAmbushTrigger3 = GetNearestObjectByTag("bandit_amb_3");
-    NWNX_Data_Array_PushBack_Obj(banditAmbushTrigger3,
-                                 MS_BANDIT_AMBUSH_PC_ARRAY, oPC);
+    int index = NWNX_Data_Array_Find_Obj(banditAmbushTrigger3,
+                                         MS_BANDIT_AMBUSH_PC_ARRAY, oPC);
+    NWNX_Data_Array_Erase(NWNX_DATA_TYPE_OBJECT, banditAmbushTrigger3,
+                          MS_BANDIT_AMBUSH_PC_ARRAY, index);
 }

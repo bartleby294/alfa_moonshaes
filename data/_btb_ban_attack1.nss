@@ -81,12 +81,6 @@ void setAttackState(object oArea, int value) {
         "BANDIT_STATE_TIME_" + GetTag(oArea), NWNX_Time_GetTimeStamp());
 }
 
-float randomFloat(int den, int num) {
-    float denominator = IntToFloat(Random(den) + 1);
-    float numerator = IntToFloat(Random(num) + 1);
-    return numerator/denominator;
-}
-
 /**
     Return a location some units of distance away on a straight line.
  */

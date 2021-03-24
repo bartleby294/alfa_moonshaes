@@ -14,6 +14,12 @@ float absFloat(float value) {
     return value;
 }
 
+float randomFloat(int den, int num) {
+    float denominator = IntToFloat(Random(den) + 1);
+    float numerator = IntToFloat(Random(num) + 1);
+    return numerator/denominator;
+}
+
 int GetIsLocationWalkable(location loc) {
 
     // Get the surface type
