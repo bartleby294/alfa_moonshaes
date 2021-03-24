@@ -69,9 +69,9 @@ void setTriggerConstants(object trigger3, int ambushLevel) {
 
 int CreateBanditAmbushTriggers(location loc, int ambushLevel) {
 
-    float trigger1Size = 12.0f;
-    float trigger2Size =  9.0f;
-    float trigger3Size =  5.0f;
+    float trigger1Size = 20.0f;
+    float trigger2Size = 10.0f;
+    float trigger3Size =  9.0f;
     vector locVec = GetPositionFromLocation(loc);
     object trigger1 = NWNX_Area_CreateGenericTrigger(GetAreaFromLocation(loc),
                                                     locVec.x,
@@ -106,19 +106,48 @@ int CreateBanditAmbushTriggers(location loc, int ambushLevel) {
     return TRUE;
 }
 
+int BadLocation(object oArea, location randLoc, float buffer) {
+
+    vector pos = GetPositionFromLocation(randLoc);
+    float areaHeight = GetAreaSize(AREA_HEIGHT, oArea) * 10.0;
+    float areaWidth  = GetAreaSize(AREA_WIDTH, oArea) * 10.0;
+
+    if(pos.x < buffer || pos.x > areaWidth - buffer) {
+        return FALSE;
+    }
+
+    if(pos.y < buffer || pos.y > areaHeight - buffer) {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+location GetRandomLocation(object oArea, string terrainType, int arraySize) {
+    string xyStr = NWNX_Data_Array_At_Str(oArea, terrainType,Random(arraySize));
+    float randX = GetRandomXFrom(xyStr);
+    float randY = GetRandomYFrom(xyStr);
+    return Location(oArea, Vector(randX, randY, 0.0), 0.0);
+}
+
 int CreateBanditAmbush(object oArea, string terrainType, int ambushLevel) {
     int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oArea,
                                          terrainType);
     if(arraySize == 0) {
         return FALSE;
     }
-    string xyStr = NWNX_Data_Array_At_Str(oArea, terrainType,Random(arraySize));
-    float randX = GetRandomXFrom(xyStr);
-    float randY = GetRandomYFrom(xyStr);
-    location randomLoc = Location(oArea, Vector(randX, randY, 0.0), 0.0);
-    randomLoc =  Location(oArea,
-                          Vector(randX, randY, GetGroundHeight(randomLoc)),
-                          0.0);
+
+    int i = 0;
+    int cutOff = 15;
+    location randLoc = GetRandomLocation(oArea, terrainType, arraySize);
+    while(i < cutOff && BadLocation(oArea, randLoc, 20.0) == TRUE) {
+        i++;
+        randLoc = GetRandomLocation(oArea, terrainType, arraySize);
+    }
+    vector pos = GetPositionFromLocation(randLoc);
+    location randomLoc = Location(oArea,
+                                  Vector(pos.x, pos.y, GetGroundHeight(randLoc)),
+                                  0.0);
     return CreateBanditAmbushTriggers(randomLoc, ambushLevel);
 }
 
