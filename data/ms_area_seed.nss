@@ -65,7 +65,7 @@ void RandomAreaSeed(object oArea) {
                 if(Random(100) >= 0) { // Testing Mode
                     SetLocalInt(oArea, LAST_BANDIT_AMBUSH_CREATE, curTime);
                     TearBanditAmbushDown(oArea);
-                    DelayCommand(0.5, SeedRandomBanditAmbush(oArea, 1));
+                    DelayCommand(0.5, SeedRandomBanditAmbush(oArea, bandits));
                 }
             }
         }
