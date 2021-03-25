@@ -123,7 +123,7 @@ const int DST_DM_NOTIFY_FORCE = 2;
 const float DST_FAKE_DESTROY_TIMER = 0.0;
 
 // For debugging purposes only. Useful for module development.
-const int DST_DEBUG = TRUE;
+const int DST_DEBUG = FALSE;
 
 // ****************************************************************************
 // ** CONSTANTS
