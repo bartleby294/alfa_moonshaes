@@ -43,10 +43,10 @@ void CreateHerbTrigger(struct Herb herbStruct, location loc){
     // For now lets leave them squares
     //NWNX_Object_SetTriggerGeometry(trigger,
     //                               "{1.0, 1.0}{4.0, 1.0}{4.0, 4.0}{1.0, 4.0}");
-    WriteTimestampedLogEntry("CreateHerbTrigger: at x: "
-                             + FloatToString(locVec.x) + " y: "
-                             + FloatToString(locVec.y) + " z: "
-                             + FloatToString(locVec.z));
+    //WriteTimestampedLogEntry("CreateHerbTrigger: at x: "
+    //                         + FloatToString(locVec.x) + " y: "
+    //                         + FloatToString(locVec.y) + " z: "
+    //                         + FloatToString(locVec.z));
     SetEventScript(trigger, EVENT_SCRIPT_TRIGGER_ON_OBJECT_ENTER,
                    "ms_herb_trigger");
     SetLocalInt(trigger, MS_HERB_TRIGGER_SEARCH_DIFF, 14);
@@ -86,7 +86,7 @@ int CreateHerb(struct Herb herbStruct, location loc) {
         return FALSE;
     }
     vector pos = GetPositionFromLocation(loc);
-    WriteTimestampedLogEntry("CreateHerb: " + herbStruct.containerResRef +
+    WriteTimestampedLogEntry("MS HERBS: CreateHerb: " + herbStruct.containerResRef +
                              " - at x: " + FloatToString(pos.x) + " y: " +
                              FloatToString(pos.y)+ " z: " +
                              FloatToString(pos.z));
@@ -220,7 +220,7 @@ void SeedRandomHerbs(object oArea, int maxHerbs) {
     while(i < maxHerbs && attempts < 120) {
         attempts++;
         string randTerrianType = GetRandomTerrainType();
-        WriteTimestampedLogEntry("SeedRandomHerbs for: " + randTerrianType);
+        //WriteTimestampedLogEntry("SeedRandomHerbs for: " + randTerrianType);
         if(CreateHerbByTerrianType(oArea, randTerrianType) == TRUE) {
             i++;
         }

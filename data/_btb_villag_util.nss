@@ -31,22 +31,22 @@ void AssignVillagerAction(object villager, string actionChoice, object wp) {
         ActionUnequipItem(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND , villager)));
 
     if(actionChoice == CROPS) {
-        WriteTimestampedLogEntry("VILLAGER: Createing CROPS Villager.");
+        //WriteTimestampedLogEntry("VILLAGER: Createing CROPS Villager.");
         SetLocalObject(villager, ACTION_WP, wp);
         string randTool = randomFarmToolResef();
         object oTool = CreateItemOnObject(randomFarmToolResef(), villager);
         AssignCommand(villager,
                       ActionEquipItem(oTool, INVENTORY_SLOT_RIGHTHAND));
     } else if(actionChoice == TAVERN) {
-        WriteTimestampedLogEntry("VILLAGER: Createing TAVERN Villager.");
+       //WriteTimestampedLogEntry("VILLAGER: Createing TAVERN Villager.");
         SetLocalObject(villager, ACTION_WP, wp);
         SetName(villager, "Villager");
     } else if(actionChoice == MARKET) {
-        WriteTimestampedLogEntry("VILLAGER: Createing MARKET Villager.");
+        //WriteTimestampedLogEntry("VILLAGER: Createing MARKET Villager.");
         SetLocalObject(villager, ACTION_WP, wp);
         SetName(villager, "Villager");
     } else if(actionChoice == WATER) {
-        WriteTimestampedLogEntry("VILLAGER: Createing WATER Villager.");
+        //WriteTimestampedLogEntry("VILLAGER: Createing WATER Villager.");
         SetLocalObject(villager, ACTION_WP, wp);
         object oTool = CreateItemOnObject("_bucket", villager);
         AssignCommand(villager,

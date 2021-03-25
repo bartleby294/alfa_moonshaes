@@ -69,7 +69,7 @@ void SpawnVillager(int homesCnt, int cropsCnt,int marketCnt,
                    int tavernCnt, int waterCnt, int villagerCnt,
                    int jumpToActionWP) {
 
-    WriteTimestampedLogEntry("Village: Spawning");
+    //WriteTimestampedLogEntry("Village: Spawning");
     string villagerResRef = SelectVillager();
     int randomHome = Random(homesCnt) + 1;
     int randomTavern = RandomTavern(tavernCnt);
@@ -121,7 +121,7 @@ void SpawnVillager(int homesCnt, int cropsCnt,int marketCnt,
 }
 
 void main() {
-    WriteTimestampedLogEntry("Village: On Heartbeat");
+    //WriteTimestampedLogEntry("Village: On Heartbeat");
     // if Vilage scrips have been DM halted return.
     if(GetLocalInt(GetArea(OBJECT_SELF), DM_FORCE_STOP) == TRUE) {
         return ;
@@ -130,7 +130,7 @@ void main() {
     int isInitalized = GetLocalInt(OBJECT_SELF, INITALIZED);
 
     if(isInitalized == FALSE) {
-        WriteTimestampedLogEntry("Village: Initalizing");
+       //WriteTimestampedLogEntry("Village: Initalizing");
         InitalizeCounts();
         SetLocalInt(OBJECT_SELF, INITALIZED, TRUE);
     }
@@ -145,14 +145,14 @@ void main() {
     int workerCnt = cropsCnt + marketCnt + waterCnt;
     float villagerRatio = (villagerCnt * 1.0)/(homesCnt * 1.0);
 
-    WriteTimestampedLogEntry("Village: homesCnt: " + IntToString(homesCnt));
-    WriteTimestampedLogEntry("Village: villagerCnt: " + IntToString(villagerCnt));
-    WriteTimestampedLogEntry("Village: workerCnt: " + IntToString(workerCnt));
+    //WriteTimestampedLogEntry("Village: homesCnt: " + IntToString(homesCnt));
+    //WriteTimestampedLogEntry("Village: villagerCnt: " + IntToString(villagerCnt));
+    //WriteTimestampedLogEntry("Village: workerCnt: " + IntToString(workerCnt));
 
     // no one lives here or everyone is outside so return.
     //if(homesCnt == 0 || (homesCnt * 2) <= villagerCnt) {
     if(homesCnt == 0 || homesCnt <= villagerCnt) {
-        WriteTimestampedLogEntry("Village: No one lives here");
+        //WriteTimestampedLogEntry("Village: No one lives here");
         return;
     }
     int i = 0;
@@ -177,9 +177,9 @@ void main() {
 
     float randomSpawnChance = (villagerRatio * 100);
     int chance = Random(FloatToInt(randomSpawnChance));
-    WriteTimestampedLogEntry("Village: chance (" + IntToString(chance)
-                             + ") > celing (" + IntToString(FloatToInt(celing))
-                             + ")");
+    //WriteTimestampedLogEntry("Village: chance (" + IntToString(chance)
+    //                         + ") > celing (" + IntToString(FloatToInt(celing))
+    //                         + ")");
     if(chance > FloatToInt(celing)) {
         SpawnVillager(homesCnt, cropsCnt, marketCnt, tavernCnt, waterCnt,
                       villagerCnt, FALSE);

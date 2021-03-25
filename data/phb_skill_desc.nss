@@ -296,7 +296,12 @@ int DSTGetPersistent (object oPC)
 {
     // For true persistence over module restarts, re-write this function to use
     // a persistent database system.
-    return (GetLocalInt(OBJECT_SELF, DST_STATE + GetName(oPC) + GetPCPlayerName(oPC)));
+    // // edited by El Grillo 23/3/2021 to introduce persistence via GetCampaignInt/SetCampaignInt
+    // // campaign database is "LoreTriggers"
+    // // variables are made unique by including the value of the variable named 'UID'
+    // // a UNIQUE value for the UID variable must be manually added to each trigger when placed by builders; anything will do e.g. 'caercorwellgates' or similar
+    // // the UID variable string is combined with the DST_STATE and added as a campaign variable to the PC themselves (not to the trigger)
+    return     (GetCampaignInt("LoreTriggers", DST_STATE + GetLocalString(OBJECT_SELF, "UID"), oPC));
 }
 
 // ****************************************************************************
@@ -305,7 +310,7 @@ void DSTSetPersistent (object oPC)
 {
     // For true persistence over module restarts, re-write this function to use
     // a persistent database system.
-    SetLocalInt(OBJECT_SELF, DST_STATE + GetName(oPC) + GetPCPlayerName(oPC), 1);
+    SetCampaignInt("LoreTriggers", DST_STATE + GetLocalString(OBJECT_SELF, "UID"), 1, oPC);
 }
 
 // ****************************************************************************
@@ -638,9 +643,7 @@ string DSTStrTok(string sStr, int i, int bGetRest = FALSE)
 
 void main()
 {
-    // Temporarily disabled as it seems it may not be tracking/persisting
-    return;
-    // Got to love the fact that GetEnteringObject and GetClickingObject are
+            // Got to love the fact that GetEnteringObject and GetClickingObject are
     // the same function.
     object oPC = GetEnteringObject();
     if (GetObjectType(OBJECT_SELF) == OBJECT_TYPE_PLACEABLE) oPC = GetLastUsedBy();
