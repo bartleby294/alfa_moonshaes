@@ -140,7 +140,7 @@ int CreateBanditAmbush(object oArea, string terrainType, int ambushLevel) {
     int i = 0;
     int cutOff = 15;
     location randLoc = GetRandomLocation(oArea, terrainType, arraySize);
-    while(i < cutOff && BadLocation(oArea, randLoc, 20.0) == TRUE) {
+    while(i < cutOff && BadLocation(oArea, randLoc, 20.0) == FALSE) {
         i++;
         randLoc = GetRandomLocation(oArea, terrainType, arraySize);
     }

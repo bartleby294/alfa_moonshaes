@@ -83,8 +83,11 @@ void BanditAmbush() {
         banditActivityLevel = 200;
     }
     int banditBaseXP = GetLocalInt(OBJECT_SELF, MS_BANDIT_AMBUSH_BANDIT_XP);
+    writeToLog("banditBaseXP: " + IntToString(banditBaseXP));
     int bandXPAllocation = banditBaseXP
                            * (banditActivityLevel/100) + 100;
+    writeToLog("banditBaseXP: " + IntToString(banditActivityLevel));
+    writeToLog("banditBaseXP: " + IntToString(bandXPAllocation));
     int bandSenseMotive = GetLocalInt(OBJECT_SELF, MS_BANDIT_AMBUSH_BANDIT_SM);
     struct AmbushMetrics am = GatherAmbushMetrics(OBJECT_SELF);
 
