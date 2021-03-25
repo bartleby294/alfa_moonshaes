@@ -1,5 +1,6 @@
 const int MS_BANDIT_AMBUSH_DELAY_SECONDS = 240;
 const int BANDIT_AMBUSH_CREATE_DELAY_SECONDS = 2700;
+const int BANDIT_AMBUSH_DESTORY_DELAY_SECONDS = 300;
 
 const string MS_BANDITS_PER_AREA = "max_bandit_ambush_per_area";
 const string LAST_BANDIT_AMBUSH_CREATE = "last_bandit_ambush_create";
