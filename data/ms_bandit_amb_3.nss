@@ -84,8 +84,8 @@ void BanditAmbush() {
     }
     int banditBaseXP = GetLocalInt(OBJECT_SELF, MS_BANDIT_AMBUSH_BANDIT_XP);
     writeToLog("banditBaseXP: " + IntToString(banditBaseXP));
-    int bandXPAllocation = banditBaseXP
-                           * (banditActivityLevel/100) + 100;
+    float num = IntToFloat(banditBaseXP * banditActivityLevel);
+    int bandXPAllocation = FloatToInt(num/100.0) + 100;
     writeToLog("banditBaseXP: " + IntToString(banditActivityLevel));
     writeToLog("banditBaseXP: " + IntToString(bandXPAllocation));
     int bandSenseMotive = GetLocalInt(OBJECT_SELF, MS_BANDIT_AMBUSH_BANDIT_SM);
