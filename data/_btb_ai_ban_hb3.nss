@@ -66,7 +66,8 @@ void main()
         if(NWNX_Time_GetTimeStamp() - lastPCSeen
             > BANDIT_AMBUSH_DESTORY_DELAY_SECONDS) {
             writeToLog("|No players in the area for time limit.");
-            DestroyObject(OBJECT_SELF, 0.1);
+            DestroyObject(OBJECT_SELF);
+            return;
         }
     // If someone is in the area update the last seen time.
     } else {
