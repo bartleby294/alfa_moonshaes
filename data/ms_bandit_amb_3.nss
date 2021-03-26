@@ -13,6 +13,7 @@
  */
 #include "ms_bandit_ambcon"
 #include "ms_bandit_ambuti"
+#include "ms_seed_bandits"
 #include "nwnx_time"
 
 void BanditAttack(object richestPC, int bandXPAllocation, object ambushTrigger,
@@ -49,6 +50,8 @@ void BanditAttack(object richestPC, int bandXPAllocation, object ambushTrigger,
         // Spawn the bandit.
         object bandit = CreateObject(OBJECT_TYPE_CREATURE, resref,
                             spawnLoc, FALSE, resref);
+        SetEventScript(bandit, EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
+                   "_btb_ai_ban_hb3");
         object bandRing = CreateItemOnObject("CopperBanditRing", bandit, 1);
         SetDroppableFlag(bandRing, TRUE);
         // Level the bandit up.
@@ -72,6 +75,8 @@ void BanditAttack(object richestPC, int bandXPAllocation, object ambushTrigger,
             AssignCommand(bandit, ActionSpeakString("Attack!"));
         }
     }
+
+    DelayCommand(0.1, TearBanditAmbushDown(GetArea(ambushTrigger)));
 }
 
 void BanditAmbush() {
@@ -83,8 +88,11 @@ void BanditAmbush() {
         banditActivityLevel = 200;
     }
     int banditBaseXP = GetLocalInt(OBJECT_SELF, MS_BANDIT_AMBUSH_BANDIT_XP);
-    int bandXPAllocation = banditBaseXP
-                           * (banditActivityLevel/100) + 100;
+    writeToLog("banditBaseXP: " + IntToString(banditBaseXP));
+    float num = IntToFloat(banditBaseXP * banditActivityLevel);
+    int bandXPAllocation = FloatToInt(num/100.0) + 100;
+    writeToLog("banditBaseXP: " + IntToString(banditActivityLevel));
+    writeToLog("banditBaseXP: " + IntToString(bandXPAllocation));
     int bandSenseMotive = GetLocalInt(OBJECT_SELF, MS_BANDIT_AMBUSH_BANDIT_SM);
     struct AmbushMetrics am = GatherAmbushMetrics(OBJECT_SELF);
 

@@ -1,0 +1,16 @@
+//::///////////////////////////////////////////////
+//:: FileName _leathrqust_stt2
+//:://////////////////////////////////////////////
+//:://////////////////////////////////////////////
+//:: Created By: Script Wizard
+//:: Created On: 2
+//:://////////////////////////////////////////////
+void main()
+{
+    // Give the speaker the items
+    CreateItemOnObject("parcelofleatherg", GetPCSpeaker(), 1);
+
+     // Set the variables
+    SetCampaignInt("MinorQuests", "iLeatherquest", 2, GetPCSpeaker());
+
+}

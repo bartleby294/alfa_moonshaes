@@ -1,6 +1,6 @@
 #include "x0_i0_stringlib"
 
-void main()
+void oldMain()
 {
     string factionStr = GetLocalString(GetPCSpeaker(), "CONVERSATION_TARGET");
 
@@ -18,4 +18,14 @@ void main()
     }
 
     SetCustomToken(StringToInt(tokenValue), IntToString(newFactonInt));
+}
+
+void main()
+{
+    object oPC = GetPCSpeaker();
+    int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
+                               "BANDIT_ACTIVITY_LEVEL_2147440");
+    SetCampaignInt("FACTION_ACTIVITY", "BANDIT_ACTIVITY_LEVEL_2147440",
+                   banditActivityLevel - 50);
+    SetCustomToken(2147440, IntToString(banditActivityLevel - 50));
 }

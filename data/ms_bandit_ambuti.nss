@@ -124,6 +124,12 @@ int DecideIfAttack(int totalEstPCWealth, int totalPCLvls, int totalPCs,
     int normalWealth = getWealthTableValue(estAvgPCLvl);
        int estTotalPartyXP = getXPTableValueCore(estAvgPCLvl) * totalPCs;
 
+    writeToLog("estAvgPCWealth: " + IntToString(estAvgPCWealth));
+    writeToLog("normalWealth: " + IntToString(normalWealth));
+    writeToLog("bandXPAllocation: " + IntToString(bandXPAllocation));
+    writeToLog("estTotalPartyXP: " + IntToString(estTotalPartyXP));
+    writeToLog("banditActivityLevel: " + IntToString(banditActivityLevel));
+
     int wealthDecisionPct = (estAvgPCWealth * 100) / normalWealth;
     int lvlDecisionPct =  (bandXPAllocation * 100) / estTotalPartyXP;
     int totalDecisionPct =  (banditActivityLevel +  lvlDecisionPct
