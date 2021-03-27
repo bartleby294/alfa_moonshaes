@@ -47,14 +47,14 @@ void main()
         }
         ActionForceMoveToObject(WP1, FALSE, 1.0, 30.0);
         SetLocalInt(OBJECT_SELF, "PosState",1);
-        //SpeakString("PosState == 0");
+        WriteTimestampedLogEntry("PosState == 0");
 
         return;
     }
 
     if(PosState == 1)
     {
-        //SpeakString("PosState == 1");
+        WriteTimestampedLogEntry("PosState == 1");
         if(GetDistanceBetween(OBJECT_SELF, WP1) > 2.0)
         {
             ActionForceMoveToObject(WP1, FALSE, 1.0, 30.0);
@@ -70,7 +70,7 @@ void main()
 
     if(PosState == 2)
     {
-        //SpeakString("PosState == 2");
+        WriteTimestampedLogEntry("PosState == 2");
       if(GetDistanceBetween(OBJECT_SELF, WP2) > 2.0)
         {
             ActionForceMoveToObject(WP2, FALSE, 1.0, 30.0);
@@ -85,7 +85,7 @@ void main()
 
     if(PosState == 3)
     {
-        //SpeakString("PosState == 3");
+        WriteTimestampedLogEntry("PosState == 3");
         ClearAllActions();
         int x = d10(1);
         object Chair = GetNearestObjectByTag("Chair_redstag", OBJECT_SELF, x);
@@ -94,7 +94,7 @@ void main()
         {
             ActionForceMoveToObject(WP3, FALSE, 1.0, 30.0);
             SetLocalInt(OBJECT_SELF, "PosState",10);
-            //SpeakString("Walk out door");
+            WriteTimestampedLogEntry("Walk out door");
             return;
         }
 
@@ -108,13 +108,13 @@ void main()
                AssignCommand(OBJECT_SELF, ActionInteractObject(Chair));
                SetLocalInt(OBJECT_SELF, "PosState",4);
                z = 1;
-               //SpeakString("Chair found");
-               //SpeakString(IntToString(x));
+               WriteTimestampedLogEntry("Chair found");
+               WriteTimestampedLogEntry(IntToString(x));
                return;
             }
             x = d6(1);
             object Chair = GetNearestObjectByTag("Chair_redstag", OBJECT_SELF, x);
-            //SpeakString("Chair not found");
+            WriteTimestampedLogEntry("Chair not found");
             z = z + 1;
         }
         /*
@@ -128,19 +128,19 @@ void main()
                AssignCommand(OBJECT_SELF, ActionInteractObject(Chair));
                SetLocalInt(OBJECT_SELF, "PosState",4);
                z = 1;
-               //SpeakString("Chair found");
-               //SpeakString(IntToString(x));
+               WriteTimestampedLogEntry("Chair found");
+               WriteTimestampedLogEntry(IntToString(x));
                return;
             }
                 x = d6(1);
                 object Chair = GetNearestObjectByTag("Chair_redstag", OBJECT_SELF, x);
-                //SpeakString("Chair not found");
+                WriteTimestampedLogEntry("Chair not found");
         } */
     }
 
     if(PosState == 4)
     {
-       //SpeakString("PosState == 4");
+       WriteTimestampedLogEntry("PosState == 4");
        int Time = GetLocalInt(OBJECT_SELF,"ChairLookingTime");
 
        if(GetLocalInt(OBJECT_SELF, "IsSitting") == 1)
@@ -156,13 +156,13 @@ void main()
                 ApplyEffectToObject(DURATION_TYPE_PERMANENT, Walk2, OBJECT_SELF);
                 SetLocalInt(OBJECT_SELF,"ChairLookingTime", 0);
                 SetLocalInt(OBJECT_SELF, "PosState",6);
-                //SpeakString("lookign for a new chair");
+                WriteTimestampedLogEntry("lookign for a new chair");
             }
             else
             {
                 int Time2 = Time + 1;
                 SetLocalInt(OBJECT_SELF,"ChairLookingTime", Time2);
-                //SpeakString("Looking for a new chair int incremented by 1");
+                WriteTimestampedLogEntry("Looking for a new chair int incremented by 1");
             }
 
     }
@@ -208,7 +208,7 @@ void main()
 
     if(PosState == 6)
     {
-        //SpeakString("PosState == 6");
+        WriteTimestampedLogEntry("PosState == 6");
         object WP4 = GetLocalObject(OBJECT_SELF, "NewChairWP");
         int q;
 
@@ -249,6 +249,7 @@ void main()
 
     if(PosState == 7)
     {
+        WriteTimestampedLogEntry("PosState == 7");
        ClearAllActions();
        if(GetDistanceBetween(OBJECT_SELF, WP2) > 2.0)
         {
@@ -264,6 +265,7 @@ void main()
 
     if(PosState == 8)
     {
+        WriteTimestampedLogEntry("PosState == 8");
        ClearAllActions();
        if(GetDistanceBetween(OBJECT_SELF, WP1) > 2.0)
         {
@@ -279,6 +281,7 @@ void main()
 
     if(PosState == 9)
     {
+        WriteTimestampedLogEntry("PosState == 9");
        ClearAllActions();
        if(GetDistanceBetween(OBJECT_SELF, WP5) > 2.0)
         {
@@ -293,6 +296,7 @@ void main()
 
     if(PosState == 10)
     {
+        WriteTimestampedLogEntry("PosState == 10");
        ClearAllActions();
        if(GetDistanceBetween(OBJECT_SELF, WP3) > 2.0)
         {
@@ -306,6 +310,7 @@ void main()
     }
     if(PosState == 11)
     {
+        WriteTimestampedLogEntry("PosState == 11");
        ClearAllActions();
        if(GetDistanceBetween(OBJECT_SELF, WP6) > 2.0)
         {
