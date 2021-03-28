@@ -109,26 +109,30 @@ string GetRestTriggerType(object oPC) {
     return "";
 }
 
-int RestingAllowed(object oPC) {
+string RestingAllowed(object oPC) {
     int restState = GetCampaignInt(REST_DATABASE, GetResRef(GetArea(oPC)));
     WriteTimestampedLogEntry("RESTING: rest state for "
                               + GetResRef(GetArea(oPC)) + " = "
                               + IntToString(restState));
 
     if(restState == RESTING_DM_DISABLED) {
-        return FALSE;
+        return "This doesn't seem like a good place to rest.";
     }
 
     if(restState == RESTING_DM_ENABLED) {
-        return TRUE;
+        return "";
     }
 
     string restTriggerType = GetRestTriggerType(oPC);
     if(restState == RESTING_DISALLOWED && restTriggerType == "") {
-        return FALSE;
+        return "This doesn't seem like a good place to rest.";
     }
 
-    return TRUE;
+    if(GetArmorBaseACValue(GetItemInSlot(INVENTORY_SLOT_CHEST, oPC)) > 3) {
+        return "Your armor would interfere with your rest.";
+    }
+
+    return "";
 }
 
 // Place holders for things like weather damage if no tent/fire and rain/snow

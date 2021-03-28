@@ -26,25 +26,39 @@
 const int EVENT_USER_DEFINED_PRESPAWN = 1510;
 const int EVENT_USER_DEFINED_POSTSPAWN = 1511;
 
-
 #include "x2_inc_switches"
+#include "acr_horse_i2"
+
 void main()
 {
     int u = d6(1);
+    /*
+    if( u == 1)
+    {
+        SetPhenoType(5, OBJECT_SELF);
+    }
+    if( u == 2)
+    {
+        SetPhenoType(6, OBJECT_SELF);
+    }
+    if( u == 3)
+    {
+        SetPhenoType(7, OBJECT_SELF);
+    }*/
 
-        if( u == 1)
-        {
-            SetPhenoType(5, OBJECT_SELF);
-        }
-        if( u == 2)
-        {
-            SetPhenoType(6, OBJECT_SELF);
-        }
-        if( u == 3)
-        {
-            SetPhenoType(7, OBJECT_SELF);
-        }
+    SetPhenoType(3, OBJECT_SELF);
+    //SetCreatureTailType(GetCreatureTailType(oHorse), oPC);
 
+    //object oHorse = CreateObject(OBJECT_TYPE_CREATURE, "playerhorse_03",
+    //                             GetLocation(OBJECT_SELF));
+    //ALFA_MountHorse(OBJECT_SELF, oHorse);
+
+    //WriteTimestampedLogEntry("========================================");
+    //WriteTimestampedLogEntry(IntToString(GetCreatureTailType(oHorse)));
+    //WriteTimestampedLogEntry("========================================");
+
+    //SetCreatureTailType(GetCreatureTailType(oHorse), OBJECT_SELF);
+    SetCreatureTailType(55, OBJECT_SELF);
 
     // User defined OnSpawn event requested?
     int nSpecEvent = GetLocalInt(OBJECT_SELF,"X2_USERDEFINED_ONSPAWN_EVENTS");

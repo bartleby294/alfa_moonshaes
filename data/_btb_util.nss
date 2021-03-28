@@ -4,6 +4,28 @@ float getFacing(vector centerPoint, vector otherPoint) {
                                 0.0));
 }
 
+int GetArmorBaseACValue(object oArmor)
+{
+    // Get the appearance of the torso slot
+    int nAppearance = GetItemAppearance(oArmor, ITEM_APPR_TYPE_ARMOR_MODEL, ITEM_APPR_ARMOR_MODEL_TORSO);
+    // Look up in parts_chest.2da the relevant line, which links to the actual AC bonus of the armor
+    // We cast it to int, even though the column is technically a float.
+    int nAC = StringToInt(Get2DAString("parts_chest", "ACBONUS", nAppearance));
+
+    // 0 None
+    // 1 Padded
+    // 2 Leather
+    // 3 Studded Leather / Hide
+    // 4 Chain Shirt / Scale Mail
+    // 5 Chainmail / Breastplate
+    // 6 Splint Mail / Banded Mail
+    // 7 Half-Plate
+    // 8 Full Plate
+
+    // Return the given AC value (0 to 8)
+    return nAC;
+}
+
 /**
  * Why doesnt this already exist?
  */

@@ -164,3 +164,30 @@ void MapAreaTerrain(object oArea) {
     //WriteTimestampedLogEntry("MapAreaTerrain End");
     NWNX_Util_SetInstructionLimit(-1);
 }
+
+string GetTerrainObjectIsOn(object obj) {
+
+    object oArea = GetArea(obj);
+    location objLocation = GetLocation(obj);
+    vector objLocationVector = GetPositionFromLocation(objLocation);
+
+    string tileResRef = NWNX_Area_GetTileModelResRef(oArea,
+                                                     objLocationVector.x,
+                                                     objLocationVector.y);
+
+    WriteTimestampedLogEntry("000000000000000");
+    WriteTimestampedLogEntry(tileResRef);
+    WriteTimestampedLogEntry("000000000000000");
+
+    return GetTerrainTypeFromResRef(tileResRef);
+}
+
+int IsWaterTile(string terrainType) {
+    WriteTimestampedLogEntry("77777777777777777");
+    WriteTimestampedLogEntry(terrainType);
+    WriteTimestampedLogEntry("77777777777777777");
+    if(terrainType == TERRAIN_FRESH_WATER || terrainType == TERRAIN_SALT_WATER){
+        return TRUE;
+    }
+    return FALSE;
+}
