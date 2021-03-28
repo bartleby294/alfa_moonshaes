@@ -53,7 +53,9 @@ void main()
                                  GetLocation(OBJECT_SELF));
     //ALFA_MountHorse(OBJECT_SELF, oHorse);
 
-    FloatingTextStringOnCreature(IntToString(GetCreatureTailType(oHorse)), OBJECT_SELF);
+    WriteTimestampedLogEntry("========================================");
+    WriteTimestampedLogEntry(IntToString(GetCreatureTailType(oHorse)));
+    WriteTimestampedLogEntry("========================================");
 
     SetCreatureTailType(GetCreatureTailType(oHorse), OBJECT_SELF);
 
