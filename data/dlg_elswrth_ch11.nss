@@ -14,9 +14,9 @@ int StartingConditional()
 
   if(
   HasItem(GetPCSpeaker(), "ElsworthsLoveLetter")
-     && GetLocalInt(GetPCSpeaker(), "iElsworthquest") < 12
-     && GetLocalInt(GetPCSpeaker(), "iElsworthquest") > 9) {
-    	return TRUE;
+     && GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) < 12
+     && GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) > 9) {
+        return TRUE;
      }
      return FALSE;
 

@@ -16,6 +16,6 @@ void main()
     GiveAndLogXP(GetPCSpeaker(), 55, "ELSWRTH", "for dlg_elswrth_rwrd.");
 
                          // Set the variables
-    SetLocalInt(GetPCSpeaker(), "iElsworthquest", 7);
+    SetCampaignInt("MinorQuests", "iElsworthquest", 7, GetPCSpeaker());
 
 }

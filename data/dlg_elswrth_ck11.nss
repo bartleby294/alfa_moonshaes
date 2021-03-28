@@ -8,9 +8,9 @@
 int StartingConditional()
 {
 
-    // Inspect local variables
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") == 11))
-        return FALSE;
+    // Inspect the campaign variable
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) == 11))
+      return FALSE;
 
-    return TRUE;
+      return TRUE;
 }

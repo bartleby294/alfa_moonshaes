@@ -34,7 +34,7 @@ void main() {
     }
 
     for (i = 0; i < (itemCnt); i++) {
-        GiveGoldToCreature(oPC, 5);
+        GiveGoldToCreature(oPC, 8);
         GiveAndLogXP(oPC, getXpToGive(getXPForLevel(GetXP(oPC))), "XVART CORN",
                      "for handing in xvart corn.");
     }

@@ -7,7 +7,7 @@
 //:://////////////////////////////////////////////
 void main()
 {
-	// Set the variables
-	SetLocalInt(GetPCSpeaker(), "iElsworthquest", 9);
+    // Set the variables
+    SetCampaignInt("MinorQuests", "iElsworthquest", 9, GetPCSpeaker());
 
 }

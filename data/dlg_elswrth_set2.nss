@@ -8,7 +8,7 @@
 void main()
 {
     // Set the variables
-    SetLocalInt(GetPCSpeaker(), "iElsworthquest", 2);
+    SetCampaignInt("MinorQuests", "iElsworthquest", 2, GetPCSpeaker());
 
     // Remove items from the player's inventory
     object oItemToTake;
