@@ -31,20 +31,21 @@ const int EVENT_USER_DEFINED_POSTSPAWN = 1511;
 void main()
 {
     int u = d6(1);
+    /*
+    if( u == 1)
+    {
+        SetPhenoType(5, OBJECT_SELF);
+    }
+    if( u == 2)
+    {
+        SetPhenoType(6, OBJECT_SELF);
+    }
+    if( u == 3)
+    {
+        SetPhenoType(7, OBJECT_SELF);
+    }*/
 
-        if( u == 1)
-        {
-            SetPhenoType(5, OBJECT_SELF);
-        }
-        if( u == 2)
-        {
-            SetPhenoType(6, OBJECT_SELF);
-        }
-        if( u == 3)
-        {
-            SetPhenoType(7, OBJECT_SELF);
-        }
-
+    SetPhenoType(3, OBJECT_SELF);
 
     // User defined OnSpawn event requested?
     int nSpecEvent = GetLocalInt(OBJECT_SELF,"X2_USERDEFINED_ONSPAWN_EVENTS");
