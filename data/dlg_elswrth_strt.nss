@@ -9,27 +9,27 @@ int StartingConditional()
 {
 
     // Inspect local variables
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 1))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 1))
         return FALSE;
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 2))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 2))
         return FALSE;
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 3))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 3))
         return FALSE;
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 4))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 4))
         return FALSE;
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 5))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 5))
         return FALSE;
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 6))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 6))
         return FALSE;
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 7))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 7))
         return FALSE;
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 8))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 8))
         return FALSE;
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 9))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 9))
         return FALSE;
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 10))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 10))
         return FALSE;
-    if(!(GetLocalInt(GetPCSpeaker(), "iElsworthquest") != 11))
+    if(!(GetCampaignInt("MinorQuests", "iElsworthquest", GetPCSpeaker()) != 11))
         return FALSE;
     return TRUE;
 }

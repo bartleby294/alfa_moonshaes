@@ -8,7 +8,7 @@
 void main()
 {
                             // Set the variables
-    SetLocalInt(GetPCSpeaker(), "iElsworthquest", 5);
+    SetCampaignInt("MinorQuests", "iElsworthquest", 5, GetPCSpeaker());
 
     // Remove some gold from the player
     TakeGoldFromCreature(20, GetPCSpeaker(), TRUE);

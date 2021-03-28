@@ -11,7 +11,7 @@ void main()
     GiveGoldToCreature(GetPCSpeaker(), 20);
 
     // Set the variables
-    SetLocalInt(GetPCSpeaker(), "iElsworthquest", 11);
+    SetCampaignInt("MinorQuests", "iElsworthquest", 11, GetPCSpeaker());
 
 
 

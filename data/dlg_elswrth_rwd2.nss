@@ -14,7 +14,7 @@ void main()
 
 
                             // Set the variables
-    SetLocalInt(GetPCSpeaker(), "iElsworthquest", 7);
+    SetCampaignInt("MinorQuests", "iElsworthquest", 7, GetPCSpeaker());
 
     // Create alignment shift +1 GOOD
 

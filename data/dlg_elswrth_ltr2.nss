@@ -22,7 +22,7 @@ void main()
         DestroyObject(oItemToTake);
 
     // Set the variables
-    SetLocalInt(GetPCSpeaker(), "iElsworthquest", 6);
+    SetCampaignInt("MinorQuests", "iElsworthquest", 6, GetPCSpeaker());
 
    //create alignment shifts +1 EVIL +1 CHAOTIC
    {

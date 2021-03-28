@@ -8,7 +8,7 @@
 void main()
 {
     // Set the variables
-    SetLocalInt(GetPCSpeaker(), "iElsworthquest", 1);
+    SetCampaignInt("MinorQuests", "iElsworthquest", 1, GetPCSpeaker());
 
     // Give the speaker the items
     CreateItemOnObject("elsworthsletter", GetPCSpeaker(), 1);
