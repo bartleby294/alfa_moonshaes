@@ -49,15 +49,16 @@ void main()
     SetPhenoType(3, OBJECT_SELF);
     //SetCreatureTailType(GetCreatureTailType(oHorse), oPC);
 
-    object oHorse = CreateObject(OBJECT_TYPE_CREATURE, "playerhorse_03",
-                                 GetLocation(OBJECT_SELF));
+    //object oHorse = CreateObject(OBJECT_TYPE_CREATURE, "playerhorse_03",
+    //                             GetLocation(OBJECT_SELF));
     //ALFA_MountHorse(OBJECT_SELF, oHorse);
 
-    WriteTimestampedLogEntry("========================================");
-    WriteTimestampedLogEntry(IntToString(GetCreatureTailType(oHorse)));
-    WriteTimestampedLogEntry("========================================");
+    //WriteTimestampedLogEntry("========================================");
+    //WriteTimestampedLogEntry(IntToString(GetCreatureTailType(oHorse)));
+    //WriteTimestampedLogEntry("========================================");
 
-    SetCreatureTailType(GetCreatureTailType(oHorse), OBJECT_SELF);
+    //SetCreatureTailType(GetCreatureTailType(oHorse), OBJECT_SELF);
+    SetCreatureTailType(55, OBJECT_SELF);
 
     // User defined OnSpawn event requested?
     int nSpecEvent = GetLocalInt(OBJECT_SELF,"X2_USERDEFINED_ONSPAWN_EVENTS");
