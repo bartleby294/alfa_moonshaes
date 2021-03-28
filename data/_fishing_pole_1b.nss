@@ -1,3 +1,5 @@
+#include "ms_terrain_id"
+
 void main()
 {
      object firstbate;
@@ -12,11 +14,13 @@ void main()
      SetLocalInt(oPC, "firstbait", 0);
      SetLocalInt(oPC, "baitstate", 0);
 
-if(fish_hole == OBJECT_INVALID)
-{
-    AssignCommand(oPC, ActionSpeakString("This doesnt look like a good place to fish."));
-    return;
-}
+    int isWaterTile = IsWaterTile(GetTerrainObjectIsOn(oPC));
+
+    if(fish_hole == OBJECT_INVALID && isWaterTile == FALSE)
+    {
+        AssignCommand(oPC, ActionSpeakString("This doesnt look like a good place to fish."));
+        return;
+    }
 
   if(GetLocalInt(oPC, "fishstate") != 1)
   {
