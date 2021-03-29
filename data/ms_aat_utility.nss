@@ -14,7 +14,7 @@ string GetLetterUsingOffset(string curEWPos, int offset) {
 
     int curLetterPos = GetLetterPosition(curEWPos);
     int subStrSize = GetStringLength(curEWPos);
-    int subStrStart = subStrSize * offset;
+    int subStrStart = curLetterPos + (subStrSize * offset);
 
     WriteTimestampedLogEntry("curEWPos: " + curEWPos);
     WriteTimestampedLogEntry("curLetterPos: " + IntToString(curLetterPos));
