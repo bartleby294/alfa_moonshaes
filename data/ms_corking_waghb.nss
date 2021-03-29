@@ -9,6 +9,7 @@ void main()
     WriteTimestampedLogEntry("1");
     int curWPInt = GetLocalInt(OBJECT_SELF, "curWP");
     WriteTimestampedLogEntry("2");
+    WriteTimestampedLogEntry("curWPInt: " + IntToString(curWPInt));
     // seed waypoints if uninitalized
     if(curWPInt == 0) {
         WriteTimestampedLogEntry("3");
