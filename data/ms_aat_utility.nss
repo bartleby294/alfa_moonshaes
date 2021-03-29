@@ -65,13 +65,13 @@ int GetAreaTransitionX(object oPC) {
 
     // move east
     if(oPCLocVec.x > height - 10.0){
-        WriteTimestampedLogEntry("Move North");
-        return -1;
+        WriteTimestampedLogEntry("Move East");
+        return 1;
     }
     // move west
     if(oPCLocVec.x < 10.0) {
-        WriteTimestampedLogEntry("Move South");
-        return 1;
+        WriteTimestampedLogEntry("Move West");
+        return -1;
     }
     // dont go anywhere
     return 0;
@@ -85,12 +85,12 @@ int GetAreaTransitionY(object oPC) {
 
     // move north
     if(oPCLocVec.y > width - 10.0) {
-        WriteTimestampedLogEntry("Move East");
+        WriteTimestampedLogEntry("Move North");
         return -1;
     }
     // move south
     if(oPCLocVec.y < 10.0) {
-        WriteTimestampedLogEntry("Move West");
+        WriteTimestampedLogEntry("Move South");
         return 1;
     }
     // dont go anywhere
