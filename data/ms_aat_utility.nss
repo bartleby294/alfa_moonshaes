@@ -35,7 +35,9 @@ object GetAreaAtCoordinates(object curArea, int xDirection, int yDirection) {
 
     string newEWPos = GetLetterUsingOffset(curEWPos, xDirection);
     string newNSPos = IntToString(curNSPos + yDirection);
-    object newArea = GetObjectByTag(newEWPos + newNSPos + "_e");
+    string tag = newEWPos + newNSPos + "_e";
+    WriteTimestampedLogEntry("Area Tag: " + tag);
+    object newArea = GetObjectByTag(tag);
 
     // Lets make sure what we have is really an area.
     int iWidthInTiles = GetAreaSize(AREA_WIDTH,  newArea);
@@ -54,11 +56,13 @@ int GetAreaTransitionX(object oPC) {
     float height = GetAreaSize(AREA_HEIGHT, oArea) * 10.0;
 
     // move north
-    if(oPCLocVec.x > height - 10.0) {
+    if(oPCLocVec.x > height - 10.0){
+        WriteTimestampedLogEntry("Move North");
         return -1;
     }
     // move south
     if(oPCLocVec.x < 10.0) {
+        WriteTimestampedLogEntry("Move South");
         return 1;
     }
     // dont go anywhere
@@ -73,10 +77,12 @@ int GetAreaTransitionY(object oPC) {
 
     // move east
     if(oPCLocVec.x > width - 10.0) {
+        WriteTimestampedLogEntry("Move East");
         return 1;
     }
     // move west
     if(oPCLocVec.x < 10.0) {
+        WriteTimestampedLogEntry("Move West");
         return -1;
     }
     // dont go anywhere
