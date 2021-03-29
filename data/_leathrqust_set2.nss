@@ -19,6 +19,6 @@
 void main()
 {
     // Set the variables
-    SetCampaignInt("MinorQuests", "iLeatherquest", 2, GetPCSpeaker());
+    SetCampaignInt("MinorQuests", "iLeatherquest", 3, GetPCSpeaker());
 
 }

@@ -8,9 +8,9 @@
 int StartingConditional()
 {
 
-	// Inspect local variables
-	if(!(GetLocalInt(GetPCSpeaker(), "cornqueststatus") == 1))
-		return FALSE;
+    // Inspect local variables
+    if(!GetCampaignInt("RepeatableStatics", "cornqueststatus", GetPCSpeaker()) == 1)
+        return FALSE;
 
-	return TRUE;
+    return TRUE;
 }

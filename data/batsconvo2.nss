@@ -19,7 +19,7 @@ int StartingConditional()
     }
 
     // Inspect local variables
-    if(!(GetLocalInt(GetPCSpeaker(), "defiledcavernsbats") == TRUE))
+    if(!(GetCampaignInt("RepeatableStatics", "defiledcavernsbats", GetPCSpeaker()) == TRUE))
         return FALSE;
 
     return TRUE;
