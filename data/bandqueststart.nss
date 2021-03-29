@@ -11,6 +11,6 @@
 void main()
 {
     // Set the variables
-    SetLocalInt(GetPCSpeaker(), "bandqueststatus", 1);
+    SetCampaignInt("RepeatableStatics", "bandqueststatus", 1, GetPCSpeaker());
     AddPersistentJournalQuestEntry("k011",1,GetPCSpeaker(),FALSE,FALSE,FALSE);
 }

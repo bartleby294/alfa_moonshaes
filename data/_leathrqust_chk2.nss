@@ -18,8 +18,11 @@
 int StartingConditional()
 {
     // Inspect the campaign variable
-    if(!(GetCampaignInt("MinorQuests", "iLeatherquest", GetPCSpeaker()) == 1))
+    if(!(GetCampaignInt("MinorQuests", "iLeatherquest", GetPCSpeaker()) < 3))
       return FALSE;
+    if(!(GetCampaignInt("MinorQuests", "iLeatherquest", GetPCSpeaker()) > 0))
+      return FALSE;
+
       return TRUE;
 }
 

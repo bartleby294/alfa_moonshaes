@@ -15,6 +15,6 @@ void main()
         DestroyObject(oItemToTake);
     string oGiveItem2 = "050_food030";
     CreateItemOnObject(oGiveItem2, GetPCSpeaker());
-    GiveXPToCreature(GetPCSpeaker(), 25);
-    GiveGoldToCreature(GetPCSpeaker(), 20);
+    GiveXPToCreature(GetPCSpeaker(), 20);
+    GiveGoldToCreature(GetPCSpeaker(), 25);
 }

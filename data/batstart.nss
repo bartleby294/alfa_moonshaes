@@ -13,6 +13,6 @@
 void main()
 {
     // Set the variables
-    SetLocalInt(GetPCSpeaker(), "defiledcavernsbats", 1);
+    SetCampaignInt("RepeatableStatics", "defiledcavernsbats", 1, GetPCSpeaker());
     object oPC = GetPCSpeaker();
 }

@@ -1,22 +1,20 @@
 //::///////////////////////////////////////////////
-//:: FileName zmg_tannerdeerrw
+//:: FileName zmg_hunterskins1
 //:://////////////////////////////////////////////
 //:://////////////////////////////////////////////
 //:: Created By: Script Wizard
-//:: Created On: 2
+//:: Created On: 0
 //:://////////////////////////////////////////////
 void main()
 {
-    // Give the speaker some gold
-    GiveGoldToCreature(GetPCSpeaker(), 25);
-
-    // Give the speaker some XP
-    GiveXPToCreature(GetPCSpeaker(), 20);
-
 
     // Remove items from the player's inventory
     object oItemToTake;
-    oItemToTake = GetItemPossessedBy(GetPCSpeaker(), "050_hide");
+    oItemToTake = GetItemPossessedBy(GetPCSpeaker(), "_DeadDeer");
     if(GetIsObjectValid(oItemToTake) != 0)
         DestroyObject(oItemToTake);
+    string oGiveItem2 = "050_food030";
+    CreateItemOnObject(oGiveItem2, GetPCSpeaker());
+    GiveXPToCreature(GetPCSpeaker(), 25);
+    GiveGoldToCreature(GetPCSpeaker(), 30);
 }

@@ -8,8 +8,8 @@
 int StartingConditional()
 {
     // Inspect local variables
-    if(!(GetLocalInt(GetPCSpeaker(), "bandqueststatus") == 0))
-        return FALSE;
+    if(!(GetCampaignInt("RepeatableStatics", "bandqueststatus", GetPCSpeaker()) == 0))
+             return FALSE;
 
     return TRUE;
 }
