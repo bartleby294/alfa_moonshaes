@@ -27,7 +27,8 @@ string GetLetterUsingOffset(string curEWPos, int offset) {
         return "";
     }
 
-    return GetSubString(EW_GRID, curLetterPos + subStrStart, subStrSize);
+    return GetTokenByPosition(EW_GRID_DELIM, "|", subStrStart);
+    //return GetSubString(EW_GRID, subStrStart, subStrSize);
 }
 
 /*
@@ -41,7 +42,7 @@ object GetAreaAtCoordinates(object curArea, int xDirection, int yDirection) {
 
     string newEWPos = GetLetterUsingOffset(curEWPos, xDirection);
     string newNSPos = IntToString(curNSPos + yDirection);
-    string tag = newEWPos + newNSPos + "_e";
+    string tag = newEWPos + "_" + newNSPos + "_e";
     WriteTimestampedLogEntry("Area Tag: " + tag);
     object newArea = GetObjectByTag(tag);
 
