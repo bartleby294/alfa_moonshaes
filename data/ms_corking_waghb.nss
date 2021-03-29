@@ -13,6 +13,8 @@ void main()
         int i = 1;
         object areaWP = GetNearestObjectByTag(baseWPStr, OBJECT_SELF, i);
         while(areaWP != OBJECT_INVALID) {
+            WriteTimestampedLogEntry("areaWP Tag: " + GetTag(areaWP));
+            WriteTimestampedLogEntry("i: " + IntToString(i));
             NWNX_Data_Array_PushBack_Obj(OBJECT_SELF, AREA_WPS, areaWP);
             i++;
             GetNearestObjectByTag(baseWPStr, OBJECT_SELF, i);
@@ -20,7 +22,7 @@ void main()
         SetLocalInt(OBJECT_SELF, "curWP", 1);
     }
 
-    object oPC = GetNearestPC();
+    ///object oPC = GetNearestPC();
     object curWP = NWNX_Data_Array_At_Obj(OBJECT_SELF, AREA_WPS, curWPInt);
 
     if(GetDistanceToObject(curWP) < 3.0) {
