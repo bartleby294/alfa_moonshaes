@@ -16,8 +16,14 @@ string GetLetterUsingOffset(string curEWPos, int offset) {
     int subStrSize = GetStringLength(curEWPos);
     int subStrStart = subStrSize * offset;
 
+    WriteTimestampedLogEntry("curEWPos: " + curEWPos);
+    WriteTimestampedLogEntry("curLetterPos: " + IntToString(curLetterPos));
+    WriteTimestampedLogEntry("subStrSize: " + IntToString(subStrSize));
+    WriteTimestampedLogEntry("subStrStart: " + IntToString(subStrStart));
+
     // if our start position is out of bounds return nothing.
     if(subStrStart < 0 || subStrStart > GetStringLength(EW_GRID)){
+        WriteTimestampedLogEntry("ABORT");
         return "";
     }
 
@@ -76,12 +82,12 @@ int GetAreaTransitionY(object oPC) {
     float width  = GetAreaSize(AREA_WIDTH,  oArea) * 10.0;
 
     // move east
-    if(oPCLocVec.x > width - 10.0) {
+    if(oPCLocVec.y > width - 10.0) {
         WriteTimestampedLogEntry("Move East");
         return 1;
     }
     // move west
-    if(oPCLocVec.x < 10.0) {
+    if(oPCLocVec.y < 10.0) {
         WriteTimestampedLogEntry("Move West");
         return -1;
     }
