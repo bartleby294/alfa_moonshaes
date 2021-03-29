@@ -25,25 +25,22 @@ void writeToLog(string str) {
 }
 
 void writeToDB(int cornCnt) {
-    string indexStr = IntToString(NWNX_Time_GetTimeStamp()) + "|";
+    string indexStr = IntToString(NWNX_Time_GetTimeStamp());
+    string payload = "";
     object oPC = GetFirstPCInArea(GetArea(OBJECT_SELF));
     while(oPC != OBJECT_INVALID) {
-        indexStr += GetPCPublicCDKey(oPC) + GetPCPlayerName(oPC) + "|";
+        payload += GetPCPublicCDKey(oPC) + GetPCPlayerName(oPC) + "|";
         oPC = GetNextPCInArea(GetArea(OBJECT_SELF));
     }
-    SetCampaignInt("xvart_corn_raid", indexStr, cornCnt);
+    payload += IntToString(cornCnt);
+    SetCampaignString("xvart_corn_raid_str", indexStr, payload);
 }
 
 int isObjectInArea(string objTag) {
-    int objectFound = 0;
-    object obj = GetFirstObjectInArea();
-    while(GetIsObjectValid(obj) && objectFound == 0){
-        if(GetTag(obj) == objTag){
-            objectFound = 1;
-        }
-        obj = GetNextObjectInArea();
+    if(GetNearestObjectByTag(objTag, OBJECT_SELF) != OBJECT_INVALID) {
+        return TRUE;
     }
-    return objectFound;
+    return FALSE;
 }
 
 void MovementReset(object farmer) {
@@ -267,17 +264,21 @@ void msgToAllPCsInArea(float delay, string message) {
     }
 }
 
+int getCornCount() {
+    int i;
+    int cnt = 0;
+    for(i=1; i<49; ++i) {
+        if(isObjectInArea("hlf_f1_corn_obj_" + IntToString(i)) == TRUE) {
+            cnt++;
+        }
+        i++;
+    }
+    return cnt;
+}
+
 /* Count up the corn thats left and put 2x the corn in the barrel. */
 void rewardCorn() {
-    int cornCnt = 0;
-    object obj = GetFirstObjectInArea();
-    while(GetIsObjectValid(obj)){
-        // if its corn add to the corn count.
-        if (TestStringAgainstPattern("hlf_f1_corn_obj_*n", GetTag(obj))) {
-            cornCnt++;
-        }
-        obj = GetNextObjectInArea();
-    }
+    int cornCnt = getCornCount();
     CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 0),
         cornCnt * 2, "corn");
     writeToLog(IntToString(cornCnt) + " corn was saved!");
