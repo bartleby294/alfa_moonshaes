@@ -53,7 +53,7 @@ void RandomAreaSeed(object oArea) {
     int bandits = GetCampaignInt(MS_BANDITS_PER_AREA, GetResRef(oArea));
     if(bandits > 0) {
         if(numberOfPlayers > 1) {
-            WriteTimestampedLogEntry("MS TREASURE: ON ENTER EXIT 1");
+            WriteTimestampedLogEntry("MS BANDITS: ON ENTER EXIT 1");
         } else {
             int lastBanditCreate = GetLocalInt(oArea, LAST_BANDIT_AMBUSH_CREATE);
             WriteTimestampedLogEntry("curTime - lastBanditAmbushCreate > BANDIT_AMBUSH_CREATE_DELAY_SECONDS "
@@ -63,6 +63,7 @@ void RandomAreaSeed(object oArea) {
             if(curTime - lastBanditCreate > BANDIT_AMBUSH_CREATE_DELAY_SECONDS) {
                 //if(Random(100) > 80) {
                 if(Random(100) >= 0) { // Testing Mode
+                    WriteTimestampedLogEntry("MS BANDITS: Creating Ambush");
                     SetLocalInt(oArea, LAST_BANDIT_AMBUSH_CREATE, curTime);
                     TearBanditAmbushDown(oArea);
                     DelayCommand(0.5, SeedRandomBanditAmbush(oArea, bandits));
