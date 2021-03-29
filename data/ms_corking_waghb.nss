@@ -20,7 +20,7 @@ void main()
             WriteTimestampedLogEntry("i: " + IntToString(i));
             NWNX_Data_Array_PushBack_Obj(OBJECT_SELF, AREA_WPS, areaWP);
             i++;
-            GetNearestObjectByTag(baseWPStr, OBJECT_SELF, i);
+            areaWP =GetNearestObjectByTag(baseWPStr, OBJECT_SELF, i);
         }
         WriteTimestampedLogEntry("6");
         SetLocalInt(OBJECT_SELF, "curWP", 1);
