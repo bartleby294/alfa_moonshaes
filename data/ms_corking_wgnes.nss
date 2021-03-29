@@ -1,9 +1,13 @@
 #include "ms_aat_utility"
+#include "nwnx_data"
+
+const string AREA_WPS = "area_waypoints";
 
 void main()
 {
     object enterObj = GetEnteringObject();
     if(GetTag(enterObj) != "tradewagon") {
+        WriteTimestampedLogEntry("not a tradewagon");
         return;
     }
 
@@ -18,9 +22,9 @@ void main()
     float newY = curPosition.y;
 
     if(x > 0) {
-        newX = 6.0;
-    } else if (x < 0) {
         newX = 314.0;
+    } else if (x < 0) {
+        newX = 6.0;
     }
 
     if(y > 0) {
@@ -29,7 +33,13 @@ void main()
         newY = 6.0;
     }
 
-    location newLoc = Location(oArea, Vector(newX, newY, 0.0), 0.0);
-
+    location newLoc = Location(newArea, Vector(newX, newY, 0.0), 0.0);
+    float newZ = GetGroundHeight(newLoc);
+    newLoc = Location(newArea, Vector(newX, newY, newZ), 0.0);
+    WriteTimestampedLogEntry("Sending To: " + GetTag(newArea));
+    WriteTimestampedLogEntry("Sending To: (" + FloatToString(newX) + ", "
+                             + FloatToString(newY) + ", "
+                             + FloatToString(newZ));
+    NWNX_Data_Array_Clear(NWNX_DATA_TYPE_OBJECT, OBJECT_SELF, AREA_WPS);
     AssignCommand(enterObj, ActionJumpToLocation(newLoc));
 }
