@@ -24,6 +24,13 @@ void writeToLog(string str) {
     WriteTimestampedLogEntry("Xvart Corn Raid: " + oAreaName + ": " +  str);
 }
 
+/**
+ *  We dont have access to a robust db and I dont feel like putting one in
+ *  right now.  So we are going to use the recorded time stamp as the unique
+ *  id.  The count will match the time stamped index and will be used to
+ *  retreive the best run xvart_corn_raid_cnt.  There will also be stored the
+ *  players the took part in the run in xvart_corn_raid_party.
+ */
 void writeToDB(int cornCnt) {
     string indexStr = IntToString(NWNX_Time_GetTimeStamp());
     string payload = "";
@@ -32,8 +39,8 @@ void writeToDB(int cornCnt) {
         payload += GetPCPublicCDKey(oPC) + GetPCPlayerName(oPC) + "|";
         oPC = GetNextPCInArea(GetArea(OBJECT_SELF));
     }
-    payload += IntToString(cornCnt);
-    SetCampaignString("xvart_corn_raid_str", indexStr, payload);
+    SetCampaignString("xvart_corn_raid_party", indexStr, payload);
+    SetCampaignInt("xvart_corn_raid_cnt", indexStr, cornCnt);
 }
 
 int isObjectInArea(string objTag) {

@@ -40,7 +40,7 @@ void main()
     WriteTimestampedLogEntry("Sending To: (" + FloatToString(newX) + ", "
                              + FloatToString(newY) + ", "
                              + FloatToString(newZ));
-    NWNX_Data_Array_Clear(NWNX_DATA_TYPE_OBJECT, OBJECT_SELF, AREA_WPS);
+    NWNX_Data_Array_Clear(NWNX_DATA_TYPE_OBJECT, enterObj, AREA_WPS);
     SetLocalInt(enterObj, "curWP", 0);
     WriteTimestampedLogEntry("curWPInt: " + IntToString(GetLocalInt(enterObj, "curWP")));
     AssignCommand(enterObj, ActionJumpToLocation(newLoc));
