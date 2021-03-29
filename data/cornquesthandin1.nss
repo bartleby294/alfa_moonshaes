@@ -9,7 +9,7 @@ int StartingConditional()
 {
 
     // Inspect local variables
-    if(!GetCampaignInt("RepeatableStatics", "cornqueststatus", GetPCSpeaker()) == 1)
+    if(!GetCampaignInt("RepeatableStatics", "cornqueststatus", GetPCSpeaker()) > 0)
         return FALSE;
 
     return TRUE;

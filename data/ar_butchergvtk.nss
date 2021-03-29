@@ -1,20 +1,18 @@
 //::///////////////////////////////////////////////
-//:: FileName ar_butchergvtk
+//:: FileName zmg_meathandin
 //:://////////////////////////////////////////////
 //:://////////////////////////////////////////////
 //:: Created By: Script Wizard
-//:: Created On: 7/6/2005 12:35:27 PM
+//:: Created On: 2
 //:://////////////////////////////////////////////
-#include "ms_xp_util"
-
 void main()
 {
     // Give the speaker some gold
-    GiveGoldToCreature(GetPCSpeaker(), 3);
+    GiveGoldToCreature(GetPCSpeaker(), 15);
 
     // Give the speaker some XP
-    GiveAndLogXP(GetPCSpeaker(), 5, "HUNTING BUTCHER HAND IN",
-                 "for handing in deer meat.");
+    GiveXPToCreature(GetPCSpeaker(), 15);
+
 
     // Remove items from the player's inventory
     object oItemToTake;
@@ -22,3 +20,4 @@ void main()
     if(GetIsObjectValid(oItemToTake) != 0)
         DestroyObject(oItemToTake);
 }
+
