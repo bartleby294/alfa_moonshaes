@@ -41,5 +41,6 @@ void main()
                              + FloatToString(newY) + ", "
                              + FloatToString(newZ));
     NWNX_Data_Array_Clear(NWNX_DATA_TYPE_OBJECT, OBJECT_SELF, AREA_WPS);
+    SetLocalInt(OBJECT_SELF, "curWP", 0);
     AssignCommand(enterObj, ActionJumpToLocation(newLoc));
 }
