@@ -22,9 +22,9 @@ void main()
     float newY = curPosition.y;
 
     if(x > 0) {
-        newX = 6.0;
-    } else if (x < 0) {
         newX = 314.0;
+    } else if (x < 0) {
+        newX = 6.0;
     }
 
     if(y > 0) {
