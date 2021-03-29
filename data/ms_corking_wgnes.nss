@@ -34,9 +34,12 @@ void main()
     }
 
     location newLoc = Location(newArea, Vector(newX, newY, 0.0), 0.0);
+    float newZ = GetGroundHeight(newLoc);
+    newLoc = Location(newArea, Vector(newX, newY, newZ), 0.0);
     WriteTimestampedLogEntry("Sending To: " + GetTag(newArea));
     WriteTimestampedLogEntry("Sending To: (" + FloatToString(newX) + ", "
-                             + FloatToString(newY) + ", 0.0)");
+                             + FloatToString(newY) + ", "
+                             + FloatToString(newZ));
     NWNX_Data_Array_Clear(NWNX_DATA_TYPE_OBJECT, OBJECT_SELF, AREA_WPS);
     AssignCommand(enterObj, ActionJumpToLocation(newLoc));
 }
