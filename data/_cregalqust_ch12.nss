@@ -18,9 +18,9 @@
 int StartingConditional()
 {
     // Inspect the campaign variable
-    if(!(GetCampaignInt("MinorQuests", "iMauraquest", GetPCSpeaker())>0))
+    if(!(GetCampaignInt("MinorQuests", "iCregalquest", GetPCSpeaker())>0))
                                         return FALSE;
-    if(!(GetCampaignInt("MinorQuests", "iMauraquest", GetPCSpeaker())<3))
+    if(!(GetCampaignInt("MinorQuests", "iCregalquest", GetPCSpeaker())<3))
                                         return FALSE;
       return TRUE;
 }
