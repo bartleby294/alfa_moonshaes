@@ -49,7 +49,7 @@ void CreateHerbTrigger(struct Herb herbStruct, location loc){
     //                         + FloatToString(locVec.z));
     SetEventScript(trigger, EVENT_SCRIPT_TRIGGER_ON_OBJECT_ENTER,
                    "ms_herb_trigger");
-    SetLocalInt(trigger, MS_HERB_TRIGGER_SEARCH_DIFF, 14);
+    SetLocalInt(trigger, MS_HERB_TRIGGER_SEARCH_DIFF, 12);
     SetLocalInt(trigger, MS_HERB_TRIGGER_LORE_DIFF, 12);
 }
 

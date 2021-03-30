@@ -24,26 +24,30 @@ void writeToLog(string str) {
     WriteTimestampedLogEntry("Xvart Corn Raid: " + oAreaName + ": " +  str);
 }
 
+/**
+ *  We dont have access to a robust db and I dont feel like putting one in
+ *  right now.  So we are going to use the recorded time stamp as the unique
+ *  id.  The count will match the time stamped index and will be used to
+ *  retreive the best run xvart_corn_raid_cnt.  There will also be stored the
+ *  players the took part in the run in xvart_corn_raid_party.
+ */
 void writeToDB(int cornCnt) {
-    string indexStr = IntToString(NWNX_Time_GetTimeStamp()) + "|";
+    string indexStr = IntToString(NWNX_Time_GetTimeStamp());
+    string payload = "";
     object oPC = GetFirstPCInArea(GetArea(OBJECT_SELF));
     while(oPC != OBJECT_INVALID) {
-        indexStr += GetPCPublicCDKey(oPC) + GetPCPlayerName(oPC) + "|";
+        payload += GetPCPublicCDKey(oPC) + GetPCPlayerName(oPC) + "|";
         oPC = GetNextPCInArea(GetArea(OBJECT_SELF));
     }
-    SetCampaignInt("xvart_corn_raid", indexStr, cornCnt);
+    SetCampaignString("xvart_corn_raid_party", indexStr, payload);
+    SetCampaignInt("xvart_corn_raid_cnt", indexStr, cornCnt);
 }
 
 int isObjectInArea(string objTag) {
-    int objectFound = 0;
-    object obj = GetFirstObjectInArea();
-    while(GetIsObjectValid(obj) && objectFound == 0){
-        if(GetTag(obj) == objTag){
-            objectFound = 1;
-        }
-        obj = GetNextObjectInArea();
+    if(GetNearestObjectByTag(objTag, OBJECT_SELF) != OBJECT_INVALID) {
+        return TRUE;
     }
-    return objectFound;
+    return FALSE;
 }
 
 void MovementReset(object farmer) {
@@ -267,17 +271,21 @@ void msgToAllPCsInArea(float delay, string message) {
     }
 }
 
+int getCornCount() {
+    int i;
+    int cnt = 0;
+    for(i=1; i<49; ++i) {
+        if(isObjectInArea("hlf_f1_corn_obj_" + IntToString(i)) == TRUE) {
+            cnt++;
+        }
+        i++;
+    }
+    return cnt;
+}
+
 /* Count up the corn thats left and put 2x the corn in the barrel. */
 void rewardCorn() {
-    int cornCnt = 0;
-    object obj = GetFirstObjectInArea();
-    while(GetIsObjectValid(obj)){
-        // if its corn add to the corn count.
-        if (TestStringAgainstPattern("hlf_f1_corn_obj_*n", GetTag(obj))) {
-            cornCnt++;
-        }
-        obj = GetNextObjectInArea();
-    }
+    int cornCnt = getCornCount();
     CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 0),
         cornCnt * 2, "corn");
     writeToLog(IntToString(cornCnt) + " corn was saved!");
