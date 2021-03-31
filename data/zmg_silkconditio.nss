@@ -1,0 +1,18 @@
+//::///////////////////////////////////////////////
+//:: FileName zmg_silkconditio
+//:://////////////////////////////////////////////
+//:://////////////////////////////////////////////
+//:: Created By: Script Wizard
+//:: Created On: 2
+//:://////////////////////////////////////////////
+#include "nw_i0_tool"
+
+int StartingConditional()
+{
+
+	// Make sure the PC speaker has these items in their inventory
+	if(!HasItem(GetPCSpeaker(), "004_rn_spidergland"))
+		return FALSE;
+
+	return TRUE;
+}
