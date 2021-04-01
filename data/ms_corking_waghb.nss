@@ -3,7 +3,36 @@
 
 const string AREA_WPS = "area_waypoints";
 
+
 void main()
+{
+    string baseWpStr = "corwell_to_kingsbay_wp_";
+    int curWPInt = GetLocalInt(OBJECT_SELF, "curWP");
+
+    if(curWPInt == 0) {
+        int i = 1;
+        string waypointStr = baseWpStr + IntToString(i);
+        object areaWP = GetObjectByTag(waypointStr);
+        while (areaWP != OBJECT_INVALID) {
+            NWNX_Data_Array_PushBack_Obj(OBJECT_SELF, AREA_WPS, areaWP);
+            i++;
+            waypointStr = baseWpStr + IntToString(i);
+            areaWP = GetObjectByTag(waypointStr);
+        }
+        SetLocalInt(OBJECT_SELF, "curWP", 1);
+    }
+
+    object curWP = NWNX_Data_Array_At_Obj(OBJECT_SELF, AREA_WPS, curWPInt);
+    if(GetDistanceToObject(curWP) < 3.0) {
+        SetLocalInt(OBJECT_SELF, "curWP", curWPInt + 1);
+        curWP = NWNX_Data_Array_At_Obj(OBJECT_SELF, AREA_WPS, curWPInt + 1);
+    }
+
+    AssignCommand(OBJECT_SELF, ActionMoveToObject(curWP));
+}
+
+
+void mainOLD()
 {
     string baseWPStr = "corwell_to_kingsbay_wp";
     WriteTimestampedLogEntry("1");
