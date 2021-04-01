@@ -43,13 +43,6 @@ void writeToDB(int cornCnt) {
     SetCampaignInt("xvart_corn_raid_cnt", indexStr, cornCnt);
 }
 
-int isObjectInArea(string objTag) {
-    if(GetNearestObjectByTag(objTag, OBJECT_SELF) != OBJECT_INVALID) {
-        return TRUE;
-    }
-    return FALSE;
-}
-
 void MovementReset(object farmer) {
     WriteTimestampedLogEntry("BELL Resetting Movement");
     effect eSpeedUp = EffectMovementSpeedIncrease(98);
@@ -271,10 +264,17 @@ void msgToAllPCsInArea(float delay, string message) {
     }
 }
 
+int isObjectInArea(string objTag) {
+    if(GetNearestObjectByTag(objTag, OBJECT_SELF) != OBJECT_INVALID) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
 int getCornCount() {
-    int i;
+    int i = 1;
     int cnt = 0;
-    for(i=1; i<49; ++i) {
+    while(i < 49) {
         if(isObjectInArea("hlf_f1_corn_obj_" + IntToString(i)) == TRUE) {
             cnt++;
         }
