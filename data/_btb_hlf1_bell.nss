@@ -276,16 +276,22 @@ int getCornCount() {
     int cnt = 0;
     while(i < 49) {
         if(isObjectInArea("hlf_f1_corn_obj_" + IntToString(i)) == TRUE) {
+            WriteTimestampedLogEntry("hlf_f1_corn_obj_" + IntToString(i) + " Exists");
             cnt++;
+        } else {
+            WriteTimestampedLogEntry("hlf_f1_corn_obj_" + IntToString(i) + " Does Not Exist");
         }
         i++;
     }
+    WriteTimestampedLogEntry("cnt: " + IntToString(cnt));
     return cnt;
 }
 
 /* Count up the corn thats left and put 2x the corn in the barrel. */
 void rewardCorn() {
+    WriteTimestampedLogEntry("=========Ending Corn Count=========");
     int cornCnt = getCornCount();
+    WriteTimestampedLogEntry("===================================");
     CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 0),
         cornCnt * 2, "corn");
     writeToLog(IntToString(cornCnt) + " corn was saved!");
@@ -306,6 +312,10 @@ void startRaid() {
     string BASE_WP_TAG = "hlf_f1_corn_";
     string BASE_OBJ_TAG = "hlf_f1_corn_obj_";
     string CORN_RESREF = "alfa_produce014";
+
+    WriteTimestampedLogEntry("========Starting Corn Count========");
+    getCornCount();
+    WriteTimestampedLogEntry("===================================");
 
     // do 1d5 + 10 total raids
     int numberOfRaids = Random(7) + 14;
