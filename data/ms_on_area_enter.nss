@@ -36,7 +36,7 @@ void main() {
     int iFired = GetLocalInt(OBJECT_SELF, "setup");
     int iNumPlayers = 0;
 
-    //MapAreaTerrain(oArea);
+    MapAreaTerrain(oArea);
 
     /************* This section fires for all players, NPCs, and DMs***********/
     if(iFired != 1) {
