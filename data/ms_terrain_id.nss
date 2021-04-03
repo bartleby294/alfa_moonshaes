@@ -56,31 +56,31 @@ string GetRandomTerrainType() {
 
 string GetTerrainTypeFromResRef(string resRef) {
 
-    if(TestStringAgainstPattern("tno01_p*", resRef) == TRUE) {
+    if(TestStringAgainstPattern("tno01_p**", resRef) == TRUE) {
         return TERRAIN_FIELD;
     }
-    if(TestStringAgainstPattern("tno01_r*", resRef) == TRUE) {
+    if(TestStringAgainstPattern("tno01_r**", resRef) == TRUE) {
         return TERRAIN_ROCKY;
     }
-    if(TestStringAgainstPattern("tno01_a*", resRef) == TRUE) {
+    if(TestStringAgainstPattern("tno01_a**", resRef) == TRUE) {
         return TERRAIN_HILL;
     }
-    if(TestStringAgainstPattern("tno01_b*", resRef) == TRUE) {
+    if(TestStringAgainstPattern("tno01_b**", resRef) == TRUE) {
         return TERRAIN_FRESH_WATER;
     }
-    if(TestStringAgainstPattern("tno01_q*", resRef) == TRUE) {
+    if(TestStringAgainstPattern("tno01_q**", resRef) == TRUE) {
         return TERRAIN_FIELD;
     }
-    if(TestStringAgainstPattern("tno01_x*", resRef) == TRUE) {
+    if(TestStringAgainstPattern("tno01_x**", resRef) == TRUE) {
         return TERRAIN_CITY;
     }
-    if(TestStringAgainstPattern("tno01_h*", resRef) == TRUE) {
+    if(TestStringAgainstPattern("tno01_h**", resRef) == TRUE) {
         return TERRAIN_ROAD;
     }
-    if(TestStringAgainstPattern("tno01_o*", resRef) == TRUE) {
+    if(TestStringAgainstPattern("tno01_o**", resRef) == TRUE) {
         return TERRAIN_FIELD;
     }
-    if(TestStringAgainstPattern("tno01_v*", resRef) == TRUE) {
+    if(TestStringAgainstPattern("tno01_v**", resRef) == TRUE) {
         return TERRAIN_SALT_WATER;
     }
 
