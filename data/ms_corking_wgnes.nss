@@ -66,9 +66,9 @@ void main()
     }
 
     if(y > 0) {
-        newY = 6.0;
-    } else if (y < 0) {
         newY = 314.0;
+    } else if (y < 0) {
+        newY = 6.0;
     }
 
     location newLoc = Location(newArea, Vector(newX, newY, 0.0), 0.0);
