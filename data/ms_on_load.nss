@@ -1,5 +1,3 @@
-#include "ms_terrain_id"
-
 /**
  * If bandit activity is not set set it to 1.  Can update to a larger default
  * later.
@@ -14,6 +12,7 @@ void checkBanditActivity() {
     }
 }
 
+<<<<<<< HEAD
 void MapAreas() {
     float loadDilation = 2.0;
     DelayCommand(1.0 * loadDilation, MapAreaTerrain(GetObjectByTag("q_50_e")));
@@ -52,7 +51,8 @@ void MapAreas() {
 }
 
 
+=======
+>>>>>>> parent of 1c47b76e... additions
 void msOnLoad() {
     checkBanditActivity();
-    MapAreas();
 }
