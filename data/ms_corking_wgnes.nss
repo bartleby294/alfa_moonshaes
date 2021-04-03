@@ -16,19 +16,27 @@ int GetNextAreaWPTarget(int curWPInt) {
     string baseWpStr = "corwell_to_kingsbay_wp_";
 
     int firstOutOfAreaWP = curWPInt;
+    int curWPIntInArea = FALSE;
     WriteTimestampedLogEntry("firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP));
     string waypointStr = baseWpStr + IntToString(firstOutOfAreaWP);
     object areaWP = GetNearestObjectByTag(waypointStr, OBJECT_SELF);
 
     while (areaWP != OBJECT_INVALID) {
             firstOutOfAreaWP++;
+            curWPIntInArea = TRUE;
             WriteTimestampedLogEntry("firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP));
             waypointStr = baseWpStr + IntToString(firstOutOfAreaWP);
             areaWP = GetNearestObjectByTag(waypointStr, OBJECT_SELF);
     }
 
     WriteTimestampedLogEntry("returned firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP + 1));
-    return firstOutOfAreaWP + 1;
+
+    /* Don't increment if the waypoint is already out of the area. */
+    if(curWPIntInArea) {
+        return firstOutOfAreaWP + 1;
+    }
+
+    return firstOutOfAreaWP;
 }
 
 void main()
@@ -38,6 +46,8 @@ void main()
         WriteTimestampedLogEntry("not a tradewagon");
         return;
     }
+
+    SetLocalInt(enterObj, "waggonStopped", TRUE);
 
     object oArea = GetArea(enterObj);
     int x = GetAreaTransitionX(enterObj);
@@ -68,15 +78,14 @@ void main()
     WriteTimestampedLogEntry("Sending To: (" + FloatToString(newX) + ", "
                              + FloatToString(newY) + ", "
                              + FloatToString(newZ));
-
     WriteTimestampedLogEntry("curWPInt pre update: "
                              + IntToString(GetLocalInt(enterObj, "curWP")));
     int curWPInt = GetLocalInt(enterObj, "curWP");
     int nextWP = GetNextAreaWPTarget(curWPInt);
-    SetLocalInt(enterObj, "waggonStopped", TRUE);
     SetLocalInt(enterObj, "curWP", nextWP);
     WriteTimestampedLogEntry("curWPInt post update: "
                              + IntToString(GetLocalInt(enterObj, "curWP")));
+    AssignCommand(enterObj, ClearAllActions(TRUE));
     AssignCommand(enterObj, ActionJumpToLocation(newLoc));
     DelayCommand(2.0, SetLocalInt(enterObj, "waggonStopped", FALSE));
 }
