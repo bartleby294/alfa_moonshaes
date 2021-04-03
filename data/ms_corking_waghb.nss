@@ -8,12 +8,13 @@ int getShouldStop() {
     int isDmPossessed = GetIsDMPossessed(OBJECT_SELF);
     int isInCombat = GetIsInCombat();
     int isPCTooFar = TRUE;
+    int isWagonStopped = GetLocalInt(OBJECT_SELF, "waggonStopped");
 
     if(GetDistanceToObject(GetNearestPC()) < 4.0) {
         isPCTooFar = FALSE;
     }
 
-    if(isDmPossessed || isInCombat || isPCTooFar) {
+    if(isDmPossessed || isInCombat || isPCTooFar || isWagonStopped) {
         return TRUE;
     }
 

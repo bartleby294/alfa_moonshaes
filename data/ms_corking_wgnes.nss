@@ -16,15 +16,18 @@ int GetNextAreaWPTarget(int curWPInt) {
     string baseWpStr = "corwell_to_kingsbay_wp_";
 
     int firstOutOfAreaWP = curWPInt;
+    WriteTimestampedLogEntry("firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP));
     string waypointStr = baseWpStr + IntToString(firstOutOfAreaWP);
     object areaWP = GetNearestObjectByTag(waypointStr, OBJECT_SELF);
 
     while (areaWP != OBJECT_INVALID) {
             firstOutOfAreaWP++;
+            WriteTimestampedLogEntry("firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP));
             waypointStr = baseWpStr + IntToString(firstOutOfAreaWP);
             areaWP = GetNearestObjectByTag(waypointStr, OBJECT_SELF);
     }
 
+    WriteTimestampedLogEntry("returned firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP + 1));
     return firstOutOfAreaWP + 1;
 }
 
@@ -70,8 +73,10 @@ void main()
                              + IntToString(GetLocalInt(enterObj, "curWP")));
     int curWPInt = GetLocalInt(OBJECT_SELF, "curWP");
     int nextWP = GetNextAreaWPTarget(curWPInt);
+    SetLocalInt(OBJECT_SELF, "waggonStopped", 1);
     SetLocalInt(enterObj, "curWP", nextWP);
     WriteTimestampedLogEntry("curWPInt post update: "
                              + IntToString(GetLocalInt(enterObj, "curWP")));
     AssignCommand(enterObj, ActionJumpToLocation(newLoc));
+    DelayCommand(2.0, SetLocalInt(OBJECT_SELF, "waggonStopped", 0));
 }
