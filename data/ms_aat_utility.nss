@@ -12,6 +12,22 @@ int GetLetterPosition(string curEWPos) {
 
 string GetLetterUsingOffset(string curEWPos, int offset) {
 
+    int curEWPosNum = 0;
+    string curLocationStr = GetTokenByPosition(EW_GRID_DELIM, "|", curEWPosNum);
+
+    while(curLocationStr != "") {
+        if(curLocationStr == curEWPos) {
+            break;
+        }
+        curEWPosNum++;
+        curLocationStr = GetTokenByPosition(EW_GRID_DELIM, "|", curEWPosNum);
+    }
+
+    return GetTokenByPosition(EW_GRID_DELIM, "|", curEWPosNum + offset);
+}
+
+string GetLetterUsingOffsetOrig(string curEWPos, int offset) {
+
     int curLetterPos = GetLetterPosition(curEWPos);
     int subStrSize = GetStringLength(curEWPos);
     int subStrStart = curLetterPos + (subStrSize * offset);
