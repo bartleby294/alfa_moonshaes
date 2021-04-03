@@ -3,9 +3,30 @@
 
 const string AREA_WPS = "area_waypoints";
 
+int getShouldStop() {
+
+    int isDmPossessed = GetIsDMPossessed(OBJECT_SELF);
+    int isInCombat = GetIsInCombat();
+    int isPCTooFar = TRUE;
+
+    if(GetDistanceToObject(GetNearestPC()) < 4.0) {
+        isPCTooFar = FALSE;
+    }
+
+    if(isDmPossessed || isInCombat || isPCTooFar) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
 
 void main()
 {
+    if(getShouldStop()) {
+        ClearAllActions(TRUE);
+        return;
+    }
+
     string baseWpStr = "corwell_to_kingsbay_wp_";
     int curWPInt = GetLocalInt(OBJECT_SELF, "curWP");
 
