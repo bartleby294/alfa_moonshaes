@@ -71,12 +71,12 @@ void main()
 
     WriteTimestampedLogEntry("curWPInt pre update: "
                              + IntToString(GetLocalInt(enterObj, "curWP")));
-    int curWPInt = GetLocalInt(OBJECT_SELF, "curWP");
+    int curWPInt = GetLocalInt(enterObj, "curWP");
     int nextWP = GetNextAreaWPTarget(curWPInt);
-    SetLocalInt(OBJECT_SELF, "waggonStopped", 1);
+    SetLocalInt(enterObj, "waggonStopped", TRUE);
     SetLocalInt(enterObj, "curWP", nextWP);
     WriteTimestampedLogEntry("curWPInt post update: "
                              + IntToString(GetLocalInt(enterObj, "curWP")));
     AssignCommand(enterObj, ActionJumpToLocation(newLoc));
-    DelayCommand(2.0, SetLocalInt(OBJECT_SELF, "waggonStopped", 0));
+    DelayCommand(2.0, SetLocalInt(enterObj, "waggonStopped", FALSE));
 }
