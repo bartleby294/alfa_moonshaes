@@ -5,16 +5,17 @@ const string AREA_WPS = "area_waypoints";
 
 int getShouldStop() {
 
-    int isDmPossessed = GetIsDMPossessed(OBJECT_SELF);
     int isInCombat = GetIsInCombat();
     int isPCTooFar = TRUE;
     int isWagonStopped = GetLocalInt(OBJECT_SELF, "waggonStopped");
+    float distanceToPC = GetDistanceToObject(GetNearestPC());
 
-    if(GetDistanceToObject(GetNearestPC()) < 4.0) {
+    if(distanceToPC < 4.0 && distanceToPC > 0.0) {
+        WriteTimestampedLogEntry(" * PC near waggon");
         isPCTooFar = FALSE;
     }
 
-    if(isDmPossessed || isInCombat || isPCTooFar || isWagonStopped) {
+    if(isInCombat || isPCTooFar || isWagonStopped) {
         return TRUE;
     }
 
@@ -23,8 +24,13 @@ int getShouldStop() {
 
 void main()
 {
+    if(GetIsDMPossessed(OBJECT_SELF)) {
+        return;
+    }
+
     if(getShouldStop() == TRUE) {
         ClearAllActions(TRUE);
+        WriteTimestampedLogEntry(" * ShouldStop");
         return;
     }
 
