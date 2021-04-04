@@ -167,7 +167,6 @@ int banditInArea(object oArea) {
 
     object oObject = GetFirstObjectInArea(oArea);
     while(GetIsObjectValid(oObject)) {
-         // Destroy any objects tagged "DESTROY"
          if(GetStringRight(GetResRef(oObject), 10) == "m_bandit_1") {
              return TRUE;
          }

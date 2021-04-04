@@ -1,10 +1,12 @@
 #include "ba_consts"
 #include "nwnx_data"
+#include "_btb_ban_util"
 
+/*
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
     WriteTimestampedLogEntry("Bandit Camp: " + oAreaName + ": " +  str);
-}
+}*/
 
 void DestroyCamp(object oArea){
     int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, OBJECT_SELF,
