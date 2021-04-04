@@ -20,7 +20,7 @@ void main()
     int nMatch2 = GetListenPatternNumber();
 
     // Start
-    if(nMatch2 == 2012)
+    if(nMatch2 == 2011)
     {
         SpeakString("Ya!");
         SetLocalInt(OBJECT_SELF, "waggonStopped", FALSE);

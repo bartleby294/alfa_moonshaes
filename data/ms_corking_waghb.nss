@@ -10,9 +10,13 @@ int getShouldStop() {
     int isWagonStopped = GetLocalInt(OBJECT_SELF, "waggonStopped");
     float distanceToPC = GetDistanceToObject(GetNearestPC());
 
-    if(distanceToPC < 4.0 && distanceToPC > 0.0) {
+    if(distanceToPC < 13.0 && distanceToPC > 0.0) {
         WriteTimestampedLogEntry(" * PC near waggon");
         isPCTooFar = FALSE;
+    } else if (distanceToPC < 0.0) {
+        if(d3() == 1) {
+            SpeakString("Whats the hold up?");
+        }
     }
 
     if(isInCombat || isPCTooFar || isWagonStopped) {
