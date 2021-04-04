@@ -1,7 +1,116 @@
 #include "nw_i0_plot"
 #include "nwnx_data"
+#include "ms_bandit_ambcon"
+#include "ms_bandit_ambuti"
+#include "ms_seed_bandits"
+#include "nwnx_time"
 
 const string AREA_WPS = "area_waypoints";
+
+void BanditAttack(object wagon, int bandXPAllocation, int minLvl){
+
+    vector pcVector = GetPosition(wagon);
+    float pcAngle = GetFacing(wagon);
+    int attackYelled = 0;
+
+    while (bandXPAllocation > 0) {
+        writeToLog("bandXPAllocation: " + IntToString(bandXPAllocation));
+        int banditLvl = 0;
+        // if we are at the end of our xp allocation just use a lvl 1 char
+        if(bandXPAllocation <= 300) {
+            banditLvl = 1;
+            bandXPAllocation -= 300;
+        } else {
+            // loop till we get a valid lvl pick.
+            while(banditLvl == 0) {
+                int randCharLvl = Random(5) + minLvl;
+                int randCharLvlXP = getXPTableValueCore(randCharLvl);
+                if(bandXPAllocation - randCharLvlXP > 0) {
+                    banditLvl = randCharLvl;
+                    bandXPAllocation -= randCharLvlXP;
+                }
+            }
+        }
+        // pick gender (will put in after the rest is tested)
+        string race = pickRace();
+        string class = pickClass();
+        string resref = race + class + "m_bandit_1";
+        writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
+        location spawnLoc = pickSpawnLocBan(pcVector, pcAngle);
+        // Spawn the bandit.
+        object bandit = CreateObject(OBJECT_TYPE_CREATURE, resref,
+                            spawnLoc, FALSE, resref);
+        SetEventScript(bandit, EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
+                   "_btb_ai_ban_hb3");
+        object bandRing = CreateItemOnObject("CopperBanditRing", bandit, 1);
+        SetDroppableFlag(bandRing, TRUE);
+        // Level the bandit up.
+        int curBanditLvl = 1;
+        while(curBanditLvl < banditLvl) {
+            LevelUpHenchman(bandit, CLASS_TYPE_INVALID, 1, PACKAGE_INVALID);
+            AddLootToBandit(bandit, race, class);
+            curBanditLvl++;
+        }
+        // Add prefix to name based on lvl.
+        SetName(bandit, getBanditPrefix(banditLvl) + GetName(bandit));
+        SetActionMode(bandit, ACTION_MODE_STEALTH, TRUE);
+        AssignCommand(bandit, ActionAttack(wagon, TRUE));
+        if(attackYelled == 0) {
+            attackYelled = 1;
+            AssignCommand(bandit, ActionSpeakString("Attack!"));
+        }
+    }
+}
+
+void BanditAmbush() {
+
+    int banditActivityLevel = GetCampaignInt("FACTION_ACTIVITY",
+                               "BANDIT_ACTIVITY_LEVEL_2147440");
+
+    // cap banditActivityLevel at 200
+    if(banditActivityLevel > 200) {
+        banditActivityLevel = 200;
+    }
+
+    int banditBaseXP = GetLocalInt(OBJECT_SELF, MS_BANDIT_AMBUSH_BANDIT_XP);
+    banditBaseXP = 2400; // over riding for now.
+    int minLvl = GetLocalInt(OBJECT_SELF, MS_BANDIT_AMBUSH_BANDIT_MIN_LVL);
+    minLvl = 1; // over riding for now will be escort lvl 1-3.
+    float num = IntToFloat(banditBaseXP * banditActivityLevel);
+    int bandXPAllocation = FloatToInt(num/100.0) + 100;
+    BanditAttack(OBJECT_SELF, bandXPAllocation, minLvl);
+}
+
+void AmbushChance(int curTurn) {
+
+    int ambushCount = GetLocalInt(OBJECT_SELF, "ambushCount");
+    int ambushCountMax = GetLocalInt(OBJECT_SELF, "ambushCountMax");
+
+    /* Set a max if we dont have one. */
+    if(ambushCountMax == 0) {
+        ambushCountMax = d2() + 1;
+        SetLocalInt(OBJECT_SELF, "ambushCountMax", 1);
+    }
+
+    /* If weve met our max ambush quota exit. */
+    if(ambushCount >= ambushCountMax) {
+        return;
+    }
+
+    /* Check to see if we are in an area where ambushes can occur */
+    string areaTag = GetTag(GetArea(OBJECT_SELF));
+    if(areaTag == "v_49_e" || areaTag == "w_49_e" || areaTag == "z_49_e"
+       || areaTag == "cc_48_e") {
+        return;
+    }
+
+    /* If were all good to go roll up if we have an ambush. */
+    int chance = Random(2000);
+    if(chance > 1995 - curTurn) {
+        BanditAmbush();
+        SetLocalInt(OBJECT_SELF, "ambushCount", ambushCount + 1);
+    }
+}
 
 int getShouldStop() {
 
@@ -21,7 +130,7 @@ int getShouldStop() {
     }
 
     if((isPCTooFar == TRUE || isWagonStopped == TRUE) && isInCombat == FALSE) {
-        if(d3() == 1) {
+        if(d6() == 1) {
             int speakChoice = d6();
             if(speakChoice == 1) {
                 SpeakString("Whats the hold up?");
@@ -52,6 +161,11 @@ void main()
         return;
     }
 
+    int curTurn = GetLocalInt(OBJECT_SELF, "curTurn");
+    SetLocalInt(OBJECT_SELF, "curTurn", curTurn + 1);
+
+    AmbushChance(curTurn);
+
     if(getShouldStop() == TRUE) {
         ClearAllActions(TRUE);
         WriteTimestampedLogEntry(" * ShouldStop");
@@ -80,43 +194,5 @@ void main()
         curWP = NWNX_Data_Array_At_Obj(OBJECT_SELF, AREA_WPS, curWPInt + 1);
     }
 
-    AssignCommand(OBJECT_SELF, ActionMoveToObject(curWP));
-}
-
-
-void mainOLD()
-{
-    string baseWPStr = "corwell_to_kingsbay_wp";
-    WriteTimestampedLogEntry("1");
-    int curWPInt = GetLocalInt(OBJECT_SELF, "curWP");
-    WriteTimestampedLogEntry("2");
-    WriteTimestampedLogEntry("curWPInt: " + IntToString(curWPInt));
-    // seed waypoints if uninitalized
-    if(curWPInt == 0) {
-        WriteTimestampedLogEntry("3");
-        int i = 1;
-        object areaWP = GetNearestObjectByTag(baseWPStr, OBJECT_SELF, i);
-        WriteTimestampedLogEntry("4");
-        while(areaWP != OBJECT_INVALID) {
-            WriteTimestampedLogEntry("areaWP Tag: " + GetTag(areaWP));
-            WriteTimestampedLogEntry("i: " + IntToString(i));
-            NWNX_Data_Array_PushBack_Obj(OBJECT_SELF, AREA_WPS, areaWP);
-            i++;
-            areaWP =GetNearestObjectByTag(baseWPStr, OBJECT_SELF, i);
-        }
-        WriteTimestampedLogEntry("6");
-        SetLocalInt(OBJECT_SELF, "curWP", 1);
-    }
-    WriteTimestampedLogEntry("7");
-    ///object oPC = GetNearestPC();
-    object curWP = NWNX_Data_Array_At_Obj(OBJECT_SELF, AREA_WPS, curWPInt);
-    WriteTimestampedLogEntry("8");
-    if(GetDistanceToObject(curWP) < 3.0) {
-        WriteTimestampedLogEntry("9");
-        SetLocalInt(OBJECT_SELF, "curWP", curWPInt + 1);
-        curWP = NWNX_Data_Array_At_Obj(OBJECT_SELF, AREA_WPS, curWPInt + 1);
-        WriteTimestampedLogEntry("10");
-    }
-    WriteTimestampedLogEntry("11");
     AssignCommand(OBJECT_SELF, ActionMoveToObject(curWP));
 }
