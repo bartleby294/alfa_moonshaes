@@ -73,7 +73,7 @@ void RandomAreaSeed(object oArea) {
     }
 
     // Seed Bandit Camp
-    int banditCampLvl = GetCampaignInt(MS_BANDITS_PER_AREA, GetResRef(oArea));
+    int banditCampLvl = GetCampaignInt(MS_BANDIT_CAMP_NUM, GetResRef(oArea));
     if(banditCampLvl > 0) {
         if(numberOfPlayers > 1) {
             WriteTimestampedLogEntry("MS BANDIT CAMP: ON ENTER EXIT 1");
