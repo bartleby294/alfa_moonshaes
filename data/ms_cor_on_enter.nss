@@ -78,6 +78,9 @@ void main() {
     NWNX_Visibility_SetVisibilityOverride(oPC, slipperyEel,
                                           NWNX_VISIBILITY_ALWAYS_VISIBLE);
 
+    object wagonLever = GetObjectByTag("v49_temporary_wagon_lever");
+    NWNX_Visibility_SetVisibilityOverride(OBJECT_INVALID, wagonLever,
+                                          NWNX_VISIBILITY_DM_ONLY);
 
     // WE NEED vg_area_enter BEFORE WE TURN THIS BACK ON!
     //WaterCheck(oArea, oPC);

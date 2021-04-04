@@ -42,7 +42,7 @@ int GetNextAreaWPTarget(int curWPInt) {
 void main()
 {
     object enterObj = GetEnteringObject();
-    if(GetTag(enterObj) != "tradewagon") {
+    if(GetTag(enterObj) != "mstradewagon1") {
         WriteTimestampedLogEntry("not a tradewagon");
         return;
     }
@@ -66,9 +66,9 @@ void main()
     }
 
     if(y > 0) {
-        newY = 6.0;
-    } else if (y < 0) {
         newY = 314.0;
+    } else if (y < 0) {
+        newY = 6.0;
     }
 
     location newLoc = Location(newArea, Vector(newX, newY, 0.0), 0.0);
