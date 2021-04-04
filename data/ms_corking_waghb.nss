@@ -23,7 +23,7 @@ int getShouldStop() {
 
 void main()
 {
-    if(getShouldStop()) {
+    if(getShouldStop() == TRUE) {
         ClearAllActions(TRUE);
         return;
     }
