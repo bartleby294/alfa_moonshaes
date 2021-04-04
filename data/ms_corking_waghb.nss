@@ -5,15 +5,22 @@ const string AREA_WPS = "area_waypoints";
 
 int getShouldStop() {
 
-    int isInCombat = GetIsInCombat();
-    int isPCTooFar = TRUE;
-    int isWagonStopped = GetLocalInt(OBJECT_SELF, "waggonStopped");
     float distanceToPC = GetDistanceToObject(GetNearestPC());
 
-    if(distanceToPC < 15.0 && distanceToPC > 0.0) {
-        WriteTimestampedLogEntry(" * PC near waggon");
+    int isPCTooFar = TRUE;
+    int noPCNearWagon = FALSE;
+    int isInCombat = GetIsInCombat();
+    int isWagonStopped = GetLocalInt(OBJECT_SELF, "waggonStopped");
+
+    if(distanceToPC < 0.0) {
+        noPCNearWagon = TRUE;
+    }
+
+    if(distanceToPC < 15.0 && noPCNearWagon == FALSE) {
         isPCTooFar = FALSE;
-    } else if (distanceToPC < 0.0) {
+    }
+
+    if((isPCTooFar == TRUE || isWagonStopped == TRUE) && isInCombat == FALSE) {
         if(d3() == 1) {
             int speakChoice = d6();
             if(speakChoice == 1) {
