@@ -10,12 +10,25 @@ int getShouldStop() {
     int isWagonStopped = GetLocalInt(OBJECT_SELF, "waggonStopped");
     float distanceToPC = GetDistanceToObject(GetNearestPC());
 
-    if(distanceToPC < 13.0 && distanceToPC > 0.0) {
+    if(distanceToPC < 15.0 && distanceToPC > 0.0) {
         WriteTimestampedLogEntry(" * PC near waggon");
         isPCTooFar = FALSE;
     } else if (distanceToPC < 0.0) {
         if(d3() == 1) {
-            SpeakString("Whats the hold up?");
+            int speakChoice = d6();
+            if(speakChoice == 1) {
+                SpeakString("Whats the hold up?");
+            } else if(speakChoice == 2) {
+                SpeakString("We moven soon?");
+            } else if(speakChoice == 3) {
+                SpeakString("Somethin in the road?");
+            } else if(speakChoice == 4) {
+                SpeakString("I aint got all day!");
+            } else if(speakChoice == 5) {
+                SpeakString("Wha are yer legs tired?");
+            } else if(speakChoice == 6) {
+                SpeakString("We ready?");
+            }
         }
     }
 
