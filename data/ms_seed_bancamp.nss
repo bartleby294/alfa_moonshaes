@@ -8,6 +8,7 @@
 #include "_btb_random_loot"
 #include "nwnx_time"
 #include "nwnx_data"
+#include "ms_location_util"
 
 /**
  *  Pick a random structure by resref

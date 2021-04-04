@@ -1,3 +1,6 @@
+#include "ba_consts"
+#include "nwnx_data"
+
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
     WriteTimestampedLogEntry("Bandit Camp: " + oAreaName + ": " +  str);
