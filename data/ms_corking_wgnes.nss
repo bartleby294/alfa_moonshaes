@@ -42,7 +42,7 @@ int GetNextAreaWPTarget(int curWPInt) {
 void main()
 {
     object enterObj = GetEnteringObject();
-    if(GetTag(enterObj) != "tradewagon") {
+    if(GetTag(enterObj) != "mstradewagon1") {
         WriteTimestampedLogEntry("not a tradewagon");
         return;
     }
