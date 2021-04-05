@@ -27,7 +27,7 @@ void DestoyInventory(object obj)
 }
 
 void DestroyCamp(object oArea){
-    int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, OBJECT_SELF,
+    int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_OBJECT, OBJECT_SELF,
                                          BANDIT_UUID_ARRAY);
     int i = 0;
     while(i < arraySize) {
