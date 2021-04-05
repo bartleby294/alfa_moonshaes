@@ -36,13 +36,12 @@ void DestroyCamp(object oArea){
             writeToLog("WARNING: NEW LIMITER REACHED!!!");
             return;
         }
-        string banUUID = NWNX_Data_Array_At_Str(OBJECT_SELF, BANDIT_UUID_ARRAY,
+        object oBandit = NWNX_Data_Array_At_Obj(OBJECT_SELF, BANDIT_UUID_ARRAY,
                                                 i);
-        object oBandit = GetObjectByUUID(banUUID);
         if(oBandit != OBJECT_INVALID) {
             writeToLog("| Destroying: " + GetTag(oBandit));
             DestoyInventory(oBandit);
-            DestroyObject(oBandit, 2.0);
+            DestroyObject(oBandit, 0.1);
         }
         i++;
     }
