@@ -21,3 +21,5 @@ const string MS_BANDIT_AMBUSH_BANDIT_LISTEN = "ms_bandit_ambush_bandit_listen";
 const string MS_BANDIT_AMBUSH_BANDIT_SM = "ms_bandit_ambush_bandit_sm";
 const string MS_BANDIT_AMBUSH_BANDIT_APP = "ms_bandit_ambush_bandit_app";
 
+const string MS_BANDIT_CAMP_NUM = "ms_bandit_camp_num";
+

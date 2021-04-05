@@ -1,6 +1,7 @@
 #include "ms_herb_seed"
 #include "ms_seed_treasure"
 #include "ms_seed_bandits"
+#include "ms_seed_bancamp"
 #include "nwnx_time"
 
 void RandomAreaSeed(object oArea) {
@@ -53,7 +54,7 @@ void RandomAreaSeed(object oArea) {
     int bandits = GetCampaignInt(MS_BANDITS_PER_AREA, GetResRef(oArea));
     if(bandits > 0) {
         if(numberOfPlayers > 1) {
-            WriteTimestampedLogEntry("MS TREASURE: ON ENTER EXIT 1");
+            WriteTimestampedLogEntry("MS BANDIT AMBUSH: ON ENTER EXIT 1");
         } else {
             int lastBanditCreate = GetLocalInt(oArea, LAST_BANDIT_AMBUSH_CREATE);
             WriteTimestampedLogEntry("curTime - lastBanditAmbushCreate > BANDIT_AMBUSH_CREATE_DELAY_SECONDS "
@@ -66,6 +67,28 @@ void RandomAreaSeed(object oArea) {
                     SetLocalInt(oArea, LAST_BANDIT_AMBUSH_CREATE, curTime);
                     TearBanditAmbushDown(oArea);
                     DelayCommand(0.5, SeedRandomBanditAmbush(oArea, bandits));
+                }
+            }
+        }
+    }
+
+    // Seed Bandit Camp
+    int banditCampLvl = GetCampaignInt(MS_BANDIT_CAMP_NUM, GetResRef(oArea));
+    if(banditCampLvl > 0) {
+        if(numberOfPlayers > 1) {
+            WriteTimestampedLogEntry("MS BANDIT CAMP: ON ENTER EXIT 1");
+        } else {
+            int lastBanditCampCreate = GetCampaignInt("BANDIT_CAMP", "BANDIT_CAMP_" + GetTag(oArea));
+            WriteTimestampedLogEntry("curTime - lastBanditCampCreate > BANDIT_CAMP_RESPAWN_DELAY_SECONDS "
+                                     + IntToString(curTime) + " - "
+                                     + IntToString(lastBanditCampCreate) + " > "
+                                     + IntToString(BANDIT_CAMP_RESPAWN_DELAY_SECONDS));
+            if(curTime - lastBanditCampCreate > BANDIT_CAMP_RESPAWN_DELAY_SECONDS) {
+                //if(Random(100) > 80) {
+                if(Random(100) >= 0) { // Testing Mode
+                    SetCampaignInt("BANDIT_CAMP", "BANDIT_CAMP_" + GetTag(oArea), curTime);
+                    //TearBanditCampDown(oArea);
+                    DelayCommand(0.5, SeedRandomBanditCamp(oArea, banditCampLvl));
                 }
             }
         }
