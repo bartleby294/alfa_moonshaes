@@ -291,9 +291,20 @@ int getCornCount() {
 void rewardCorn() {
     WriteTimestampedLogEntry("=========Ending Corn Count=========");
     int cornCnt = getCornCount();
+    int cornLeft = cornCnt * 2;
     WriteTimestampedLogEntry("===================================");
-    CreateItemOnObject("corn", GetObjectByTag("rewardCorn", 0),
-        cornCnt * 2, "corn");
+
+    object cornBarrel = GetObjectByTag("rewardCorn");
+
+    while(cornLeft > 0) {
+        int cornToGive = 10;
+        if(cornLeft < 10) {
+            cornToGive = cornLeft;
+        }
+        CreateItemOnObject("corn", cornBarrel, cornToGive, "corn");
+        cornLeft = cornLeft - cornToGive;
+    }
+
     writeToLog(IntToString(cornCnt) + " corn was saved!");
     writeToDB(cornCnt);
 }

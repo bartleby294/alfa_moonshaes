@@ -256,8 +256,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
     }
 
     // Save our chest so we can delete it later.
-    NWNX_Data_Array_PushBack_Str(oCampfire , BANDIT_UUID_ARRAY,
-                                 GetObjectUUID(oCampfire));
+    NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY, oCampfire);
 
     // Create the main chest.
     int cnt = 0;
@@ -273,8 +272,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
     }
 
     // Save our chest so we can delete it later.
-    NWNX_Data_Array_PushBack_Str(oCampfire , BANDIT_UUID_ARRAY,
-                                 GetObjectUUID(chestCreated));
+    NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY, chestCreated);
 
     // Add our structures to the camp count up tents.
     cnt = 0;
@@ -285,8 +283,8 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
                                                   circle_min, circle_max);
         if(objCreated != OBJECT_INVALID) {
             // Save our object so we can delete it later.
-            NWNX_Data_Array_PushBack_Str(oCampfire , BANDIT_UUID_ARRAY,
-                                         GetObjectUUID(objCreated));
+            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY,
+                                         objCreated);
             structureCnt--;
         }
 
@@ -336,8 +334,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalInt(bandit, "action", randAction);
             SetLocalInt(bandit, "banditId", banditCnt);
             // Save our bandit so we can delete it later.
-            NWNX_Data_Array_PushBack_Str(oCampfire , BANDIT_UUID_ARRAY,
-                                         GetObjectUUID(bandit));
+            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY, bandit);
             banditCnt--;
         }
         cnt++;
@@ -352,8 +349,8 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
                                                 difficulty_lvl);
         if(trapCreated != OBJECT_INVALID) {
             // Save our trap so we can delete it later.
-            NWNX_Data_Array_PushBack_Str(oCampfire , BANDIT_UUID_ARRAY,
-                                         GetObjectUUID(trapCreated));
+            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY,
+                                         trapCreated);
             trapCnt--;
         }
         cnt++;
@@ -374,7 +371,7 @@ void SeedRandomBanditCamp(object oArea, int banditCampLvl)
     int circle_min = 1;
     int circle_max = 1;
     int difficulty_lvl = 1;
-    writeToLog("CREATING CAMP");
+    writeToLog("SEED CREATING CAMP");
 
     // Get what type of bandit party this is and set specifics for that party.
     // Default above is for bandit_look_sm
