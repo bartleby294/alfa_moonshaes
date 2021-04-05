@@ -41,7 +41,7 @@ void DestroyCamp(object oArea){
         if(oBandit != OBJECT_INVALID) {
             writeToLog("| Destroying: " + GetTag(oBandit));
             DestoyInventory(oBandit);
-            DestroyObject(oBandit, 0.1);
+            DestroyObject(oBandit, 0.1 * i);
         }
         i++;
     }
