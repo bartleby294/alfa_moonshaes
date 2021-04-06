@@ -277,14 +277,12 @@ void main()
     string campfireStr = GetLocalString(OBJECT_SELF, "campfire");
 
     /* if the campfire doesnt exist camp has been destoryed */
-    WriteTimestampedLogEntry("ba_ai_onheartbe3");
+    //WriteTimestampedLogEntry("ba_ai_onheartbe3");
     if(GetObjectByTag(campfireStr) == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("ba_ai_onheartbe3 - destroy self");
+        //WriteTimestampedLogEntry("ba_ai_onheartbe3 - destroy self");
         AssignCommand(OBJECT_SELF,
                       ActionDoCommand(SetIsDestroyable(TRUE, FALSE, FALSE)));
         DestroyObject(OBJECT_SELF, 1.0);
-    } else {
-        WriteTimestampedLogEntry("ba_ai_onheartbe3 - dont destroy self");
     }
 
     // Special - Runner from the leader shouts, each heartbeat, to others to get thier
