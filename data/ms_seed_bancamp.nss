@@ -232,6 +232,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
     object oCampfire = OBJECT_INVALID;
 
     // Find and create our camp center
+    string campfireTag = "banditCampfire_" + GetTag(oArea);
     while(oCampfire == OBJECT_INVALID) {
        // Exit out if we cant find a location in a reasonable time.
        if(maxTry >= 20) {
@@ -250,7 +251,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         campfireLoc = Location(oArea, Vector(randX, randY, randZ), 0.0);
         if(campfireLocationGood(campfireLoc) == 1) {
            oCampfire = CreateObject(OBJECT_TYPE_PLACEABLE, "banditcampfire1",
-                                    campfireLoc, FALSE, "banditcampfire1");
+                                    campfireLoc, FALSE, campfireTag);
         }
         maxTry++;
     }
@@ -318,7 +319,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalLocation(bandit, "campfireLoc", campfireLoc);
             SetLocalLocation(bandit, "spawnLoc", spawnLoc);
             SetLocalInt(bandit, "circle_max", circle_max);
-            SetLocalObject(bandit, "campfire", oCampfire);
+            SetLocalString(bandit, "campfire", campfireTag);
             SetEventScript(bandit, EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
                    "ba_ai_onheartbe3");
             int randAction = Random(BANDIT_MAX_ACTION) + 1;
