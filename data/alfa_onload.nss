@@ -21,11 +21,13 @@ void main()
 
   /**************** Add Custom Code Here ***************/
     msOnLoad();
+    string host = NWNX_Util_GetEnvironmentVariable("NWNX_WEBHOOK_HOST");
     string webhook = NWNX_Util_GetEnvironmentVariable("NWNX_WEBHOOK_DEVELOPER_CHANNEL");
     WriteTimestampedLogEntry("===========================================");
-    WriteTimestampedLogEntry(webhook);
+    WriteTimestampedLogEntry("host: " + host);
+    WriteTimestampedLogEntry("webhook: " + webhook);
     WriteTimestampedLogEntry("===========================================");
-    NWNX_WebHook_SendWebHookHTTPS("discordapp.com",
+    NWNX_WebHook_SendWebHookHTTPS(host,
         webhook,
         "Module has completed start up.");
   /*****************************************************/
