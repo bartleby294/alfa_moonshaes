@@ -280,6 +280,8 @@ void main()
     WriteTimestampedLogEntry("ba_ai_onheartbe3");
     if(GetObjectByTag(campfireStr) == OBJECT_INVALID) {
         WriteTimestampedLogEntry("ba_ai_onheartbe3 - destroy self");
+        AssignCommand(OBJECT_SELF,
+                      ActionDoCommand(SetIsDestroyable(TRUE, FALSE, FALSE)));
         DestroyObject(OBJECT_SELF, 1.0);
     } else {
         WriteTimestampedLogEntry("ba_ai_onheartbe3 - dont destroy self");
