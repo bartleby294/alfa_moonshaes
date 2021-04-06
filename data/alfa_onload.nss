@@ -13,6 +13,7 @@
 /* Includes */
 #include "alfa_include_fix"
 #include "ms_on_load"
+#include "nwnx_webhook"
 
 void main()
 {
@@ -20,5 +21,12 @@ void main()
 
   /**************** Add Custom Code Here ***************/
     msOnLoad();
+    string webhook = NWNX_Util_GetEnvironmentVariable("NWNX_WEBHOOK_DEVELOPER_CHANNEL");
+    WriteTimestampedLogEntry("===========================================");
+    WriteTimestampedLogEntry(webhook);
+    WriteTimestampedLogEntry("===========================================");
+    NWNX_WebHook_SendWebHookHTTPS("discordapp.com",
+        webhook,
+        "Module has completed start up.");
   /*****************************************************/
 }
