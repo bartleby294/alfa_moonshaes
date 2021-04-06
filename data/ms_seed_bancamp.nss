@@ -318,6 +318,9 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalLocation(bandit, "campfireLoc", campfireLoc);
             SetLocalLocation(bandit, "spawnLoc", spawnLoc);
             SetLocalInt(bandit, "circle_max", circle_max);
+            SetLocalObject(bandit, "campfire", oCampfire);
+            SetEventScript(bandit, EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
+                   "ba_ai_onheartbe3");
             int randAction = Random(BANDIT_MAX_ACTION) + 1;
             while((randAction == BANDIT_PATROL_ACTION
                         && patrolNum > 1 * circle_max + 1)
