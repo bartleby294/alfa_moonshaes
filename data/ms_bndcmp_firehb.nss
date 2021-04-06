@@ -25,15 +25,18 @@ void main()
         if(NWNX_Time_GetTimeStamp() - lastPCSeenTime
             > BANDIT_CAMP_DESTORY_DELAY_SECONDS) {
             writeToLog("|No players in the area for time limit.");
-            /*
-             * if bandits are still alive camp can respawn without wait time.
-            */
-            if(banditInArea(oArea) == TRUE) {
-                SetCampaignInt("BANDIT_CAMP",
-                               "BANDIT_CAMP_" + GetTag(oArea),
-                               0);
+            /* Dont Despawn if DM locked. */
+            if(GetLocked(OBJECT_SELF) == FALSE) {
+                /*
+                 * if bandits are still alive camp can respawn without wait time
+                */
+                if(banditInArea(oArea) == TRUE) {
+                    SetCampaignInt("BANDIT_CAMP",
+                                   "BANDIT_CAMP_" + GetTag(oArea),
+                                   0);
+                }
+                DestroyCamp(oArea);
             }
-            DestroyCamp(oArea);
 
         }
     // If someone is in the area update the last seen time.
