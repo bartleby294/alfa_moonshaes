@@ -277,8 +277,12 @@ void main()
     object campfire = GetLocalObject(OBJECT_SELF, "campfire");
 
     /* if the campfire doesnt exist camp has been destoryed */
+    WriteTimestampedLogEntry("ba_ai_onheartbe3");
     if(campfire == OBJECT_INVALID) {
+        WriteTimestampedLogEntry("ba_ai_onheartbe3 - destroy self");
         DestroyObject(OBJECT_SELF, 1.0);
+    } else {
+        WriteTimestampedLogEntry("ba_ai_onheartbe3 - dont destroy self");
     }
 
     // Special - Runner from the leader shouts, each heartbeat, to others to get thier
