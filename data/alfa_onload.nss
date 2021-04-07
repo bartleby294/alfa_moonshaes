@@ -43,6 +43,6 @@ void main()
 
   /**************** Add Custom Code Here ***************/
     msOnLoad();
-
+    OnLoadWebHookNotification();
   /*****************************************************/
 }
