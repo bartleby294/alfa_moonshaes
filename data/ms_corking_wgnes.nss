@@ -43,7 +43,7 @@ void main()
 {
     object enterObj = GetEnteringObject();
     if(GetTag(enterObj) != "mstradewagon1") {
-        WriteTimestampedLogEntry("not a tradewagon");
+        //WriteTimestampedLogEntry("not a tradewagon");
         return;
     }
 
