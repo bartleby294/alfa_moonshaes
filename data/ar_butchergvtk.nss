@@ -8,10 +8,10 @@
 void main()
 {
     // Give the speaker some gold
-    GiveGoldToCreature(GetPCSpeaker(), 15);
+    GiveGoldToCreature(GetPCSpeaker(), 30);
 
     // Give the speaker some XP
-    GiveXPToCreature(GetPCSpeaker(), 15);
+    GiveXPToCreature(GetPCSpeaker(), 25);
 
 
     // Remove items from the player's inventory
