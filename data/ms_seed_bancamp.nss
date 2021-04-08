@@ -64,6 +64,24 @@ string pickChestObject() {
     return "";
 }
 
+/**
+ *  Pick a random tent by resref
+ */
+
+string pickTentObject() {
+    switch(Random(3) + 1)
+    {
+        case 1:
+            return "banditcamptent1";
+        case 2:
+            return "banditcamptent2";
+        case 3:
+            return "banditcamptent3";
+    }
+
+    return "";
+}
+
 int isTent(object obj){
     string objResref = GetResRef(obj);
 
@@ -128,6 +146,27 @@ location selectLocationInCamp(object oArea, location campfireLoc,
     }
 
     return possibleStructureLoc;
+}
+
+/**
+ *  Create a random bandit tent.
+ */
+object createBanditTent(object oArea, location campfireLoc,
+                            int circle_min, int circle_max) {
+
+    location possibleStructureLoc =
+                selectLocationInCamp(oArea, campfireLoc, circle_min,
+                                     circle_max, 2.0);
+
+    // Check if we got a valid location back
+    if(GetAreaFromLocation(possibleStructureLoc) == OBJECT_INVALID) {
+        return OBJECT_INVALID;
+    }
+
+    string resref = pickTentObject();
+    writeToLog("Create: " + resref);
+    return CreateObject(OBJECT_TYPE_PLACEABLE, resref, possibleStructureLoc,
+                  FALSE, resref);
 }
 
 /**
@@ -295,6 +334,20 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
     cnt = 0;
     int tentCnt = 0;
     int structureCnt = Random(maxStructures - minStructures) + minStructures;
+
+    /* Make sure we have at least the min number of tents by lvl */
+    while(tentCnt < difficulty_lvl && cnt < 25) {
+        cnt++;
+        object tentCreated = createBanditTent(oArea, campfireLoc, circle_min,
+                                              circle_max);
+        if(tentCreated != OBJECT_INVALID) {
+            tentCnt++;
+            structureCnt--;
+        }
+
+    }
+
+    cnt = 0;
     while(structureCnt > 0 && cnt < 50) {
         object objCreated = createBanditStructure(oArea, campfireLoc,
                                                   circle_min, circle_max);
