@@ -5,7 +5,7 @@ void main()
         return;
     }
 
-    object gate = GetObjectByTag("CorwellTownEastGate2");
+    object gate = GetNearestObjectByTag("CorwellTownEastGate2");
     if(GetIsOpen(gate) == FALSE) {
          AssignCommand(gate, ActionOpenDoor(gate));
     }
