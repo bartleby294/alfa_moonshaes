@@ -62,6 +62,21 @@ void SetShipVisibility(object oPC) {
                          CITY_SHIP_OUTBOUND_BLOCKER_TAG);
 }
 
+void turnOffLight(object toTurnOff) {
+
+    if(toTurnOff == OBJECT_INVALID) {
+        return;
+    }
+
+    AssignCommand(toTurnOff, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
+    effect eEffect = GetFirstEffect(toTurnOff);
+    while (GetIsEffectValid(eEffect) == TRUE) {
+        if (GetEffectType(eEffect) == EFFECT_TYPE_VISUALEFFECT)
+            RemoveEffect(toTurnOff, eEffect);
+        eEffect = GetNextEffect(toTurnOff);
+    }
+}
+
 void main() {
     object oArea = GetArea(OBJECT_SELF);
     object oPC = GetEnteringObject();
@@ -108,10 +123,8 @@ void main() {
     }
 
     // Turn off the signal fires
-    object wagonSignal1 = GetObjectByTag("mstradeleaguesignal1");
-    object wagonSignal2 = GetObjectByTag("mstradeleaguesignal2");
-    AssignCommand(wagonSignal1, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
-    AssignCommand(wagonSignal2, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
+    turnOffLight(GetObjectByTag("mstradeleaguesignal1"));
+    turnOffLight(GetObjectByTag("mstradeleaguesignal2"));
 
     // WE NEED dbhsc_oe_trapme BEFORE WE TURN THIS BACK ON!
     //if(GetLocalInt(oArea, "TRAPS") == 1){
