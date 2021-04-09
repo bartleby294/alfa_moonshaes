@@ -34,5 +34,5 @@ void main()
         ClearAllActions();
     }
 
-    ExecuteScript("nw_c2_default4", OBJECT_SELF);
+    //ExecuteScript("nw_c2_default4", OBJECT_SELF);
 }
