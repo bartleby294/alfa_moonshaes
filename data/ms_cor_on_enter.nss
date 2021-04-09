@@ -71,8 +71,9 @@ void turnOffLight(object toTurnOff) {
     AssignCommand(toTurnOff, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
     effect eEffect = GetFirstEffect(toTurnOff);
     while (GetIsEffectValid(eEffect) == TRUE) {
-        if (GetEffectType(eEffect) == EFFECT_TYPE_VISUALEFFECT)
+        if (GetEffectType(eEffect) == EFFECT_TYPE_VISUALEFFECT) {
             RemoveEffect(toTurnOff, eEffect);
+        }
         eEffect = GetNextEffect(toTurnOff);
     }
 }
