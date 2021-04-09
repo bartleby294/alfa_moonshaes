@@ -101,10 +101,19 @@ void main() {
     // If no one is in the area spawn the trade wagon.
     int numberOfPlayers = NWNX_Area_GetNumberOfPlayersInArea(OBJECT_SELF);
     object wagon = GetObjectByTag("mstradewagon1");
+    WriteTimestampedLogEntry("numberOfPlayers: " + IntToString(numberOfPlayers));
     if(numberOfPlayers < 1 && wagon == OBJECT_INVALID) {
         object waypoint = GetObjectByTag("trade_wagon_start");
         CreateObject(OBJECT_TYPE_CREATURE, "mstradewagon1",
             GetLocation(waypoint), FALSE, "mstradewagon1");
+    } else {
+        WriteTimestampedLogEntry("numberOfPlayers < 1 && wagon == OBJECT_INVALID is false");
+    }
+
+    if(wagon == OBJECT_INVALID) {
+        WriteTimestampedLogEntry("wagon == OBJECT_INVALID");
+    } else {
+        WriteTimestampedLogEntry("wagon != OBJECT_INVALID");
     }
 
     // WE NEED dbhsc_oe_trapme BEFORE WE TURN THIS BACK ON!
