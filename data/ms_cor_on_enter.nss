@@ -107,6 +107,12 @@ void main() {
             GetLocation(waypoint), FALSE, "mstradewagon1");
     }
 
+    // Turn off the signal fires
+    object wagonSignal1 = GetObjectByTag("mstradeleaguesignal1");
+    object wagonSignal2 = GetObjectByTag("mstradeleaguesignal2");
+    AssignCommand(wagonSignal1, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
+    AssignCommand(wagonSignal2, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
+
     // WE NEED dbhsc_oe_trapme BEFORE WE TURN THIS BACK ON!
     //if(GetLocalInt(oArea, "TRAPS") == 1){
     //    ExecuteScript("dbhsc_oe_trapme", OBJECT_SELF);
