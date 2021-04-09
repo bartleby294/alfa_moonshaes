@@ -128,6 +128,13 @@ void main()
             // must be created from thin air.
             CreateOutboundShipsCheck();
         }
+
+        // If no one is left in the area de spawn the trade wagon.
+        object wagon = GetObjectByTag("mstradewagon1");
+        if(wagon != OBJECT_INVALID
+           && GetLocalInt(wagon, "wagonEscortStarted") == FALSE) {
+            DestroyObject(wagon);
+        }
     }
 
     return;
