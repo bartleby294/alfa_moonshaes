@@ -98,6 +98,15 @@ void main() {
                                         "ms_cor_on_hb");
     }
 
+    // If no one is in the area spawn the trade wagon.
+    int numberOfPlayers = NWNX_Area_GetNumberOfPlayersInArea(OBJECT_SELF);
+    object wagon = GetObjectByTag("mstradewagon1");
+    if(numberOfPlayers < 1 && wagon == OBJECT_INVALID) {
+        object waypoint = GetObjectByTag("trade_wagon_start");
+        CreateObject(OBJECT_TYPE_CREATURE, "mstradewagon1",
+            GetLocation(waypoint), FALSE, "mstradewagon1");
+    }
+
     // WE NEED dbhsc_oe_trapme BEFORE WE TURN THIS BACK ON!
     //if(GetLocalInt(oArea, "TRAPS") == 1){
     //    ExecuteScript("dbhsc_oe_trapme", OBJECT_SELF);

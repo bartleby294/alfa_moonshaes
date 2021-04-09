@@ -161,6 +161,10 @@ void main()
         return;
     }
 
+    if(GetLocalInt(OBJECT_SELF, "wagonEscortStarted") == FALSE) {
+        return;
+    }
+
     int curTurn = GetLocalInt(OBJECT_SELF, "curTurn");
     SetLocalInt(OBJECT_SELF, "curTurn", curTurn + 1);
 
