@@ -3,7 +3,7 @@
 
 void main()
 {
-    object oPC = GetPCSpeaker();
+/*    object oPC = GetPCSpeaker();
     object wagon = GetObjectByTag("mstradewagon1");
     float wagDist = GetDistanceToObject(wagon);
     int contains = NWNX_Data_Array_Contains_Obj(wagon, WAGON_PLAYERS, oPC);
@@ -12,7 +12,7 @@ void main()
         return TRUE;
     }
 
-    return FALSE;
+    return FALSE;  */
 }
 
 
