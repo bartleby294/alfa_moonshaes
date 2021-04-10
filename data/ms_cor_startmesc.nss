@@ -1,4 +1,4 @@
 void main()
 {
-    //Create
+    SetCampaignInt("CORKING_WAGON", "CORKING_WAGON_TIME", 0);
 }

@@ -126,7 +126,7 @@ void main() {
     }
 
     // Turn off the signal fires if the escort is not available
-    if(GetLocalInt(wagon, "wagonEscortState") != WAGON_STATE_AVAILABLE) {
+    if(GetLocalInt(wagon, WAGON_ESCORT_STATE) != WAGON_STATE_AVAILABLE) {
         WriteTimestampedLogEntry("ms_cor_on_enter: turn off brazier");
         turnOffLight(GetObjectByTag("mstradeleaguesignal1"));
         turnOffLight(GetObjectByTag("mstradeleaguesignal2"));
