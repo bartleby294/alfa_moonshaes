@@ -4,6 +4,7 @@
 #include "ms_bandit_ambuti"
 #include "ms_seed_bandits"
 #include "nwnx_time"
+#include "ms_corking_wagco"
 
 const string AREA_WPS = "area_waypoints";
 
@@ -161,7 +162,7 @@ void main()
         return;
     }
 
-    if(GetLocalInt(OBJECT_SELF, "wagonEscortStarted") == FALSE) {
+    if(GetLocalInt(OBJECT_SELF, WAGON_ESCORT_STATE) != WAGON_STATE_IN_PROGRESS){
         return;
     }
 

@@ -3,6 +3,7 @@
 #include "nwnx_visibility"
 #include "nwnx_area"
 #include "ms_xp_util"
+#include "ms_corking_wagco"
 
 void MyGetVector(object oPC){
     vector vAreaVec = GetPosition(oPC);
@@ -123,9 +124,11 @@ void main() {
             GetLocation(waypoint), FALSE, "mstradewagon1");
     }
 
-    // Turn off the signal fires
-    turnOffLight(GetObjectByTag("mstradeleaguesignal1"));
-    turnOffLight(GetObjectByTag("mstradeleaguesignal2"));
+    // Turn off the signal fires if the escort is not available
+    if(GetLocalInt(wagon, "wagonEscortState") != WAGON_STATE_AVAILABLE) {
+        turnOffLight(GetObjectByTag("mstradeleaguesignal1"));
+        turnOffLight(GetObjectByTag("mstradeleaguesignal2"));
+    }
 
     // WE NEED dbhsc_oe_trapme BEFORE WE TURN THIS BACK ON!
     //if(GetLocalInt(oArea, "TRAPS") == 1){

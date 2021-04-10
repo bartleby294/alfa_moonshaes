@@ -3,6 +3,7 @@
 #include "_btb_corwellship"
 #include "nwnx_visibility"
 #include "nwnx_area"
+#include "ms_corking_wagco"
 
 void DestoryInboundShipsCheck() {
     object oArea = GetArea(OBJECT_SELF);
@@ -132,7 +133,7 @@ void main()
         // If no one is left in the area de spawn the trade wagon.
         object wagon = GetObjectByTag("mstradewagon1");
         if(wagon != OBJECT_INVALID
-           && GetLocalInt(wagon, "wagonEscortStarted") == FALSE) {
+           && GetLocalInt(wagon, WAGON_ESCORT_STATE) != WAGON_STATE_IN_PROGRESS) {
             DestroyObject(wagon);
         }
     }
