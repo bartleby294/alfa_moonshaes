@@ -3,6 +3,7 @@
 #include "nwnx_visibility"
 #include "nwnx_area"
 #include "ms_xp_util"
+#include "ms_corking_wagco"
 
 void MyGetVector(object oPC){
     vector vAreaVec = GetPosition(oPC);
@@ -62,6 +63,22 @@ void SetShipVisibility(object oPC) {
                          CITY_SHIP_OUTBOUND_BLOCKER_TAG);
 }
 
+void turnOffLight(object toTurnOff) {
+
+    if(toTurnOff == OBJECT_INVALID) {
+        return;
+    }
+
+    AssignCommand(toTurnOff, PlayAnimation(ANIMATION_PLACEABLE_DEACTIVATE));
+    effect eEffect = GetFirstEffect(toTurnOff);
+    while (GetIsEffectValid(eEffect) == TRUE) {
+        if (GetEffectType(eEffect) == EFFECT_TYPE_VISUALEFFECT) {
+            RemoveEffect(toTurnOff, eEffect);
+        }
+        eEffect = GetNextEffect(toTurnOff);
+    }
+}
+
 void main() {
     object oArea = GetArea(OBJECT_SELF);
     object oPC = GetEnteringObject();
@@ -96,6 +113,23 @@ void main() {
     if(GetEventScript(OBJECT_SELF, EVENT_SCRIPT_AREA_ON_HEARTBEAT) == "") {
       SetEventScript(OBJECT_SELF, EVENT_SCRIPT_AREA_ON_HEARTBEAT,
                                         "ms_cor_on_hb");
+    }
+
+    // If no one is in the area spawn the trade wagon.
+    int numberOfPlayers = NWNX_Area_GetNumberOfPlayersInArea(OBJECT_SELF);
+    object wagon = GetObjectByTag("mstradewagon1");
+    if(numberOfPlayers <= 1 && wagon == OBJECT_INVALID) {
+        WriteTimestampedLogEntry("ms_cor_on_enter: createWagon");
+        object waypoint = GetObjectByTag("trade_wagon_start");
+        CreateObject(OBJECT_TYPE_CREATURE, "mstradewagon1",
+            GetLocation(waypoint), FALSE, "mstradewagon1");
+    }
+
+    // Turn off the signal fires if the escort is not available
+    if(GetLocalInt(wagon, WAGON_ESCORT_STATE) != WAGON_STATE_AVAILABLE) {
+        WriteTimestampedLogEntry("ms_cor_on_enter: turn off brazier");
+        turnOffLight(GetObjectByTag("mstradeleaguesignal1"));
+        turnOffLight(GetObjectByTag("mstradeleaguesignal2"));
     }
 
     // WE NEED dbhsc_oe_trapme BEFORE WE TURN THIS BACK ON!

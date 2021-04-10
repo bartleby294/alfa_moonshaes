@@ -4,6 +4,7 @@
 #include "ms_bandit_ambuti"
 #include "ms_seed_bandits"
 #include "nwnx_time"
+#include "ms_corking_wagco"
 
 const string AREA_WPS = "area_waypoints";
 
@@ -155,9 +156,25 @@ int getShouldStop() {
     return FALSE;
 }
 
+void CheckIfWeShouldDestroyOurSelf() {
+    int state = GetLocalInt(OBJECT_SELF, WAGON_ESCORT_STATE);
+
+    if(state == WAGON_STATE_FINISHED) {
+        object oArea = GetArea(OBJECT_SELF);
+        int numberOfPlayers = NWNX_Area_GetNumberOfPlayersInArea(oArea);
+        if(numberOfPlayers == 0) {
+            DestroyObject(OBJECT_SELF);
+        }
+    }
+}
+
 void main()
 {
     if(GetIsDMPossessed(OBJECT_SELF)) {
+        return;
+    }
+
+    if(GetLocalInt(OBJECT_SELF, WAGON_ESCORT_STATE) != WAGON_STATE_IN_PROGRESS){
         return;
     }
 
@@ -192,7 +209,13 @@ void main()
     if(GetDistanceToObject(curWP) < 3.0) {
         SetLocalInt(OBJECT_SELF, "curWP", curWPInt + 1);
         curWP = NWNX_Data_Array_At_Obj(OBJECT_SELF, AREA_WPS, curWPInt + 1);
+        // if were out of waypoints we are there.
+        if(curWP == OBJECT_INVALID) {
+            SetLocalInt(OBJECT_SELF, WAGON_ESCORT_STATE, WAGON_STATE_FINISHED);
+        }
     }
+
+    CheckIfWeShouldDestroyOurSelf();
 
     AssignCommand(OBJECT_SELF, ActionMoveToObject(curWP));
 }

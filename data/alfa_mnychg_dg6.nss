@@ -10,20 +10,24 @@ void main()
 
     // Log the player and the payout.
     if(itemCnt > 0) {
-        WriteTimestampedLogEntry("TRADEBAR HAND IN: " + GetName(oPC)
-            + " played by: " + GetPCPlayerName(oPC) + " turned in "
-            + IntToString(itemCnt) + " " + sItemTag + "'s");
-    }
 
-    for (i = 0; i < (itemCnt); i++) {
-        GiveGoldToCreature(oPC, 475);
     }
 
     // Remove all the objects
     object curItem = GetFirstItemInInventory(oPC);
     while(curItem != OBJECT_INVALID) {
         if(GetTag(curItem) == sItemTag){
-            DestroyObject(curItem);
+            int curItemStackSize = GetItemStackSize(curItem);
+            if(curItemStackSize > 1) {
+                SetItemStackSize(curItem, curItemStackSize - 1);
+            } else {
+                DestroyObject(curItem);
+            }
+            WriteTimestampedLogEntry("TRADEBAR HAND IN: " + GetName(oPC)
+            + " played by: " + GetPCPlayerName(oPC) + " turned in "
+            + IntToString(1) + " " + sItemTag + "'s");
+            GiveGoldToCreature(oPC, 475);
+            break;
         }
         curItem = GetNextItemInInventory(oPC);
     }
