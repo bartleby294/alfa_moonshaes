@@ -343,6 +343,9 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
         if(tentCreated != OBJECT_INVALID) {
             tentCnt++;
             structureCnt--;
+            // Save our object so we can delete it later.
+            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY,
+                                         tentCreated);
         }
 
     }
