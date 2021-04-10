@@ -119,6 +119,7 @@ void main() {
     int numberOfPlayers = NWNX_Area_GetNumberOfPlayersInArea(OBJECT_SELF);
     object wagon = GetObjectByTag("mstradewagon1");
     if(numberOfPlayers <= 1 && wagon == OBJECT_INVALID) {
+        WriteTimestampedLogEntry("ms_cor_on_enter: createWagon");
         object waypoint = GetObjectByTag("trade_wagon_start");
         CreateObject(OBJECT_TYPE_CREATURE, "mstradewagon1",
             GetLocation(waypoint), FALSE, "mstradewagon1");
@@ -126,6 +127,7 @@ void main() {
 
     // Turn off the signal fires if the escort is not available
     if(GetLocalInt(wagon, "wagonEscortState") != WAGON_STATE_AVAILABLE) {
+        WriteTimestampedLogEntry("ms_cor_on_enter: turn off brazier");
         turnOffLight(GetObjectByTag("mstradeleaguesignal1"));
         turnOffLight(GetObjectByTag("mstradeleaguesignal2"));
     }

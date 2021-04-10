@@ -31,16 +31,16 @@ void main()
     // if we are too far from wagon we shouldnt bother controling its state.
     float distanceToWagon = GetDistanceToObject(wagon);
     if(distanceToWagon > 10.0 || distanceToWagon == -1.0) {
+        WriteTimestampedLogEntry("ms_corking_qghb: too far away from wagon abort");
         return;
     }
 
-    int lastWagon = GetCampaignInt("CORKING_WAGON", "CORKING_WAGON_"
-                                   + GetTag(oArea));
+    int lastWagon = GetCampaignInt("CORKING_WAGON", "CORKING_WAGON_TIME");
 
     if(GetLocalInt(wagon, WAGON_ESCORT_STATE) == WAGON_STATE_UNAVAILABLE) {
+        WriteTimestampedLogEntry("ms_corking_qghb: wagon state unabailable");
         if(NWNX_Time_GetTimeStamp() - lastWagon > WAGON_DELAY_SECONDS) {
-            //SetCampaignInt("CORKING_WAGON", "CORKING_WAGON_" + GetTag(oArea),
-            //    NWNX_Time_GetTimeStamp());
+            WriteTimestampedLogEntry("ms_corking_qghb: wagon state available.");
             SetLocalInt(wagon, WAGON_ESCORT_STATE, WAGON_STATE_AVAILABLE);
             turnOnLight(GetObjectByTag("mstradeleaguesignal1"));
             turnOnLight(GetObjectByTag("mstradeleaguesignal2"));

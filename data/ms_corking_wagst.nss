@@ -1,3 +1,4 @@
+#include "nwnx_time"
 #include "ms_corking_wagco"
 
 void turnOffLight(object toTurnOff) {
@@ -20,6 +21,9 @@ void main()
 {
     object wagon = GetObjectByTag("mstradewagon1");
     SetLocalInt(wagon, WAGON_ESCORT_STATE, WAGON_STATE_IN_PROGRESS);
+
+    SetCampaignInt("CORKING_WAGON", "CORKING_WAGON_TIME",
+                   NWNX_Time_GetTimeStamp());
 
     turnOffLight(GetObjectByTag("mstradeleaguesignal1"));
     turnOffLight(GetObjectByTag("mstradeleaguesignal2"));
