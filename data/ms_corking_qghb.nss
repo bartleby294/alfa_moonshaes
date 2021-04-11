@@ -31,7 +31,7 @@ void main()
     // if we are too far from wagon we shouldnt bother controling its state.
     float distanceToWagon = GetDistanceToObject(wagon);
     if(distanceToWagon > 10.0 || distanceToWagon == -1.0) {
-        WriteTimestampedLogEntry("ms_corking_qghb: too far away from wagon abort");
+        //WriteTimestampedLogEntry("ms_corking_qghb: too far away from wagon abort");
         return;
     }
 

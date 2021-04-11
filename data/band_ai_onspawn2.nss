@@ -74,7 +74,7 @@ void main()
     int isFighter = FALSE;
     int isMage = FALSE;
 
-    string tag = GetTag(OBJECT_SELF);
+    string tag = GetResRef(OBJECT_SELF);
 
     if(tag == "hapm_bandit_1"
         || tag == "hopm_bandit_1"
