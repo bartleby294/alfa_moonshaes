@@ -5,7 +5,7 @@
 #include "_btb_rand_potion"
 
 void main(){
-    int lootGened = GetLocalInt(OBJECT_SELF, "lootgenyet");
+    int lootGened = GetLocalInt(OBJECT_SELF, "lootgetyet");
     if(lootGened == FALSE) {
         string resref = getRandomPotionUnderMaxGP(50);
         CreateItemOnObject(resref);

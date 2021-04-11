@@ -18,5 +18,5 @@ void main()
     object house5 = GetObjectByTag("korat_house_5");
     NWNX_Visibility_SetVisibilityOverride(oPC, house5,
                                           NWNX_VISIBILITY_DEFAULT);
-    ExecuteScript("ms_on_area_enter");
+    ExecuteScript("ms_on_area_exit");
 }
