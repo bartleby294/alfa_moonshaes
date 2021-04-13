@@ -43,7 +43,7 @@ void ALFA_SaveCharacterLocationOnTimer( object poPC );
 /******************************************************************************/
 
 
-int ALFA_SaveCharacterLocation( object poPC );
+void ALFA_SaveCharacterLocation( object poPC );
 /******************************************************************************/
 /*  ALFA_SaveCharacterLocation
 

@@ -20,7 +20,7 @@ void DestroyCampOld(object oArea){
         if(limiter > 60) {
              writeToLog("WARNING: LIMITER REACHED!!!");
             return;
-        } else if(NWNX_Regex_Search(GetTag(obj), "banditcamp")){
+        } else if(TestStringAgainstPattern("banditcamp", GetTag(obj)) == TRUE){
             writeToLog("|Destroying: " + GetTag(obj));
             DestroyObject(obj, 1.0);
         }
