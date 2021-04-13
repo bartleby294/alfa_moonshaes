@@ -39,6 +39,10 @@ void OnLoadWebHookNotification() {
 
 void main()
 {
+    string host = NWNX_Util_GetEnvironmentVariable("NWNX_WEBHOOK_HOST");
+    string webhook = NWNX_Util_GetEnvironmentVariable("NWNX_WEBHOOK_DEVELOPER_CHANNEL");
+
+    NWNX_WebHook_SendWebHookHTTPS(host, webhook, "Module has started start up.");
   ALFA_OnModuleLoad();
 
   /**************** Add Custom Code Here ***************/
