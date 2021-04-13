@@ -87,40 +87,6 @@ string GetTerrainTypeFromResRef(string resRef) {
     return TERRAIN_UNKNOWN;
 }
 
-
-string GetTerrainTypeFromResRefDepreciated(string resRef) {
-
-    if(NWNX_Regex_Search(resRef, "tno01_p[0-9][0-9]_[0-9][0-9]") == TRUE) {
-        return TERRAIN_FIELD;
-    }
-    if(NWNX_Regex_Search(resRef, "tno01_r[0-9][0-9]_[0-9][0-9]") == TRUE) {
-        return TERRAIN_ROCKY;
-    }
-    if(NWNX_Regex_Search(resRef, "tno01_a[0-9][0-9]_[0-9][0-9]") == TRUE) {
-        return TERRAIN_HILL;
-    }
-    if(NWNX_Regex_Search(resRef, "tno01_b[0-9][0-9]_[0-9][0-9]") == TRUE) {
-        return TERRAIN_FRESH_WATER;
-    }
-    if(NWNX_Regex_Search(resRef, "tno01_q[0-9][0-9]_[0-9][0-9]") == TRUE) {
-        return TERRAIN_FIELD;
-    }
-    if(NWNX_Regex_Search(resRef, "tno01_x[0-9][0-9]_[0-9][0-9]") == TRUE) {
-        return TERRAIN_CITY;
-    }
-    if(NWNX_Regex_Search(resRef, "tno01_h[0-9][0-9]_[0-9][0-9]") == TRUE) {
-        return TERRAIN_ROAD;
-    }
-    if(NWNX_Regex_Search(resRef, "tno01_o[0-9][0-9]_[0-9][0-9]") == TRUE) {
-        return TERRAIN_FIELD;
-    }
-    if(NWNX_Regex_Search(resRef, "tno01_v[0-9][0-9]_[0-9][0-9]") == TRUE) {
-        return TERRAIN_SALT_WATER;
-    }
-
-    return TERRAIN_UNKNOWN;
-}
-
 int NearByTreeCount(location tileLoc){
     int i = 0;
     int treeCount = 0;
@@ -129,8 +95,26 @@ int NearByTreeCount(location tileLoc){
     while(obj != OBJECT_INVALID
           && GetDistanceBetweenLocations(tileLoc, GetLocation(obj)) < 10.0) {
         // if we have tree in the name or tag close enough its a tree.
-        if(NWNX_Regex_Search(GetTag(obj), "(?i)(tree)") == TRUE
-           || NWNX_Regex_Search(GetName(obj), "(?i)(tree)") == TRUE) {
+        if(TestStringAgainstPattern("**tree**", GetTag(obj)) == TRUE
+           || TestStringAgainstPattern("**tree**", GetName(obj)) == TRUE) {
+            treeCount++;
+        }
+        i++;
+        obj = GetNearestObjectToLocation(OBJECT_TYPE_PLACEABLE, tileLoc, i);
+    }
+    return treeCount;
+}
+
+int NearByTreeCountDepreciated(location tileLoc){
+    int i = 0;
+    int treeCount = 0;
+    object obj = GetNearestObjectToLocation(OBJECT_TYPE_PLACEABLE, tileLoc, i);
+    // loop through all the objects within 10 units of location.
+    while(obj != OBJECT_INVALID
+          && GetDistanceBetweenLocations(tileLoc, GetLocation(obj)) < 10.0) {
+        // if we have tree in the name or tag close enough its a tree.
+        if(TestStringAgainstPattern("**tree**", GetTag(obj)) == TRUE
+            || TestStringAgainstPattern("**tree**", GetName(obj)) == TRUE) {
             treeCount++;
         }
         i++;

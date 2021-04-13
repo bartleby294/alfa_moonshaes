@@ -26,7 +26,7 @@ int AbilityCheck(int DC, int nAbility, object oTarget)
 {
 int nModify;
     // get the ability modifier for the target of the check.
-int nAbility = GetAbilityModifier(nAbility, OBJECT_SELF);
+ nAbility = GetAbilityModifier(nAbility, OBJECT_SELF);
     // get the ability modifier for the PC
 int nPCAbility = GetAbilityModifier(nAbility, oTarget);
     // if the target of the check has a negative or zero ability modifier then

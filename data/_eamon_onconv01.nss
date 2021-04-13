@@ -24,7 +24,7 @@
 ************************* [On Conversation] ***********************************/
 
 #include "j_inc_other_ai"
-#include "_btb_dms_rsi_const"
+#include "_btb_dms_rsi_con"
 
 void main()
 {

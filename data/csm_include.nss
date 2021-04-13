@@ -133,7 +133,7 @@ int    ALFA_STARTING_GOLD    = 300;
 string ALFA_ALLOW_LEVELUP = "ALFA_ALLOW_LEVELUP";
 
 /* Inventory */
-void   ALFA_DestroyEquipped( object oTarget, int nDestroyCItems=FALSE );
+void   ALFA_DestroyEquipped( object oTarget, int nDestroyCItems=TRUE );
 void   ALFA_DestroyInventory( object oTarget );
 void   ALFA_GiveInventory( object oGiver, object oReceiver );
 void   ALFA_TakeEquipped( object oTaker, object oVictim );
