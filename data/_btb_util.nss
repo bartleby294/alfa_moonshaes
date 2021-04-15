@@ -251,11 +251,9 @@ void DestroyItemsInInventory(object creature, string tag, int destroyNum) {
     }
 }
 
-/**
- * This may need some adjustment right now im using the standard dnd suggested
- * wealth values to start but may need adjustment for alfa evntually.
-*/
-int getWealthTableValue(int charLvl) {
+
+
+int getXPTableValueCore(int charLvl) {
     switch (charLvl)
     {
         case 1:
@@ -305,7 +303,15 @@ int getWealthTableValue(int charLvl) {
     return 200000;
 }
 
-int getXPTableValueCore(int charLvl) {
+int getBanditXPCost(int charLvl) {
+    return (getXPTableValueCore(charLvl) + getXPTableValueCore(charLvl + 1))/2;
+}
+
+/**
+ * This may need some adjustment right now im using the standard dnd suggested
+ * wealth values to start but may need adjustment for alfa evntually.
+*/
+int getWealthTableValue(int charLvl) {
     switch (charLvl)
     {
         case 1:
