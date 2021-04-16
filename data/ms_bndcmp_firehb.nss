@@ -24,7 +24,7 @@ void main()
         // the alloted time destory the camp.
         if(NWNX_Time_GetTimeStamp() - lastPCSeenTime
             > BANDIT_CAMP_DESTORY_DELAY_SECONDS) {
-            writeToLog("|No players in the area for time limit.");
+            writeToLog("|4 No players in the area for time limit.");
             /* Dont Despawn if DM locked. */
             if(GetLocked(OBJECT_SELF) == FALSE) {
                 /*
