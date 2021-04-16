@@ -38,7 +38,7 @@ void TearBanditAmbushDown(object oArea) {
 
 void setTriggerConstants(object trigger3, int ambushLevel) {
     if(ambushLevel == 1) {
-        SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_XP, 1800);
+        SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_XP, 3600);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_MIN_LVL, 1);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_MS, 3);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_HIDE, 3);
@@ -47,7 +47,7 @@ void setTriggerConstants(object trigger3, int ambushLevel) {
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_SM, 2);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_APP, 1);
     } else if(ambushLevel == 2) {
-        SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_XP, 2500);
+        SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_XP, 5000);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_MIN_LVL, 2);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_MS, 4);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_HIDE, 4);
@@ -56,7 +56,7 @@ void setTriggerConstants(object trigger3, int ambushLevel) {
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_SM, 3);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_APP, 2);
     } else if(ambushLevel > 2) {
-        SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_XP, 4500);
+        SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_XP, 9000);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_MIN_LVL, 3);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_MS, 6);
         SetLocalInt(trigger3, MS_BANDIT_AMBUSH_BANDIT_HIDE, 6);

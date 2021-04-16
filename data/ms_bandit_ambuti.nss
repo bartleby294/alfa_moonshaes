@@ -113,16 +113,26 @@ int DecideIfAttack(int totalEstPCWealth, int totalPCLvls, int totalPCs,
         senseMotivePercept = 3;
     }
 
+    int randDiff = Random(senseMotivePercept);
+
     // Random add or subtract.
     if(Random(2) == 0) {
-        estAvgPCLvl = avgPCLvl + Random(senseMotivePercept);
+        estAvgPCLvl = avgPCLvl + randDiff;
+        writeToLog("estAvgPCLvl = avgPCLvl + randDiff: "
+                   + IntToString(estAvgPCWealth) + " = "
+                   + IntToString(avgPCLvl) + " + "
+                   + IntToString(randDiff));
     } else {
-        estAvgPCLvl = avgPCLvl - Random(senseMotivePercept);
+        estAvgPCLvl = avgPCLvl - randDiff;
+        writeToLog("estAvgPCLvl = avgPCLvl - randDiff: "
+                   + IntToString(estAvgPCWealth) + " = "
+                   + IntToString(avgPCLvl) + " - "
+                   + IntToString(randDiff));
     }
 
     // Decide if the fight will be worth the trouble.
     int normalWealth = getWealthTableValue(estAvgPCLvl);
-       int estTotalPartyXP = getXPTableValueCore(estAvgPCLvl) * totalPCs;
+    int estTotalPartyXP = getXPTableValueCore(estAvgPCLvl) * totalPCs;
 
     writeToLog("estAvgPCWealth: " + IntToString(estAvgPCWealth));
     writeToLog("normalWealth: " + IntToString(normalWealth));

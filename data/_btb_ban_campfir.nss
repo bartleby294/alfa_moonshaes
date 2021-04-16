@@ -64,7 +64,7 @@ void main()
         // the alloted time destory the camp.
         if(NWNX_Time_GetTimeStamp() - lastRaid
             > BANDIT_CAMP_DESTORY_DELAY_SECONDS) {
-            writeToLog("|No players in the area for time limit.");
+            writeToLog("|2 No players in the area for time limit.");
             DestroyCamp(oArea);
         }
     // If someone is in the area update the last seen time.

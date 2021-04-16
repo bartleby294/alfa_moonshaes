@@ -15,7 +15,7 @@ void main()
     if(GetIsDM(oPC)) {
         writeToLog("DM Destroyed Bandit Camp");
         object oArea = GetArea(OBJECT_SELF);
-        writeToLog("|No players in the area for time limit.");
+        writeToLog("|3 No players in the area for time limit.");
         DestroyCamp(oArea);
     }
 

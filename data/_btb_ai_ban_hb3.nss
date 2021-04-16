@@ -65,7 +65,7 @@ void main()
         // the alloted time destory the bandit.
         if(NWNX_Time_GetTimeStamp() - lastPCSeen
             > BANDIT_AMBUSH_DESTORY_DELAY_SECONDS) {
-            writeToLog("|No players in the area for time limit.");
+            writeToLog("|1 No players in the area for time limit.");
             DestroyObject(OBJECT_SELF);
             return;
         }

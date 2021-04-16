@@ -32,7 +32,7 @@ void BanditAttack(object richestPC, int bandXPAllocation, object ambushTrigger,
             int curTry = 0;
             while(banditLvl == 0 && curTry < 10) {
                 int randCharLvl = Random(5) + minLvl;
-                int randCharLvlXP = getXPTableValueCore(randCharLvl);
+                int randCharLvlXP = getBanditXPCost(randCharLvl);
                 if(bandXPAllocation - randCharLvlXP > 0) {
                     banditLvl = randCharLvl;
                     bandXPAllocation -= randCharLvlXP;
