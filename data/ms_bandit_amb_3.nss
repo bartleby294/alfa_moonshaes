@@ -27,7 +27,7 @@ void BanditAttack(object richestPC, int bandXPAllocation, object ambushTrigger,
         writeToLog("bandXPAllocation: " + IntToString(bandXPAllocation));
         int banditLvl = 0;
         // if we are at the end of our xp allocation just use a lvl 1 char
-        if(bandXPAllocation > 300) {
+        if(bandXPAllocation > 500) {
             // loop till we get a valid lvl pick.\
             int curTry = 0;
             while(banditLvl == 0 && curTry < 10) {
@@ -43,7 +43,7 @@ void BanditAttack(object richestPC, int bandXPAllocation, object ambushTrigger,
 
         if(banditLvl == 0) {
             banditLvl = 1;
-            bandXPAllocation -= 300;
+            bandXPAllocation -= 500;
         }
 
         // pick gender (will put in after the rest is tested)
