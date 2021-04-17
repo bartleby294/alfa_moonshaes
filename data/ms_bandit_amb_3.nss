@@ -16,8 +16,8 @@
 #include "ms_seed_bandits"
 #include "nwnx_time"
 
-void BanditAttack(object richestPC, int bandXPAllocation, object ambushTrigger,
-                  int minLvl){
+void BanditAmbushAttack(object richestPC, int bandXPAllocation,
+                        object ambushTrigger, int minLvl){
 
     vector pcVector = GetPosition(richestPC);
     float pcAngle = GetFacing(richestPC);
@@ -29,40 +29,30 @@ void BanditAttack(object richestPC, int bandXPAllocation, object ambushTrigger,
         // if we are at the end of our xp allocation just use a lvl 1 char
         if(bandXPAllocation > 500) {
             // loop till we get a valid lvl pick.\
-            WriteTimestampedLogEntry("a");
             int curTry = 0;
             while(banditLvl == 0 && curTry < 10) {
-                WriteTimestampedLogEntry("b");
                 int randCharLvl = Random(5) + minLvl;
                 int randCharLvlXP = getBanditXPCost(randCharLvl);
-                WriteTimestampedLogEntry("c");
                 if(bandXPAllocation - randCharLvlXP > 0) {
-                    WriteTimestampedLogEntry("d");
                     banditLvl = randCharLvl;
                     bandXPAllocation -= randCharLvlXP;
                 }
                 curTry++;
             }
-            WriteTimestampedLogEntry("e");
         }
-        WriteTimestampedLogEntry("f");
+
         if(banditLvl == 0) {
             banditLvl = 1;
-            WriteTimestampedLogEntry("bandXPAllocation 1: " + IntToString(bandXPAllocation));
             bandXPAllocation -= 500;
-            WriteTimestampedLogEntry("bandXPAllocation 2: " + IntToString(bandXPAllocation));
         }
-        WriteTimestampedLogEntry("g");
+
         // pick gender (will put in after the rest is tested)
         string race = pickRace();
-        WriteTimestampedLogEntry("h");
         string class = pickClass();
-        WriteTimestampedLogEntry("i");
         string resref = race + class + "m_bandit_1";
         writeToLog("bandit type: " + resref + " lvl: " + IntToString(banditLvl));
         location spawnLoc = pickSpawnLocBan(pcVector, pcAngle);
         // Spawn the bandit.
-        WriteTimestampedLogEntry("j");
         object bandit = CreateObject(OBJECT_TYPE_CREATURE, resref,
                             spawnLoc, FALSE, resref);
         SetEventScript(bandit, EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
@@ -121,7 +111,7 @@ void BanditAmbush() {
     if(attack == TRUE) {
         writeToLog("We are Attacking!");
         int minLvl = GetLocalInt(OBJECT_SELF, MS_BANDIT_AMBUSH_BANDIT_MIN_LVL);
-        BanditAttack(am.richestPC, bandXPAllocation, OBJECT_SELF, minLvl);
+        BanditAmbushAttack(am.richestPC, bandXPAllocation, OBJECT_SELF, minLvl);
     } else {
         writeToLog("Choose attacking not worth it.");
     }
