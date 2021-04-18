@@ -6,10 +6,10 @@ void main()
     // We will not need to be done again until a reset.
     WriteTimestampedLogEntry("MS TAVERN CONTROLLER: On Heartbeat");
     object oArea = GetArea(OBJECT_SELF);
-    object oControler = GetFirstObjectInArea(oArea);
+    object oControler = OBJECT_SELF;
     if(GetLocalInt(oArea, MS_TAVERN_INITALIZED) == FALSE) {
         WriteTimestampedLogEntry("MS TAVERN CONTROLLER: Initalizing");
-        InitalizeTavernArea(oArea, oControler);
+        InitalizeTavernArea(oArea, GetFirstObjectInArea(oArea));
     } else {
         WriteTimestampedLogEntry("MS TAVERN CONTROLLER: Not Initalizing");
     }
@@ -20,9 +20,13 @@ void main()
         SetLocalObject(oArea, MS_TAVERN_CONTROLLER_OBJECT, oControler);
     }
 
+    WriteTimestampedLogEntry("MS TAVERN CONTROLLER: Getting Door Count");
     int doorCnt = GetDoorCount(oControler, oArea);
+    WriteTimestampedLogEntry("MS TAVERN CONTROLLER: Getting Chair Count");
     int chairCnt = GetChairCount(oControler, oArea);
+    WriteTimestampedLogEntry("MS TAVERN CONTROLLER: Getting WP Count");
     int waypointCnt = GetWaypointCount(oControler, oArea);
+    WriteTimestampedLogEntry("MS TAVERN CONTROLLER: Getting Patron Count");
     int patronCnt = GetPatronCount(oControler, oArea);
     int maxPatrons = chairCnt/2;
 
