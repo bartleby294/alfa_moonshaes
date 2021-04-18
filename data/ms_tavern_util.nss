@@ -61,6 +61,14 @@ void InitalizeTavernArea(object oArea, object oTarget) {
     GatherObjectToArray(oTarget, MS_TAVERN_WALK_WP_TAG, MS_TAVERN_WALK_WP_ARRAY,
                         oArea);
 
+    // Gather Walk Waypoints.
+    GatherObjectToArray(oTarget, MS_TAVERN_BAR_TAG, MS_TAVERN_BAR_ARRAY,
+                        oArea);
+
+    // Gather Walk Waypoints.
+    GatherObjectToArray(oTarget, MS_TAVERN_STAND_TAG, MS_TAVERN_STAND_ARRAY,
+                        oArea);
+
     // Gather viable chairs.
     GatherViableChairs(oTarget, MS_TAVERN_CHAIR_TAG, MS_TAVERN_CHAIR_ARRAY,
                        oArea);
@@ -79,6 +87,32 @@ int GetChairCount(object oControler, object oArea) {
     }
 
     return chairCnt;
+}
+
+int GetBarCount(object oControler, object oArea) {
+
+    // initalize chair count
+    int barCnt = GetLocalInt(oControler, MS_TAVERN_BAR_COUNT);
+    if(barCnt == 0) {
+        barCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_OBJECT,
+                                            oArea, MS_TAVERN_BAR_ARRAY);
+        SetLocalInt(oControler, MS_TAVERN_BAR_COUNT, barCnt);
+    }
+
+    return barCnt;
+}
+
+int GetStandCount(object oControler, object oArea) {
+
+    // initalize chair count
+    int standCnt = GetLocalInt(oControler, MS_TAVERN_STAND_COUNT);
+    if(standCnt == 0) {
+        standCnt = NWNX_Data_Array_Size(NWNX_DATA_TYPE_OBJECT,
+                                            oArea, MS_TAVERN_STAND_ARRAY);
+        SetLocalInt(oControler, MS_TAVERN_STAND_COUNT, standCnt);
+    }
+
+    return standCnt;
 }
 
 int GetDoorCount(object oControler, object oArea) {
@@ -135,6 +169,13 @@ object CreateRandomPatron(object oControler, object oArea, location spawnLoc,
     }
 
     return patron;
+}
+
+void DestroyPatron(object oPatron, object oControler, int patronCnt) {
+    DestroyObject(oPatron);
+    if(oControler != OBJECT_INVALID) {
+        SetLocalInt(oControler, MS_TAVERN_PATRON_COUNT, patronCnt - 1);
+    }
 }
 
 int isZeroPatrons(object oArea) {

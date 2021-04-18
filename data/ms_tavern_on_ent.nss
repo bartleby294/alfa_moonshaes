@@ -9,8 +9,11 @@ void CreatePatronAtChair(object oArea, int chairCnt) {
         location chairLoc = GetBehindLocation(oChair);
         object patron = CreateRandomPatron(OBJECT_INVALID, oArea, chairLoc, 0);
         AssignCommand(patron, ActionSit(oChair));
+        SetLocalInt(patron, MS_TAVERN_PATRON_STATE, MS_TAVERN_PATRON_SITTING);
         SetLocalInt(oChair, MS_TAVERN_CHAIR_IN_USE, TRUE);
         SetLocalObject(patron, MS_TAVERN_PATRONS_CHAIR, oChair);
+        SetLocalInt(patron, MS_TAVERN_PATRON_SITTING_TURNS, 0);
+        SetLocalInt(patron, MS_TAVERN_PATRON_MAX_SITTING_TURNS, Random(100));
     }
 }
 

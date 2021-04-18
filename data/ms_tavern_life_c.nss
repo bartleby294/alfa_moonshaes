@@ -28,6 +28,8 @@ void main()
     int waypointCnt = GetWaypointCount(oControler, oArea);
     WriteTimestampedLogEntry("MS TAVERN CONTROLLER: Getting Patron Count");
     int patronCnt = GetPatronCount(oControler, oArea);
+    int barCnt = GetBarCount(oControler, oArea);
+    int standCnt = GetStandCount(oControler, oArea);
     int maxPatrons = chairCnt/2;
 
     if(patronCnt < maxPatrons) {
