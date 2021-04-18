@@ -51,13 +51,17 @@ void main()
     object oArea = OBJECT_SELF;
     object oFirstObject = GetFirstObjectInArea(oArea);
     if(GetLocalInt(oArea, MS_TAVERN_INITALIZED) == FALSE) {
+        WriteTimestampedLogEntry("MS TAVERN ON ENTER: Initalizing Area");
         InitalizeTavernArea(oArea, oFirstObject);
     }
 
     // If no one is in the area and no patrons spawn patrons.
     int numberOfPlayers = NWNX_Area_GetNumberOfPlayersInArea(OBJECT_SELF);
     int zeroPatrons = isZeroPatrons(oArea);
+    WriteTimestampedLogEntry("MS TAVERN ON ENTER: numberOfPlayers - " + IntToString(numberOfPlayers));
+    WriteTimestampedLogEntry("MS TAVERN ON ENTER: isZeroPatrons - " + IntToString(zeroPatrons));
     if(numberOfPlayers <= 1 && zeroPatrons == TRUE) {
+        WriteTimestampedLogEntry("MS TAVERN ON ENTER: Seeding Area");
         SeedAreaWithPatrons(oArea);
     }
 
