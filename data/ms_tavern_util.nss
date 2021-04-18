@@ -109,13 +109,12 @@ int GetWaypointCount(object oControler, object oArea) {
 
 int GetPatronCount(object oControler, object oArea) {
 
-    int i = 0;
     int patronCnt = GetLocalInt(oControler, MS_TAVERN_PATRON_COUNT);
     if(patronCnt == 0) {
-        object obj = GetNearestObjectByTag(MS_TAVERN_PATRON_TAG, oControler, i);
+        object obj = GetNearestObjectByTag(MS_TAVERN_PATRON_TAG, oControler, patronCnt);
         while (obj != OBJECT_INVALID) {
             patronCnt++;
-            obj = GetNearestObjectByTag(MS_TAVERN_PATRON_TAG, oControler, i);
+            obj = GetNearestObjectByTag(MS_TAVERN_PATRON_TAG, oControler, patronCnt);
         }
     }
 
