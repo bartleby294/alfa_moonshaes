@@ -142,7 +142,7 @@ int isZeroPatrons(object oArea) {
     int rv = TRUE;
     object obj = GetNearestObjectByTag(MS_TAVERN_PATRON_TAG,
                                        GetFirstObjectInArea(oArea));
-    if(oArea != OBJECT_INVALID) {
+    if(obj != OBJECT_INVALID) {
         rv = FALSE;
     }
 
