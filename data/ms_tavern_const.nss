@@ -38,6 +38,8 @@ const string MS_TAVERN_PATRON_TURNS_TRYING_TO_SIT = "ms_tavern_patron_turns_tryi
 const string MS_TAVERN_PATRON_STAND_TURNS = "ms_tavern_patron_stand_turns";
 const string MS_TAVERN_PATRON_MAX_STAND_TURNS = "ms_tavern_patron_max_stand_turns";
 const string MS_TAVERN_PATRONS_EXIT = "ms_tavern_patron_exit";
+const string MS_TAVERN_PATRONS_LAST_LOC = "ms_tavern_patrons_last_loc";
+const string MS_TAVERN_PATRONS_LAST_PC_SEEN = "ms_tavern_patrons_last_pc_seen";
 
 /*
  * Possible state transitions
@@ -60,4 +62,4 @@ const int MS_TAVERN_PATRON_MOVE_TO_STAND = 6;
 const int MS_TAVERN_PATRON_STAND = 7;
 const int MS_TAVERN_PATRON_MOVE_TO_EXIT = 8;
 
-
+const int MS_TAVERN_DESTORY_DELAY_SECONDS = 240;

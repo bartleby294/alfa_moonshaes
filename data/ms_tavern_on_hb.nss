@@ -3,6 +3,7 @@
 #include "ms_tavern_const"
 #include "ms_tavern_util"
 #include "x0_i0_anims"
+#include "_btb_util"
 
 int GetBarAnimation() {
 
@@ -58,7 +59,7 @@ void JustArrived(object oArea, int wpCnt) {
 
 void MoveToWP(object oArea) {
     object oWP = GetLocalObject(OBJECT_SELF, MS_TAVERN_PATRONS_WP);
-    if(GetDistanceToObject(oWP) < 2.0) {
+    if(GetDistanceToObject(oWP) < 3.5) {
         int randomDecision = Random(100);
         // 35% Chance we sit down
         if(randomDecision < 35) {
@@ -68,10 +69,10 @@ void MoveToWP(object oArea) {
         } else if(randomDecision < 50) {
             SetLocalInt(OBJECT_SELF, MS_TAVERN_PATRON_STATE,
                         MS_TAVERN_PATRON_MOVE_TO_BAR);
-        // 30% Chance we go to the bar
+        // 30% Chance we go to stand
         } else if(randomDecision < 80) {
             SetLocalInt(OBJECT_SELF, MS_TAVERN_PATRON_STATE,
-                        MS_TAVERN_PATRON_MOVE_TO_BAR);
+                        MS_TAVERN_PATRON_MOVE_TO_STAND);
         // 20% Chance we leave
         } else {
             SetLocalInt(OBJECT_SELF, MS_TAVERN_PATRON_STATE,
@@ -230,6 +231,33 @@ void MoveToExit(object oArea, int exitCnt, object oControler, int patronCnt) {
     }
 }
 
+int checkIfStuck(int patronState) {
+
+    if(patronState == MS_TAVERN_PATRON_MOVE_TO_WP
+       || patronState == MS_TAVERN_PATRON_MOVE_TO_CHAIR
+       || patronState == MS_TAVERN_PATRON_MOVE_TO_BAR
+       || patronState == MS_TAVERN_PATRON_MOVE_TO_STAND
+       || patronState == MS_TAVERN_PATRON_MOVE_TO_EXIT) {
+
+        location curLoc = GetLocation(OBJECT_SELF);
+        location lasLoc = GetLocalLocation(OBJECT_SELF,
+                                           MS_TAVERN_PATRONS_LAST_LOC);
+        if(lasLoc == curLoc) {
+            return TRUE;
+        } else {
+            SetLocalLocation(OBJECT_SELF, MS_TAVERN_PATRONS_LAST_LOC, curLoc);
+        }
+    }
+    return FALSE;
+}
+
+void RandomMove() {
+    float offset = IntToFloat(Random(5 + 1));
+    float angle = IntToFloat(Random(360 + 1));
+    location randLoc = pickLoc(OBJECT_SELF, offset, angle);
+    AssignCommand(OBJECT_SELF, ActionMoveToLocation(randLoc));
+}
+
 void main()
 {
     if(GetIsDMPossessed(OBJECT_SELF)) {
@@ -239,6 +267,8 @@ void main()
     object oPatron = OBJECT_SELF;
     object oArea = GetArea(oPatron);
     object oControler = GetLocalObject(oArea, MS_TAVERN_CONTROLLER_OBJECT);
+
+    SelfDestructCheck(oPatron, oArea);
 
     // Something is out of sync abort for now hope is syncs back up.
     if(oControler == OBJECT_INVALID) {
@@ -258,6 +288,11 @@ void main()
     }
 
     int patronState = GetLocalInt(oPatron, MS_TAVERN_PATRON_STATE);
+
+    if(checkIfStuck(patronState) == TRUE) {
+        RandomMove();
+        return;
+    }
 
     if(patronState == MS_TAVERN_PATRON_JUST_ARRIVED) {
         JustArrived(oArea, wpCnt);

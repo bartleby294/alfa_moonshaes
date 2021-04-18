@@ -1,6 +1,8 @@
 #include "nwnx_data"
 #include "nwnx_object"
 #include "ms_tavern_const"
+#include "nwnx_time"
+#include "nwnx_area"
 
 int IsInNPCTrigger(object trigger, object obj) {
 
@@ -177,6 +179,26 @@ void DestroyPatron(object oPatron, object oControler, int patronCnt) {
         SetLocalInt(oControler, MS_TAVERN_PATRON_COUNT, patronCnt - 1);
     }
 }
+
+
+void SelfDestructCheck(object oPatron, object oArea) {
+    int lastPCSeen = GetLocalInt(oPatron, MS_TAVERN_PATRONS_LAST_PC_SEEN);
+    // If no one is in the area check if we should destory camp.
+    if(NWNX_Area_GetNumberOfPlayersInArea(oArea) == 0) {
+        if(NWNX_Time_GetTimeStamp() - lastPCSeen
+            > MS_TAVERN_DESTORY_DELAY_SECONDS) {
+            WriteTimestampedLogEntry("Times Up Destroying Inn Patron");
+            DestroyObject(oPatron);
+            return;
+        }
+    // If someone is in the area update the last seen time.
+    } else {
+        SetLocalInt(oPatron, MS_TAVERN_PATRONS_LAST_PC_SEEN,
+                    NWNX_Time_GetTimeStamp());
+    }
+}
+
+
 
 int isZeroPatrons(object oArea) {
     int rv = TRUE;
