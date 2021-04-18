@@ -147,3 +147,19 @@ int isZeroPatrons(object oArea) {
 
     return rv;
 }
+
+object GetValidChair(object oArea, int chairCnt) {
+
+    int cutOff = 0;
+    while(cutOff < 20) {
+        object oChair = NWNX_Data_Array_At_Obj(oArea, MS_TAVERN_CHAIR_ARRAY,
+                                               Random(chairCnt));
+        if(!GetIsObjectValid(GetSittingCreature(oChair))
+           && GetLocalInt(oChair, MS_TAVERN_CHAIR_IN_USE) == FALSE) {
+            return oChair;
+        }
+        cutOff++;
+    }
+
+    return OBJECT_INVALID;
+}

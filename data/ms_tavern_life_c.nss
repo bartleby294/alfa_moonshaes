@@ -37,8 +37,10 @@ void main()
             WriteTimestampedLogEntry("MS TAVERN CONTROLLER: Creating New Patron");
             object doorWp = NWNX_Data_Array_At_Obj(oArea, MS_TAVERN_DOOR_ARRAY,
                                            Random(doorCnt));
-            CreateRandomPatron(oControler, oArea, GetLocation(doorWp),
-                               patronCnt);
+            object paton = CreateRandomPatron(oControler, oArea,
+                                              GetLocation(doorWp), patronCnt);
+            SetLocalInt(paton, MS_TAVERN_PATRON_STATE,
+                        MS_TAVERN_PATRON_JUST_ARRIVED);
             WriteTimestampedLogEntry("MS TAVERN CONTROLLER: New Patron Created");
         }
     }

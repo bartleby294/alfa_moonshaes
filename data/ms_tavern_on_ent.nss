@@ -2,21 +2,6 @@
 #include "ms_tavern_util"
 #include "nwnx_area"
 
-object GetValidChair(object oArea, int chairCnt) {
-
-    int cutOff = 0;
-    while(cutOff < 20) {
-        object oChair = NWNX_Data_Array_At_Obj(oArea, MS_TAVERN_CHAIR_ARRAY,
-                                               Random(chairCnt));
-        if(!GetIsObjectValid(GetSittingCreature(oChair))) {
-            return oChair;
-        }
-        cutOff++;
-    }
-
-    return OBJECT_INVALID;
-}
-
 void CreatePatronAtChair(object oArea, int chairCnt) {
 
     object oChair = GetValidChair(oArea, chairCnt);
@@ -24,6 +9,8 @@ void CreatePatronAtChair(object oArea, int chairCnt) {
         location chairLoc = GetBehindLocation(oChair);
         object patron = CreateRandomPatron(OBJECT_INVALID, oArea, chairLoc, 0);
         AssignCommand(patron, ActionSit(oChair));
+        SetLocalInt(oChair, MS_TAVERN_CHAIR_IN_USE, TRUE);
+        SetLocalObject(patron, MS_TAVERN_PATRONS_CHAIR, oChair);
     }
 }
 
