@@ -16,8 +16,8 @@
 #include "ms_seed_bandits"
 #include "nwnx_time"
 
-void BanditAttack(object richestPC, int bandXPAllocation, object ambushTrigger,
-                  int minLvl){
+void BanditAmbushAttack(object richestPC, int bandXPAllocation,
+                        object ambushTrigger, int minLvl){
 
     vector pcVector = GetPosition(richestPC);
     float pcAngle = GetFacing(richestPC);
@@ -111,7 +111,7 @@ void BanditAmbush() {
     if(attack == TRUE) {
         writeToLog("We are Attacking!");
         int minLvl = GetLocalInt(OBJECT_SELF, MS_BANDIT_AMBUSH_BANDIT_MIN_LVL);
-        BanditAttack(am.richestPC, bandXPAllocation, OBJECT_SELF, minLvl);
+        BanditAmbushAttack(am.richestPC, bandXPAllocation, OBJECT_SELF, minLvl);
     } else {
         writeToLog("Choose attacking not worth it.");
     }
