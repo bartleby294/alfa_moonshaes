@@ -188,6 +188,33 @@ int MoonshaesCustom(object oPC)
         return TRUE;
     }
 
+    if(GetTag(oItem) == "nanshealingsalve") {
+        object oTarget = GetItemActivatedTarget();
+
+        if(GetObjectType(oTarget) != OBJECT_TYPE_CREATURE) {
+            FloatingTextStringOnCreature(
+                "You can only apply the healing salve on a creature.",
+                oPC, FALSE);
+        }else if(oTarget == oPC) {
+            FloatingTextStringOnCreature(
+                "You can't apply the healing salve on yourself.",
+                oPC, FALSE);
+        } else if((GetDistanceBetween(oPC, oTarget) <= 3.0)) {
+            FloatingTextStringOnCreature("You apply the healing salve.",
+                                         oPC, TRUE);
+            ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(d8()),
+                                oTarget);
+            int stackSize = GetItemStackSize(oItem);
+            if(stackSize > 1) {
+                SetItemStackSize(oItem, GetItemStackSize(oItem) - 1);
+            } else {
+                SetItemCharges(oItem, 0);
+            }
+        } else {
+            FloatingTextStringOnCreature("You're too far away.", oPC, FALSE);
+        }
+        return TRUE;
+    }
 
    //EG's love letter quest item (letter) - N.B. BART'S INTENTION IS TO EXPAND THIS
    //TO AUTOMATICALLY LINK CONVERSATIONS TO ITEMS VIA TAG
