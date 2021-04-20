@@ -252,6 +252,7 @@ int checkIfStuck(int patronState) {
 }
 
 void RandomMove() {
+    ClearAllActions();
     float offset = IntToFloat(Random(5 + 1));
     float angle = IntToFloat(Random(360 + 1));
     location randLoc = pickLoc(OBJECT_SELF, offset, angle);
