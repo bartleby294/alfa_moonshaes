@@ -34,8 +34,8 @@ void main()
 
     if(patronCnt < maxPatrons) {
         WriteTimestampedLogEntry("MS TAVERN CONTROLLER: Under Max Patrons");
-        // 50% chance for testing
-        if(Random(100) > 50) {
+        // 20% spawn chance.
+        if(Random(100) > 80) {
             WriteTimestampedLogEntry("MS TAVERN CONTROLLER: Creating New Patron");
             object doorWp = NWNX_Data_Array_At_Obj(oArea, MS_TAVERN_DOOR_ARRAY,
                                            Random(doorCnt));
