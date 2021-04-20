@@ -196,6 +196,7 @@ void StandState(object oArea) {
         SetLocalInt(OBJECT_SELF, MS_TAVERN_PATRON_MAX_STAND_TURNS,
                     Random(50));
     } else if (standTurns < maxStandTurns) {
+        ClearAllActions();
         AnimActionFindFriend(3.0);
         SetLocalInt(OBJECT_SELF, MS_TAVERN_PATRON_STAND_TURNS,
                     standTurns + 1);
