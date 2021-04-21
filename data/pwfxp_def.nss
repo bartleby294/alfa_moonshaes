@@ -27,7 +27,7 @@ const float PWFXP_GLOBAL_MODIFIER = 10.0;
 // useful while you fine tune the system.
 // and check the readme.txt in case you want to remove
 // the double-xp message from bioware...
-const int PWFXP_DEBUG = TRUE;
+const int PWFXP_DEBUG = FALSE;
 
 // NEW & experimental:
 // system will use the SetXP function instead of GiveXPToCreature if you set this to TRUE
@@ -62,13 +62,12 @@ const string PWFXP_ECL_MODIFIERS = "1-AASIMAR|1-TIEFLING|1-AIR GENASI|1-FIRE GEN
 //
 // default setting:
 //
-// level 1 = 1000% xp bonus
-// level 2 = 500% xp bonus
-// level 3 = 300% xp bonus
-// level 4 = 200% xp bonus
-// level 5 = 100% xp bonus
+// level 1 = 500% xp bonus
+// level 2 = 300% xp bonus
+// level 3 = 200% xp bonus
+// level 4 = 100% xp bonus
 //
-// level 6 - 10 = no xp change
+// level 5 - 10 = no xp change
 
 // level 11 = -15% xp penalty
 // level 12 = -15%
@@ -126,7 +125,7 @@ const string PWFXP_ECL_MODIFIERS = "1-AASIMAR|1-TIEFLING|1-AIR GENASI|1-FIRE GEN
 // the first number modifies level 1, the last number level 40
 //
 //                            LEVEL-----01--|--02--|--03--|--04--|--05--|--06--|--07--|--08--|--09--|--10--|--11--|--12--|--13--|--14--|--15--|--16--|--17--|--18--|--19--|--20--|--21--|--22--|--23--|--24--|--25--|--26--|--27--|--28--|--29--|--30--|--31--|--32--|--33--|--34--|--35--|--36--|--37--|--38--|--39--|--40--|
-const string PWFXP_LEVEL_MODIFIERS = "11.000|06.000|04.000|03.000|02.000|01.000|01.000|01.000|01.000|01.000|00.850|00.850|00.800|00.800|00.750|00.750|00.700|00.700|00.650|00.650|00.600|00.550|00.500|00.450|00.400|00.350|00.300|00.200|00.100|00.090|00.090|00.080|00.080|00.070|00.070|00.060|00.060|00.050|00.040|00.040";
+const string PWFXP_LEVEL_MODIFIERS = "01.000|01.000|01.000|01.000|01.000|01.000|01.000|01.000|01.000|01.000|00.850|00.850|00.800|00.800|00.750|00.750|00.700|00.700|00.650|00.650|00.600|00.550|00.500|00.450|00.400|00.350|00.300|00.200|00.100|00.090|00.090|00.080|00.080|00.070|00.070|00.060|00.060|00.050|00.040|00.040";
 
 // small bonus for killing blow dealer
 const float PWFXP_KILLINGBLOW_MODIFIER = 0.1; // 10%
@@ -200,7 +199,7 @@ const float PWFXP_APL_NOXP = 6.0;
 //
 // reduction constants for PCs fighting mobs with a CR below their level
 const float PWFXP_CR_LESSTHAN_PCLEVEL_REDUCTION = 3.0;
-const float PWFXP_CR_LESSTHAN_PCLEVEL_NOXP = 10.0;
+const float PWFXP_CR_LESSTHAN_PCLEVEL_NOXP = 7.0;
 
 // note: default setting only penalize PCs if they try to kill something
 //       that should be *impossible* for their level.
@@ -242,7 +241,7 @@ const float PWFXP_MAXIMUM_DISTANCE_TO_GROUP = 30.0; // meters
 
 // safety mechanism
 // minimum XP for a kill
-const int PWFXP_MINIMUM_XP = 1;
+const int PWFXP_MINIMUM_XP = 0;
 
 // safety mechanism
 // maximum XP for a kill
@@ -258,11 +257,11 @@ const int PWFXP_MAXIMUM_XP = 500;
 // gets a total XP divisor of 2.5 (using default values).
 // if they kill a 1000XP mob, both PCs only receive 400 XP
 const float PWFXP_XP_DIVISOR_PC  = 1.0;
-const float PWFXP_XP_DIVISOR_DOMINATED = 0.5;
+const float PWFXP_XP_DIVISOR_DOMINATED = 0.8;
 const float PWFXP_XP_DIVISOR_HENCHMAN = 0.5;
-const float PWFXP_XP_DIVISOR_SUMMONED = 0.3;
+const float PWFXP_XP_DIVISOR_SUMMONED = 0.5;
 const float PWFXP_XP_DIVISOR_ANIMALCOMPANION = 0.2;
-const float PWFXP_XP_DIVISOR_FAMILIAR = 0.2;
+const float PWFXP_XP_DIVISOR_FAMILIAR = 0.8;
 // used in case i can't determine the associate type
 const float PWFXP_XP_DIVISOR_UNKNOWN = 0.5;
 
@@ -270,4 +269,5 @@ const float PWFXP_XP_DIVISOR_UNKNOWN = 0.5;
 float PWFXP_APL_MODIFIER = PWFXP_SCALAR / (PWFXP_APL_NOXP - PWFXP_APL_REDUCTION);
 float PWFXP_CR_LESSTHAN_PCLEVEL_MODIFIER = PWFXP_SCALAR / (PWFXP_CR_LESSTHAN_PCLEVEL_NOXP - PWFXP_CR_LESSTHAN_PCLEVEL_REDUCTION);
 float PWFXP_CR_GREATERTHAN_PCLEVEL_MODIFIER = PWFXP_SCALAR / (PWFXP_CR_GREATERTHAN_PCLEVEL_NOXP - PWFXP_CR_GREATERTHAN_PCLEVEL_REDUCTION);
+
 

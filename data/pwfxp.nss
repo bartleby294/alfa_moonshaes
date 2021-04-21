@@ -179,7 +179,7 @@
 //:://////////////////////////////////////////////
 
 #include "pwfxp_def"
-
+#include "ms_xp_util"
 
 int PWFXP_GetLevel(object oPC)
 {
@@ -333,12 +333,19 @@ int PWFXP_CheckDistance(object oDead, object oGroupMbr)
 }
 
 // see PWFXP_USE_SETXP constant description
-void PWFXP_GiveXP(object oPC, int nXP)
+void PWFXP_GiveXP(object oPC, int nXP, object oDead)
 {
-  if(PWFXP_USE_SETXP)
-    SetXP(oPC, GetXP(oPC) + nXP);
-  else
-    GiveXPToCreature(oPC, nXP);
+  string description = "for killing: " + GetName(oDead)
+                       + " Tag: " + GetTag(oDead)
+                       + " in Area: " + GetResRef(GetArea(oDead));
+
+  if(PWFXP_USE_SETXP) {
+    //SetXP(oPC, GetXP(oPC) + nXP);
+    SetAndLogXP(oPC, nXP, "pwfxp award", description);
+  } else {
+    //GiveXPToCreature(oPC, nXP);
+    GiveAndLogXP(oPC, nXP, "pwfxp award", description);
+  }
 }
 
 void main()
@@ -438,7 +445,7 @@ void main()
       else if(nXP > PWFXP_MAXIMUM_XP)
         nXP = PWFXP_MAXIMUM_XP;
 
-      if(nXP > 0) PWFXP_GiveXP(oGroupMbr, nXP);
+      if(nXP > 0) PWFXP_GiveXP(oGroupMbr, nXP, oDead);
     }
     oGroupMbr = GetNextFactionMember(oKiller, TRUE);
   }
