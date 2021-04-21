@@ -22,6 +22,7 @@
 //****************** ALFA Mod
 #include "subraces"
 #include "alfa_deathnotify"
+#include "nwnx_time"
 //****************** End ALFA Mod
 
 // We need a wrapper. If the amount of deaths, got in this, is not equal to iDeaths,
@@ -30,6 +31,7 @@ void DeathCheck(int iDeaths);
 
 void main()
 {
+    int fullStartTime = NWNX_Time_GetTimeStamp();
     // If we are set to, don't fire this script at all
     if(GetAIInteger(I_AM_TOTALLY_DEAD)) return;
 
@@ -80,7 +82,19 @@ void main()
     // Do XP things (Use object "oKiller").
 
     //************** ALFA Mod
-    XP_RewardXPForKill();
+    int pwfxp_toggle = GetCampaignInt("MS_PWFXP_TOGGLE", "MS_PWFXP_TOGGLE");
+    int startTime = NWNX_Time_GetTimeStamp();
+    if(pwfxp_toggle == FALSE) {
+        XP_RewardXPForKill();
+        int timeElapsed = NWNX_Time_GetTimeStamp() - startTime;
+        WriteTimestampedLogEntry("XP_RewardXPForKill Time Elapsed: "
+                                 + IntToString(timeElapsed) + " ms");
+    } else {
+        ExecuteScript("pwfxp", OBJECT_SELF);
+        int timeElapsed = NWNX_Time_GetTimeStamp() - startTime;
+        WriteTimestampedLogEntry("pwfxp Time Elapsed: "
+                                 + IntToString(timeElapsed) + " ms");
+    }
     //************** End ALFA Mod
 
 /************************ [Experience] ****************************************/
@@ -161,6 +175,10 @@ void main()
     //**************** ALFA Mod
     ALFA_DeathNotifySpawner(OBJECT_SELF);
     //**************** End ALFA Mod
+
+    int fullTimeElapsed = NWNX_Time_GetTimeStamp() - fullStartTime;
+    WriteTimestampedLogEntry("Full Time Elapsed: "
+                             + IntToString(fullTimeElapsed) + " ms");
 }
 
 // We need a wrapper. If the amount of deaths, got in this, is not equal to iDeaths,
