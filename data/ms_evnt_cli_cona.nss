@@ -1,13 +1,25 @@
 #include "alfa_charloc"
 #include "nwnx_player"
+#include "nwnx_events"
 
 void main( ) {
-   object poPC = OBJECT_SELF;
-   WriteTimestampedLogEntry("ms_evnt_cli_cona name: " + GetName(poPC));
-   location oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE,
+    object poPC = OBJECT_SELF;
+    WriteTimestampedLogEntry("ms_evnt_cli_cona name: " + GetName(poPC));
+    location oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE,
                                                    "CurrentLocation", poPC);
 
+    string playerName = NWNX_Events_GetEventData("PLAYER_NAME");
+    string sCDKey = NWNX_Events_GetEventData("CDKEY");
+    string isDM = NWNX_Events_GetEventData("IS_DM");
+    string ipAddress = NWNX_Events_GetEventData("IP_ADDRESS");
+
+    WriteTimestampedLogEntry("ms_evnt_cli_cona playerName: " + playerName);
+    WriteTimestampedLogEntry("ms_evnt_cli_cona sCDKey: " + sCDKey);
+    WriteTimestampedLogEntry("ms_evnt_cli_cona isDM: " + isDM);
+    WriteTimestampedLogEntry("ms_evnt_cli_cona ipAddress: " + ipAddress);
+
     if(GetAreaFromLocation(oLocation) == OBJECT_INVALID) {
+
         WriteTimestampedLogEntry("ms_evnt_cli_cona AREA NOT LOADED");
         if(GetIsDM(poPC)) {
             oLocation = GetLocation(GetObjectByTag("MS_DM_START_WP"));
