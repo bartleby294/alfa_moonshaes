@@ -45,6 +45,7 @@ void OnLoadWebHookNotification() {
 void main()
 {
   NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_CONNECT_AFTER", "ms_evnt_cli_cona");
+  NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_DISCONNECT_BEFORE", "ms_evnt_cli_dcob");
   ALFA_OnModuleLoad();
 
   /**************** Add Custom Code Here ***************/
