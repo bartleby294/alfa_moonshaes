@@ -2,16 +2,32 @@
 #include "nwnx_player"
 #include "nwnx_events"
 
+object GetEnteringPlayer(string playerName) {
+
+    object oPC = GetFirstPC();
+    while (GetIsObjectValid(oPC))
+    {
+        if(GetPCPlayerName(oPC) == playerName) {
+            return oPC;
+        }
+        oPC = GetNextPC();
+    }
+
+    return OBJECT_INVALID;
+}
+
+
 void main( ) {
-    object poPC = OBJECT_SELF;
-    WriteTimestampedLogEntry("ms_evnt_cli_cona name: " + GetName(poPC));
-    location oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE,
-                                                   "CurrentLocation", poPC);
 
     string playerName = NWNX_Events_GetEventData("PLAYER_NAME");
     string sCDKey = NWNX_Events_GetEventData("CDKEY");
     string isDM = NWNX_Events_GetEventData("IS_DM");
     string ipAddress = NWNX_Events_GetEventData("IP_ADDRESS");
+
+    object poPC = GetEnteringPlayer(playerName);
+    WriteTimestampedLogEntry("ms_evnt_cli_cona name: " + GetName(poPC));
+    location oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE,
+                                                   "CurrentLocation", poPC);
 
     WriteTimestampedLogEntry("ms_evnt_cli_cona playerName: " + playerName);
     WriteTimestampedLogEntry("ms_evnt_cli_cona sCDKey: " + sCDKey);
