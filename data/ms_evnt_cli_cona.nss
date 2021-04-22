@@ -5,8 +5,16 @@
 object GetEnteringPlayer(string playerName) {
 
     object oPC = GetFirstPC();
+
+    if(oPC == OBJECT_INVALID) {
+        WriteTimestampedLogEntry("ms_evnt_cli_cona oPC OBJ INV");
+    }
+
     while (GetIsObjectValid(oPC))
     {
+        WriteTimestampedLogEntry("ms_evnt_cli_cona GetEnteringPlayer: " + GetPCPlayerName(oPC));
+        WriteTimestampedLogEntry("ms_evnt_cli_cona GetEnteringPlayer: " + GetName(oPC));
+
         if(GetPCPlayerName(oPC) == playerName) {
             return oPC;
         }
