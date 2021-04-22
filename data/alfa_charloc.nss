@@ -22,6 +22,7 @@
 
 #include "alfa_options"
 #include "alfa_persist"
+#include "sos_switches"
 
 // Forward Reference:
 void ALFA_SendCharLocationMessage( object oPC, int iMessage, int iSendToPlayer = TRUE,
