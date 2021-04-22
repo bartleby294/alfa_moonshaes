@@ -1,6 +1,7 @@
 #include "alfa_charloc"
 #include "nwnx_player"
 #include "nwnx_events"
+#include "ms_start_locatio"
 
 void main( ) {
 
@@ -21,13 +22,10 @@ void main( ) {
                                  + GetResRef(GetAreaFromLocation(oLocation)));
     }
 
-    object oWP = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", oLocation,
-                              FALSE, "StartLoc" + GetPCPublicCDKey(poPC)
-                                     + NWNX_Player_GetBicFileName(poPC));
+    SetCampaignLocation("nwnx_persistant_locations", GetPCPublicCDKey(poPC)
+                      + NWNX_Player_GetBicFileName(poPC), oLocation );
 
-    if (GetArea(oWP) != OBJECT_INVALID){
-        NWNX_Player_SetPersistentLocation(GetPCPublicCDKey(poPC),
-                                          NWNX_Player_GetBicFileName(poPC),
-                                          oWP, FALSE);
-    }
+    CreatePlayerStartLocation(GetPCPublicCDKey(poPC),
+                              NWNX_Player_GetBicFileName(poPC),
+                              oLocation);
 }

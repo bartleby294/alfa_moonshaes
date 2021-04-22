@@ -12,6 +12,7 @@
 
 /* Includes */
 #include "alfa_include_fix"
+#include "ms_on_client_ent"
 
 void main()
 {
@@ -28,6 +29,7 @@ void main()
 
   //SendMessageToPC(oPC, "Before ALFA_OnClientEnter");
   ALFA_OnClientEnter();
+  MS_On_Client_Enter();
   //SendMessageToPC(oPC, "After ALFA_OnClientEnter");
 
   /**************** Add Custom Code Here ***************/

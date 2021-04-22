@@ -15,6 +15,7 @@
 #include "ms_on_load"
 #include "nwnx_webhook"
 #include "nwnx_events"
+#include "nwnx_admin"
 //#include "nwnx_webhook_rch"
 
 void OnLoadWebHookNotification() {
@@ -44,7 +45,10 @@ void OnLoadWebHookNotification() {
 
 void main()
 {
-  NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_CONNECT_AFTER", "ms_evnt_cli_cona");
+  string playerPass = NWNX_Util_GetEnvironmentVariable("NWN_PLAYER_PASSWORD");
+  NWNX_Administration_SetPlayerPassword(GetRandomUUID());
+  NWNX_Util_SetInstructionLimit(2000000000);
+  //NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_CONNECT_AFTER", "ms_evnt_cli_cona");
   NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_DISCONNECT_BEFORE", "ms_evnt_cli_dcob");
   ALFA_OnModuleLoad();
 
@@ -52,4 +56,10 @@ void main()
     msOnLoad();
     OnLoadWebHookNotification();
   /*****************************************************/
+  NWNX_Util_SetInstructionLimit(-1);
+  if(playerPass == "") {
+    NWNX_Administration_ClearPlayerPassword();
+  } else {
+    NWNX_Administration_SetPlayerPassword(playerPass);
+  }
 }
