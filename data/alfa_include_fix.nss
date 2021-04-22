@@ -47,6 +47,8 @@
 /* Familiar Persistency */
 #include "pfp_inc"
 
+#include "nwnx_player"
+
 /* Horse System */
 //#include "acr_horse_i"
 
@@ -295,7 +297,27 @@ void RemoveCutSceeneImob(object oPC) {
     }
 }
 
-void MS_LoadCharacterLocation( object poPC )
+void MS_LoadCharacterLocation( object poPC ) {
+   location oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE,
+                                                   "CurrentLocation", poPC);
+
+    if(GetAreaFromLocation(oLocation) == OBJECT_INVALID) {
+        if(GetIsDM(poPC)) {
+            oLocation = GetLocation(GetObjectByTag("MS_DM_START_WP"));
+        } else {
+            oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+        }
+    }
+
+    object oWP = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", oLocation);
+    if (GetArea(oWP) != OBJECT_INVALID){
+        NWNX_Player_SetPersistentLocation(GetPCPublicCDKey(poPC),
+                                          NWNX_Player_GetBicFileName(poPC),
+                                          oWP);
+    }
+}
+
+void MS_LoadCharacterLocation_LEGACY( object poPC )
 {
   location    oLocation;
   location    oCurLocation;
