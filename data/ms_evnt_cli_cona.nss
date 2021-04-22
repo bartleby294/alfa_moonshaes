@@ -3,18 +3,19 @@
 
 void main( ) {
    object poPC = OBJECT_SELF;
+   WriteTimestampedLogEntry("ms_evnt_cli_cona name: " + GetName(poPC));
    location oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE,
                                                    "CurrentLocation", poPC);
 
     if(GetAreaFromLocation(oLocation) == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("AREA NOT LOADED");
+        WriteTimestampedLogEntry("ms_evnt_cli_cona AREA NOT LOADED");
         if(GetIsDM(poPC)) {
             oLocation = GetLocation(GetObjectByTag("MS_DM_START_WP"));
         } else {
             oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
         }
     } else {
-        WriteTimestampedLogEntry("AREA LOADED: "
+        WriteTimestampedLogEntry("ms_evnt_cli_cona AREA LOADED: "
                                  + GetResRef(GetAreaFromLocation(oLocation)));
     }
 

@@ -298,7 +298,8 @@ void RemoveCutSceeneImob(object oPC) {
 }
 
 void MS_LoadCharacterLocation( object poPC ) {
-   location oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE,
+   return;
+   /*location oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE,
                                                    "CurrentLocation", poPC);
 
     if(GetAreaFromLocation(oLocation) == OBJECT_INVALID) {
@@ -318,7 +319,7 @@ void MS_LoadCharacterLocation( object poPC ) {
         NWNX_Player_SetPersistentLocation(GetPCPublicCDKey(poPC),
                                           NWNX_Player_GetBicFileName(poPC),
                                           oWP, FALSE);
-    }
+    }*/
 }
 
 void MS_LoadCharacterLocation_LEGACY( object poPC )
