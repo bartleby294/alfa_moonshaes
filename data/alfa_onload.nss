@@ -46,7 +46,9 @@ void OnLoadWebHookNotification() {
 void main()
 {
   string playerPass = NWNX_Util_GetEnvironmentVariable("NWN_PLAYER_PASSWORD");
-  NWNX_Administration_SetPlayerPassword(GetRandomUUID());
+  string randPlayerPass = GetRandomUUID();
+  WriteTimestampedLogEntry("randPlayerPass: " + randPlayerPass);
+  NWNX_Administration_SetPlayerPassword(randPlayerPass);
   NWNX_Util_SetInstructionLimit(2000000000);
   //NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_CONNECT_AFTER", "ms_evnt_cli_cona");
   NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_DISCONNECT_BEFORE", "ms_evnt_cli_dcob");
@@ -59,7 +61,9 @@ void main()
   NWNX_Util_SetInstructionLimit(-1);
   if(playerPass == "") {
     NWNX_Administration_ClearPlayerPassword();
+    WriteTimestampedLogEntry("clear password");
   } else {
     NWNX_Administration_SetPlayerPassword(playerPass);
+    WriteTimestampedLogEntry("playerPass: " + playerPass);
   }
 }

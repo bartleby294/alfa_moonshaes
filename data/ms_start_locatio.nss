@@ -16,7 +16,12 @@ void CreatePlayerStartLocation(string cdKey, string bicName, location loc) {
         DestroyObject(startWp);
         i++;
         startWp = GetObjectByTag(startWpTag, i);
+         WriteTimestampedLogEntry("Destroy OLD WP");
     }
+
+    WriteTimestampedLogEntry("Create Start Location");
+    WriteTimestampedLogEntry("cdKey: " + cdKey);
+    WriteTimestampedLogEntry("bicName: " + bicName);
 
     object oWP = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", loc,
                               FALSE, startWpTag);
@@ -32,11 +37,13 @@ void SeedPlayerLocation() {
     int i = 0;
     int maxI = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oModule,
                                 ACTIVE_PLAYER_LIST);
+    WriteTimestampedLogEntry("SeedPlayerLocation");
     while(i < maxI) {
         string activePlayer = NWNX_Data_Array_At_Str(oModule,
                                                      ACTIVE_PLAYER_LIST, i);
         location playerLoc = GetCampaignLocation("nwnx_persistant_locations",
                                                  activePlayer);
+        WriteTimestampedLogEntry("activePlayer: " + activePlayer);
         int apStrLen = GetStringLength(activePlayer);
         string cdKey = GetStringLeft(activePlayer, 8);
         string bicName = GetStringRight(activePlayer, apStrLen - 8);
@@ -52,6 +59,7 @@ void PopulateActivePlayersArray() {
     string activePlayer = GetCampaignString(ACTIVE_PLAYER_LIST, IntToString(i));
 
     // Gather all our raw active players.
+    WriteTimestampedLogEntry("Gather all our raw active players");
     while(activePlayer != "") {
         NWNX_Data_Array_PushBack_Str(oModule, RAW_ACTIVE_PLAYER_LIST,
                                      activePlayer);
@@ -60,6 +68,7 @@ void PopulateActivePlayersArray() {
     }
 
     // Sort into active or non active based on timestamps.
+    WriteTimestampedLogEntry("Sort into active or non active based on timestamps");
     i = 0;
     int maxI = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oModule,
                                     RAW_ACTIVE_PLAYER_LIST);
@@ -81,6 +90,7 @@ void PopulateActivePlayersArray() {
     }
 
     // Drop the active player db and reseed.
+    WriteTimestampedLogEntry("Drop the active player db and reseed");
     DestroyCampaignDatabase(ACTIVE_PLAYER_LIST);
     i = 0;
     maxI = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oModule,
@@ -89,9 +99,11 @@ void PopulateActivePlayersArray() {
         activePlayer = NWNX_Data_Array_At_Str(oModule,
                                               ACTIVE_PLAYER_LIST, i);
         SetCampaignString(ACTIVE_PLAYER_LIST, IntToString(i), activePlayer);
+        i++;
     }
 
     // Clear out old entries from the time stamp db.
+    WriteTimestampedLogEntry("lear out old entries from the time stamp db");
     i = 0;
     maxI = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oModule,
                                 NON_ACTIVE_PLAYER_LIST);
@@ -100,6 +112,7 @@ void PopulateActivePlayersArray() {
                                                         NON_ACTIVE_PLAYER_LIST,
                                                         i);
         DeleteCampaignVariable(ACTIVE_PLAYER_TIMESTAMPS, nonActivePlayer);
+        i++;
     }
 
 }
