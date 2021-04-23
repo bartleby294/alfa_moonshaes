@@ -1,5 +1,6 @@
 #include "nwnx_player"
 #include "nwnx_data"
+#include "nwnx_time"
 
 const string ACTIVE_PLAYER_LIST = "active_player_list";
 const string NON_ACTIVE_PLAYER_LIST = "non_active_player_list";
@@ -53,7 +54,8 @@ void SeedPlayerLocation() {
 }
 
 void PopulateActivePlayersArray() {
-    int cutOff = 1650660891;
+    int curTime = NWNX_Time_GetTimeStamp();
+    int cutOff = curTime - 15780000;  // 6 month cut off time.
 
     int i = 0;
     object oModule = GetModule();
@@ -80,7 +82,7 @@ void PopulateActivePlayersArray() {
         int timeStamp = GetCampaignInt(ACTIVE_PLAYER_TIMESTAMPS,
                                        rawActivePlayer);
 
-        if(timeStamp < cutOff) {
+        if(timeStamp > cutOff) {
             NWNX_Data_Array_PushBack_Str(oModule, ACTIVE_PLAYER_LIST,
                                          rawActivePlayer);
         } else {

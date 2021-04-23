@@ -298,28 +298,15 @@ void RemoveCutSceeneImob(object oPC) {
 }
 
 void MS_LoadCharacterLocation( object poPC ) {
-   return;
-   /*location oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE,
-                                                   "CurrentLocation", poPC);
 
-    if(GetAreaFromLocation(oLocation) == OBJECT_INVALID) {
-        WriteTimestampedLogEntry("AREA NOT LOADED");
-        if(GetIsDM(poPC)) {
-            oLocation = GetLocation(GetObjectByTag("MS_DM_START_WP"));
-        } else {
-            oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
-        }
-    } else {
-        WriteTimestampedLogEntry("AREA LOADED: "
-                                 + GetResRef(GetAreaFromLocation(oLocation)));
+    // Send to the morgue
+    if(GetItemPossessedBy(poPC, "ALFADeathToken" ) != OBJECT_INVALID) {
+        location oLocation =  GetLocation(GetObjectByTag("ALFA_MORGUE_WAYPT"));
+        AssignCommand(poPC, ActionJumpToLocation(oLocation));
+        return;
     }
 
-    object oWP = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", oLocation);
-    if (GetArea(oWP) != OBJECT_INVALID){
-        NWNX_Player_SetPersistentLocation(GetPCPublicCDKey(poPC),
-                                          NWNX_Player_GetBicFileName(poPC),
-                                          oWP, FALSE);
-    }*/
+
 }
 
 void MS_LoadCharacterLocation_LEGACY( object poPC )
@@ -454,6 +441,8 @@ void ALFA_OnClientEnter()
   if ( GetXP( oPC ) < 1 && !GetIsDM( oPC ) ) {
     //WriteTimestampedLogEntry("CSM_ProcessNewPlayer");
     CSM_ProcessNewPlayer( oPC );
+    location oLocation =  GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+    AssignCommand(oPC, ActionJumpToLocation(oLocation));
   }
 
   /* Kick out a PC on the "Banned" list */

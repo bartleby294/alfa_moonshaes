@@ -83,15 +83,17 @@ void main()
 
     //************** ALFA Mod
     int pwfxp_toggle = GetCampaignInt("MS_PWFXP_TOGGLE", "MS_PWFXP_TOGGLE");
-    int startTime = NWNX_Time_GetTimeStamp();
+    struct NWNX_Time_HighResTimestamp startTime = NWNX_Time_GetHighResTimeStamp();
     if(pwfxp_toggle == FALSE) {
         XP_RewardXPForKill();
-        int timeElapsed = NWNX_Time_GetTimeStamp() - startTime;
+        struct NWNX_Time_HighResTimestamp endTime = NWNX_Time_GetHighResTimeStamp();
+        int timeElapsed = endTime.microseconds - startTime.microseconds;
         WriteTimestampedLogEntry("XP_RewardXPForKill Time Elapsed: "
                                  + IntToString(timeElapsed) + " ms");
     } else {
         ExecuteScript("pwfxp", OBJECT_SELF);
-        int timeElapsed = NWNX_Time_GetTimeStamp() - startTime;
+        struct NWNX_Time_HighResTimestamp endTime = NWNX_Time_GetHighResTimeStamp();
+        int timeElapsed = endTime.microseconds - startTime.microseconds;
         WriteTimestampedLogEntry("pwfxp Time Elapsed: "
                                  + IntToString(timeElapsed) + " ms");
     }
