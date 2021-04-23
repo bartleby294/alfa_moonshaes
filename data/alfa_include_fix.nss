@@ -304,7 +304,7 @@ void JumpToNewCharacterStart(object oPC) {
     location oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
     float distance = GetDistanceBetweenLocations(GetLocation(oPC), oLocation);
     WriteTimestampedLogEntry("distance: " + FloatToString(distance));
-    if(distance > 20.0) {
+    if(distance > 20.0 || distance < 0.0) {
         WriteTimestampedLogEntry("Jump to Location and run again");
         AssignCommand(oPC, ActionJumpToLocation(oLocation));
         DelayCommand(1.0, JumpToNewCharacterStart(oPC));
