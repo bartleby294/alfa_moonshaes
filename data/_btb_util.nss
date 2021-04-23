@@ -1,3 +1,9 @@
+
+void PrintVectorToLog(string str, vector position) {
+    WriteTimestampedLogEntry(str + "(" + FloatToString(position.x)
+                                 + "," + FloatToString(position.y) + ")");
+}
+
 float getFacing(vector centerPoint, vector otherPoint) {
     return VectorToAngle(Vector(otherPoint.x - centerPoint.x,
                                 otherPoint.y - centerPoint.y,

@@ -1,12 +1,31 @@
 #include "nwnx_player"
 #include "nwnx_data"
 #include "nwnx_time"
+#include "_btb_util"
 
 const string ACTIVE_PLAYER_LIST = "active_player_list";
 const string NON_ACTIVE_PLAYER_LIST = "non_active_player_list";
 const string RAW_ACTIVE_PLAYER_LIST = "raw_active_player_list";
 const string ACTIVE_PLAYER_TIMESTAMPS = "active_player_timestamps";
 const string NWNX_PERSISTANT_LOCATIONS = "nwnx_persistant_locations";
+const string NWNX_PERSISTANT_LOCATIONS_VEC = "nwnx_persistant_locations_vec";
+const string NWNX_PERSISTANT_LOCATIONS_AREA = "nwnx_persistant_locations_area";
+
+void SavePlayerLocation(object oPC) {
+
+    location lLocation = GetLocation(oPC);
+    string index = GetPCPublicCDKey(oPC) + NWNX_Player_GetBicFileName(oPC);
+    string areaTag = GetTag(GetAreaFromLocation(lLocation));
+    vector position = GetPositionFromLocation(lLocation);
+
+    SetCampaignLocation(NWNX_PERSISTANT_LOCATIONS, index, lLocation);
+    SetCampaignVector(NWNX_PERSISTANT_LOCATIONS_VEC, index, position);
+    SetCampaignString(NWNX_PERSISTANT_LOCATIONS_AREA, index, areaTag);
+
+    WriteTimestampedLogEntry("Character Location: Saved For: "
+                           + GetPCPublicCDKey(oPC)
+                           + NWNX_Player_GetBicFileName(oPC));
+}
 
 void CreatePlayerStartLocation(string cdKey, string bicName, location loc) {
 
@@ -42,12 +61,27 @@ void SeedPlayerLocation() {
     while(i < maxI) {
         string activePlayer = NWNX_Data_Array_At_Str(oModule,
                                                      ACTIVE_PLAYER_LIST, i);
-        location playerLoc = GetCampaignLocation("nwnx_persistant_locations",
+        location playerLoc = GetCampaignLocation(NWNX_PERSISTANT_LOCATIONS,
                                                  activePlayer);
         WriteTimestampedLogEntry("activePlayer: " + activePlayer);
         int apStrLen = GetStringLength(activePlayer);
         string cdKey = GetStringLeft(activePlayer, 8);
         string bicName = GetStringRight(activePlayer, apStrLen - 8);
+        ////////////////////////////////////////////////////////////////////////
+        string areaTag = GetCampaignString(NWNX_PERSISTANT_LOCATIONS_AREA,
+                                           activePlayer);
+        vector position = GetCampaignVector(NWNX_PERSISTANT_LOCATIONS_VEC,
+                                           activePlayer);
+        string areaTagLoc = GetTag(GetAreaFromLocation(playerLoc));
+        vector positionLoc = GetPositionFromLocation(playerLoc);
+
+        WriteTimestampedLogEntry("areaTag: " + areaTag);
+        PrintVectorToLog("position: ", position);
+
+        WriteTimestampedLogEntry("areaTagLoc: " + areaTagLoc);
+        PrintVectorToLog("positionLoc: ", positionLoc);
+        ////////////////////////////////////////////////////////////////////////
+
         CreatePlayerStartLocation(cdKey, bicName, playerLoc);
         i++;
     }
@@ -106,7 +140,7 @@ void PopulateActivePlayersArray() {
     }
 
     // Clear out old entries from the time stamp db.
-    WriteTimestampedLogEntry("lear out old entries from the time stamp db");
+    WriteTimestampedLogEntry("Clear out old entries from the time stamp db");
     i = 0;
     maxI = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oModule,
                                 NON_ACTIVE_PLAYER_LIST);
