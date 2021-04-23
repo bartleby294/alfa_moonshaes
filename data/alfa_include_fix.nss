@@ -297,16 +297,37 @@ void RemoveCutSceeneImob(object oPC) {
     }
 }
 
+void JumpToNewCharacterStart(object oPC) {
+
+    location oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+
+    if(GetDistanceBetweenLocations(GetLocation(oPC), oLocation) > 20.0) {
+        AssignCommand(oPC, ActionJumpToLocation(oLocation));
+        DelayCommand(1.0, JumpToNewCharacterStart(oPC));
+    } else {
+        return;
+    }
+}
+
+void JumpToMorgue(object oPC) {
+
+    location oLocation =  GetLocation(GetObjectByTag("ALFA_MORGUE_WAYPT"));
+
+    if(GetAreaFromLocation(GetLocation(oPC)) != GetAreaFromLocation(oLocation)){
+        AssignCommand(oPC, ActionJumpToLocation(oLocation));
+        DelayCommand(2.0, JumpToMorgue(oPC));
+    } else {
+        return;
+    }
+
+}
+
 void MS_LoadCharacterLocation( object poPC ) {
 
     // Send to the morgue
     if(GetItemPossessedBy(poPC, "ALFADeathToken" ) != OBJECT_INVALID) {
-        location oLocation =  GetLocation(GetObjectByTag("ALFA_MORGUE_WAYPT"));
-        AssignCommand(poPC, ActionJumpToLocation(oLocation));
-        return;
+        JumpToMorgue(poPC);
     }
-
-
 }
 
 void MS_LoadCharacterLocation_LEGACY( object poPC )
@@ -441,8 +462,7 @@ void ALFA_OnClientEnter()
   if ( GetXP( oPC ) < 1 && !GetIsDM( oPC ) ) {
     //WriteTimestampedLogEntry("CSM_ProcessNewPlayer");
     CSM_ProcessNewPlayer( oPC );
-    location oLocation =  GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
-    AssignCommand(oPC, ActionJumpToLocation(oLocation));
+    JumpToNewCharacterStart(oPC);
   }
 
   /* Kick out a PC on the "Banned" list */
