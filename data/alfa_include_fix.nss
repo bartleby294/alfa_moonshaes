@@ -299,12 +299,17 @@ void RemoveCutSceeneImob(object oPC) {
 
 void JumpToNewCharacterStart(object oPC) {
 
-    location oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+    WriteTimestampedLogEntry("JumpToNewCharacterStart");
 
-    if(GetDistanceBetweenLocations(GetLocation(oPC), oLocation) > 20.0) {
+    location oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+    float distance = GetDistanceBetweenLocations(GetLocation(oPC), oLocation);
+    WriteTimestampedLogEntry("distance: " + FloatToString(distance));
+    if(distance > 20.0) {
+        WriteTimestampedLogEntry("Jump to Location and run again");
         AssignCommand(oPC, ActionJumpToLocation(oLocation));
         DelayCommand(1.0, JumpToNewCharacterStart(oPC));
     } else {
+        WriteTimestampedLogEntry("JumpToNewCharacterStart return");
         return;
     }
 }
@@ -460,7 +465,7 @@ void ALFA_OnClientEnter()
 
   /* Handle new players */
   if ( GetXP( oPC ) < 1 && !GetIsDM( oPC ) ) {
-    //WriteTimestampedLogEntry("CSM_ProcessNewPlayer");
+    WriteTimestampedLogEntry("CSM_ProcessNewPlayer");
     CSM_ProcessNewPlayer( oPC );
     JumpToNewCharacterStart(oPC);
   }
