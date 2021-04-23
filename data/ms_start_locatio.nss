@@ -16,7 +16,7 @@ void CreatePlayerStartLocation(string cdKey, string bicName, location loc) {
         DestroyObject(startWp);
         i++;
         startWp = GetObjectByTag(startWpTag, i);
-         WriteTimestampedLogEntry("Destroy OLD WP");
+        WriteTimestampedLogEntry("Destroy OLD WP");
     }
 
     WriteTimestampedLogEntry("Create Start Location");
@@ -48,6 +48,7 @@ void SeedPlayerLocation() {
         string cdKey = GetStringLeft(activePlayer, 8);
         string bicName = GetStringRight(activePlayer, apStrLen - 8);
         CreatePlayerStartLocation(cdKey, bicName, playerLoc);
+        i++;
     }
 }
 
