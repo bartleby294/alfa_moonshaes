@@ -22,6 +22,8 @@
 
 #include "alfa_options"
 #include "alfa_persist"
+#include "sos_switches"
+#include "nwnx_player"
 
 // Forward Reference:
 void ALFA_SendCharLocationMessage( object oPC, int iMessage, int iSendToPlayer = TRUE,
@@ -127,6 +129,11 @@ void ALFA_SaveCharacterLocation( object poPC )
   SetLocalLocation(poPC, "ALFA_CurrentLocation", lLocation);
 
   ALFA_SetPersistentLocation(WK_LOCATION_TABLE, "CurrentLocation", lLocation, poPC);
+  SetCampaignLocation("nwnx_persistant_locations", GetPCPublicCDKey(poPC)
+                      + NWNX_Player_GetBicFileName(poPC), lLocation );
+  WriteTimestampedLogEntry("Character Location: Saved For: "
+                           + GetPCPublicCDKey(poPC)
+                           + NWNX_Player_GetBicFileName(poPC));
 
   // CHARACTER LOCATION SAVED CORRECTLY
   if ( gALFA_LOCATION_SAVE_DISPLAYTEXT )

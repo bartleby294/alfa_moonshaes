@@ -153,7 +153,7 @@ void MapAreaTerrain(object oArea) {
         return;
     }
     // This may take a while
-    NWNX_Util_SetInstructionLimit(16777215);
+    //NWNX_Util_SetInstructionLimit(16777215);
 
     int x = 0;
     int y = 0;
@@ -180,7 +180,7 @@ void MapAreaTerrain(object oArea) {
 
     SetLocalInt(oArea, AREA_TERRAIN_MAPPED_STATE, TRUE);
     //WriteTimestampedLogEntry("MapAreaTerrain End");
-    NWNX_Util_SetInstructionLimit(-1);
+    //NWNX_Util_SetInstructionLimit(-1);
 }
 
 string GetTerrainObjectIsOn(object obj) {

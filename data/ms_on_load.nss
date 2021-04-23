@@ -1,4 +1,6 @@
 #include "ms_terrain_id"
+#include "ms_start_locatio"
+#include "nwnx_data"
 
 /**
  * If bandit activity is not set set it to 1.  Can update to a larger default
@@ -14,7 +16,7 @@ void checkBanditActivity() {
     }
 }
 
-void MapAreas() {
+void MapAreasWithDelay() {
     float loadDilation = 2.0;
     DelayCommand(1.0 * loadDilation, MapAreaTerrain(GetObjectByTag("q_50_e")));
     DelayCommand(2.0 * loadDilation, MapAreaTerrain(GetObjectByTag("r_50_e")));
@@ -51,8 +53,51 @@ void MapAreas() {
     DelayCommand(33.0 * loadDilation, MapAreaTerrain(GetObjectByTag("cc_49_e")));
 }
 
+void MapAreas() {
+
+    MapAreaTerrain(GetObjectByTag("q_50_e"));
+    MapAreaTerrain(GetObjectByTag("r_50_e"));
+    MapAreaTerrain(GetObjectByTag("s_50_e"));
+    MapAreaTerrain(GetObjectByTag("t_49_e"));
+    MapAreaTerrain(GetObjectByTag("t_50_e"));
+    MapAreaTerrain(GetObjectByTag("u_49_e"));
+    MapAreaTerrain(GetObjectByTag("u_50_e"));
+    MapAreaTerrain(GetObjectByTag("v_48_e"));
+    MapAreaTerrain(GetObjectByTag("v_49_e"));
+    MapAreaTerrain(GetObjectByTag("v_50_e"));
+    MapAreaTerrain(GetObjectByTag("v_51_e"));
+    MapAreaTerrain(GetObjectByTag("v_52_e"));
+    MapAreaTerrain(GetObjectByTag("w_48_e"));
+    MapAreaTerrain(GetObjectByTag("w_49_e"));
+    MapAreaTerrain(GetObjectByTag("w_50_e"));
+    MapAreaTerrain(GetObjectByTag("w_51_e"));
+    MapAreaTerrain(GetObjectByTag("w_52_e"));
+    MapAreaTerrain(GetObjectByTag("w_53_e"));
+    MapAreaTerrain(GetObjectByTag("x_49_e"));
+    MapAreaTerrain(GetObjectByTag("x_50_e"));
+    MapAreaTerrain(GetObjectByTag("x_51_e"));
+    MapAreaTerrain(GetObjectByTag("y_49_e"));
+    MapAreaTerrain(GetObjectByTag("y_50_e"));
+    MapAreaTerrain(GetObjectByTag("z_49_e"));
+    MapAreaTerrain(GetObjectByTag("z_50_e"));
+    MapAreaTerrain(GetObjectByTag("aa_48_e"));
+    MapAreaTerrain(GetObjectByTag("aa_49_e"));
+    MapAreaTerrain(GetObjectByTag("aa_50_e"));
+    MapAreaTerrain(GetObjectByTag("bb_48_e"));
+    MapAreaTerrain(GetObjectByTag("bb_49_e"));
+    MapAreaTerrain(GetObjectByTag("bb_50_e"));
+    MapAreaTerrain(GetObjectByTag("cc_48_e"));
+    MapAreaTerrain(GetObjectByTag("cc_49_e"));
+}
 
 void msOnLoad() {
+    WriteTimestampedLogEntry("PopulateActivePlayersArray");
+    PopulateActivePlayersArray();
+    WriteTimestampedLogEntry("SeedPlayerLocation");
+    SeedPlayerLocation();
+    WriteTimestampedLogEntry("checkBanditActivity");
     checkBanditActivity();
+    WriteTimestampedLogEntry("MapAreas");
     MapAreas();
+    WriteTimestampedLogEntry("done with msOnLoad");
 }

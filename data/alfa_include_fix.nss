@@ -47,6 +47,8 @@
 /* Familiar Persistency */
 #include "pfp_inc"
 
+#include "nwnx_player"
+
 /* Horse System */
 //#include "acr_horse_i"
 
@@ -295,7 +297,45 @@ void RemoveCutSceeneImob(object oPC) {
     }
 }
 
-void MS_LoadCharacterLocation( object poPC )
+void JumpToNewCharacterStart(object oPC) {
+
+    WriteTimestampedLogEntry("JumpToNewCharacterStart");
+
+    location oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
+    float distance = GetDistanceBetweenLocations(GetLocation(oPC), oLocation);
+    WriteTimestampedLogEntry("distance: " + FloatToString(distance));
+    if(distance > 20.0 || distance < 0.0) {
+        WriteTimestampedLogEntry("Jump to Location and run again");
+        AssignCommand(oPC, ActionJumpToLocation(oLocation));
+        DelayCommand(1.0, JumpToNewCharacterStart(oPC));
+    } else {
+        WriteTimestampedLogEntry("JumpToNewCharacterStart return");
+        return;
+    }
+}
+
+void JumpToMorgue(object oPC) {
+
+    location oLocation =  GetLocation(GetObjectByTag("ALFA_MORGUE_WAYPT"));
+
+    if(GetAreaFromLocation(GetLocation(oPC)) != GetAreaFromLocation(oLocation)){
+        AssignCommand(oPC, ActionJumpToLocation(oLocation));
+        DelayCommand(2.0, JumpToMorgue(oPC));
+    } else {
+        return;
+    }
+
+}
+
+void MS_LoadCharacterLocation( object poPC ) {
+
+    // Send to the morgue
+    if(GetItemPossessedBy(poPC, "ALFADeathToken" ) != OBJECT_INVALID) {
+        JumpToMorgue(poPC);
+    }
+}
+
+void MS_LoadCharacterLocation_LEGACY( object poPC )
 {
   location    oLocation;
   location    oCurLocation;
@@ -425,8 +465,9 @@ void ALFA_OnClientEnter()
 
   /* Handle new players */
   if ( GetXP( oPC ) < 1 && !GetIsDM( oPC ) ) {
-    //WriteTimestampedLogEntry("CSM_ProcessNewPlayer");
+    WriteTimestampedLogEntry("CSM_ProcessNewPlayer");
     CSM_ProcessNewPlayer( oPC );
+    JumpToNewCharacterStart(oPC);
   }
 
   /* Kick out a PC on the "Banned" list */
