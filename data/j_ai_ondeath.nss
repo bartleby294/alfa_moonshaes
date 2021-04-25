@@ -26,6 +26,7 @@ void DeathCheck(int iDeaths);
 
 void main()
 {
+ExecuteScript("pwfxp", OBJECT_SELF);
     // If we are set to, don't fire this script at all
     if(GetAIInteger(I_AM_TOTALLY_DEAD)) return;
 
