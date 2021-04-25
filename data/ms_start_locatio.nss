@@ -80,6 +80,8 @@ void SeedPlayerLocation() {
 
         WriteTimestampedLogEntry("areaTagLoc: " + areaTagLoc);
         PrintVectorToLog("positionLoc: ", positionLoc);
+
+        playerLoc = Location(GetObjectByTag(areaTag), position, 0.0);
         ////////////////////////////////////////////////////////////////////////
 
         CreatePlayerStartLocation(cdKey, bicName, playerLoc);
