@@ -116,7 +116,7 @@ string RestingAllowed(object oPC) {
                               + IntToString(restState));
 
     if(restState == RESTING_DM_DISABLED) {
-        return "This doesn't seem like a good place to rest.";
+        return "This doesn't seem like a good place to rest. You should find an inn or camp in the wilderness.";
     }
 
     if(restState == RESTING_DM_ENABLED) {
@@ -125,11 +125,11 @@ string RestingAllowed(object oPC) {
 
     string restTriggerType = GetRestTriggerType(oPC);
     if(restState == RESTING_DISALLOWED && restTriggerType == "") {
-        return "This doesn't seem like a good place to rest.";
+        return "This doesn't seem like a good place to rest. You should find an inn or camp in the wilderness.";
     }
 
     if(GetArmorBaseACValue(GetItemInSlot(INVENTORY_SLOT_CHEST, oPC)) > 3) {
-        return "Your armor would interfere with your rest.";
+        return "Your armor is interfering with your rest.";
     }
 
     return "";
