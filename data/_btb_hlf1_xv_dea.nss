@@ -37,7 +37,7 @@ void writeToLog(string str) {
 
 void main()
 {
-    int fullStartTime = NWNX_Time_GetTimeStamp();
+    struct NWNX_Time_HighResTimestamp fullStartTime = NWNX_Time_GetHighResTimeStamp();
     object invItem = GetFirstItemInInventory(OBJECT_SELF);
     while(invItem != OBJECT_INVALID) {
         if(GetTag(invItem) == "corn"){
@@ -193,7 +193,8 @@ void main()
     //**************** ALFA Mod
     ALFA_DeathNotifySpawner(OBJECT_SELF);
     //**************** End ALFA Mod
-    int fullTimeElapsed = NWNX_Time_GetTimeStamp() - fullStartTime;
+    struct NWNX_Time_HighResTimestamp fullEndTime = NWNX_Time_GetHighResTimeStamp();
+    int fullTimeElapsed = fullEndTime.microseconds - fullStartTime.microseconds;
     WriteTimestampedLogEntry("Full Time Elapsed: "
                              + IntToString(fullTimeElapsed) + " ms");
 }

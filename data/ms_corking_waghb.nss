@@ -190,7 +190,7 @@ void main()
 
     if(getShouldStop() == TRUE) {
         ClearAllActions(TRUE);
-        WriteTimestampedLogEntry(" * ShouldStop");
+        //WriteTimestampedLogEntry(" * ShouldStop");
         return;
     }
 

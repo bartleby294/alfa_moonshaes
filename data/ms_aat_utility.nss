@@ -32,14 +32,14 @@ string GetLetterUsingOffsetOrig(string curEWPos, int offset) {
     int subStrSize = GetStringLength(curEWPos);
     int subStrStart = curLetterPos + (subStrSize * offset);
 
-    WriteTimestampedLogEntry("curEWPos: " + curEWPos);
-    WriteTimestampedLogEntry("curLetterPos: " + IntToString(curLetterPos));
-    WriteTimestampedLogEntry("subStrSize: " + IntToString(subStrSize));
-    WriteTimestampedLogEntry("subStrStart: " + IntToString(subStrStart));
+    //WriteTimestampedLogEntry("curEWPos: " + curEWPos);
+    //WriteTimestampedLogEntry("curLetterPos: " + IntToString(curLetterPos));
+    //WriteTimestampedLogEntry("subStrSize: " + IntToString(subStrSize));
+    //WriteTimestampedLogEntry("subStrStart: " + IntToString(subStrStart));
 
     // if our start position is out of bounds return nothing.
     if(subStrStart < 0 || subStrStart > GetStringLength(EW_GRID)){
-        WriteTimestampedLogEntry("ABORT");
+        //WriteTimestampedLogEntry("ABORT");
         return "";
     }
 
@@ -59,7 +59,7 @@ object GetAreaAtCoordinates(object curArea, int xDirection, int yDirection) {
     string newEWPos = GetLetterUsingOffset(curEWPos, xDirection);
     string newNSPos = IntToString(curNSPos + yDirection);
     string tag = newEWPos + "_" + newNSPos + "_e";
-    WriteTimestampedLogEntry("Area Tag: " + tag);
+    //WriteTimestampedLogEntry("Area Tag: " + tag);
     object newArea = GetObjectByTag(tag);
 
     // Lets make sure what we have is really an area.
@@ -81,12 +81,12 @@ int GetAreaTransitionX(object oPC) {
 
     // move east
     if(oPCLocVec.x > height - 10.0){
-        WriteTimestampedLogEntry("Move East");
+        //WriteTimestampedLogEntry("Move East");
         return 1;
     }
     // move west
     if(oPCLocVec.x < 10.0) {
-        WriteTimestampedLogEntry("Move West");
+        //WriteTimestampedLogEntry("Move West");
         return -1;
     }
     // dont go anywhere
@@ -101,12 +101,12 @@ int GetAreaTransitionY(object oPC) {
 
     // move north
     if(oPCLocVec.y > width - 10.0) {
-        WriteTimestampedLogEntry("Move North");
+        //WriteTimestampedLogEntry("Move North");
         return -1;
     }
     // move south
     if(oPCLocVec.y < 10.0) {
-        WriteTimestampedLogEntry("Move South");
+        //WriteTimestampedLogEntry("Move South");
         return 1;
     }
     // dont go anywhere

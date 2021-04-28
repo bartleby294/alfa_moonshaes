@@ -12,8 +12,8 @@ object GetEnteringPlayer(string playerName) {
 
     while (GetIsObjectValid(oPC))
     {
-        WriteTimestampedLogEntry("ms_evnt_cli_cona GetEnteringPlayer: " + GetPCPlayerName(oPC));
-        WriteTimestampedLogEntry("ms_evnt_cli_cona GetEnteringPlayer: " + GetName(oPC));
+        //WriteTimestampedLogEntry("ms_evnt_cli_cona GetEnteringPlayer: " + GetPCPlayerName(oPC));
+        //WriteTimestampedLogEntry("ms_evnt_cli_cona GetEnteringPlayer: " + GetName(oPC));
 
         if(GetPCPlayerName(oPC) == playerName) {
             return oPC;
@@ -33,14 +33,14 @@ void main( ) {
     string ipAddress = NWNX_Events_GetEventData("IP_ADDRESS");
 
     object poPC = GetEnteringPlayer(playerName);
-    WriteTimestampedLogEntry("ms_evnt_cli_cona name: " + GetName(poPC));
+    //WriteTimestampedLogEntry("ms_evnt_cli_cona name: " + GetName(poPC));
     location oLocation = ALFA_GetPersistentLocation(WK_LOCATION_TABLE,
                                                    "CurrentLocation", poPC);
 
-    WriteTimestampedLogEntry("ms_evnt_cli_cona playerName: " + playerName);
-    WriteTimestampedLogEntry("ms_evnt_cli_cona sCDKey: " + sCDKey);
-    WriteTimestampedLogEntry("ms_evnt_cli_cona isDM: " + isDM);
-    WriteTimestampedLogEntry("ms_evnt_cli_cona ipAddress: " + ipAddress);
+    //WriteTimestampedLogEntry("ms_evnt_cli_cona playerName: " + playerName);
+    //WriteTimestampedLogEntry("ms_evnt_cli_cona sCDKey: " + sCDKey);
+    //WriteTimestampedLogEntry("ms_evnt_cli_cona isDM: " + isDM);
+    //WriteTimestampedLogEntry("ms_evnt_cli_cona ipAddress: " + ipAddress);
 
     if(GetAreaFromLocation(oLocation) == OBJECT_INVALID) {
 
@@ -51,8 +51,8 @@ void main( ) {
             oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
         }
     } else {
-        WriteTimestampedLogEntry("ms_evnt_cli_cona AREA LOADED: "
-                                 + GetResRef(GetAreaFromLocation(oLocation)));
+        //WriteTimestampedLogEntry("ms_evnt_cli_cona AREA LOADED: "
+        //                         + GetResRef(GetAreaFromLocation(oLocation)));
     }
 
     object oWP = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", oLocation);

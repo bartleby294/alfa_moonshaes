@@ -299,17 +299,17 @@ void RemoveCutSceeneImob(object oPC) {
 
 void JumpToNewCharacterStart(object oPC) {
 
-    WriteTimestampedLogEntry("JumpToNewCharacterStart");
+   //WriteTimestampedLogEntry("JumpToNewCharacterStart");
 
     location oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
     float distance = GetDistanceBetweenLocations(GetLocation(oPC), oLocation);
-    WriteTimestampedLogEntry("distance: " + FloatToString(distance));
+    //WriteTimestampedLogEntry("distance: " + FloatToString(distance));
     if(distance > 20.0 || distance < 0.0) {
-        WriteTimestampedLogEntry("Jump to Location and run again");
+        //WriteTimestampedLogEntry("Jump to Location and run again");
         AssignCommand(oPC, ActionJumpToLocation(oLocation));
         DelayCommand(1.0, JumpToNewCharacterStart(oPC));
     } else {
-        WriteTimestampedLogEntry("JumpToNewCharacterStart return");
+        //WriteTimestampedLogEntry("JumpToNewCharacterStart return");
         return;
     }
 }

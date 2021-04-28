@@ -187,7 +187,7 @@ void SelfDestructCheck(object oPatron, object oArea) {
     if(NWNX_Area_GetNumberOfPlayersInArea(oArea) == 0) {
         if(NWNX_Time_GetTimeStamp() - lastPCSeen
             > MS_TAVERN_DESTORY_DELAY_SECONDS) {
-            WriteTimestampedLogEntry("Times Up Destroying Inn Patron");
+            WriteTimestampedLogEntry("MS TAVERN UTIL: Times Up Destroying Inn Patron");
             DestroyObject(oPatron);
             return;
         }

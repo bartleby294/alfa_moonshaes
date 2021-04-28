@@ -6,7 +6,7 @@
 void main( ) {
 
     object poPC = OBJECT_SELF;
-    WriteTimestampedLogEntry("ms_evnt_cli_dcob name: " + GetName(poPC));
+    //WriteTimestampedLogEntry("ms_evnt_cli_dcob name: " + GetName(poPC));
     location oLocation = GetLocation(poPC);
 
     if(GetAreaFromLocation(oLocation) == OBJECT_INVALID) {
@@ -18,8 +18,8 @@ void main( ) {
             oLocation = GetLocation(GetObjectByTag("WP_NEW_PC_START_LOCATION"));
         }
     } else {
-        WriteTimestampedLogEntry("ms_evnt_cli_dcob AREA LOADED: "
-                                 + GetResRef(GetAreaFromLocation(oLocation)));
+        //WriteTimestampedLogEntry("ms_evnt_cli_dcob AREA LOADED: "
+        //                         + GetResRef(GetAreaFromLocation(oLocation)));
     }
 
     SetCampaignLocation("nwnx_persistant_locations", GetPCPublicCDKey(poPC)

@@ -26,7 +26,7 @@ void HerbTearDown(object oArea) {
     while(curHerb != OBJECT_INVALID) {
          cnt++;
          CleanHerbInventory(curHerb);
-         WriteTimestampedLogEntry("MS HERBS: Destroying an herb - cnt:" + IntToString(cnt));
+         //WriteTimestampedLogEntry("MS HERBS: Destroying an herb - cnt:" + IntToString(cnt));
          DestroyObject(curHerb, 0.2);
          curHerb = GetNearestObjectByTag(MS_HERB_CONTAINER, baseObj, cnt);
     }
@@ -86,10 +86,10 @@ int CreateHerb(struct Herb herbStruct, location loc) {
         return FALSE;
     }
     vector pos = GetPositionFromLocation(loc);
-    WriteTimestampedLogEntry("MS HERBS: CreateHerb: " + herbStruct.containerResRef +
-                             " - at x: " + FloatToString(pos.x) + " y: " +
-                             FloatToString(pos.y)+ " z: " +
-                             FloatToString(pos.z));
+    //WriteTimestampedLogEntry("MS HERBS: CreateHerb: " + herbStruct.containerResRef +
+    //                         " - at x: " + FloatToString(pos.x) + " y: " +
+    //                        FloatToString(pos.y)+ " z: " +
+    //                         FloatToString(pos.z));
     object oHerb = CreateObject(OBJECT_TYPE_PLACEABLE,
                                 herbStruct.containerResRef,
                                 loc,

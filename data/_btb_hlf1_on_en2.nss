@@ -40,7 +40,7 @@ void plantCorn() {
         int objectFound = isObjectInArea(objTag);
         if(objectFound == 0) {
             CreateObject(OBJECT_TYPE_PLACEABLE, CORN_RESREF, GetLocation(wp), FALSE, objTag);
-            WriteTimestampedLogEntry("2 Created Corn: " + objTag);
+            //WriteTimestampedLogEntry("2 Created Corn: " + objTag);
         }
     }
 }

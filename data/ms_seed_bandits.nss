@@ -10,7 +10,7 @@ void TearBanditAmbushDown(object oArea) {
     object curTrigger = GetNearestObjectByTag(MS_BANDIT_AMBUSH_TRIGGER_1, baseObj, cnt);
     while(curTrigger != OBJECT_INVALID) {
          cnt++;
-         WriteTimestampedLogEntry("MS BANDIT AMBUSH: Destroying trigger - cnt:" + IntToString(cnt));
+         //WriteTimestampedLogEntry("MS BANDIT AMBUSH: Destroying trigger - cnt:" + IntToString(cnt));
          DestroyObject(curTrigger, 0.2);
          curTrigger = GetNearestObjectByTag(MS_BANDIT_AMBUSH_TRIGGER_1, baseObj, cnt);
     }
@@ -20,7 +20,7 @@ void TearBanditAmbushDown(object oArea) {
     curTrigger = GetNearestObjectByTag(MS_BANDIT_AMBUSH_TRIGGER_2, baseObj, cnt);
     while(curTrigger != OBJECT_INVALID) {
          cnt++;
-         WriteTimestampedLogEntry("MS BANDIT AMBUSH: Destroying trigger - cnt:" + IntToString(cnt));
+         //WriteTimestampedLogEntry("MS BANDIT AMBUSH: Destroying trigger - cnt:" + IntToString(cnt));
          DestroyObject(curTrigger, 0.2);
          curTrigger = GetNearestObjectByTag(MS_BANDIT_AMBUSH_TRIGGER_2, baseObj, cnt);
     }
@@ -30,7 +30,7 @@ void TearBanditAmbushDown(object oArea) {
     curTrigger = GetNearestObjectByTag(MS_BANDIT_AMBUSH_TRIGGER_3, baseObj, cnt);
     while(curTrigger != OBJECT_INVALID) {
          cnt++;
-         WriteTimestampedLogEntry("MS BANDIT AMBUSH: Destroying trigger - cnt:" + IntToString(cnt));
+         //WriteTimestampedLogEntry("MS BANDIT AMBUSH: Destroying trigger - cnt:" + IntToString(cnt));
          DestroyObject(curTrigger, 0.2);
          curTrigger = GetNearestObjectByTag(MS_BANDIT_AMBUSH_TRIGGER_3, baseObj, cnt);
     }

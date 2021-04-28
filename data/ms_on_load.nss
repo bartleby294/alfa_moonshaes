@@ -91,13 +91,13 @@ void MapAreas() {
 }
 
 void msOnLoad() {
-    WriteTimestampedLogEntry("PopulateActivePlayersArray");
+    WriteTimestampedLogEntry("MS ON MODULE LOAD: PopulateActivePlayersArray");
     PopulateActivePlayersArray();
-    WriteTimestampedLogEntry("SeedPlayerLocation");
+    WriteTimestampedLogEntry("MS ON MODULE LOAD: SeedPlayerLocation");
     SeedPlayerLocation();
-    WriteTimestampedLogEntry("checkBanditActivity");
+    WriteTimestampedLogEntry("MS ON MODULE LOAD: checkBanditActivity");
     checkBanditActivity();
-    WriteTimestampedLogEntry("MapAreas");
+    WriteTimestampedLogEntry("MS ON MODULE LOAD: MapAreas");
     MapAreas();
-    WriteTimestampedLogEntry("done with msOnLoad");
+    WriteTimestampedLogEntry("MS ON MODULE LOAD: Finished");
 }

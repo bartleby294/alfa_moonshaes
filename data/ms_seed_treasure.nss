@@ -28,7 +28,7 @@ void TearTreasureDown(object oArea) {
     while(curTreasure != OBJECT_INVALID) {
          cnt++;
          CleanTreasureInventory(curTreasure);
-         WriteTimestampedLogEntry("MS TREASURE: Destroying treasure - cnt:" + IntToString(cnt));
+         //WriteTimestampedLogEntry("MS TREASURE: Destroying treasure - cnt:" + IntToString(cnt));
          DestroyObject(curTreasure, 0.2);
          curTreasure = GetNearestObjectByTag(MS_TREASURE_CONTAINER, baseObj, cnt);
     }
@@ -78,10 +78,10 @@ int CreateTreasure(struct Treasure treasureStruct, location loc) {
         return FALSE;
     }
     vector pos = GetPositionFromLocation(loc);
-    WriteTimestampedLogEntry("MS TREASURE: CreateTreasure " + treasureStruct.burriedResRef +
-                             " - at x: " + FloatToString(pos.x) + " y: " +
-                             FloatToString(pos.y)+ " z: " +
-                             FloatToString(pos.z));
+    //WriteTimestampedLogEntry("MS TREASURE: CreateTreasure " + treasureStruct.burriedResRef +
+    //                         " - at x: " + FloatToString(pos.x) + " y: " +
+    //                         FloatToString(pos.y)+ " z: " +
+    //                         FloatToString(pos.z));
     object oTreasure = CreateObject(OBJECT_TYPE_PLACEABLE,
                                     treasureStruct.burriedResRef,
                                     loc,
