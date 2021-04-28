@@ -3215,6 +3215,61 @@ if(sTemplate == "sw_bandits")
             SetLocalInt(oSpawn, "IsBossSpawned", TRUE);
         }
     }
+
+if(sTemplate == "forestspn2wlf")
+{
+    switch(Random(9))
+    {
+        case 0: sRetTemplate = "rn_wolf_002"; break;
+        case 1: sRetTemplate = "rn_wolf_002"; break;
+        case 2: sRetTemplate = "rn_wolf_002"; break;
+        case 3: sRetTemplate = "rn_wolf_002"; break;
+        case 4: sRetTemplate = "rn_wolf_002"; break;
+        case 5: sRetTemplate = "rn_wolf_002"; break;
+        case 6: sRetTemplate = "rn_wolf_002"; break;
+        case 7: sRetTemplate = "rn_wolf_002"; break;
+        case 8: sRetTemplate = "boar001"; break;
+    }
+}
+
+if(sTemplate == "forestspn2boar")
+{
+    switch(Random(9))
+    {
+        case 0: sRetTemplate = "boar001"; break;
+        case 1: sRetTemplate = "boar001"; break;
+        case 2: sRetTemplate = "boar001"; break;
+        case 3: sRetTemplate = "boar001"; break;
+        case 4: sRetTemplate = "boar001"; break;
+        case 5: sRetTemplate = "boar001"; break;
+        case 6: sRetTemplate = "boar001"; break;
+        case 7: sRetTemplate = "boar001"; break;
+        case 8: sRetTemplate = "rn_wolf_002"; break;
+    }
+}
+
+        if(sTemplate == "forestspn2mix")
+{
+    switch(Random(12))
+    {
+        case 0: sRetTemplate = "boar001"; break;
+        case 1: sRetTemplate = "rn_wolf_002"; break;
+        case 2: sRetTemplate = "boar001"; break;
+        case 3: sRetTemplate = "rn_wolf_002"; break;
+        case 4: sRetTemplate = "boar001"; break;
+        case 5: sRetTemplate = "rn_wolf_002"; break;
+        case 6: sRetTemplate = "boar001"; break;
+        case 7: sRetTemplate = "rn_wolf_002"; break;
+        case 8: sRetTemplate = "boar001"; break;
+        case 9: sRetTemplate = "rn_wolf_002"; break;
+        case 10: sRetTemplate = "boar001"; break;
+        case 11: sRetTemplate = "rn_wolf_002"; break;
+    }
+}
+
+
+
+
     //
 
     // Scaled Encounter
