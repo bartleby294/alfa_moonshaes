@@ -17,19 +17,19 @@ int GetNextAreaWPTarget(int curWPInt) {
 
     int firstOutOfAreaWP = curWPInt;
     int curWPIntInArea = FALSE;
-    WriteTimestampedLogEntry("firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP));
+    //WriteTimestampedLogEntry("firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP));
     string waypointStr = baseWpStr + IntToString(firstOutOfAreaWP);
     object areaWP = GetNearestObjectByTag(waypointStr, OBJECT_SELF);
 
     while (areaWP != OBJECT_INVALID) {
             firstOutOfAreaWP++;
             curWPIntInArea = TRUE;
-            WriteTimestampedLogEntry("firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP));
+            //WriteTimestampedLogEntry("firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP));
             waypointStr = baseWpStr + IntToString(firstOutOfAreaWP);
             areaWP = GetNearestObjectByTag(waypointStr, OBJECT_SELF);
     }
 
-    WriteTimestampedLogEntry("returned firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP + 1));
+    //WriteTimestampedLogEntry("returned firstOutOfAreaWP: " + IntToString(firstOutOfAreaWP + 1));
 
     /* Don't increment if the waypoint is already out of the area. */
     if(curWPIntInArea) {
@@ -74,17 +74,17 @@ void main()
     location newLoc = Location(newArea, Vector(newX, newY, 0.0), 0.0);
     float newZ = GetGroundHeight(newLoc);
     newLoc = Location(newArea, Vector(newX, newY, newZ), 0.0);
-    WriteTimestampedLogEntry("Sending To: " + GetTag(newArea));
-    WriteTimestampedLogEntry("Sending To: (" + FloatToString(newX) + ", "
-                             + FloatToString(newY) + ", "
-                             + FloatToString(newZ));
-    WriteTimestampedLogEntry("curWPInt pre update: "
-                             + IntToString(GetLocalInt(enterObj, "curWP")));
+    //WriteTimestampedLogEntry("Sending To: " + GetTag(newArea));
+    //WriteTimestampedLogEntry("Sending To: (" + FloatToString(newX) + ", "
+    //                         + FloatToString(newY) + ", "
+    //                         + FloatToString(newZ));
+    //WriteTimestampedLogEntry("curWPInt pre update: "
+    //                         + IntToString(GetLocalInt(enterObj, "curWP")));
     int curWPInt = GetLocalInt(enterObj, "curWP");
     int nextWP = GetNextAreaWPTarget(curWPInt);
     SetLocalInt(enterObj, "curWP", nextWP);
-    WriteTimestampedLogEntry("curWPInt post update: "
-                             + IntToString(GetLocalInt(enterObj, "curWP")));
+    //WriteTimestampedLogEntry("curWPInt post update: "
+    //                         + IntToString(GetLocalInt(enterObj, "curWP")));
     AssignCommand(enterObj, ClearAllActions(TRUE));
     AssignCommand(enterObj, ActionJumpToLocation(newLoc));
     DelayCommand(2.0, SetLocalInt(enterObj, "waggonStopped", FALSE));

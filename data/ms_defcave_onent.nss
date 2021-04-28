@@ -84,7 +84,7 @@ void main()
        //                         + IntToString(SPIDER_WEB_DELAY_SECONDS));
         if(curTime - lastDestoryed > SPIDER_WEB_DELAY_SECONDS) {
             SetLocalInt(oArea, "processingWebs", TRUE);
-            WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Tearing down webs");
+            //WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Tearing down webs");
             TearWebsDown();
             //WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building webs");
             DelayCommand(0.5, BuildNewWebs());

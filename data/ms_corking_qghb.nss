@@ -40,7 +40,7 @@ void main()
     if(GetLocalInt(wagon, WAGON_ESCORT_STATE) == WAGON_STATE_UNAVAILABLE) {
         WriteTimestampedLogEntry("ms_corking_qghb: wagon state unabailable");
         if(NWNX_Time_GetTimeStamp() - lastWagon > WAGON_DELAY_SECONDS) {
-            WriteTimestampedLogEntry("ms_corking_qghb: wagon state available.");
+            //WriteTimestampedLogEntry("ms_corking_qghb: wagon state available.");
             SetLocalInt(wagon, WAGON_ESCORT_STATE, WAGON_STATE_AVAILABLE);
             turnOnLight(GetObjectByTag("mstradeleaguesignal1"));
             turnOnLight(GetObjectByTag("mstradeleaguesignal2"));

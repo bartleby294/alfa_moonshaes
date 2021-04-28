@@ -13,13 +13,13 @@ void RandomAreaSeed(object oArea) {
     int maxHerbs = GetCampaignInt(MAX_HERBS_PER_AREA, GetResRef(oArea));
     if(maxHerbs > 0) {
         if(numberOfPlayers > 1) {
-            WriteTimestampedLogEntry("MS HERBS: ON ENTER EXIT 1");
+            //WriteTimestampedLogEntry("MS HERBS: ON ENTER EXIT 1");
         } else {
             int lastHerbCreate = GetLocalInt(oArea, LAST_HERB_CREATE);
-            WriteTimestampedLogEntry("MS HERBS: curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS "
-                                     + IntToString(curTime) + " - "
-                                     + IntToString(lastHerbCreate) + " > "
-                                     + IntToString(HERB_CREATE_DELAY_SECONDS));
+            //WriteTimestampedLogEntry("MS HERBS: curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS "
+            //                         + IntToString(curTime) + " - "
+            //                         + IntToString(lastHerbCreate) + " > "
+            //                         + IntToString(HERB_CREATE_DELAY_SECONDS));
             if(curTime - lastHerbCreate > HERB_CREATE_DELAY_SECONDS) {
                 SetLocalInt(oArea, LAST_HERB_CREATE, curTime);
                 HerbTearDown(oArea);
@@ -32,13 +32,13 @@ void RandomAreaSeed(object oArea) {
     int treasure = GetCampaignInt(MS_TREASURE_PER_AREA, GetResRef(oArea));
     if(treasure > 0) {
         if(numberOfPlayers > 1) {
-            WriteTimestampedLogEntry("MS TREASURE: ON ENTER EXIT 1");
+            //WriteTimestampedLogEntry("MS TREASURE: ON ENTER EXIT 1");
         } else {
             int lastTreasureCreate = GetLocalInt(oArea, LAST_TREASURE_CREATE);
-            WriteTimestampedLogEntry("curTime - lastTreasureCreate > TREASURE_CREATE_DELAY_SECONDS "
-                                     + IntToString(curTime) + " - "
-                                     + IntToString(lastTreasureCreate) + " > "
-                                     + IntToString(TREASURE_CREATE_DELAY_SECONDS));
+            //WriteTimestampedLogEntry("curTime - lastTreasureCreate > TREASURE_CREATE_DELAY_SECONDS "
+            //                         + IntToString(curTime) + " - "
+            //                         + IntToString(lastTreasureCreate) + " > "
+            //                         + IntToString(TREASURE_CREATE_DELAY_SECONDS));
             if(curTime - lastTreasureCreate > TREASURE_CREATE_DELAY_SECONDS) {
                 //if(Random(100) > 80) {
                 if(Random(100) >= 0) { // Testing Mode
@@ -54,13 +54,13 @@ void RandomAreaSeed(object oArea) {
     int bandits = GetCampaignInt(MS_BANDITS_PER_AREA, GetResRef(oArea));
     if(bandits > 0) {
         if(numberOfPlayers > 1) {
-            WriteTimestampedLogEntry("MS BANDIT AMBUSH: ON ENTER EXIT 1");
+            //WriteTimestampedLogEntry("MS BANDIT AMBUSH: ON ENTER EXIT 1");
         } else {
             int lastBanditCreate = GetLocalInt(oArea, LAST_BANDIT_AMBUSH_CREATE);
-            WriteTimestampedLogEntry("curTime - lastBanditAmbushCreate > BANDIT_AMBUSH_CREATE_DELAY_SECONDS "
-                                     + IntToString(curTime) + " - "
-                                     + IntToString(lastBanditCreate) + " > "
-                                     + IntToString(BANDIT_AMBUSH_CREATE_DELAY_SECONDS));
+            //WriteTimestampedLogEntry("curTime - lastBanditAmbushCreate > BANDIT_AMBUSH_CREATE_DELAY_SECONDS "
+            //                         + IntToString(curTime) + " - "
+            //                         + IntToString(lastBanditCreate) + " > "
+            //                         + IntToString(BANDIT_AMBUSH_CREATE_DELAY_SECONDS));
             if(curTime - lastBanditCreate > BANDIT_AMBUSH_CREATE_DELAY_SECONDS) {
                 //if(Random(100) > 80) {
                 if(Random(100) >= 0) { // Testing Mode
@@ -76,13 +76,13 @@ void RandomAreaSeed(object oArea) {
     int banditCampLvl = GetCampaignInt(MS_BANDIT_CAMP_NUM, GetResRef(oArea));
     if(banditCampLvl > 0) {
         if(numberOfPlayers > 1) {
-            WriteTimestampedLogEntry("MS BANDIT CAMP: ON ENTER EXIT 1");
+            //WriteTimestampedLogEntry("MS BANDIT CAMP: ON ENTER EXIT 1");
         } else {
             int lastBanditCampCreate = GetCampaignInt("BANDIT_CAMP", "BANDIT_CAMP_" + GetTag(oArea));
-            WriteTimestampedLogEntry("curTime - lastBanditCampCreate > BANDIT_CAMP_RESPAWN_DELAY_SECONDS "
-                                     + IntToString(curTime) + " - "
-                                     + IntToString(lastBanditCampCreate) + " > "
-                                     + IntToString(BANDIT_CAMP_RESPAWN_DELAY_SECONDS));
+            //WriteTimestampedLogEntry("curTime - lastBanditCampCreate > BANDIT_CAMP_RESPAWN_DELAY_SECONDS "
+            //                         + IntToString(curTime) + " - "
+            //                         + IntToString(lastBanditCampCreate) + " > "
+            //                         + IntToString(BANDIT_CAMP_RESPAWN_DELAY_SECONDS));
             if(curTime - lastBanditCampCreate > BANDIT_CAMP_RESPAWN_DELAY_SECONDS) {
                 //if(Random(100) > 80) {
                 if(Random(100) >= 0) { // Testing Mode

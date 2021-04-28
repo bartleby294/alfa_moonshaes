@@ -31,7 +31,8 @@ void DeathCheck(int iDeaths);
 
 void main()
 {
-    int fullStartTime = NWNX_Time_GetTimeStamp();
+    //int fullStartTime = NWNX_Time_HighResTimestamp();
+    struct NWNX_Time_HighResTimestamp fullStartTime = NWNX_Time_GetHighResTimeStamp();
     // If we are set to, don't fire this script at all
     if(GetAIInteger(I_AM_TOTALLY_DEAD)) return;
 
@@ -177,8 +178,8 @@ void main()
     //**************** ALFA Mod
     ALFA_DeathNotifySpawner(OBJECT_SELF);
     //**************** End ALFA Mod
-
-    int fullTimeElapsed = NWNX_Time_GetTimeStamp() - fullStartTime;
+    struct NWNX_Time_HighResTimestamp fullEndTime = NWNX_Time_GetHighResTimeStamp();
+    int fullTimeElapsed = fullEndTime.microseconds - fullStartTime.microseconds;
     WriteTimestampedLogEntry("Full Time Elapsed: "
                              + IntToString(fullTimeElapsed) + " ms");
 }

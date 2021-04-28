@@ -24,11 +24,11 @@ void SeedAreaWithPatrons(object oArea) {
     int maxPatrons = chairCnt/2;
     int patronsToCreate =  Random(maxPatrons/4) + maxPatrons/4;
 
-    WriteTimestampedLogEntry("patronsToCreate: " + IntToString(patronsToCreate));
-    WriteTimestampedLogEntry("maxPatrons: " + IntToString(maxPatrons));
+    WriteTimestampedLogEntry("MS TAVERN ON ENTER: patronsToCreate: " + IntToString(patronsToCreate));
+    WriteTimestampedLogEntry("MS TAVERN ON ENTER:maxPatrons: " + IntToString(maxPatrons));
 
     while(patronsCreated < patronsToCreate) {
-        WriteTimestampedLogEntry("patronsCreated: " + IntToString(patronsCreated));
+        WriteTimestampedLogEntry("MS TAVERN ON ENTER: patronsCreated: " + IntToString(patronsCreated));
         CreatePatronAtChair(oArea, chairCnt);
         patronsCreated++;
     }

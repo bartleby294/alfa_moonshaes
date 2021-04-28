@@ -259,7 +259,7 @@ void RandomMove() {
     location randLoc = pickLoc(OBJECT_SELF, offset, angle);
     AssignCommand(OBJECT_SELF, ActionMoveToLocation(randLoc));
     vector locvec = GetPositionFromLocation(randLoc);
-    WriteTimestampedLogEntry("MS TAVERN: Random Move - ("
+    WriteTimestampedLogEntry("MS TAVERN ON HB: Random Move - ("
                              + FloatToString(locvec.x) + ","
                              + FloatToString(locvec.y) + ")");
 }
@@ -296,7 +296,7 @@ void main()
     int patronState = GetLocalInt(oPatron, MS_TAVERN_PATRON_STATE);
 
     if(checkIfStuck(patronState) == TRUE) {
-        WriteTimestampedLogEntry("MS TAVERN: STUCK PC");
+        WriteTimestampedLogEntry("MS TAVERN ON HB: STUCK PC");
         RandomMove();
         return;
     }

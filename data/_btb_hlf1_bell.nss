@@ -276,23 +276,23 @@ int getCornCount() {
     int cnt = 0;
     while(i < 49) {
         if(isObjectInArea("hlf_f1_corn_obj_" + IntToString(i)) == TRUE) {
-            WriteTimestampedLogEntry("hlf_f1_corn_obj_" + IntToString(i) + " Exists");
+           //WriteTimestampedLogEntry("hlf_f1_corn_obj_" + IntToString(i) + " Exists");
             cnt++;
         } else {
-            WriteTimestampedLogEntry("hlf_f1_corn_obj_" + IntToString(i) + " Does Not Exist");
+            //WriteTimestampedLogEntry("hlf_f1_corn_obj_" + IntToString(i) + " Does Not Exist");
         }
         i++;
     }
-    WriteTimestampedLogEntry("cnt: " + IntToString(cnt));
+    //WriteTimestampedLogEntry("cnt: " + IntToString(cnt));
     return cnt;
 }
 
 /* Count up the corn thats left and put 2x the corn in the barrel. */
 void rewardCorn() {
-    WriteTimestampedLogEntry("=========Ending Corn Count=========");
+    //WriteTimestampedLogEntry("=========Ending Corn Count=========");
     int cornCnt = getCornCount();
     int cornLeft = cornCnt * 2;
-    WriteTimestampedLogEntry("===================================");
+    //WriteTimestampedLogEntry("===================================");
 
     object cornBarrel = GetObjectByTag("rewardCorn");
 
@@ -324,9 +324,9 @@ void startRaid() {
     string BASE_OBJ_TAG = "hlf_f1_corn_obj_";
     string CORN_RESREF = "alfa_produce014";
 
-    WriteTimestampedLogEntry("========Starting Corn Count========");
+    //WriteTimestampedLogEntry("========Starting Corn Count========");
     getCornCount();
-    WriteTimestampedLogEntry("===================================");
+    //WriteTimestampedLogEntry("===================================");
 
     // do 1d5 + 10 total raids
     int numberOfRaids = Random(7) + 14;

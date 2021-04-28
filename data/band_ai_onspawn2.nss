@@ -79,28 +79,28 @@ void main()
     if(tag == "hapm_bandit_1"
         || tag == "hopm_bandit_1"
         || tag == "hupm_bandit_1") {
-        WriteTimestampedLogEntry("isPreist");
+        WriteTimestampedLogEntry("BANDIT CAMP: isPreist");
         isPreist = TRUE;
     }
 
     if(tag == "hafm_bandit_1"
         || tag == "hofm_bandit_1"
         || tag == "hufm_bandit_1") {
-        WriteTimestampedLogEntry("isFighter");
+        WriteTimestampedLogEntry("BANDIT CAMP: isFighter");
         isFighter = TRUE;
     }
 
     if(tag == "harm_bandit_1"
         || tag == "horm_bandit_1"
         || tag == "hurm_bandit_1") {
-        WriteTimestampedLogEntry("isRogue");
+        WriteTimestampedLogEntry("BANDIT CAMP: isRogue");
         isRogue = TRUE;
     }
 
     if(tag == "hawm_bandit_1"
         || tag == "howm_bandit_1"
         || tag == "huwm_bandit_1") {
-        WriteTimestampedLogEntry("isMage");
+        WriteTimestampedLogEntry("BANDIT CAMP: isMage");
         isMage = TRUE;
     }
 
