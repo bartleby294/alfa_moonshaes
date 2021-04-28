@@ -3,8 +3,15 @@
 void main()
 {
     object oPC = GetEnteringObject();
-    object tree1 = GetObjectByTag("TreePine001divinity");
-    NWNX_Visibility_SetVisibilityOverride(oPC, tree1,
+    int nNth = 0;
+    string sTag = "TreePine001divinity";
+    object oObject = GetObjectByTag(sTag, nNth);
+    while(GetIsObjectValid(oObject))
+    {
+        // Do something
+    NWNX_Visibility_SetVisibilityOverride(oPC, oObject,
                                           NWNX_VISIBILITY_ALWAYS_VISIBLE);
-       ExecuteScript("ms_on_area_enter");
+        oObject = GetObjectByTag(sTag, ++nNth);
+    }
+    ExecuteScript("ms_on_area_enter");
 }

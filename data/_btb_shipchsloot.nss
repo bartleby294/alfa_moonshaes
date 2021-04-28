@@ -8,7 +8,7 @@
 void main() {
      int lootGened = GetLocalInt(OBJECT_SELF, "lootgenyet");
          if(lootGened == FALSE && Random (2) == 1) {
-            generateLootByChance(120, OBJECT_SELF, 4, 10, 20, 20, 10, 20, 20) ;
+            generateLootByChance(150, OBJECT_SELF, 4, 5, 20, 20, 10, 20, 25) ;
 }
      SetLocalInt(OBJECT_SELF, "lootgenyet", TRUE);
 
