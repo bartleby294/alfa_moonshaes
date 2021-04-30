@@ -63,7 +63,7 @@ void SeedPlayerLocation() {
                                                      ACTIVE_PLAYER_LIST, i);
         location playerLoc = GetCampaignLocation(NWNX_PERSISTANT_LOCATIONS,
                                                  activePlayer);
-        //WriteTimestampedLogEntry("activePlayer: " + activePlayer);
+        WriteTimestampedLogEntry("activePlayer: " + activePlayer);
         int apStrLen = GetStringLength(activePlayer);
         string cdKey = GetStringLeft(activePlayer, 8);
         string bicName = GetStringRight(activePlayer, apStrLen - 8);
@@ -75,11 +75,11 @@ void SeedPlayerLocation() {
         string areaTagLoc = GetTag(GetAreaFromLocation(playerLoc));
         vector positionLoc = GetPositionFromLocation(playerLoc);
 
-        //WriteTimestampedLogEntry("areaTag: " + areaTag);
+        WriteTimestampedLogEntry("areaTag: " + areaTag);
         PrintVectorToLog("position: ", position);
 
         //WriteTimestampedLogEntry("areaTagLoc: " + areaTagLoc);
-        PrintVectorToLog("positionLoc: ", positionLoc);
+        //PrintVectorToLog("positionLoc: ", positionLoc);
 
         playerLoc = Location(GetObjectByTag(areaTag), position, 0.0);
         ////////////////////////////////////////////////////////////////////////

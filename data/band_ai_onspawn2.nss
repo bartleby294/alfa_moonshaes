@@ -108,7 +108,8 @@ void main()
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eGoFast, OBJECT_SELF);
 
 /************************ [Important Spawn Settings] **************************/
-    SetAIInteger(AI_INTELLIGENCE, 10);
+    int intNum = GetCampaignInt("MS_TOGGLES", "MS_TOGGLES_BANDIT_INT");
+    SetAIInteger(AI_INTELLIGENCE, intNum);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
     SetAIInteger(AI_MORALE, 5);
         // Will save (See readme). Remember: -1 or below means they always flee.
