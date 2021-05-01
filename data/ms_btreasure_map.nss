@@ -1,5 +1,6 @@
 #include "ms_seed_treasure"
 #include "ms_aat_utility"
+#include "ms_treas_declare"
 
 const string MS_BTREASURE_AREA = "ms_btreasure_area";
 
@@ -63,35 +64,43 @@ void main()
     string playerMsg = "The treasure seems to be some where ";
 
     if(distance >= 5.0) {
-        playerMsg += "far to the ";
-    } else if ( distance > 0.0 && distance <= 2.0) {
+        playerMsg += "far to the";
+    } else if ( distance > 2.0 && distance < 5.0) {
          playerMsg += "to the ";
     } else if (distance > 0.0 && distance <= 2.0) {
-         playerMsg += "near by to the ";
+         playerMsg += "near by to the";
     } else {
          playerMsg += "in this general area";
     }
 
     if(distance > 0.0) {
         if(isNorth == TRUE) {
-             playerMsg += "N";
+             playerMsg += " North";
         }
         if(isSouth == TRUE) {
-             playerMsg += "S";
+             playerMsg += " South";
         }
 
         if(isEast == TRUE) {
-             playerMsg += "E";
+             playerMsg += " East";
         }
 
         if(isWest == TRUE) {
-             playerMsg += "W";
+             playerMsg += " West";
         }
     }
 
     playerMsg += ".";
 
     SendMessageToPC(oPC, playerMsg);
+
+    // if we are in the same area as the treasure reveal it.
+    if(distance == 0.0) {
+        object oTreasure = GetNearestObjectByTag(MS_TREASURE_CONTAINER);
+        NWNX_Visibility_SetVisibilityOverride(OBJECT_INVALID, oTreasure,
+                                                       NWNX_VISIBILITY_DEFAULT);
+        DestroyObject(oMap);
+    }
 
     WriteTimestampedLogEntry("BANDIT TREASURE MAP: Activated");
     WriteTimestampedLogEntry("BANDIT TREASURE MAP: Treasure Area - " + oTreasureAreaTag);
