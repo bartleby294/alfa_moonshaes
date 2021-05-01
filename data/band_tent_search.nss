@@ -3,7 +3,7 @@ object chooseLoot() {
     return OBJECT_INVALID;
 }
 
-void main()
+void mainOld()
 {
     int searchSuccess = 0;
     object oPC = GetLastUsedBy();
@@ -27,4 +27,38 @@ void main()
 
 
     DestroyObject(OBJECT_SELF, 1.0);
+}
+
+void CreateBanditMapPeice(location loc) {
+
+    string mapResRef = "ms_bmap_1";
+    string countType = "q";
+    string type = "j";
+
+    int cntChance = d6();
+    if(cntChance == 6) {
+        countType = "h";
+    } else if(cntChance > 3) {
+        countType = "t";
+    }
+
+    int typeChance = d3();
+    if(cntChance == 3) {
+        type = "r";
+    } else if(cntChance == 2) {
+        type = "t";
+    }
+
+    mapResRef +=  countType + "_" + type;
+    WriteTimestampedLogEntry("BANDIT TREASURE MAP: Tent Creating map " + mapResRef);
+
+    CreateObject(OBJECT_TYPE_ITEM, mapResRef, loc);
+}
+
+void main() {
+    object oPC = GetLastAttacker();
+    location lTentLocation = GetLocation(OBJECT_SELF);
+    if(d6() == 6) {
+        CreateBanditMapPeice(lTentLocation);
+    }
 }

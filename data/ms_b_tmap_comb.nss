@@ -23,7 +23,7 @@ void main()
 
     // Abort if stacked and msg player.
     if(GetItemStackSize(oMapPeice) > 1 || GetItemStackSize(oMapTarget) > 1) {
-        SendMessageToPC(oPC, "Maybe I should unstack the map peices so I dont mix them up.");
+        SendMessageToPC(oPC, "I should unstack the map peices so I dont mix them up.");
         return;
     }
 
@@ -47,6 +47,7 @@ void main()
     // if not a valid combination return out.
     if(MapStyleStr != TargetStyleStr || MapTypeStr != TargetTypeStr
        || combinedQty > completeQty) {
+        SendMessageToPC(oPC, "Those don't seem to fit together.");
         return;
     }
 
