@@ -93,4 +93,9 @@ void main()
 
     SendMessageToPC(oPC, playerMsg);
 
+    WriteTimestampedLogEntry("BANDIT TREASURE MAP: Activated");
+    WriteTimestampedLogEntry("BANDIT TREASURE MAP: Treasure Area - " + oTreasureAreaTag);
+    WriteTimestampedLogEntry("BANDIT TREASURE MAP: PC MSG - " + playerMsg);
+    WriteTimestampedLogEntry("BANDIT TREASURE MAP: X distance - " + IntToString(b));
+    WriteTimestampedLogEntry("BANDIT TREASURE MAP: Y distance - " + IntToString(a));
 }
