@@ -53,7 +53,7 @@ void main()
     float aSqr = a * a * 1.0;
     float bSqr = b * b * 1.0;
 
-    float distance = sqrt(aSqr * bSqr);
+    float distance = sqrt(aSqr + bSqr);
 
     // more than 5 is a "far to the".
     // 2-5 is is "to the"
@@ -98,4 +98,5 @@ void main()
     WriteTimestampedLogEntry("BANDIT TREASURE MAP: PC MSG - " + playerMsg);
     WriteTimestampedLogEntry("BANDIT TREASURE MAP: X distance - " + IntToString(b));
     WriteTimestampedLogEntry("BANDIT TREASURE MAP: Y distance - " + IntToString(a));
+    WriteTimestampedLogEntry("BANDIT TREASURE MAP: distance - " + FloatToString(distance));
 }
