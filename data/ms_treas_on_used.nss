@@ -58,5 +58,11 @@ void main()
     SetEventScript(chest, EVENT_SCRIPT_PLACEABLE_ON_INVENTORYDISTURBED,
                    "ms_treas_on_invd");
 
+    // Automatically remove the treasure from the area
+    string areaStr = GetResRef(GetArea(oPC));
+    SetCampaignInt(MS_TREASURE_PER_AREA, areaStr, 0);
+    WriteTimestampedLogEntry("BANDIT TREASURE: Found in area " + areaStr
+                             + " setting treasure amount for this area to 0.");
+
     DestroyObject(OBJECT_SELF, 0.2);
 }
