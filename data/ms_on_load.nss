@@ -53,7 +53,7 @@ void MapAreasWithDelay() {
     DelayCommand(33.0 * loadDilation, MapAreaTerrain(GetObjectByTag("cc_49_e")));
 }
 
-void MapAreas() {
+void MapAreasOld2() {
 
     MapAreaTerrain(GetObjectByTag("q_50_e"));
     MapAreaTerrain(GetObjectByTag("r_50_e"));
@@ -90,7 +90,60 @@ void MapAreas() {
     MapAreaTerrain(GetObjectByTag("cc_49_e"));
 }
 
+void MapAreas() {
+
+    object oModule = GetModule();
+    int maxI = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, oModule,
+                                    "ms_module_areas");
+    int i = 0;
+    while(i < maxI) {
+        string areaStr = NWNX_Data_Array_At_Str(oModule, "ms_module_areas", i);
+        MapAreaTerrain(GetObjectByTag(areaStr));
+        i++;
+    }
+}
+
+void SeedMSAreasArray() {
+
+    object oModule = GetModule();
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "q_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "r_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "s_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "t_49_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "t_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "u_49_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "u_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "v_48_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "v_49_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "v_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "v_51_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "v_52_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "w_48_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "w_49_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "w_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "w_51_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "w_52_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "w_53_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "x_49_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "x_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "x_51_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "y_49_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "y_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "z_49_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "z_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "aa_48_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "aa_49_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "aa_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "bb_48_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "bb_49_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "bb_50_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "cc_48_e");
+    NWNX_Data_Array_PushBack_Str(oModule, "ms_module_areas", "cc_49_e");
+}
+
 void msOnLoad() {
+    WriteTimestampedLogEntry("MS ON MODULE LOAD: SeedMSAreasArray");
+    SeedMSAreasArray();
     WriteTimestampedLogEntry("MS ON MODULE LOAD: PopulateActivePlayersArray");
     PopulateActivePlayersArray();
     WriteTimestampedLogEntry("MS ON MODULE LOAD: SeedPlayerLocation");
