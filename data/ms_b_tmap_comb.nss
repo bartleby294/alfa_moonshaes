@@ -51,7 +51,7 @@ void main()
     // Else combine them!
     } else {
         string assembledResRef = "ms_bmap_" + IntToString(combinedQty)
-                                 + MapStyleStr + "_" + MapTypeStr;
+                                 + MapTypeStr + "_" + MapStyleStr;
         CreateItemOnObject(assembledResRef, oPC);
         WriteTimestampedLogEntry("BANDIT TREASURE MAP: creating " + assembledResRef);
     }
