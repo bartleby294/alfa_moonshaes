@@ -21,6 +21,12 @@ void main()
     object oMapPeice = GetItemActivated();
     object oMapTarget = GetItemActivatedTarget();
 
+    // Abort if stacked and msg player.
+    if(GetItemStackSize(oMapPeice) > 1 || GetItemStackSize(oMapTarget) > 1) {
+        SendMessageToPC(oPC, "Maybe I should unstack the map peices so I dont mix them up.");
+        return;
+    }
+
     string oMapPeiceTag = GetTag(oMapPeice);
     string oMapTargetTag = GetTag(oMapTarget);
 
@@ -31,9 +37,9 @@ void main()
     int MapQty = StringToInt(GetSubString(oMapPeiceTag, 8, 1));
     string MapTypeStr = GetSubString(oMapPeiceTag, 9, 1);
 
-    string TargetStyleStr = GetStringRight(oMapPeiceTag, 1);
-    int TargetQty = StringToInt(GetSubString(oMapPeiceTag, 8, 1));
-    string TargetTypeStr = GetSubString(oMapPeiceTag, 9, 1);
+    string TargetStyleStr = GetStringRight(oMapTargetTag, 1);
+    int TargetQty = StringToInt(GetSubString(oMapTargetTag, 8, 1));
+    string TargetTypeStr = GetSubString(oMapTargetTag, 9, 1);
 
     int completeQty = GetCompleteQty(MapTypeStr);
     int combinedQty = MapQty + TargetQty;
