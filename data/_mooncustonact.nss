@@ -6,6 +6,20 @@ int MoonshaesCustom(object oPC)
    object oItem = GetItemActivated();
    WriteTimestampedLogEntry("MoonCustOnAct: |" + GetTag(oItem) + "|");
 
+   //partial bandit treasure map
+   if(GetStringLeft(GetTag(oItem), 8) == "ms_bmap_")
+   {
+        ExecuteScript("ms_b_tmap_comb", oPC);
+        return TRUE;
+   }
+
+   //bandit treasure map
+   if(GetTag(oItem) == "ms_btreasure_map")
+   {
+        ExecuteScript("ms_btreasure_map", oPC);
+        return TRUE;
+   }
+
    //regular tent
    if(GetTag(oItem) == "Tent")
    {
