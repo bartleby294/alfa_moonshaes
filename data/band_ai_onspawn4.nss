@@ -118,7 +118,7 @@ void main()
     if (nScaledInt < 1) nScaledInt = 1;
     else if (nScaledInt > 10) nScaledInt = 10;
     //PrintString("nScaledInt for this creature is " + IntToString(nScaledInt));
-    SetAIInteger(AI_INTELLIGENCE, nScaledInt);
+    SetAIInteger(AI_INTELLIGENCE, 8);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
 //*************************** End ALFA Mod
 
@@ -251,12 +251,14 @@ void main()
         // Set if you want them to move forwards into HTH sooner. Will always
         // if the enemy is a mage/archer, else % based on range.
 
-    //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ATTACKING, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ATTACKING, AI_COMBAT_MASTER);
         // For archers. If they have ally support, they'd rather move back & shoot then go into HTH.
     SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_MOVE_BACK, AI_COMBAT_MASTER);
         // This forces the move back from attackers, and shoot bows. Very small chance to go melee.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_USE_BOW, AI_COMBAT_MASTER);
-        // This will make the creature ALWAYs use any bows it has. ALWAYS.
+    if(isRogue == TRUE || isMage == TRUE) {
+        SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_USE_BOW, AI_COMBAT_MASTER);
+            // This will make the creature ALWAYs use any bows it has. ALWAYS.
+    }
 
     SetSpawnInCondition(AI_FLAG_COMBAT_NO_GO_FOR_THE_KILL, AI_COMBAT_MASTER);
         // Turns off any attempts to kill dying PCs, or attack low hit point people.
