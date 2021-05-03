@@ -139,7 +139,8 @@ void main()
                     // - Variable range On Spawn
                     ShoutBossShout(oPerceived);
                     ////////////////////////////////////////////////////////////
-                    onAttackActions("We got a snoop!");
+                    // Disabled for testing 2021-05-02
+                    //onAttackActions("We got a snoop!");
                     ////////////////////////////////////////////////////////////
 
                     // Warn others

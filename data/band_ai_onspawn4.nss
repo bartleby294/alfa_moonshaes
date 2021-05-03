@@ -66,15 +66,62 @@
 
 // This is required for all spawn in options!
 #include "j_inc_spawnin"
+//*************** ALFA Mod
+#include "alfa_include"
+//*************** End ALFA Mod
 
 void main()
 {
+/************************ [Important Spawn Settings] **************************/
+
+//*************************** ALFA Mod
+
+    int isRogue = FALSE;
+    int isPreist = FALSE;
+    int isFighter = FALSE;
+    int isMage = FALSE;
+
+    string tag = GetResRef(OBJECT_SELF);
+
+    if(tag == "hapm_bandit_1"
+        || tag == "hopm_bandit_1"
+        || tag == "hupm_bandit_1") {
+        WriteTimestampedLogEntry("BANDIT CAMP: isPreist");
+        isPreist = TRUE;
+    }
+
+    if(tag == "hafm_bandit_1"
+        || tag == "hofm_bandit_1"
+        || tag == "hufm_bandit_1") {
+        WriteTimestampedLogEntry("BANDIT CAMP: isFighter");
+        isFighter = TRUE;
+    }
+
+    if(tag == "harm_bandit_1"
+        || tag == "horm_bandit_1"
+        || tag == "hurm_bandit_1") {
+        WriteTimestampedLogEntry("BANDIT CAMP: isRogue");
+        isRogue = TRUE;
+    }
+
+    if(tag == "hawm_bandit_1"
+        || tag == "howm_bandit_1"
+        || tag == "huwm_bandit_1") {
+        WriteTimestampedLogEntry("BANDIT CAMP: isMage");
+        isMage = TRUE;
+    }
+
     effect eGoFast = EffectMovementSpeedIncrease(20);
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eGoFast, OBJECT_SELF);
 
-/************************ [Important Spawn Settings] **************************/
-    SetAIInteger(AI_INTELLIGENCE, 10);
+    int nScaledInt = GetAbilityScore(OBJECT_SELF, ABILITY_INTELLIGENCE) / 2;
+    if (nScaledInt < 1) nScaledInt = 1;
+    else if (nScaledInt > 10) nScaledInt = 10;
+    //PrintString("nScaledInt for this creature is " + IntToString(nScaledInt));
+    SetAIInteger(AI_INTELLIGENCE, nScaledInt);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
+//*************************** End ALFA Mod
+
     SetAIInteger(AI_MORALE, 10);
         // Will save (See readme). Remember: -1 or below means they always flee.
     //SetCustomAIFileName("CUSTOM_AI_FILE");
@@ -99,13 +146,13 @@ void main()
     SetSpawnInCondition(AI_FLAG_TARGETING_LIKE_PCS, AI_TARGETING_FLEE_MASTER);
         // We go for the nearest seen PC enemy.
 
-    //SetAIConstant(AI_FAVOURED_ENEMY_RACE, RACIAL_TYPE_HUMAN);
+    SetAIConstant(AI_FAVOURED_ENEMY_RACE, RACIAL_TYPE_HUMAN);
         // The AI attacks the nearest enemy, seen, of this race. Use the RACIAL_* constants.
     //SetAIConstant(AI_FAVOURED_ENEMY_CLASS, CLASS_TYPE_BARD);
         // The AI attacks the nearest enemy, seen, of this class. Use the CLASS_* constants.
 
     // Target changing - see readme for info.
-    //SetAIInteger(AI_MAX_TURNS_TO_ATTACK_ONE_TARGET, 6);
+    SetAIInteger(AI_MAX_TURNS_TO_ATTACK_ONE_TARGET, 6);
         // Maximum rounds to attack the current target, before re-checking.
     // % Chance to re-set each target type each round (Could result in current target still)
     //SetAIInteger(AI_MELEE_LAST_TO_NEW_TARGET_CHANCE, 20);
@@ -159,7 +206,7 @@ void main()
     3 or under intelligence will just run away. 4 or more will know where allies
     are, and if there are none, will not run.
 ************************* [Fleeing] *******************************************/
-    SetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER);
+    //SetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER);
         // Forces them to not flee. This may be set with AI_SetMaybeFearless at the end.
     SetSpawnInCondition(AI_FLAG_FLEEING_NEVER_FIGHT_IMPOSSIBLE_ODDS, AI_TARGETING_FLEE_MASTER);
         // This will make the creature never fight against impossible odds (8HD+ different)
@@ -181,12 +228,12 @@ void main()
     //SetAIInteger(AI_DAMAGE_AT_ONCE_PENALTY, 6);
         // Penalty for the above, set for some time to negativly affect morale. Added to save DC for fleeing.
 
-    SetSpawnInCondition(AI_FLAG_FLEEING_FLEE_TO_NEAREST_NONE_SEEN, AI_TARGETING_FLEE_MASTER);
+    //SetSpawnInCondition(AI_FLAG_FLEEING_FLEE_TO_NEAREST_NONE_SEEN, AI_TARGETING_FLEE_MASTER);
         // If set, just runs to nearest non-seen ally, and removes the loop for a good group of allies to run to.
 
     SetSpawnInCondition(AI_FLAG_FLEEING_FLEE_TO_OBJECT, AI_TARGETING_FLEE_MASTER);
         // They will flee to the nearest object of the tag below, if set.
-    SetLocalString(OBJECT_SELF, AI_FLEE_OBJECT, "BOSS_TAG_OR_WHATEVER");
+    SetLocalString(OBJECT_SELF, AI_FLEE_OBJECT, "banditcampfire1");
         // This needs setting if the above is to work.
 /************************ [Fleeing] *******************************************/
 
@@ -197,7 +244,7 @@ void main()
     SetSpawnInCondition(AI_FLAG_COMBAT_PICK_UP_DISARMED_WEAPONS, AI_COMBAT_MASTER);
         // This sets to pick up weapons which are disarmed.
 
-    //SetAIInteger(AI_RANGED_WEAPON_RANGE, 3);
+    SetAIInteger(AI_RANGED_WEAPON_RANGE, 3);
         // This is the range at which they go into melee (from using a ranged weapon). Default is 3 or 5.
 
     //SetSpawnInCondition(AI_FLAG_COMBAT_BETTER_AT_HAND_TO_HAND, AI_COMBAT_MASTER);
@@ -206,12 +253,12 @@ void main()
 
     //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ATTACKING, AI_COMBAT_MASTER);
         // For archers. If they have ally support, they'd rather move back & shoot then go into HTH.
-    //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_MOVE_BACK, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_MOVE_BACK, AI_COMBAT_MASTER);
         // This forces the move back from attackers, and shoot bows. Very small chance to go melee.
     //SetSpawnInCondition(AI_FLAG_COMBAT_ARCHER_ALWAYS_USE_BOW, AI_COMBAT_MASTER);
         // This will make the creature ALWAYs use any bows it has. ALWAYS.
 
-    //SetSpawnInCondition(AI_FLAG_COMBAT_NO_GO_FOR_THE_KILL, AI_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_COMBAT_NO_GO_FOR_THE_KILL, AI_COMBAT_MASTER);
         // Turns off any attempts to kill dying PCs, or attack low hit point people.
         // This is only ever attempted at 9 or 10 intelligence anyway.
 /************************ [Combat - Fighters] *********************************/
@@ -225,7 +272,7 @@ void main()
     dispelling, spell triggers, long ranged spells first, immunity toggles, and AOE settings.
 ************************* [Combat - Spell Casters] ****************************/
 
-    SetSpawnInCondition(AI_FLAG_COMBAT_LONGER_RANGED_SPELLS_FIRST, AI_COMBAT_MASTER);
+    //SetSpawnInCondition(AI_FLAG_COMBAT_LONGER_RANGED_SPELLS_FIRST, AI_COMBAT_MASTER);
         // Casts spells only if the caster would not move into range to cast them.
         // IE long range spells, then medium, then short (unless the enemy comes to us!)
     //SetSpawnInCondition(AI_FLAG_COMBAT_FLAG_FAST_BUFF_ENEMY, AI_COMBAT_MASTER);
@@ -253,7 +300,7 @@ void main()
         // Override toggle. Forces to never cast AOE's if it will hit an ally + harm them.
     //SetSpawnInCondition(AI_FLAG_COMBAT_AOE_DONT_MIND_IF_THEY_SURVIVE, AI_COMBAT_MASTER);
         // Allies who will survive the blast are ignored for calculating best target.
-    SetAIInteger(AI_AOE_ALLIES_LOWEST_IN_AOE, 2);
+    //SetAIInteger(AI_AOE_ALLIES_LOWEST_IN_AOE, 3);
         // Defualt: 3. If amount of allies in blast radius are equal or more then
         // this, then that location is ignored.
     //SetAIInteger(AI_AOE_HD_DIFFERENCE, -8);
@@ -436,7 +483,7 @@ void main()
     //SetAIInteger(AI_CORPSE_DESTROY_TIME, 30);
         // Seconds before body finally gets destroyed. Used for Clerical Raise Dead on NPC's.
 
-    //SetSpawnInCondition(AI_FLAG_OTHER_TURN_OFF_CORPSES, AI_OTHER_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_TURN_OFF_CORPSES, AI_OTHER_MASTER);
         // This turns off the SetDestroyable() usually performed, and the above timer.
 
     //SetSpawnInCondition(AI_FLAG_OTHER_USE_BIOWARE_LOOTING, AI_OTHER_MASTER);
@@ -514,37 +561,37 @@ void main()
         // On Conversation - see readme. Replaces BeginConversation().
 
     // Morale
-    AI_SetSpawnInSpeakArray(AI_TALK_ON_MORALE_BREAK, 100, 3, "No more!", "I'm outta here!", "Catch me if you can!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_MORALE_BREAK, 100, 3, "No more!", "I'm outta here!", "Catch me if you can!");
         // Spoken at running point, if they run to a group of allies.
-    AI_SetSpawnInSpeakArray(AI_TALK_ON_CANNOT_RUN, 100, 3, "Never give up! Never surrender!", "I've no where to run, so make my day!", "RRRAAAAA!!!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_CANNOT_RUN, 100, 3, "Never give up! Never surrender!", "I've no where to run, so make my day!", "RRRAAAAA!!!");
         // Spoken at running point, if they can find no ally to run to, and 4+ Intelligence. See readme
-    AI_SetSpawnInSpeakValue(AI_TALK_ON_STUPID_RUN, "Ahhhhgggg! NO MORE! Run!!");
+    //AI_SetSpawnInSpeakValue(AI_TALK_ON_STUPID_RUN, "Ahhhhgggg! NO MORE! Run!!");
         // As above, when morale breaks + no ally, but they panic and run from enemy at 3 or less intelligence.
 
     // Combat
-    AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_EQUAL, 5, 4, "Come on!", "You won't win!", "We are not equals! I am better!", "Nothing will stop me!");
-    AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_THEM_OVER_US, 5, 4, "I'll try! try! and try again!", "Tough man, are we?", "Trying out your 'skills'? Pathetic excuse!", "Nothing good will come from killing me!");
-    AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_US_OVER_THEM, 5, 4, "My strength is mighty then yours!", "You will definatly die!", "NO chance for you!", "No mercy! Not for YOU!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_EQUAL, 5, 4, "Come on!", "You won't win!", "We are not equals! I am better!", "Nothing will stop me!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_THEM_OVER_US, 5, 4, "I'll try! try! and try again!", "Tough man, are we?", "Trying out your 'skills'? Pathetic excuse!", "Nothing good will come from killing me!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_COMBAT_ROUND_US_OVER_THEM, 5, 4, "My strength is mighty then yours!", "You will definatly die!", "NO chance for you!", "No mercy! Not for YOU!");
         // Spoken each DetermineCombatRound. % is /1000. See readme for Equal/Over/Under values.
-    AI_SetSpawnInSpeakArray(AI_TALK_ON_TAUNT, 100, 3, "You're going down!", "No need to think, let my blade do it for you!", "Time to meet your death!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_TAUNT, 100, 3, "You're going down!", "No need to think, let my blade do it for you!", "Time to meet your death!");
         // If the creature uses thier skill, taunt, on an enemy this will be said.
 
     // Event-driven.
-    AI_SetSpawnInSpeakArray(AI_TALK_ON_PERCIEVE_ENEMY, 70, 6, "Drop your gold and run!", "I am ready for violence!", "CHARGE!", "Time you died!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_PERCIEVE_ENEMY, 70, 6, "Stand and fight, lawbreaker!", "Don't run from the law!", "I have my orders!", "I am ready for violence!", "CHARGE!", "Time you died!");
         // This is said when they see/hear a new enemy, and start attacking them.
-    AI_SetSpawnInSpeakArray(AI_TALK_ON_DAMAGED, 20, 2, "Ouch, damn you!", "Haha! Nothing will stop me!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_DAMAGED, 20, 2, "Ouch, damn you!", "Haha! Nothing will stop me!");
         // A random value is set to speak when damaged, and may fire same time as below ones.
-    AI_SetSpawnInSpeakArray(AI_TALK_ON_PHISICALLY_ATTACKED, 20, 2, "Hah! Mear weapons won't defeat me!", "Pah! You cannot defeat me with such rubbish!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_PHISICALLY_ATTACKED, 20, 2, "Hah! Mear weapons won't defeat me!", "Pah! You cannot defeat me with such rubbish!");
         // This is said when an enemy attacks the creature with a melee/ranged weapon.
-    AI_SetSpawnInSpeakArray(AI_TALK_ON_HOSTILE_SPELL_CAST_AT, 20, 2, "No one spell will stop me!", "Is that all you have!?!");
+    //AI_SetSpawnInSpeakArray(AI_TALK_ON_HOSTILE_SPELL_CAST_AT, 20, 2, "No one spell will stop me!", "Is that all you have!?!");
         // This is said when an enemy attacks the creature with a hostile spell.
-    AI_SetSpawnInSpeakValue(AI_TALK_ON_DEATH, "Agggggg!");
+    //AI_SetSpawnInSpeakValue(AI_TALK_ON_DEATH, "Agggggg!");
         // This will ALWAYS be said, whenever the creature dies.
 
     // Specific potion ones.
-    AI_SetSpawnInSpeakValue(AI_TALK_WE_PASS_POTION, "Here! Catch!");
+    //AI_SetSpawnInSpeakValue(AI_TALK_WE_PASS_POTION, "Here! Catch!");
         // This will be spoken when the creature passes a potion to an ally. See readme.
-    AI_SetSpawnInSpeakValue(AI_TALK_WE_GOT_POTION, "Got it!");
+    //AI_SetSpawnInSpeakValue(AI_TALK_WE_GOT_POTION, "Got it!");
         // This will be spoken by the creature we pass the potion too, using AssignCommand().
 
     // Leader ones
@@ -558,10 +605,9 @@ void main()
 /************************ [Bioware: Animations/Waypoints/Treasure] *************
     All Bioware Stuff. I'd check out "x0_c2_spwn_def" for the SoU/Hordes revisions.
 ************************* [Bioware: Animations/Waypoints/Treasure] ************/
-     int NW_FLAG_STEALTH                       = 0x00000004;
-     int NW_FLAG_SEARCH                      = 0x00000008;
-     SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);
-     SetSpawnInCondition(NW_FLAG_SEARCH, NW_GENERIC_MASTER);
+
+    // SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);
+    // SetSpawnInCondition(NW_FLAG_SEARCH, NW_GENERIC_MASTER);
         // Uses said skill while WalkWaypoints()
 
     // SetSpawnInCondition(NW_FLAG_DAY_NIGHT_POSTING, NW_GENERIC_MASTER);
@@ -620,6 +666,24 @@ void main()
     {
         SetBaseAttackBonus(nNumber);
     }
+
+    //***** ALFA MOD: Danmar's PuppetMaster functionality
+    if ( gALFA_USE_PUPPET_MASTER )
+    {
+      ALFA_InitPuppetMaster();
+      // This is the Jasperre's AI version of SetListeningPatterns, modified
+      // by Kensai to take an argument that lets us indicate that
+      // SetListening() has already been called (by InitPuppetMaster());
+      // set FALSE because we already SetListening - and the renamed with
+      // the JAI prefix by Cereborn...
+
+      AI_SetListeningPatterns(  );
+    }
+    else
+    {
+      AI_SetListeningPatterns(  );
+    }
+    //****** end ALFA MOD
 
 /************************ [User] **********************************************/
 
