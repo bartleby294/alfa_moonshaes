@@ -359,8 +359,15 @@ void main()
                 //}
                 else {
                     customActions(oArea, myAction);
-                		}
+                    SetLocalInt(OBJECT_SELF, "customActions", TRUE);
+                }
             }
+        }
+    // if we are fighting cancel custom actions.
+    } else {
+        if(GetLocalInt(OBJECT_SELF, "customActions") == TRUE) {
+            ClearAllActions();
+            SetLocalInt(OBJECT_SELF, "customActions", FALSE);
         }
     }
     // Fire End-heartbeat-UDE

@@ -230,9 +230,9 @@ void main()
     SetSpawnInCondition(AI_FLAG_FLEEING_FLEE_TO_NEAREST_NONE_SEEN, AI_TARGETING_FLEE_MASTER);
         // If set, just runs to nearest non-seen ally, and removes the loop for a good group of allies to run to.
 
-    //SetSpawnInCondition(AI_FLAG_FLEEING_FLEE_TO_OBJECT, AI_TARGETING_FLEE_MASTER);
+    SetSpawnInCondition(AI_FLAG_FLEEING_FLEE_TO_OBJECT, AI_TARGETING_FLEE_MASTER);
         // They will flee to the nearest object of the tag below, if set.
-    //SetLocalString(OBJECT_SELF, AI_FLEE_OBJECT, "BOSS_TAG_OR_WHATEVER");
+    SetLocalString(OBJECT_SELF, AI_FLEE_OBJECT, "banditcampfire1");
         // This needs setting if the above is to work.
 
     //SetSpawnInCondition(AI_FLAG_FLEEING_USE_VISUAL_EFFECT, AI_TARGETING_FLEE_MASTER);
