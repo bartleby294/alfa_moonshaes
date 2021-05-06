@@ -617,7 +617,6 @@ void main()
 ************************* [User] **********************************************/
     // Example (and default) of user addition:
     // - If we are from an encounter, set mobile (move around) animations.
-    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);
@@ -649,3 +648,4 @@ void main()
         // Delayed walk waypoints, as to not upset instant combat spawning.
         // This will also check if to change to day/night posts during the walking, no heartbeats.
 }
+

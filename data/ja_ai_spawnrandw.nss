@@ -127,13 +127,13 @@ void main()
     // - Remember, uncommenting one will just ignore it (so will never check target's
     //   AC without TARGETING_AC on)
 
-    AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, i1, i12);
+    AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, 1, 12);
         // Spell mantals are checked only for the spell target. Either Absense of or got any.
-    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, i2, i9);
+    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, 2, 9);
         // Range - very imporant! Basis for all ranged/spell attacks.
-    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, i2, i6);
+    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, 2, 6);
         // AC is used for all phisical attacks. Lower targets lower (By default).
-    AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, i2, i4);
+    AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, 2, 4);
         // Used for spell attacks. Saves are sorta a AC versus spells.
 
     // Phisical protections. Used by spells, ranged and melee.
@@ -142,18 +142,18 @@ void main()
     if(GetBaseAttackBonus(OBJECT_SELF) > ((GetHitDice(OBJECT_SELF)/2) + 1))
     {
         // Fighter/Clerics (It is over a mages BAB + 1 (IE 0.5 BAB/Level) target lower
-        AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_LOWER, i2, i6);
+        AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_LOWER, 2, 6);
     }
     else
     {
         // Mages target higher (so dispel/elemental attack those who fighters
         // cannot hit as much). (the lowest BAB, under half our hit dice in BAB)
-        AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_HIGHER, i1, i5);
+        AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_HIGHER, 1, 5);
     }
     // Base attack bonus. Used for spells and phisical attacks. Checked with GetBaseAttackBonus.
-    AI_SetAITargetingValues(TARGETING_BAB, TARGET_LOWER, i1, i4);
+    AI_SetAITargetingValues(TARGETING_BAB, TARGET_LOWER, 1, 4);
     // Hit dice - how powerful in levels the enemy is. Used for all checks.
-    AI_SetAITargetingValues(TARGETING_HITDICE, TARGET_LOWER, i1, i3);
+    AI_SetAITargetingValues(TARGETING_HITDICE, TARGET_LOWER, 1, 3);
 
     //AI_SetAITargetingValues(TARGETING_HP_PERCENT, TARGET_LOWER, i1, i3);
     //AI_SetAITargetingValues(TARGETING_HP_CURRENT, TARGET_LOWER, i1, i3);
@@ -616,7 +616,6 @@ void main()
 ************************* [User] **********************************************/
     // Example (and default) of user addition:
     // - If we are from an encounter, set mobile (move around) animations.
-    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);
@@ -649,7 +648,7 @@ void main()
 /************************ [User] **********************************************/
 
     // Note: You shouldn't really remove this, even if they have no waypoints.
-    DelayCommand(f2, SpawnWalkWayPoints());
+    DelayCommand(2.0, SpawnWalkWayPoints());
         // Delayed walk waypoints, as to not upset instant combat spawning.
         // This will also check if to change to day/night posts during the walking, no heartbeats.
         AssignCommand(OBJECT_SELF, ActionRandomWalk());

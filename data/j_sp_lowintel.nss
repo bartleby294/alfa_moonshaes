@@ -10,6 +10,7 @@
 
 void main()
 {
+    WriteTimestampedLogEntry("LEGACY ON SPAWN RUN: WARNING j_sp_lowintel.nss WAS RUN IT SHOULD NOT HAVE BEEN!");
     // 1 or 2 intelligence.
     SetAIInteger(AI_INTELLIGENCE, d2());
     SetAIInteger(AI_MORALE, 10);
@@ -25,5 +26,5 @@ void main()
         // This will ignore ALL chat by PC's (Enemies) who speak actions in Stars - *Bow*
 
     AI_SetUpEndOfSpawn();
-    DelayCommand(f2, SpawnWalkWayPoints());
+    DelayCommand(2.0, SpawnWalkWayPoints());
 }

@@ -14,12 +14,13 @@
 
 void main()
 {
+    WriteTimestampedLogEntry("LEGACY ON SPAWN RUN: WARNING j_sp_dragon.nss WAS RUN IT SHOULD NOT HAVE BEEN!");
     // Maximum "intelligence"
     SetAIInteger(AI_INTELLIGENCE, 10);
     SetAIInteger(AI_MORALE, 10);
 
-    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, i2, i9);
-    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, i1, i6);
+    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, 2, 9);
+    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, 1, 6);
 
     SetSpawnInCondition(AI_FLAG_COMBAT_FLAG_FAST_BUFF_ENEMY, AI_COMBAT_MASTER);
     SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_INSTANT_DEATH_SPELLS, AI_COMBAT_MASTER);
@@ -34,5 +35,5 @@ void main()
     SetSpawnInCondition(AI_FLAG_COMBAT_FLYING, AI_COMBAT_MASTER);
 
     AI_SetUpEndOfSpawn();
-    DelayCommand(f2, SpawnWalkWayPoints());
+    DelayCommand(2.0, SpawnWalkWayPoints());
 }

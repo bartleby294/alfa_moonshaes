@@ -1,6 +1,6 @@
-/************************ [On Spawn] *******************************************
-    Filename: j_ai_onspawn or nw_c2_default9
-************************* [On Spawn] *******************************************
+/*/////////////////////// [On Spawn] ///////////////////////////////////////////
+    Filename: J_AI_OnSpawn or nw_c2_default9
+///////////////////////// [On Spawn] ///////////////////////////////////////////
     This file contains options that will determine some AI behaviour, and a lot
     of toggles for turning things on/off. A big read, but might be worthwhile.
 
@@ -28,18 +28,28 @@
     - Targeting is imporant :-D
     - If you delete this script, there is a template for the On Spawn file
       in the zip it came in, for use in the "scripttemplate" directory.
-************************* [History] ********************************************
+///////////////////////// [History] ////////////////////////////////////////////
     Note: I have removed:
     - Default "Teleporting" and exit/return (this seemed bugged anyway, or useless)
     - Spawn in animation. This can be, of course, re-added.
     - Day/night posting. This is uneeded, with a changed walk waypoints that does it automatically.
 
-    Changes from 1.0-1.2:
-    - All constants names are changed, I am afraid.
-    - Added Set/Delete/GetAIInteger/Constant/Object. This makes sure that the AI
-      doesn't ever interfere with other things - it pre-fixes all stored things
-      with AI_INTEGER_ (and so on)
-************************* [Workings] *******************************************
+    1.0-1.2 - Used short amount of spawn options.
+    1.3 - All constants names are changed, I am afraid.
+        - Added Set/Delete/GetAIInteger/Constant/Object. This makes sure that the AI
+          doesn't ever interfere with other things - it pre-fixes all stored things
+          with AI_INTEGER_ (and so on)
+    1.4 - TO DO: Clear up some old non-working ones
+        - Added in User Defined part of the script, an auto-turn-off-spells for
+          Ranger and Paladin classes. Need to test - perhaps 1.64 fixed it?
+
+
+        Spawn options changed:
+        - Removed AI level settings (can still be done manually)
+        - Added optional (and off by default) fear-visual for fleeing
+
+
+///////////////////////// [Workings] ///////////////////////////////////////////
     Note: You can do without all the comments (it may be that you don't want
     the extra KB it adds or something, although it does not at all slow down a module)
     so as long as you have these at the end:
@@ -50,9 +60,9 @@
     Oh, and the include file (Below, "j_inc_spawnin") must be at the top like
     here. Also recommended is the AI_INTELLIGENCE and AI_MORALE being set (if
     not using custom AI).
-************************* [Arguments] ******************************************
+///////////////////////// [Arguments] //////////////////////////////////////////
     Arguments: GetIsEncounterCreature
-************************* [On Spawn] ******************************************/
+///////////////////////// [On Spawn] /////////////////////////////////////////*/
 
 // Treasure Includes - See end of spawn for uncomment options.
 
@@ -65,7 +75,7 @@
 // - This will spawn treasure based on chests placed in the module. See "x0_i0_treasure" for more information.
 
 // This is required for all spawn in options!
-#include "j_inc_spawnin"
+#include "J_INC_SPAWNIN"
 //*************** ALFA Mod
 #include "alfa_include"
 //*************** End ALFA Mod
@@ -133,13 +143,13 @@ void main()
     // - Remember, uncommenting one will just ignore it (so will never check target's
     //   AC without TARGETING_AC on)
 
-    AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, i1, i12);
+    AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, 1, 12);
         // Spell mantals are checked only for the spell target. Either Absense of or got any.
-    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, i2, i9);
+    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, 2, 9);
         // Range - very imporant! Basis for all ranged/spell attacks.
-    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, i2, i6);
+    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, 2, 6);
         // AC is used for all phisical attacks. Lower targets lower (By default).
-    AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, i2, i4);
+    AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, 2, 4);
         // Used for spell attacks. Saves are sorta a AC versus spells.
 
     // Phisical protections. Used by spells, ranged and melee.
@@ -148,22 +158,22 @@ void main()
     if(GetBaseAttackBonus(OBJECT_SELF) > ((GetHitDice(OBJECT_SELF)/2) + 1))
     {
         // Fighter/Clerics (It is over a mages BAB + 1 (IE 0.5 BAB/Level) target lower
-        AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_LOWER, i2, i6);
+        AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_LOWER, 2, 6);
     }
     else
     {
         // Mages target higher (so dispel/elemental attack those who fighters
         // cannot hit as much). (the lowest BAB, under half our hit dice in BAB)
-        AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_HIGHER, i1, i5);
+        AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_HIGHER, 1, 5);
     }
     // Base attack bonus. Used for spells and phisical attacks. Checked with GetBaseAttackBonus.
-    AI_SetAITargetingValues(TARGETING_BAB, TARGET_LOWER, i1, i4);
+    AI_SetAITargetingValues(TARGETING_BAB, TARGET_LOWER, 1, 4);
     // Hit dice - how powerful in levels the enemy is. Used for all checks.
-    AI_SetAITargetingValues(TARGETING_HITDICE, TARGET_LOWER, i1, i3);
+    AI_SetAITargetingValues(TARGETING_HITDICE, TARGET_LOWER, 1, 3);
 
-    //AI_SetAITargetingValues(TARGETING_HP_PERCENT, TARGET_LOWER, i1, i3);
-    //AI_SetAITargetingValues(TARGETING_HP_CURRENT, TARGET_LOWER, i1, i3);
-    //AI_SetAITargetingValues(TARGETING_HP_MAXIMUM, TARGET_LOWER, i1, i3);
+    //AI_SetAITargetingValues(TARGETING_HP_PERCENT, TARGET_LOWER, 1, 3);
+    //AI_SetAITargetingValues(TARGETING_HP_CURRENT, TARGET_LOWER, 1, 3);
+    //AI_SetAITargetingValues(TARGETING_HP_MAXIMUM, TARGET_LOWER, 1, 3);
         // The HP's are the last thing to choose a target with.
 /************************ [Targeting] *****************************************/
 
@@ -202,6 +212,9 @@ void main()
         // They will flee to the nearest object of the tag below, if set.
     //SetLocalString(OBJECT_SELF, AI_FLEE_OBJECT, "BOSS_TAG_OR_WHATEVER");
         // This needs setting if the above is to work.
+
+    //SetSpawnInCondition(AI_FLAG_FLEEING_USE_VISUAL_EFFECT, AI_TARGETING_FLEE_MASTER);
+        // If this is on, we play a visual effect while we flee.
 /************************ [Fleeing] *******************************************/
 
 /************************ [Combat - Fighters] **********************************
@@ -473,15 +486,6 @@ void main()
     //SetSpawnInCondition(AI_FLAG_OTHER_LAG_TARGET_NEAREST_ENEMY, AI_OTHER_MASTER);
         // Ignores targeting settings. VERY good for lag/bad AI. Attacks nearest seen enemy.
 
-      /*** AI Level setting - Do not use AI_LEVEL_DEFAULT at all. ***/
-
-    //SetAIConstant(LAG_AI_LEVEL_NO_PC_OR_ENEMY_50M, AI_LEVEL_VERY_LOW);
-        // Changes to this AI setting if there is no enemy or PC in 50M.
-    //SetAIConstant(LAG_AI_LEVEL_YES_PC_OR_ENEMY_50M, AI_LEVEL_LOW);
-        // Changes to this AI setting if there IS an enemy or PC in 50M.
-    //SetAIConstant(LAG_AI_LEVEL_COMBAT, AI_LEVEL_NORMAL);
-        // This OVERRIDES others. Only used when a creature is put into combat.
-
 /************************ [Other - Behaviour/Generic] *************************/
 
 /************************ [User Defined and Shouts] ****************************
@@ -491,6 +495,10 @@ void main()
       under cirtain circumstances as well! (Read nw_c2_defaultd or j_ai_onuserdef)
     (User Defined Event = UDE)
 ************************* [User Defined and Shouts] ***************************/
+
+    // This is REQUIRED if we use any Pre-events. If not there, it will default
+    // to the default User Defined Event script for the default AI.
+    SetCustomUDEFileName("k_ai_onuserdef");
 
     //SetSpawnInCondition(AI_FLAG_UDE_HEARTBEAT_EVENT, AI_UDE_MASTER);             // UDE 1001
     //SetSpawnInCondition(AI_FLAG_UDE_HEARTBEAT_PRE_EVENT, AI_UDE_MASTER);         // UDE 1021
@@ -566,13 +574,14 @@ void main()
         // This will be said when the leader, if this creature, sends a runner.
     //AI_SetSpawnInSpeakValue(AI_TALK_ON_LEADER_ATTACK_TARGET, "Help attack this target!");
         // When the leader thinks target X should be attacked, it will say this.
+    //AI_SetSpawnInSpeakValue(AI_TALK_ON_LEADER_BOSS_SHOUT, "Come my minions! To battle!");
+        // This will be said when the leader, if this creature, sees an enemy and uses his "Boss Monster Shout", if turned on.
 
 /************************ [User Defined and Shouts] ***************************/
 
 /************************ [Bioware: Animations/Waypoints/Treasure] *************
     All Bioware Stuff. I'd check out "x0_c2_spwn_def" for the SoU/Hordes revisions.
 ************************* [Bioware: Animations/Waypoints/Treasure] ************/
-    int NW_FLAG_STEALTH                       = 0x00000004;
      SetSpawnInCondition(NW_FLAG_STEALTH, NW_GENERIC_MASTER);
     // SetSpawnInCondition(NW_FLAG_SEARCH, NW_GENERIC_MASTER);
         // Uses said skill while WalkWaypoints()
@@ -622,7 +631,6 @@ void main()
 ************************* [User] **********************************************/
     // Example (and default) of user addition:
     // - If we are from an encounter, set mobile (move around) animations.
-    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);
@@ -651,11 +659,18 @@ void main()
       AI_SetListeningPatterns();
     }
     //****** end ALFA MOD
-
+    // If we are a ranger or paladin class, do not cast spells. This can be
+    // manually removed if wished. To get the spells they have working correctly,
+    // remove this, and use Monster Abilties instead of thier normal class spells.
+//    if(GetLevelByClass(CLASS_TYPE_RANGER) >= 1 || GetLevelByClass(CLASS_TYPE_PALADIN) >= 1)
+//    {
+//        SetSpawnInCondition(AI_FLAG_OTHER_LAG_NO_SPELLS, AI_OTHER_MASTER);
+//    }
 /************************ [User] **********************************************/
 
     // Note: You shouldn't really remove this, even if they have no waypoints.
-    DelayCommand(f2, SpawnWalkWayPoints());
+    DelayCommand(2.0, SpawnWalkWayPoints());
         // Delayed walk waypoints, as to not upset instant combat spawning.
         // This will also check if to change to day/night posts during the walking, no heartbeats.
 }
+

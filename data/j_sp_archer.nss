@@ -10,12 +10,13 @@
 
 void main()
 {
-    // Random intelligence, 4-6.
+   WriteTimestampedLogEntry("LEGACY ON SPAWN RUN: WARNING j_sp_archer.nss WAS RUN IT SHOULD NOT HAVE BEEN!");
+   // Random intelligence, 4-6.
     SetAIInteger(AI_INTELLIGENCE, 3 + d3());
     // Random morale
     SetAIInteger(AI_MORALE, 7 + d6());
 
-    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, i2, i9);
+    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, 2, 9);
     // Range - very imporant! Basis for all ranged/spell attacks.
 
     SetSpawnInCondition(AI_FLAG_COMBAT_PICK_UP_DISARMED_WEAPONS, AI_COMBAT_MASTER);
@@ -40,12 +41,11 @@ void main()
     SetSpawnInCondition(AI_FLAG_OTHER_LAG_NO_SPELLS, AI_OTHER_MASTER);
 
     // Ambient animations
-    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);
     }
 
     AI_SetUpEndOfSpawn();
-    DelayCommand(f2, SpawnWalkWayPoints());
+    DelayCommand(2.0, SpawnWalkWayPoints());
 }

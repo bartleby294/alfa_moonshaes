@@ -18,6 +18,7 @@
 
 void main()
 {
+    WriteTimestampedLogEntry("LEGACY ON SPAWN RUN: WARNING j_sp_lichboss.nss WAS RUN IT SHOULD NOT HAVE BEEN!");
     // Maximum intelligence
     SetAIInteger(AI_INTELLIGENCE, 10);
     SetAIInteger(AI_MORALE, 10);
@@ -25,15 +26,15 @@ void main()
 
     SetSpawnInCondition(AI_FLAG_OTHER_DONT_RESPOND_TO_EMOTES, AI_OTHER_MASTER);
 
-    AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, i1, i12);
-    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, i2, i9);
-    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, i3, i6);
-    AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, i3, i4);
+    AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, 1, 12);
+    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, 2, 9);
+    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, 3, 6);
+    AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, 3, 4);
     // Mages target higher. (the lowest BAB, under half our hit dice in BAB)
-    AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_HIGHER, i1, i5);
+    AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_HIGHER, 1, 5);
 
-    AI_SetAITargetingValues(TARGETING_BAB, TARGET_LOWER, i1, i4);
-    AI_SetAITargetingValues(TARGETING_HITDICE, TARGET_LOWER, i1, i3);
+    AI_SetAITargetingValues(TARGETING_BAB, TARGET_LOWER, 1, 4);
+    AI_SetAITargetingValues(TARGETING_HITDICE, TARGET_LOWER, 1, 3);
 
     SetSpawnInCondition(AI_FLAG_COMBAT_DISPEL_IN_ORDER, AI_COMBAT_MASTER);
 

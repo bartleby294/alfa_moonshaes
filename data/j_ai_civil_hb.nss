@@ -57,7 +57,6 @@ void main()
             {
                 // Do we have any animations to speak of?
                 // If we have a nearby PC, not in conversation, we do animations.
-                int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
                 if(!IsInConversation(OBJECT_SELF) &&
                    (GetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER) ||
                     GetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS_AVIAN, NW_GENERIC_MASTER) ||

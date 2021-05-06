@@ -90,7 +90,7 @@ void main()
     FireSpellTrigger(SPELLTRIGGER_START_OF_COMBAT, oCaster);
 
     // Check damage
-    int iPercent = FloatToInt((IntToFloat(GetCurrentHitPoints(oCaster))/IntToFloat(GetMaxHitPoints(oCaster))) * i100);
+    int iPercent = FloatToInt((IntToFloat(GetCurrentHitPoints(oCaster))/IntToFloat(GetMaxHitPoints(oCaster))) * 100);
     if(iPercent < GetLocalInt(OBJECT_SELF, VALUE + SPELLTRIGGER_DAMAGED_AT_PERCENT))
     {
         FireSpellTrigger(SPELLTRIGGER_DAMAGED_AT_PERCENT, oCaster);
@@ -98,18 +98,18 @@ void main()
 
     // Check Spell effects for SPELLTRIGGER_NOT_GOT_FIRST_SPELL
     // - Must have at least the first valid
-    if(GetLocalInt(OBJECT_SELF, MAXINT_ + SPELLTRIGGER_NOT_GOT_FIRST_SPELL + s1))
+    if(GetLocalInt(OBJECT_SELF, MAXINT_ + SPELLTRIGGER_NOT_GOT_FIRST_SPELL + "1"))
     {
         // Check the spells seperatly
         int iMax = GetLocalInt(OBJECT_SELF, MAXIMUM + SPELLTRIGGER_NOT_GOT_FIRST_SPELL);
         int iCnt;
-        for(iCnt = i1; iCnt <= iMax; iCnt++)
+        for(iCnt = 1; iCnt <= iMax; iCnt++)
         {
             // Check if this is valid
             if(!GetLocalInt(OBJECT_SELF, SPELLTRIGGER_NOT_GOT_FIRST_SPELL + IntToString(iCnt) + USED))
             {
                 // Check spell effects
-                if(!GetHasSpellEffect(GetLocalInt(OBJECT_SELF, SPELLTRIGGER_NOT_GOT_FIRST_SPELL + IntToString(iCnt) + s1), oCaster))
+                if(!GetHasSpellEffect(GetLocalInt(OBJECT_SELF, SPELLTRIGGER_NOT_GOT_FIRST_SPELL + IntToString(iCnt) + "1"), oCaster))
                 {
                     FireSpellTrigger(SPELLTRIGGER_NOT_GOT_FIRST_SPELL, oCaster, iCnt);
                     break;
@@ -148,7 +148,7 @@ void FireSpellTrigger(string sID, object oCaster, int iOverrideID = FALSE)
     else
     {
         // Check USED status - of the seperate triggers
-        for(iCnt = i1; iCnt <= iMax; iCnt++)
+        for(iCnt = 1; iCnt <= iMax; iCnt++)
         {
             if(!GetLocalInt(OBJECT_SELF, sID + IntToString(iCnt) + USED))
             {
@@ -167,11 +167,11 @@ void FireSpellTrigger(string sID, object oCaster, int iOverrideID = FALSE)
         // Loop spells and cast
         int iTotalSpells = GetLocalInt(OBJECT_SELF, MAXINT_ + sTotalID);
         int iSpell;
-        for(iCnt = i1; iCnt <= iTotalSpells; iCnt++)
+        for(iCnt = 1; iCnt <= iTotalSpells; iCnt++)
         {
             // Cast spell from local
             iSpell = GetLocalInt(OBJECT_SELF, sTotalID + IntToString(iCnt));
-            ActionCastSpellAtObject(iSpell, oCaster, METAMAGIC_ANY, TRUE, i20, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+            ActionCastSpellAtObject(iSpell, oCaster, METAMAGIC_ANY, TRUE, 20, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
         }
     }
 }

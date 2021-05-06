@@ -1,6 +1,6 @@
-/************************ [Destroy Ourself] ************************************
+/*/////////////////////// [Destroy Ourself] ////////////////////////////////////
     Filename: J_AI_DestroySelf
-************************* [Destroy Ourself] ************************************
+///////////////////////// [Destroy Ourself] ////////////////////////////////////
     This is executed OnDeath to clean up the corpse. It helps - clears all
     non-droppable stuff.
 
@@ -10,22 +10,23 @@
 
     Oh, if this is executed any other time when they are dead, they are
     destroyed instantly.
-************************* [History] ********************************************
+///////////////////////// [History] ////////////////////////////////////////////
     1.3 - Added to replace a include function for death.
         - No locals are destroyed. The game should do that anyway. Items are, though.
-************************* [Workings] *******************************************
+    1.4 -
+///////////////////////// [Workings] ///////////////////////////////////////////
     this, if ever fired, will destroy the creature. It is not deleayed - there
     is a special function in the death script to check the whole "Did I get
     raised?" stuff.
 
     I suppose you can edit this to put a corpse in :-D
-************************* [Arguments] ******************************************
+///////////////////////// [Arguments] //////////////////////////////////////////
     Arguments: N/A - none needed.
-************************* [Destroy Ourself] ***********************************/
+///////////////////////// [Destroy Ourself] //////////////////////////////////*/
 
 
 // Exectued from death, to speed things up.
-#include "j_inc_constants"
+#include "J_INC_CONSTANTS"
 
 // This will delete all un-droppable items, before they fade out.
 void DeleteAllThings();

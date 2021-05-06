@@ -11,13 +11,14 @@
 
 void main()
 {
+     WriteTimestampedLogEntry("LEGACY ON SPAWN RUN: WARNING j_sp_highmage.nss WAS RUN IT SHOULD NOT HAVE BEEN!");
     // Random intelligence, 7-9.
     SetAIInteger(AI_INTELLIGENCE, 6 + d3());
     SetAIInteger(AI_MORALE, 10);
 
     // Less mantals, and less saves is all we target
-    AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, i1, i4);
-    AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, i1, i2);
+    AI_SetAITargetingValues(TARGETING_MANTALS, TARGET_LOWER, 1, 4);
+    AI_SetAITargetingValues(TARGETING_SAVES, TARGET_LOWER, 1, 2);
 
     SetSpawnInCondition(AI_FLAG_COMBAT_PICK_UP_DISARMED_WEAPONS, AI_COMBAT_MASTER);
         // This sets to pick up weapons which are disarmed.
@@ -41,12 +42,11 @@ void main()
     SetSpawnInCondition(AI_FLAG_OTHER_LAG_NO_SPELLS, AI_OTHER_MASTER);
 
     // Ambient animations
-    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);
     }
 
     AI_SetUpEndOfSpawn();
-    DelayCommand(f2, SpawnWalkWayPoints());
+    DelayCommand(2.0, SpawnWalkWayPoints());
 }

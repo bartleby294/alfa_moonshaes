@@ -15,19 +15,20 @@
 
 void main()
 {
+    WriteTimestampedLogEntry("LEGACY ON SPAWN RUN: WARNING j_sp_humleader.nss WAS RUN IT SHOULD NOT HAVE BEEN!");
     // Maximum "intelligence"
     SetAIInteger(AI_INTELLIGENCE, 10);
     // We are fearless
     SetAIInteger(AI_MORALE, 10);
 
-    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, i2, i9);
+    AI_SetAITargetingValues(TARGETING_RANGE, TARGET_HIGHER, 2, 9);
     // Range - very imporant! Basis for all ranged/spell attacks.
-    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, i2, i6);
+    AI_SetAITargetingValues(TARGETING_AC, TARGET_LOWER, 2, 6);
     // AC is used for all phisical attacks. Lower targets lower (By default).
     // Fighter/Clerics (It is over a mages BAB + 1 (IE 0.5 BAB/Level) target lower
-    AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_LOWER, i2, i6);
+    AI_SetAITargetingValues(TARGETING_PHISICALS, TARGET_LOWER, 2, 6);
     // Base attack bonus. Used for spells and phisical attacks. Checked with GetBaseAttackBonus.
-    AI_SetAITargetingValues(TARGETING_BAB, TARGET_LOWER, i1, i4);
+    AI_SetAITargetingValues(TARGETING_BAB, TARGET_LOWER, 1, 4);
 
     SetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER);
         // Forces them to not flee. This may be set with AI_SetMaybeFearless at the end.
@@ -77,12 +78,11 @@ void main()
     AI_SetSpawnInSpeakValue(AI_TALK_ON_LEADER_ATTACK_TARGET, "Direct your attacks here, men!");
 
     // Ambient animations
-    int NW_FLAG_AMBIENT_ANIMATIONS          = 0x00080000;
     if(GetIsEncounterCreature())
     {
         SetSpawnInCondition(NW_FLAG_AMBIENT_ANIMATIONS, NW_GENERIC_MASTER);
     }
 
     AI_SetUpEndOfSpawn();
-    DelayCommand(f2, SpawnWalkWayPoints());
+    DelayCommand(2.0, SpawnWalkWayPoints());
 }
