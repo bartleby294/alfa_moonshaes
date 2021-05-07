@@ -1,119 +1,211 @@
-/*/////////////////////// [On Phisical Attacked] ///////////////////////////////
-    Filename: J_AI_OnPhiAttack or nw_c2_default5
-///////////////////////// [On Phisical Attacked] ///////////////////////////////
-    On Attacked
-    No checking for fleeing or warnings.
-    Very boring really!
+/*/////////////////////// [On Damaged] /////////////////////////////////////////
+    Filename: nw_c2_default6 or J_AI_OnDamaged
+///////////////////////// [On Damaged] /////////////////////////////////////////
+    We attack any damager if same area (and not already fighting
+    then search for enemies (defaults to searching if there are no enemies left).
 ///////////////////////// [History] ////////////////////////////////////////////
-    1.3 - Added hiding things
-    1.4 - Missing Silent Shouts have been added.
+    1.3 - If we have a damager, not equal faction, and not a DM...
+            - We set Max Elemental damage.
+        - Sets the highest damager and amount (if the new damager is seen/heard)
+        - Polymorph improved a little
+        - Hide check
+        - Morale penalty (if set)
+    1.4 - Elemental damage fixed with bugfixed introduced in later patches.
+        - Moved things around, more documentation, a little more ordered.
+        - Added the missing silent shout strings to get allies to attack.
+        - Damaged taunting will not happen if we are dead.
 ///////////////////////// [Workings] ///////////////////////////////////////////
-    Got some simple Knockdown timer, so that we use heal sooner if we keep getting
-    a creature who is attempting to knock us down.
+    Now with fixes, we can correctly set physical damage done (and elemental
+    damage).
+
+    Otherwise, this acts like a hositile spell, or a normal attack or pickpocket
+    attempt would - and attack the damn person who dares damage us!
 ///////////////////////// [Arguments] //////////////////////////////////////////
-    Arguments: GetLastAttacker, GetLastWeaponUsed, GetLastAttackMode, GetLastAttackType
-///////////////////////// [On Phisical Attacked] /////////////////////////////*/
+    Arguments: GetTotalDamageDealt, GetLastDamager, GetCurrentHitPoints (and max),
+               GetDamageDealtByType (must be done seperatly for each, doesn't count melee damage)
+///////////////////////// [On Damaged] ///////////////////////////////////////*/
 
 #include "J_INC_OTHER_AI"
-//*************************** ALFA Mod
-#include "alfa_combat"
-//*************************** End ALFA Mod3
-#include "_btb_ban_util"
-#include "ba_consts"
+
+void writeToLog(string str) {
+    string oAreaName = GetName(GetArea(OBJECT_SELF));
+    string uuid = GetLocalString(OBJECT_SELF, "uuid");
+    WriteTimestampedLogEntry("Bandit Camp: " + oAreaName + ": " + uuid + str);
+}
 
 void main()
 {
-    // Pre-attacked-event. Returns TRUE if we interrupt this script call.
-    if(FirePreUserEvent(AI_FLAG_UDE_ATTACK_PRE_EVENT, EVENT_ATTACK_PRE_EVENT)) return;
+    // Pre-damaged-event. Returns TRUE if we interrupt this script call.
+    if(FirePreUserEvent(AI_FLAG_UDE_DAMAGED_PRE_EVENT, EVENT_DAMAGED_PRE_EVENT)) return;
 
     // AI status check. Is the AI on?
     if(GetAIOff()) return;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Disabled for testing 2021-05-02
-    // onAttackActions("Were under attack!");
-    ///////////////////////////////////////////////////////////////////////////
+    // Define Objects/Integers.
+    int nDamage = GetTotalDamageDealt();
+    object oDamager = GetLastDamager();
+    // Check to see if we will polymorph.
+    int nPolymorph = GetAIConstant(AI_POLYMORPH_INTO);
 
-    // Set up objects.
-    object oAttacker = GetLastAttacker();
-    object oWeapon = GetLastWeaponUsed(oAttacker);
-    //int nMode = GetLastAttackMode(oAttacker);       // Currently unused
-    int nAttackType = GetLastAttackType(oAttacker);
+    // Total up the physical damage
 
-    // Check if they are valid, a DM, we are ignoring them, they are dead now, or invalid
-    if(!GetIgnoreNoFriend(oAttacker))
+    // Polymorph check.
+    if(nPolymorph >= 0)
     {
-        // Adjust automatically if set.
+        // We won't polymorph if already so
+        if(!GetHasEffect(EFFECT_TYPE_POLYMORPH))
+        {
+            // Polymorph into the requested shape. Cannot be dispelled.
+            effect eShape = SupernaturalEffect(EffectPolymorph(nPolymorph));
+            effect eVis = EffectVisualEffect(VFX_FNF_SUMMON_UNDEAD);
+            DelayCommand(1.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, eShape, OBJECT_SELF));
+            DelayCommand(1.0, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, OBJECT_SELF));
+        }
+        DeleteAIConstant(AI_POLYMORPH_INTO);// We set it to invalid (sets to 0).
+    }
+    // First, we check AOE spells...
+    if(GetObjectType(oDamager) == OBJECT_TYPE_AREA_OF_EFFECT)
+    {
+        // Set the damage done by it (the last damage)
+        // Set to the tag of the AOE, prefixed AI style to be sure.
+        // - Note, doesn't matter about things like
+        if(nDamage > 0)
+        {
+            // Set it to object to string, which we will delete later anywho.
+            SetAIInteger(ObjectToString(oDamager), nDamage);
+        }
+    }
+    // Hostile attacker...but it doesn't matter (at the moment) if they even
+    // did damage.
+    // * GetIgnoreNoFriend() wrappers DM, Validity, Faction Equal and Dead checks in one
+    else if(!GetIgnoreNoFriend(oDamager))
+    {
+        // Adjust automatically if set. (and not an AOE)
         if(GetSpawnInCondition(AI_FLAG_OTHER_CHANGE_FACTIONS_TO_HOSTILE_ON_ATTACK, AI_OTHER_MASTER))
         {
-            if(!GetIsEnemy(oAttacker))
+            if(!GetIsEnemy(oDamager) && !GetFactionEqual(oDamager))
             {
-                AdjustReputation(oAttacker, OBJECT_SELF, -100);
+                AdjustReputation(oDamager, OBJECT_SELF, -100);
             }
-        }
-
-        // If we were attacked by knockdown, for a timer of X seconds, we make
-        // sure we attempt healing at a higher level.
-        if(!GetLocalTimer(AI_TIMER_KNOCKDOWN) &&
-          (nAttackType == SPECIAL_ATTACK_IMPROVED_KNOCKDOWN ||
-           nAttackType == SPECIAL_ATTACK_KNOCKDOWN) &&
-          !GetIsImmune(OBJECT_SELF, IMMUNITY_TYPE_KNOCKDOWN) &&
-           GetBaseAttackBonus(oAttacker) + 20 >= GetAC(OBJECT_SELF))
-        {
-            SetLocalTimer(AI_TIMER_KNOCKDOWN, 30.0);
-        }
-
-        // Set last hostile, valid attacker (Used in the On Damaged event)
-        SetAIObject(AI_STORED_LAST_ATTACKER, oAttacker);
-
-        // * Don't speak when dead. 1.4 change (an obvious one to make)
-        if(CanSpeak())
-        {
-            // Speak the phisically attacked string, if applicable.
-            // Speak the damaged string, if applicable.
-            SpeakArrayString(AI_TALK_ON_PHISICALLY_ATTACKED);
         }
 
         // Turn of hiding, a timer to activate Hiding in the main file. This is
         // done in each of the events, with the opposition checking seen/heard.
-        TurnOffHiding(oAttacker);
+        TurnOffHiding(oDamager);
 
-        // We set if we are attacked in HTH onto a low-delay timer.
-        // - Not currently used
-        /*if(!GetLocalTimer(AI_TIMER_ATTACKED_IN_HTH))
+        // Did they do damage to use? (IE: No DR) Some things are inapproprate
+        // to check if no damage was actually done.
+        if(nDamage > 0)
         {
-            // If the weapon is not ranged, or is not valid, set the timer.
-            if(!GetIsObjectValid(oWeapon) ||
-               !GetWeaponRanged(oWeapon))
+            // Speak the damaged string, if applicable.
+            // * Don't speak when dead. 1.4 change (an obvious one to make)
+            if(CanSpeak())
             {
-                SetLocalTimer(AI_TIMER_ATTACKED_IN_HTH, f18);
+                SpeakArrayString(AI_TALK_ON_DAMAGED);
             }
-        }*/
+            // 1.4 note: These two variables are currently *unused* apart from
+            // healing. When healing a being (even another NPC) they are checked
+            // for massive damage. Can not bother to set the highest damager for now.
+            // NEW:
+            int nHighestDamage = GetAIInteger(AI_HIGHEST_DAMAGE_AMOUNT);
+            if(nDamage >= nHighestDamage)
+            {
+                SetAIInteger(AI_HIGHEST_DAMAGE_AMOUNT, nDamage);
+            }
 
-        // If we are not fighting, and they are in the area, attack. Else, determine anyway.
+            /* OLD:
+
+            // Get the previous highest damager, and highest damage amount
+            object oHighestDamager = GetAIObject(AI_HIGHEST_DAMAGER);
+            int nHighestDamage = GetAIInteger(AI_HIGHEST_DAMAGE_AMOUNT);
+            // Set the highest damager, if they are seen or heard, and have done loads.
+            if((GetObjectSeen(oDamager) || GetObjectHeard(oDamager)) &&
+                nDamage >= nHighestDamage || !GetIsObjectValid(oHighestDamager))
+            {
+                SetAIObject(AI_HIGHEST_DAMAGER, oDamager);
+                SetAIInteger(AI_HIGHEST_DAMAGE_AMOUNT, nDamage);
+            }
+            // Else, if the original was not valid...or not seen/heard, we
+            // delete it so we don't bother to use it later.
+            else if(!GetIsObjectValid(oHighestDamager) ||
+              (!GetObjectSeen(oHighestDamager) && !GetObjectHeard(oHighestDamager)))
+            {
+                DeleteAIObject(AI_HIGHEST_DAMAGER);
+                DeleteAIInteger(AI_HIGHEST_DAMAGE_AMOUNT);
+            }
+            */
+
+            // Get all the physical damage. Elemental damage is then nDamage minus
+            // the physical damage.
+            int nPhysical = GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON |
+                                                 DAMAGE_TYPE_BLUDGEONING |
+                                                 DAMAGE_TYPE_PIERCING |
+                                                 DAMAGE_TYPE_SLASHING);
+            // If they are all -1, then we make nPhysical 0.
+            if(nPhysical <= -1) nPhysical = 0;
+
+            // Physical damage - only sets if the last damager is the last attacker.
+            if(GetAIObject(AI_STORED_LAST_ATTACKER) == oDamager)
+            {
+                // Get the previous highest damage and test it
+                if(nPhysical > GetAIInteger(AI_HIGHEST_PHISICAL_DAMAGE_AMOUNT))
+                {
+                    // If higher, and was a melee/ranged attacker, set it.
+                    // This does include other additional physical damage - EG:
+                    // weapon property: Bonus Damage.
+                    SetAIInteger(AI_HIGHEST_PHISICAL_DAMAGE_AMOUNT, nPhysical);
+                }
+            }
+
+            // Set the max elemental damage done, for better use of elemental
+            // protections. This is set for the most damage...so it could be
+            // 1 (for a +1 fire weapon, any number of hits) or over 50 (good
+            // fireball/flame storm etc.)
+            int nElemental = nDamage - nPhysical;
+            if(nElemental > GetAIInteger(MAX_ELEMENTAL_DAMAGE))
+            {
+                SetAIInteger(MAX_ELEMENTAL_DAMAGE, nElemental);
+            }
+            // Set the last damage done, may set to 0 of course :-P
+            // * This is only set if they did damage us at all, however.
+            SetAIInteger(LAST_ELEMENTAL_DAMAGE, nElemental);
+
+            // Morale: We may get a penalty if it does more than a cirtain amount of HP damage.
+            // Other: We set highest damager and amount.
+            if(!GetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER))
+            {
+                // Get penalty and how much damage at once needs to be done
+                int nPenalty = GetBoundriedAIInteger(AI_DAMAGE_AT_ONCE_PENALTY, 6, 50, 1);
+                int nToDamage = GetBoundriedAIInteger(AI_DAMAGE_AT_ONCE_FOR_MORALE_PENALTY, GetMaxHitPoints()/6, GetMaxHitPoints(), 1);
+                if(nDamage > nToDamage)
+                {
+                    // 61: "[Damaged] Morale Penalty for 600 seconds [Penalty]" + IntToString(iPenalty)
+                    DebugActionSpeakByInt(61, OBJECT_INVALID, nPenalty);
+                    // Apply penalty
+                    SetMoralePenalty(nPenalty, 300.0);
+                }
+            }
+        }
+        // If we are not attacking anything, and not in combat, react!
         if(!CannotPerformCombatRound())
         {
-            // Must be in our area to go after now.
-            if(GetArea(oAttacker) == GetArea(OBJECT_SELF))
+            // 62: "[Damaged] Not in combat: DCR [Damager]" + GetName(oDamager)
+            DebugActionSpeakByInt(62, oDamager);
+
+            // Check if they are in the same area. Can be a left AOE spell.
+            // Don't attack purposly across area's.
+            if(GetArea(oDamager) == GetArea(OBJECT_SELF))
             {
-                // 59: "[Phisically Attacked] Attacking back. [Attacker(enemy)] " + GetName(oAttacker)
-                DebugActionSpeakByInt(59, oAttacker);
-
-                // Attack the attacker
-                DetermineCombatRound(oAttacker);
-
                 // Shout to allies to attack the enemy who attacked me
                 AISpeakString(AI_SHOUT_I_WAS_ATTACKED);
+
+                DetermineCombatRound(oDamager);
             }
             else
             {
                 // Shout to allies to attack, or be prepared.
                 AISpeakString(AI_SHOUT_CALL_TO_ARMS);
 
-                // 60: "[Phisically Attacked] Not same area. [Attacker(enemy)] " + GetName(oAttacker)
-                DebugActionSpeakByInt(60, oAttacker);
-
-                // May find another hostile to attack...
                 DetermineCombatRound();
             }
         }
@@ -123,16 +215,20 @@ void main()
             AISpeakString(AI_SHOUT_CALL_TO_ARMS);
         }
     }
-    // Else, invalid, DM, ally, etc...must be prepared at least (could be
-    // they are charmed or something!)
+    // Else it is friendly, or invalid damager
     else
     {
-        // If we are not fighting, prepare for battle. Something bad must have
-        // happened.
+        // Still will react - eg: A left AOE spell (which might mean a battle
+        // just happened)
         if(!CannotPerformCombatRound())
         {
-            // Respond to oAttacker as if they shouted for help.
-            IWasAttackedResponse(oAttacker);
+            // Shout to allies to attack generally. No target to specifically attack,
+            // as it is an ally.
+            AISpeakString(AI_SHOUT_CALL_TO_ARMS);
+
+            // 63: [Damaged] Not in combat: DCR. Ally hit us. [Damager(Ally?)]" + GetName(oDamager)
+            DebugActionSpeakByInt(63, oDamager);
+            DetermineCombatRound();
         }
         else
         {
@@ -140,13 +236,13 @@ void main()
             AISpeakString(AI_SHOUT_CALL_TO_ARMS);
         }
     }
-
-    // Fire End of Attacked event
-    FireUserEvent(AI_FLAG_UDE_ATTACK_EVENT, EVENT_ATTACK_EVENT);
-
-    //****************************** ALFA Mod
-    ALFA_CheckWeaponBreakage();
-    //****************************** End ALFA Mod
-
+    // User defined event - for normally immoral creatures.
+    if(GetCurrentHitPoints() == 1)
+    {
+        // Fire the immortal damaged at 1 HP event.
+        FireUserEvent(AI_FLAG_UDE_DAMAGED_AT_1_HP, EVENT_DAMAGED_AT_1_HP);
+    }
+    // Fire End of Damaged event
+    FireUserEvent(AI_FLAG_UDE_DAMAGED_EVENT, EVENT_DAMAGED_EVENT);
 }
 

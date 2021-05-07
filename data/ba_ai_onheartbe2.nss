@@ -136,7 +136,7 @@ void returnToStartLoc() {
     location spawnloc = GetLocalLocation(OBJECT_SELF, "spawnLoc");
     if(GetDistanceBetweenLocations(myloc, spawnloc) < 1.0) {
         writeToLog(" # I moved back now looking to do something new.");
-        SetLocalInt(OBJECT_SELF, "action", Random(BANDIT_MAX_ACTION) + 1);
+        SetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE, Random(BANDIT_MAX_ACTION) + 1);
     } else {
         writeToLog(" # moving back");
         ActionMoveToLocation(spawnloc, TRUE);
@@ -201,20 +201,20 @@ void customActions(object oArea, int myAction) {
     int hbSinceCombat = GetLocalInt(OBJECT_SELF, "hbSinceCombat");
 
     // If we're in combat
-    if(GetIsInCombat(OBJECT_SELF)){
+    /*if(GetIsInCombat(OBJECT_SELF)){
         writeToLog(" # Is in combat");
-        SetLocalInt(OBJECT_SELF, "hbSinceCombat", 0);
-        onAttackActions("");
+        //SetLocalInt(OBJECT_SELF, "hbSinceCombat", 0);
+        //onAttackActions("");
         return;
     // if we are no longer in combat, have been recently, and cool down lapsed.
     } else if(myAction < 0 && hbSinceCombat > Random(3) + 15) {
         writeToLog(" # Was in combat not anymore");
-        SetLocalInt(OBJECT_SELF, "hbSinceCombat", 0);
-        SetLocalInt(OBJECT_SELF, "action", BANDIT_RETURN_ACTION);
+        //SetLocalInt(OBJECT_SELF, "hbSinceCombat", 0);
+        //SetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE, BANDIT_RETURN_ACTION);
     // if we are no longer in combat, have been recently, and not cooled down.
     } else if(myAction < 0) {
         writeToLog(" # Was in combat recently still on gaurd");
-        SetLocalInt(OBJECT_SELF, "hbSinceCombat", hbSinceCombat + 1);
+        //SetLocalInt(OBJECT_SELF, "hbSinceCombat", hbSinceCombat + 1);
     }
 
     if(myAction == BANDIT_ATTACK_ACTION) {
@@ -241,7 +241,7 @@ void customActions(object oArea, int myAction) {
     if(myAction == BANDIT_ATTACK_PATROL_ACTION) {
         writeToLog(" # BANDIT_ATTACK_PATROL_ACTION");
         patrolAroundCamp(oArea, campfireLoc, patrolCircle + 10);
-    }
+    }*/
 
     //writeToLog("Action Choice: " + IntToString(myAction));
 
@@ -274,7 +274,7 @@ void customActions(object oArea, int myAction) {
 void main()
 {
     object oArea = GetArea(OBJECT_SELF);
-    int myAction = GetLocalInt(OBJECT_SELF, "action");
+    int myAction = GetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE);
     if(myAction == BANDIT_NO_ACTION) {
         int oAreaPlayerNumber = NWNX_Area_GetNumberOfPlayersInArea(oArea);
         if(oAreaPlayerNumber == 0) {
@@ -359,17 +359,11 @@ void main()
                 //}
                 else {
                     customActions(oArea, myAction);
-                    SetLocalInt(OBJECT_SELF, "customActions", TRUE);
                 }
             }
         }
-    // if we are fighting cancel custom actions.
-    } else {
-        if(GetLocalInt(OBJECT_SELF, "customActions") == TRUE) {
-            //ClearAllActions();
-            SetLocalInt(OBJECT_SELF, "customActions", FALSE);
-        }
     }
+
     // Fire End-heartbeat-UDE
     FireUserEvent(AI_FLAG_UDE_HEARTBEAT_EVENT, EVENT_HEARTBEAT_EVENT);
 }

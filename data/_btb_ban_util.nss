@@ -1,4 +1,5 @@
 #include "ba_consts"
+#include "nwnx_data"
 
 void writeToLog(string str) {
     string oAreaName = GetName(GetArea(OBJECT_SELF));
@@ -260,13 +261,54 @@ object spawnBandit(string resref, string race, string class,
     return bandit;
 }
 
-void onAttackActions(string yellString) {
-   int myAction = GetLocalInt(OBJECT_SELF, "action");
+void BanditSetAttackState(object oBandit, object attackTarget) {
+
+    SetLocalInt(oBandit, BANDIT_ACTION_STATE, BANDIT_ATTACK_ACTION);
+    if(GetIsInCombat(oBandit) == FALSE) {
+       AssignCommand(oBandit, ClearAllActions());
+       AssignCommand(oBandit, ActionAttack(attackTarget));
+    }
+}
+
+void onAttackActions(string yellString, object attackTarget) {
+
+    object campFire = GetNearestObjectByTag("banditcampfire1");
+
+    // if an attack isnt already in progress.
+    if(GetLocalInt(campFire, ATTACK_ON_CAMP_STATE) == BANDIT_ATTACK_NONE) {
+        SetLocalInt(campFire, ATTACK_ON_CAMP_STATE, BANDIT_ATTACK_IN_PROGRESS);
+
+        // Loop over all the members of the campfire.
+        int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, campFire,
+                                         BANDIT_UUID_ARRAY);
+        int i = 0;
+        while(i < arraySize) {
+
+            if(i > 100) {
+                writeToLog("WARNING: NEW LIMITER REACHED!!!");
+                return;
+            }
+            string banUUID = NWNX_Data_Array_At_Str(OBJECT_SELF,
+                                                    BANDIT_UUID_ARRAY,
+                                                    i);
+            // if our object is a creature set its attack state.
+            object oBandit = GetObjectByUUID(banUUID);
+            if(GetObjectType(oBandit) == OBJECT_TYPE_CREATURE) {
+                BanditSetAttackState(oBandit, attackTarget);
+            }
+            i++;
+        }
+    }
+
+}
+
+void onAttackActionsOld(string yellString) {
+   int myAction = GetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE);
     // Need to call other bandits to help and attack who attacked you.
     //AssignCommand(OBJECT_SELF, ClearAllActions()); - removed
     if(myAction > 0) {
         AssignCommand(OBJECT_SELF, ClearAllActions());
-        SetLocalInt(OBJECT_SELF, "action", BANDIT_ATTACK_ACTION);
+        SetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE, BANDIT_ATTACK_ACTION);
         writeToLog(" new combat PA");
         int i = 1;
         object lastAttacker = GetLastAttacker(OBJECT_SELF);
@@ -280,15 +322,15 @@ void onAttackActions(string yellString) {
                     writeToLog("Called " + GetLocalString(bandit, "uuid")
                                     + " for help");
                     AssignCommand(bandit, ActionAttack(lastAttacker));
-                    SetLocalInt(bandit, "action", BANDIT_ATTACK_ACTION);
+                    SetLocalInt(bandit, BANDIT_ACTION_STATE, BANDIT_ATTACK_ACTION);
                 } else {
                     int actionChoice = Random(2) + 1;
                     if(actionChoice == 1) {
-                        SetLocalInt(bandit, "action",
+                        SetLocalInt(bandit, BANDIT_ACTION_STATE,
                                         BANDIT_ATTACK_PATROL_ACTION);
                     }
                     if(actionChoice == 2) {
-                        SetLocalInt(bandit, "action",
+                        SetLocalInt(bandit, BANDIT_ACTION_STATE,
                                         BANDIT_ATTACK_SEARCH_ACTION);
                     }
                 }
@@ -299,7 +341,7 @@ void onAttackActions(string yellString) {
         if(yellString != "") {
             SpeakString(yellString);
         }
-        SetLocalInt(OBJECT_SELF, "action", BANDIT_ATTACK_ACTION);
+        SetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE, BANDIT_ATTACK_ACTION);
     }
 }
 

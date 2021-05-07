@@ -134,7 +134,7 @@ void returnToStartLoc() {
     location spawnloc = GetLocalLocation(OBJECT_SELF, "spawnLoc");
     if(GetDistanceBetweenLocations(myloc, spawnloc) < 1.0) {
         //writeToLog(" # I moved back now looking to do something new.");
-        SetLocalInt(OBJECT_SELF, "action", Random(3) + 1);
+        SetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE, Random(3) + 1);
     } else {
         writeToLog(" # moving back");
         ActionMoveToLocation(spawnloc, TRUE);
@@ -185,7 +185,7 @@ void main()
      */
 
     object oArea = GetArea(OBJECT_SELF);
-    int myAction = GetLocalInt(OBJECT_SELF, "action");
+    int myAction = GetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE);
 
     // myAction 0 means no action. So just wait to despawn.
     if(myAction == BANDIT_NO_ACTION) {
@@ -218,13 +218,13 @@ void main()
         if(GetIsInCombat(OBJECT_SELF)){
             writeToLog(" # Is in combat");
             SetLocalInt(OBJECT_SELF, "hbSinceCombat", 0);
-            onAttackActions("");
+            //onAttackActions("");
             return;
         // if we are no longer in combat, have been recently, and cool down lapsed.
         } else if(myAction < 0 && hbSinceCombat > Random(3) + 15) {
             writeToLog(" # Was in combat not anymore");
             SetLocalInt(OBJECT_SELF, "hbSinceCombat", 0);
-            SetLocalInt(OBJECT_SELF, "action", BANDIT_RETURN_ACTION);
+            SetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE, BANDIT_RETURN_ACTION);
         // if we are no longer in combat, have been recently, and not cooled down.
         } else if(myAction < 0) {
             writeToLog(" # Was in combat recently still on gaurd");

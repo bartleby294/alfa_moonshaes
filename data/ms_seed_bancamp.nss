@@ -407,7 +407,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             if(randAction == BANDIT_SLEEP_ACTION) {
                sleepNum++;
             }
-            SetLocalInt(bandit, "action", randAction);
+            SetLocalInt(bandit, BANDIT_ACTION_STATE, randAction);
             SetLocalInt(bandit, "banditId", banditCnt);
             // Save our bandit so we can delete it later.
             NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY, bandit);

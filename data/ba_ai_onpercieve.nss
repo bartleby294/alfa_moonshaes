@@ -166,9 +166,9 @@ void main()
                     // - Turns it off in it too (5 minutes - 1.4)
                     // - Variable range On Spawn
                     ShoutBossShout(oPerceived);
-		    ////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////
                     // Disabled for testing 2021-05-02
-                    //onAttackActions("We got a snoop!");
+                    onAttackActions("We got a snoop!", oPerceived);
                     ////////////////////////////////////////////////////////////
                     // 54: "[Perception] Enemy Seen. Not in combat, attacking. [Percieved] " + GetName(oPerceived)
                     DebugActionSpeakByInt(54, oPerceived);
