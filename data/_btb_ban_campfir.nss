@@ -44,7 +44,8 @@ void DestroyCamp(object oArea){
         object oBandit = GetObjectByUUID(banUUID);
         if(oBandit != OBJECT_INVALID) {
             writeToLog("| Destroying: " + GetTag(oBandit));
-            DestroyObject(oBandit, 2.0);
+            AssignCommand(oBandit, SetIsDestroyable(TRUE,FALSE,FALSE));
+            DestroyObject(oBandit);
         }
         i++;
     }
