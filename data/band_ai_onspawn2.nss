@@ -205,7 +205,7 @@ void main()
     3 or under intelligence will just run away. 4 or more will know where allies
     are, and if there are none, will not run.
 ************************* [Fleeing] *******************************************/
-    SetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER);
+    //SetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER);
         // Forces them to not flee. This may be set with AI_SetMaybeFearless at the end.
     SetSpawnInCondition(AI_FLAG_FLEEING_NEVER_FIGHT_IMPOSSIBLE_ODDS, AI_TARGETING_FLEE_MASTER);
         // This will make the creature never fight against impossible odds (8HD+ different)
@@ -319,7 +319,7 @@ void main()
     //SetSpawnInCondition(AI_FLAG_COMBAT_MANY_TARGETING, AI_COMBAT_MASTER);
         // For Same-level spells, AOE spells are used first.
 
-    SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_INSTANT_DEATH_SPELLS, AI_COMBAT_MASTER);
+    //SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_INSTANT_DEATH_SPELLS, AI_COMBAT_MASTER);
         // A few Death spells may be cast top-prioritory if the enemy will always fail saves.
     SetSpawnInCondition(AI_FLAG_COMBAT_IMPROVED_SUMMON_TARGETING, AI_COMBAT_MASTER);
         // Will use a better target to summon a creature at (EG: Ranged attacker)
@@ -386,7 +386,7 @@ void main()
         // This forces all cure spells to be used, check readme.
     //SetAIInteger(SECONDS_BETWEEN_STATUS_CHECKS, 30);
         // Seconds between when we loop everyone for bad effects like Fear/stun ETC. If not set, done each round.
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_GIVE_POTIONS_TO_HELP, AI_OTHER_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_GIVE_POTIONS_TO_HELP, AI_OTHER_COMBAT_MASTER);
         // ActionGiveItem standard healing potion's to allies who need them, if they possess them.
 
 /************************ [Combat Other - Healers/Healing] ********************/
@@ -406,7 +406,7 @@ void main()
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_EMPATHY, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_EMPATHY, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_HIDING, AI_OTHER_COMBAT_MASTER);
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_OPENING_LOCKED_DOORS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_OPENING_LOCKED_DOORS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_USING_HEALING_KITS, AI_OTHER_COMBAT_MASTER);
@@ -418,19 +418,30 @@ void main()
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_CONCENTRATION, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_CONCENTRATION, AI_OTHER_COMBAT_MASTER);
 
+    SetListening( OBJECT_SELF, TRUE);
+    SetListenPattern( OBJECT_SELF, "NW_I_WAS_ATTACKED",5000);
+    SetListenPattern( OBJECT_SELF, "I_WAS_ATTACKED",5001);
+    DelayCommand(1.5, SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, TRUE) );
+
 /************************ [Combat Other - Skills] *****************************/
 
 /************************ [Combat Other - Leaders] *****************************
     Leaders/Bosses can be set to issue some orders and inspire more morale - and bring
     a lot of allies to a battle at once!
 ************************* [Combat Other - Leaders] ****************************/
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_GROUP_LEADER, AI_OTHER_COMBAT_MASTER);
-        // Special leader. Can issuse some orders. See readme for details.
+    object banditcampfire = GetNearestObjectByTag("banditcampfire1");
+    int doWeHaveLeader = GetLocalInt(banditcampfire, "leader_spawned");
 
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_BOSS_MONSTER_SHOUT, AI_OTHER_COMBAT_MASTER);
-        // Boss shout. 1 time use - calls all creatures in X meters (below) for battle!
-    //SetAIInteger(AI_BOSS_MONSTER_SHOUT_RANGE, 60);
-        // Defaults to a 60 M range. This can change it. Note: 1 toolset square = 10M.
+    if(doWeHaveLeader == FALSE) {
+        SetLocalInt(banditcampfire, "leader_spawned", TRUE);
+        SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_GROUP_LEADER, AI_OTHER_COMBAT_MASTER);
+            // Special leader. Can issuse some orders. See readme for details.
+
+        SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_BOSS_MONSTER_SHOUT, AI_OTHER_COMBAT_MASTER);
+            // Boss shout. 1 time use - calls all creatures in X meters (below) for battle!
+        SetAIInteger(AI_BOSS_MONSTER_SHOUT_RANGE, 60);
+            // Defaults to a 60 M range. This can change it. Note: 1 toolset square = 10M.
+    }
 
 /************************ [Combat Other - Leaders] ****************************/
 
@@ -453,7 +464,7 @@ void main()
     //AI_CreateRandomOther(-2, 2, -2, 2, -2, 2, -2, 2);
         // Create (Effect-applied) random HP, saves, AC.
 
-    //SetSpawnInCondition(AI_FLAG_OTHER_RETURN_TO_SPAWN_LOCATION, AI_OTHER_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_RETURN_TO_SPAWN_LOCATION, AI_OTHER_MASTER);
         // This will store our spawn location, and then move back there after combat.
     SetSpawnInCondition(AI_FLAG_OTHER_DONT_RESPOND_TO_EMOTES, AI_OTHER_MASTER);
         // This will ignore ALL chat by PC's (Enemies) who speak actions in Stars - *Bow*
@@ -472,7 +483,7 @@ void main()
     //SetAIInteger(AI_DOOR_INTELLIGENCE, 1);
         // 3 Special "What to do with Doors" settings. See readme. Good for animals.
 
-    //SetSpawnInCondition(AI_FLAG_OTHER_REST_AFTER_COMBAT, AI_OTHER_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_REST_AFTER_COMBAT, AI_OTHER_MASTER);
         // When combat is over, creature rests. Useful for replenising health.
 
     //SetSpawnInCondition(AI_FLAG_OTHER_NO_PLAYING_VOICE_CHAT, AI_OTHER_MASTER);
@@ -536,7 +547,7 @@ void main()
 
     //SetSpawnInCondition(AI_FLAG_UDE_HEARTBEAT_EVENT, AI_UDE_MASTER);             // UDE 1001
     //SetSpawnInCondition(AI_FLAG_UDE_HEARTBEAT_PRE_EVENT, AI_UDE_MASTER);         // UDE 1021
-    //SetSpawnInCondition(AI_FLAG_UDE_PERCIEVE_EVENT, AI_UDE_MASTER);              // UDE 1002
+    SetSpawnInCondition(AI_FLAG_UDE_PERCIEVE_EVENT, AI_UDE_MASTER);              // UDE 1002
     //SetSpawnInCondition(AI_FLAG_UDE_PERCIEVE_PRE_EVENT, AI_UDE_MASTER);          // UDE 1022
     //SetSpawnInCondition(AI_FLAG_UDE_END_COMBAT_ROUND_EVENT, AI_UDE_MASTER);      // UDE 1003
     //SetSpawnInCondition(AI_FLAG_UDE_END_COMBAT_ROUND_PRE_EVENT, AI_UDE_MASTER);  // UDE 1023
@@ -606,9 +617,9 @@ void main()
     // Leader ones
     //AI_SetSpawnInSpeakValue(AI_TALK_ON_LEADER_SEND_RUNNER, "Quickly! We need help!");
         // This will be said when the leader, if this creature, sends a runner.
-    //AI_SetSpawnInSpeakValue(AI_TALK_ON_LEADER_ATTACK_TARGET, "Help attack this target!");
+    AI_SetSpawnInSpeakValue(AI_TALK_ON_LEADER_ATTACK_TARGET, "Help attack this target!");
         // When the leader thinks target X should be attacked, it will say this.
-    //AI_SetSpawnInSpeakValue(AI_TALK_ON_LEADER_BOSS_SHOUT, "Come my minions! To battle!");
+    AI_SetSpawnInSpeakValue(AI_TALK_ON_LEADER_BOSS_SHOUT, "We got a live one boys!");
         // This will be said when the leader, if this creature, sees an enemy and uses his "Boss Monster Shout", if turned on.
 
 /************************ [User Defined and Shouts] ***************************/
@@ -683,6 +694,9 @@ void main()
 //    {
 //        SetSpawnInCondition(AI_FLAG_OTHER_LAG_NO_SPELLS, AI_OTHER_MASTER);
 //    }
+
+ExecuteScript("nw_c2_default9ro", OBJECT_SELF);
+
 
 /************************ [User] **********************************************/
 
