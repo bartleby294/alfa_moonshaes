@@ -366,7 +366,7 @@ void main()
     // if we are fighting cancel custom actions.
     } else {
         if(GetLocalInt(OBJECT_SELF, "customActions") == TRUE) {
-            ClearAllActions();
+            //ClearAllActions();
             SetLocalInt(OBJECT_SELF, "customActions", FALSE);
         }
     }
