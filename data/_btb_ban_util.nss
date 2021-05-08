@@ -286,6 +286,7 @@ void onAttackActions(string yellString, object attackTarget, object campFire) {
         // Loop over all the members of the campfire.
         int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_STRING, campFire,
                                          BANDIT_UUID_ARRAY);
+        WriteTimestampedLogEntry("BANDIT onAttackActions: arraySize - " + IntToString(arraySize));
         int i = 0;
         while(i < arraySize) {
 
@@ -296,8 +297,10 @@ void onAttackActions(string yellString, object attackTarget, object campFire) {
             string banUUID = NWNX_Data_Array_At_Str(campFire,
                                                     BANDIT_UUID_ARRAY,
                                                     i);
+            WriteTimestampedLogEntry("BANDIT onAttackActions: banUUID - " + banUUID);
             // if our object is a creature set its attack state.
             object oBandit = GetObjectByUUID(banUUID);
+            WriteTimestampedLogEntry("BANDIT onAttackActions: Tag - " + GetTag(oBandit));
             if(GetObjectType(oBandit) == OBJECT_TYPE_CREATURE) {
                 WriteTimestampedLogEntry(banUUID + ": Attack");
                 BanditSetAttackState(oBandit, attackTarget);
