@@ -394,12 +394,12 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalString(bandit, "campfire", campfireTag);
             SetEventScript(bandit, EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
                    "ba_ai_onheartbe3");
-            int randAction = Random(BANDIT_MAX_ACTION) + 1;
+            int randAction = Random(BANDIT_MAX_ACTION) + 2;
             while((randAction == BANDIT_PATROL_ACTION
                         && patrolNum > 1 * circle_max + 1)
                    || (randAction == BANDIT_SLEEP_ACTION
                         && sleepNum > 1 * circle_max + 1)) {
-                randAction = Random(BANDIT_MAX_ACTION) + 1;
+                randAction = Random(BANDIT_MAX_ACTION) + 2;
             }
             if(randAction == BANDIT_PATROL_ACTION) {
                patrolNum++;
