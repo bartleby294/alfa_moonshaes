@@ -168,10 +168,10 @@ void main()
                     ShoutBossShout(oPerceived);
                     ////////////////////////////////////////////////////////////
                     // Disabled for testing 2021-05-02
-                    //SpeakString("BANDIT PERCEPTION: ATTACK!!!!!!!");
-                    //WriteTimestampedLogEntry("BANDIT PERCEPTION: ATTACK!!!!!!!");
-                    //onAttackActions("We got a snoop!", oPerceived,
-                    //                GetLocalObject(OBJECT_SELF, "bandit_campfire"));
+                    SpeakString("BANDIT PERCEPTION: ATTACK!!!!!!!");
+                    WriteTimestampedLogEntry("BANDIT PERCEPTION: ATTACK!!!!!!!");
+                    onAttackActions("We got a snoop!", oPerceived,
+                                    GetLocalObject(OBJECT_SELF, "bandit_campfire"));
                     ////////////////////////////////////////////////////////////
                     // 54: "[Perception] Enemy Seen. Not in combat, attacking. [Percieved] " + GetName(oPerceived)
                     DebugActionSpeakByInt(54, oPerceived);
