@@ -275,6 +275,12 @@ void main()
 {
     object oArea = GetArea(OBJECT_SELF);
     int myAction = GetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE);
+    int destroySelf = GetLocalInt(OBJECT_SELF, BANDIT_DESTROY_SELF);
+
+    if(destroySelf == TRUE) {
+        DestroyObject(OBJECT_SELF, 2.0);
+    }
+
     if(myAction == BANDIT_NO_ACTION) {
         int oAreaPlayerNumber = NWNX_Area_GetNumberOfPlayersInArea(oArea);
         if(oAreaPlayerNumber == 0) {

@@ -22,4 +22,6 @@ const int BANDIT_ATTACK_NONE = 0;
 const int BANDIT_ATTACK_IN_PROGRESS = -1;
 const int BANDIT_ATTACK_STALLED = -2;
 
+const string BANDIT_DESTROY_SELF = "bandit_destroy_self";
+
 
