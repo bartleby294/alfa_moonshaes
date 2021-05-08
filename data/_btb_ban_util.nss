@@ -294,6 +294,7 @@ void onAttackActions(string yellString, object attackTarget) {
             // if our object is a creature set its attack state.
             object oBandit = GetObjectByUUID(banUUID);
             if(GetObjectType(oBandit) == OBJECT_TYPE_CREATURE) {
+                WriteTimestampedLogEntry(banUUID + ": Attack");
                 BanditSetAttackState(oBandit, attackTarget);
             }
             i++;
