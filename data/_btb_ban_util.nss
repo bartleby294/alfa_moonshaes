@@ -293,7 +293,7 @@ void onAttackActions(string yellString, object attackTarget, object campFire) {
                 writeToLog("WARNING: NEW LIMITER REACHED!!!");
                 return;
             }
-            string banUUID = NWNX_Data_Array_At_Str(OBJECT_SELF,
+            string banUUID = NWNX_Data_Array_At_Str(campFire,
                                                     BANDIT_UUID_ARRAY,
                                                     i);
             // if our object is a creature set its attack state.
