@@ -265,7 +265,7 @@ void BanditSetAttackState(object oBandit, object attackTarget) {
 
     SetLocalInt(oBandit, BANDIT_ACTION_STATE, BANDIT_ATTACK_ACTION);
     if(GetIsInCombat(oBandit) == FALSE) {
-       AssignCommand(oBandit, ClearAllActions());
+       //AssignCommand(oBandit, ClearAllActions());
        //AssignCommand(oBandit, ActionAttack(attackTarget));
     }
 }
