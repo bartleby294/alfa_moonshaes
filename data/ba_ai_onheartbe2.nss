@@ -278,7 +278,10 @@ void main()
     int destroySelf = GetLocalInt(OBJECT_SELF, BANDIT_DESTROY_SELF);
 
     if(destroySelf == TRUE) {
+        writeToLog("DESTROY SELF ON HEARTBEAT TRUE.");
         DestroyObject(OBJECT_SELF, 2.0);
+    } else {
+        writeToLog("DESTROY SELF ON HEARTBEAT FALSE.");
     }
 
     if(myAction == BANDIT_NO_ACTION) {

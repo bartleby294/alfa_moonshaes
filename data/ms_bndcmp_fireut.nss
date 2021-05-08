@@ -39,10 +39,10 @@ void DestroyCamp(object oArea){
         object oBandit = NWNX_Data_Array_At_Obj(OBJECT_SELF, BANDIT_UUID_ARRAY,
                                                 i);
         if(oBandit != OBJECT_INVALID) {
+            SetLocalInt(oBandit, BANDIT_DESTROY_SELF, TRUE);
             writeToLog("|| Destroying: " + GetTag(oBandit));
             DestoyInventory(oBandit);
-            SetLocalInt(oBandit, BANDIT_DESTROY_SELF, TRUE);
-            DestroyObject(oBandit, 0.1 * i);
+            DestroyObject(oBandit);
         }
         i++;
     }
