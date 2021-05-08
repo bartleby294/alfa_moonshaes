@@ -166,8 +166,9 @@ void DebugActionSpeak(string sString)
 // be best to keep this uncommented.
 // Futher: - Must have debug mode set to 1
 //         - Only the server admin can seem to see this.
-//    SpeakString(sNew, TALKVOLUME_TALK);
-
+    if(GetLocalInt(GetModule(), "jas_ai_debug_speak") == TRUE) {
+            SpeakString(sNew, TALKVOLUME_TALK);
+    }
 // Note, uncomment this line to send a message to the first PC in the module.
 // - Useful for singleplayer testing
     //SendMessageToPC(GetFirstPC(), sNew);
@@ -175,7 +176,9 @@ void DebugActionSpeak(string sString)
 // This writes the entry to the log, very important, if debugging
 // Futher: - If left up for a long time, logs can get very big with the AI
 //         - Use to find problems in the AI and report to me :-D (Jasperre)
-    WriteTimestampedLogEntry(sNew);
+    if(GetLocalInt(GetModule(), "jas_ai_debug_log") == TRUE) {
+        WriteTimestampedLogEntry(sNew);
+    }
 }
 
 // Debug: To compile this script full, uncomment all of the below.
