@@ -167,7 +167,12 @@ void DebugActionSpeak(string sString)
 // Futher: - Must have debug mode set to 1
 //         - Only the server admin can seem to see this.
     if(GetLocalInt(GetModule(), "jas_ai_debug_speak") == TRUE) {
-            SpeakString(sNew, TALKVOLUME_TALK);
+        SpeakString(sNew, TALKVOLUME_TALK);
+    }
+
+    // Send to DMs only.
+    if(GetLocalInt(GetModule(), "jas_ai_debug_dm") == TRUE) {
+            SendMessageToAllDMs(sNew);
     }
 // Note, uncomment this line to send a message to the first PC in the module.
 // - Useful for singleplayer testing
