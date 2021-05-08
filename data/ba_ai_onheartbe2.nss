@@ -246,10 +246,10 @@ void customActions(object oArea, int myAction) {
     //writeToLog("Action Choice: " + IntToString(myAction));
 
     // Move back to inital location. Or just stand gaurd.
-    if(myAction == BANDIT_RETURN_ACTION) {
-        writeToLog(" # BANDIT_RETURN_ACTION");
-        returnToStartLoc();
-    }
+    //if(myAction == BANDIT_RETURN_ACTION) {
+    //    writeToLog(" # BANDIT_RETURN_ACTION");
+    //    returnToStartLoc();
+    //}
     // Patrol around camp parimiter. It too close to another bandit wait.
     if(myAction == BANDIT_PATROL_ACTION) {
         //writeToLog(" # BANDIT_PATROL_ACTION");
@@ -276,6 +276,8 @@ void main()
     object oArea = GetArea(OBJECT_SELF);
     int myAction = GetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE);
     int destroySelf = GetLocalInt(OBJECT_SELF, BANDIT_DESTROY_SELF);
+
+    SpeakString("My Action: " + IntToString(myAction));
 
     if(destroySelf == TRUE) {
         writeToLog("DESTROY SELF ON HEARTBEAT TRUE.");

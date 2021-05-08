@@ -276,6 +276,7 @@ void onAttackActions(string yellString, object attackTarget) {
 
     // if an attack isnt already in progress.
     if(GetLocalInt(campFire, ATTACK_ON_CAMP_STATE) == BANDIT_ATTACK_NONE) {
+        WriteTimestampedLogEntry("BANDIT onAttackActions: ONLY CALL ONCE!!!!");
         SetLocalInt(campFire, ATTACK_ON_CAMP_STATE, BANDIT_ATTACK_IN_PROGRESS);
 
         // Loop over all the members of the campfire.
