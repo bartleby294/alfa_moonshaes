@@ -277,7 +277,7 @@ void main()
     int myAction = GetLocalInt(OBJECT_SELF, BANDIT_ACTION_STATE);
     int destroySelf = GetLocalInt(OBJECT_SELF, BANDIT_DESTROY_SELF);
 
-    SpeakString("My Action: " + IntToString(myAction));
+    //SpeakString("My Action: " + IntToString(myAction));
 
     if(destroySelf == TRUE) {
         writeToLog("DESTROY SELF ON HEARTBEAT TRUE.");

@@ -57,6 +57,24 @@ void CreateBanditMapPeice(location loc) {
 
 void main() {
     object oPC = GetLastAttacker();
+
+    int nDamage = GetTotalDamageDealt();
+    // Get all the physical damage. Elemental damage is then nDamage minus
+    // the physical damage.
+    int nPhysical = GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON |
+                                         DAMAGE_TYPE_BLUDGEONING |
+                                         DAMAGE_TYPE_PIERCING |
+                                         DAMAGE_TYPE_SLASHING);
+    // If they are all -1, then we make nPhysical
+    if(nPhysical <= -1) nPhysical = 0;
+    int nElemental = nDamage - nPhysical;
+
+    // if the tent was brought down as a result of elemental damage dont drop
+    // items as they were destroyed by the elemental damage.
+    if(nElemental > 0) {
+        return;
+    }
+
     location lTentLocation = GetLocation(OBJECT_SELF);
     if(d6() == 6) {
         CreateBanditMapPeice(lTentLocation);
