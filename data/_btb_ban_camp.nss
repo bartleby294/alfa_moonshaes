@@ -329,12 +329,12 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalLocation(bandit, "campfireLoc", campfireLoc);
             SetLocalLocation(bandit, "spawnLoc", spawnLoc);
             SetLocalInt(bandit, "circle_max", circle_max);
-            int randAction = Random(BANDIT_MAX_ACTION) + 1;
+            int randAction = Random(BANDIT_MAX_ACTION) + 2;
             while((randAction == BANDIT_PATROL_ACTION
                         && patrolNum > 1 * circle_max + 1)
                    || (randAction == BANDIT_SLEEP_ACTION
                         && sleepNum > 1 * circle_max + 1)) {
-                randAction = Random(BANDIT_MAX_ACTION) + 1;
+                randAction = Random(BANDIT_MAX_ACTION) + 2;
             }
             if(randAction == BANDIT_PATROL_ACTION) {
                patrolNum++;
