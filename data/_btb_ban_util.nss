@@ -270,9 +270,13 @@ void BanditSetAttackState(object oBandit, object attackTarget) {
     }
 }
 
-void onAttackActions(string yellString, object attackTarget) {
+void onAttackActions(string yellString, object attackTarget, object campFire) {
 
-    object campFire = GetNearestObjectByTag("banditcampfire1");
+    //object campFire = GetNearestObjectByTag("banditcampfire1");
+
+    if(campFire == OBJECT_INVALID) {
+        WriteTimestampedLogEntry("campFire == OBJECT_INVALID");
+    }
 
     // if an attack isnt already in progress.
     if(GetLocalInt(campFire, ATTACK_ON_CAMP_STATE) == BANDIT_ATTACK_NONE) {
