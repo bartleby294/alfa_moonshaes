@@ -279,7 +279,9 @@ void main()
 
     if(destroySelf == TRUE) {
         writeToLog("DESTROY SELF ON HEARTBEAT TRUE.");
+        SetIsDestroyable(TRUE,FALSE,FALSE);
         DestroyObject(OBJECT_SELF, 2.0);
+        return;
     } else {
         writeToLog("DESTROY SELF ON HEARTBEAT FALSE.");
     }

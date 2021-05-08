@@ -42,7 +42,8 @@ void DestroyCamp(object oArea){
             SetLocalInt(oBandit, BANDIT_DESTROY_SELF, TRUE);
             writeToLog("|| Destroying: " + GetTag(oBandit));
             DestoyInventory(oBandit);
-            DestroyObject(oBandit);
+            AssignCommand(oBandit, SetIsDestroyable(TRUE,FALSE,FALSE));
+            DestroyObject(oBandit, 2.0);
         }
         i++;
     }
