@@ -1,25 +1,26 @@
 
-void createBat(location oItemLoc, float flyDist) {
+void createBat(location oItemLoc, float flyDist, int hbMax) {
     object bat = CreateObject(OBJECT_TYPE_CREATURE, "_btb_bat_swarm1",
                                   oItemLoc, TRUE);
-        AssignCommand(bat, ActionMoveAwayFromLocation(oItemLoc, TRUE, flyDist));
-        SetLocalLocation(bat, "center", oItemLoc);
+    SetLocalInt(OBJECT_SELF, "hbMax", hbMax);
+    AssignCommand(bat, ActionMoveAwayFromLocation(oItemLoc, TRUE, flyDist));
+    SetLocalLocation(bat, "center", oItemLoc);
 }
 
-void batScatter(location oItemLoc, float flyDist) {
+void batScatter(location oItemLoc, float flyDist, int hbMax=0) {
     int batNum = 0;
     while(batNum < 20) {
-        createBat(oItemLoc, flyDist);
+        createBat(oItemLoc, flyDist, hbMax);
         batNum++;
     }
     float batFloat = 0.0;
     while(batFloat < 7.0) {
-        DelayCommand(batFloat, createBat(oItemLoc, flyDist));
-        DelayCommand(batFloat, createBat(oItemLoc, flyDist));
-        DelayCommand(batFloat, createBat(oItemLoc, flyDist));
-        DelayCommand(batFloat, createBat(oItemLoc, flyDist));
-        DelayCommand(batFloat, createBat(oItemLoc, flyDist));
-        DelayCommand(batFloat, createBat(oItemLoc, flyDist));
+        DelayCommand(batFloat, createBat(oItemLoc, flyDist, hbMax));
+        DelayCommand(batFloat, createBat(oItemLoc, flyDist, hbMax));
+        DelayCommand(batFloat, createBat(oItemLoc, flyDist, hbMax));
+        DelayCommand(batFloat, createBat(oItemLoc, flyDist, hbMax));
+        DelayCommand(batFloat, createBat(oItemLoc, flyDist, hbMax));
+        DelayCommand(batFloat, createBat(oItemLoc, flyDist, hbMax));
         batFloat = batFloat + 1.0;
     }
 }
