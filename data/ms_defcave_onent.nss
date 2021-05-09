@@ -32,9 +32,12 @@ void CreateBatDrops(object baseObj, int batWP1Cnt, int batWP2Cnt) {
     }
 
     location loc = pickLoc(WP, Random(5) * 1.0, Random(360) * 1.0);
-
     float trigger1Size = 10.0;
     vector locVec = GetPositionFromLocation(loc);
+    WriteTimestampedLogEntry("Creating Bat Drop at (" + FloatToString(locVec.x)
+                                                      + FloatToString(locVec.y)
+                                                      + FloatToString(locVec.z)
+                                                      + ")");
     object batTrigger = NWNX_Area_CreateGenericTrigger(OBJECT_SELF,
                                                        locVec.x,
                                                        locVec.y,
@@ -158,6 +161,7 @@ void main()
             TearBatDropsDown();
             //WriteTimestampedLogEntry("DEFILED CAVERNS SPIDER WEBS: Building webs");
             DelayCommand(0.5, BuildNewWebs());
+            DelayCommand(1.0, BuildNewBatDrops());
         }
     }
 
