@@ -7,7 +7,7 @@ void createBat(location oItemLoc, float flyDist, int hbMax) {
     SetLocalLocation(bat, "center", oItemLoc);
 }
 
-void batScatter(location oItemLoc, float flyDist, int hbMax=0) {
+void batScatter(location oItemLoc, float flyDist, int hbMax=2) {
     int batNum = 0;
     while(batNum < 20) {
         createBat(oItemLoc, flyDist, hbMax);

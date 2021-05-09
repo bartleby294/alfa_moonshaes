@@ -31,10 +31,6 @@ void main()
     int hbCount = GetLocalInt(OBJECT_SELF, "hbCount");
     int hbMax = GetLocalInt(OBJECT_SELF, "hbMax");
 
-    if(hbMax == 0) {
-        hbMax = 2;
-    }
-
     if(hbCount > hbMax) {
         DestroyObject(OBJECT_SELF);
     } else {
