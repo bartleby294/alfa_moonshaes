@@ -44,6 +44,8 @@ void CreateBatDrops(object baseObj, int batWP1Cnt, int batWP2Cnt) {
                                                        locVec.z,
                                                        "bat_swarm_drop",
                                                        trigger1Size);
+    SetEventScript(batTrigger, EVENT_SCRIPT_TRIGGER_ON_OBJECT_ENTER,
+                   "ms_batdrop_trig");
 }
 
 void BuildNewBatDrops() {
