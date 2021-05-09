@@ -4,5 +4,6 @@ void main()
 {
     object oPC = GetEnteringObject();
     location loc = GetLocation(oPC);
-    batScatter(loc, 500.0);
+    batScatter(loc, 50.0);
+    DestroyObject(OBJECT_SELF);
 }
