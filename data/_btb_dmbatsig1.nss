@@ -6,5 +6,5 @@ void main()
     object oArea = GetArea(oPC);
     object oItem = GetItemActivated();
     location oItemLoc = GetItemActivatedTargetLocation();
-    batScatter(oItemLoc);
+    batScatter(oItemLoc, 1000.0);
 }

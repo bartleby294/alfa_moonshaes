@@ -4,5 +4,5 @@ void main()
 {
     object oPC = GetEnteringObject();
     location loc = GetLocation(oPC);
-    batScatter(loc);
+    batScatter(loc, 500.0);
 }

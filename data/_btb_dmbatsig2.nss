@@ -1,14 +1,14 @@
 #include "_btb_util"
 
-void createBat(location oItemLoc) {
+void createBat2(location oItemLoc) {
     object bat = CreateObject(OBJECT_TYPE_CREATURE, "_btb_bat_swarm1",
                                   oItemLoc, TRUE);
         AssignCommand(bat, ActionMoveAwayFromLocation(oItemLoc, TRUE, 1000.0));
         SetLocalLocation(bat, "center", oItemLoc);
 }
 
-void batScatter(object oArea, location oItemLoc) {
-    createBat(oItemLoc);
+void batScatter2(object oArea, location oItemLoc) {
+    createBat2(oItemLoc);
 }
 
 void main()
@@ -17,5 +17,5 @@ void main()
     object oArea = GetArea(oPC);
     object oItem = GetItemActivated();
     location oItemLoc = GetItemActivatedTargetLocation();
-    batScatter(oArea, oItemLoc);
+    batScatter2(oArea, oItemLoc);
 }
