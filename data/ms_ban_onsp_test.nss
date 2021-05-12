@@ -1,4 +1,8 @@
-void main()
+void main() {
+    ExecuteScript("ms_ai_bap_onspaw");
+}
+
+void mainOLD()
 {
     if(GetCampaignInt("MS_TOGGLES", "MS_TOGGLES_BANDIT_ONBLOCK") == FALSE) {
         SetEventScript(OBJECT_SELF, EVENT_SCRIPT_CREATURE_ON_BLOCKED_BY_DOOR,
@@ -101,6 +105,4 @@ void main()
     } else {
         ExecuteScript("jai_kob_mel_onsp");
     }
-
-
 }
