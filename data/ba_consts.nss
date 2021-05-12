@@ -15,6 +15,7 @@ const int BANDIT_WALK_ACTION = 5;
 
 const int BANDIT_MAX_ACTION = 5;
 
+const string BANDIT_OBJ_ARRAY = "bandit_obj_array";
 const string BANDIT_UUID_ARRAY = "bandit_uuid_array";
 
 const string ATTACK_ON_CAMP_STATE = "attack_on_camp_state";

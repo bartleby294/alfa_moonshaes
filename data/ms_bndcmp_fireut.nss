@@ -28,7 +28,7 @@ void DestoyInventory(object obj)
 
 void DestroyCamp(object oArea){
     int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_OBJECT, OBJECT_SELF,
-                                         BANDIT_UUID_ARRAY);
+                                         BANDIT_OBJ_ARRAY);
     int i = 0;
     while(i < arraySize) {
 
@@ -36,7 +36,7 @@ void DestroyCamp(object oArea){
             writeToLog("WARNING: NEW LIMITER REACHED!!!");
             return;
         }
-        object oBandit = NWNX_Data_Array_At_Obj(OBJECT_SELF, BANDIT_UUID_ARRAY,
+        object oBandit = NWNX_Data_Array_At_Obj(OBJECT_SELF, BANDIT_OBJ_ARRAY,
                                                 i);
         if(oBandit != OBJECT_INVALID) {
             SetLocalInt(oBandit, BANDIT_DESTROY_SELF, TRUE);

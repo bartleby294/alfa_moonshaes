@@ -9,6 +9,34 @@
 #include "nwnx_data"
 #include "ba_consts"
 #include "ms_bndcmp_fireut"
+#include "ms_ai_ba_util"
+
+int AtLeastOneBanditInCombat(object campFire) {
+    // Loop over all the members of the campfire.
+    int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_OBJECT, campFire,
+                                         BANDIT_OBJ_ARRAY);
+    int i = 0;
+    while(i < arraySize) {
+
+        if(i > 100) {
+            WriteTimestampedLogEntry("WARNING: NEW LIMITER REACHED!!!");
+            return FALSE;
+        }
+
+        object curBandit = NWNX_Data_Array_At_Obj(campFire,
+                                                  BANDIT_OBJ_ARRAY,
+                                                  i);
+
+        // if our object is a creature check if in combat.
+        if(GetObjectType(curBandit) == OBJECT_TYPE_CREATURE) {
+            if(GetIsInCombat(curBandit)) {
+                return TRUE;
+            }
+        }
+        i++;
+    }
+    return FALSE;
+}
 
 void main()
 {
@@ -46,5 +74,22 @@ void main()
             "BANDIT_CAMP_PC_LAST_OBSERVED" + GetTag(oArea),
             NWNX_Time_GetTimeStamp());
     }
+
+    int noCombatTurns = GetLocalInt(OBJECT_SELF, "turns_since_last_combat");
+
+    if(noCombatTurns > 5) {
+        writeToLog("CALM CAMP.");
+        calmCamp(OBJECT_SELF);
+    }
+
+    // if we are in combat state
+    if(GetLocalInt(OBJECT_SELF, ATTACK_ON_CAMP_STATE) == BANDIT_ATTACK_IN_PROGRESS) {
+        if(AtLeastOneBanditInCombat(OBJECT_SELF) == FALSE) {
+            SetLocalInt(OBJECT_SELF, "turns_since_last_combat", noCombatTurns);
+        } else {
+            SetLocalInt(OBJECT_SELF, "turns_since_last_combat", 0);
+        }
+    }
+
 
 }

@@ -296,6 +296,34 @@ location getRandomCampfireLocation(object oArea, string campfireTag) {
     return campfireLoc;
 }
 
+void SetBanditAI(object curBandit) {
+
+    // cant set ms_ai_bap_onspaw
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_BLOCKED_BY_DOOR,
+                   "ms_ai_bap_onbloc");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_END_COMBATROUND,
+                   "ms_ai_bap_ocomba");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_DIALOGUE,
+                   "ms_ai_bap_onconv");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_DAMAGED,
+                   "ms_ai_bap_ondama");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_DEATH,
+                   "ms_ai_bap_ondeat");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_DISTURBED,
+                   "ms_ai_bap_ondist");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
+                   "ms_ai_bap_onhear");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_NOTICE,
+                   "ms_ai_bap_onperc");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_MELEE_ATTACKED,
+                   "ms_ai_bap_onphia");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_RESTED,
+                   "ms_ai_bap_onrest");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_SPELLCASTAT,
+                   "ms_ai_bap_onspel");
+    SetEventScript(curBandit, EVENT_SCRIPT_CREATURE_ON_USER_DEFINED_EVENT,
+                   "ms_ai_bap_onuser");
+}
 
 void SetupCamp(object oArea, int maxStructures, int minStructures,
                 int min_traps, int max_traps, int circle_min, int circle_max,
@@ -312,7 +340,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
                                     campfireLoc, FALSE, campfireTag);
 
     // Save our chest so we can delete it later.
-    NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY, oCampfire);
+    NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_OBJ_ARRAY, oCampfire);
 
     // Create the main chest.
     int cnt = 0;
@@ -328,7 +356,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
     }
 
     // Save our chest so we can delete it later.
-    NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY, chestCreated);
+    NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_OBJ_ARRAY, chestCreated);
 
     // Add our structures to the camp count up tents.
     cnt = 0;
@@ -344,7 +372,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             tentCnt++;
             structureCnt--;
             // Save our object so we can delete it later.
-            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY,
+            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_OBJ_ARRAY,
                                          tentCreated);
         }
 
@@ -356,7 +384,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
                                                   circle_min, circle_max);
         if(objCreated != OBJECT_INVALID) {
             // Save our object so we can delete it later.
-            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY,
+            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_OBJ_ARRAY,
                                          objCreated);
             structureCnt--;
         }
@@ -392,8 +420,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalLocation(bandit, "spawnLoc", spawnLoc);
             SetLocalInt(bandit, "circle_max", circle_max);
             SetLocalString(bandit, "campfire", campfireTag);
-            SetEventScript(bandit, EVENT_SCRIPT_CREATURE_ON_HEARTBEAT,
-                   "ba_ai_onheartbe3");
+            SetBanditAI(bandit);
             int randAction = Random(BANDIT_MAX_ACTION - 1) + 2;
             while((randAction == BANDIT_PATROL_ACTION
                         && patrolNum > 1 * circle_max + 1)
@@ -411,7 +438,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
             SetLocalInt(bandit, "banditId", banditCnt);
             SetLocalObject(bandit, "bandit_campfire", oCampfire);
             // Save our bandit so we can delete it later.
-            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY, bandit);
+            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_OBJ_ARRAY, bandit);
             banditCnt--;
         }
         cnt++;
@@ -426,7 +453,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
                                                 difficulty_lvl);
         if(trapCreated != OBJECT_INVALID) {
             // Save our trap so we can delete it later.
-            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_UUID_ARRAY,
+            NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_OBJ_ARRAY,
                                          trapCreated);
             trapCnt--;
         }
