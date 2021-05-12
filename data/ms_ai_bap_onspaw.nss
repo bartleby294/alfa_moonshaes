@@ -90,7 +90,7 @@ void main()
     if (nScaledInt < 1) nScaledInt = 1;
     else if (nScaledInt > 10) nScaledInt = 10;
     //PrintString("nScaledInt for this creature is " + IntToString(nScaledInt));
-    SetAIInteger(AI_INTELLIGENCE, nScaledInt);
+    SetAIInteger(AI_INTELLIGENCE, 8);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
 //*************************** End ALFA Mod
 
@@ -374,14 +374,14 @@ void main()
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_TAUNTING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_EMPATHY, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_EMPATHY, AI_OTHER_COMBAT_MASTER);
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_HIDING, AI_OTHER_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_HIDING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_OPENING_LOCKED_DOORS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_OPENING_LOCKED_DOORS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_USING_HEALING_KITS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_PARRYING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_PARRYING, AI_OTHER_COMBAT_MASTER);
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_SEARCH, AI_OTHER_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_SEARCH, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_SEARCH, AI_OTHER_COMBAT_MASTER);
     // - Concentration - special notes in the readme
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_CONCENTRATION, AI_OTHER_COMBAT_MASTER);
