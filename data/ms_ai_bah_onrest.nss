@@ -82,5 +82,3 @@ void LoopResetTriggers(string sString, object oTrigger)
         }
     }
 }
-
-

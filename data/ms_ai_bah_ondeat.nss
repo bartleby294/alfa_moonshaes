@@ -20,11 +20,6 @@
 
 // We only require the constants/debug file. We have 1 function, not worth another include.
 #include "J_INC_CONSTANTS"
-//****************** ALFA Mod
-#include "subraces"
-#include "alfa_deathnotify"
-#include "nwnx_time"
-//****************** End ALFA Mod
 
 // We need a wrapper. If the amount of deaths, got in this, is not equal to iDeaths,
 // we don't execute the script, else we do. :-P
@@ -32,8 +27,6 @@ void DeathCheck(int nDeaths);
 
 void main()
 {
-    //int fullStartTime = NWNX_Time_HighResTimestamp();
-    struct NWNX_Time_HighResTimestamp fullStartTime = NWNX_Time_GetHighResTimeStamp();
     // If we are set to, don't fire this script at all
     if(GetAIInteger(I_AM_TOTALLY_DEAD)) return;
 
@@ -78,23 +71,7 @@ void main()
 ///////////////////////// [Experience] ///////////////////////////////////////*/
     // Do XP things (Use object "oKiller" for who killed us).
 
-    //************** ALFA Mod
-    int pwfxp_toggle = GetCampaignInt("MS_PWFXP_TOGGLE", "MS_PWFXP_TOGGLE");
-    struct NWNX_Time_HighResTimestamp startTime = NWNX_Time_GetHighResTimeStamp();
-    if(pwfxp_toggle == FALSE) {
-        XP_RewardXPForKill();
-        struct NWNX_Time_HighResTimestamp endTime = NWNX_Time_GetHighResTimeStamp();
-        int timeElapsed = endTime.microseconds - startTime.microseconds;
-        WriteTimestampedLogEntry("XP_RewardXPForKill Time Elapsed: "
-                                 + IntToString(timeElapsed) + " ms");
-    } else {
-        ExecuteScript("pwfxp", OBJECT_SELF);
-        struct NWNX_Time_HighResTimestamp endTime = NWNX_Time_GetHighResTimeStamp();
-        int timeElapsed = endTime.microseconds - startTime.microseconds;
-        WriteTimestampedLogEntry("pwfxp Time Elapsed: "
-                                 + IntToString(timeElapsed) + " ms");
-    }
-    //************** End ALFA Mod
+
 
 /*/////////////////////// [Experience] ///////////////////////////////////////*/
     }
@@ -172,14 +149,6 @@ void main()
     }
     // Signal the death event.
     FireUserEvent(AI_FLAG_UDE_DEATH_EVENT, EVENT_DEATH_EVENT);
-
-    //**************** ALFA Mod
-    ALFA_DeathNotifySpawner(OBJECT_SELF);
-    //**************** End ALFA Mod
-    struct NWNX_Time_HighResTimestamp fullEndTime = NWNX_Time_GetHighResTimeStamp();
-    int fullTimeElapsed = fullEndTime.microseconds - fullStartTime.microseconds;
-    WriteTimestampedLogEntry("Full Time Elapsed: "
-                             + IntToString(fullTimeElapsed) + " ms");
 }
 
 // We need a wrapper. If the amount of deaths, got in this, is not equal to iDeaths,
@@ -193,5 +162,3 @@ void DeathCheck(int nDeaths)
         ExecuteScript(FILE_DEATH_CLEANUP, OBJECT_SELF);
     }
 }
-
-

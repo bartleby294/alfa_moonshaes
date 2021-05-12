@@ -15,10 +15,6 @@
 ///////////////////////// [On Phisical Attacked] /////////////////////////////*/
 
 #include "J_INC_OTHER_AI"
-//*************************** ALFA Mod
-#include "alfa_combat"
-//*************************** End ALFA Mod
-
 
 void main()
 {
@@ -137,10 +133,4 @@ void main()
 
     // Fire End of Attacked event
     FireUserEvent(AI_FLAG_UDE_ATTACK_EVENT, EVENT_ATTACK_EVENT);
-
-    //****************************** ALFA Mod
-    ALFA_CheckWeaponBreakage();
-    //****************************** End ALFA Mod
 }
-
-

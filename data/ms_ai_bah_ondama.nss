@@ -1,193 +1,241 @@
-/*/////////////////////// [On Conversation] ////////////////////////////////////
-    Filename: J_AI_OnConversat or nw_c2_default4
-///////////////////////// [On Conversation] ////////////////////////////////////
-    OnConversation/ Listen to shouts.
-    Documented, and checked. -Working-
-
-    Added spawn in condition - Never clear actions when talking.
+/*/////////////////////// [On Damaged] /////////////////////////////////////////
+    Filename: nw_c2_default6 or J_AI_OnDamaged
+///////////////////////// [On Damaged] /////////////////////////////////////////
+    We attack any damager if same area (and not already fighting
+    then search for enemies (defaults to searching if there are no enemies left).
 ///////////////////////// [History] ////////////////////////////////////////////
-    1.3 - Added in conversation thing - IE we can set speakstrings, no need for conversation file.
-        - Sorted more shouts out.
-        - Should work right, and not cause too many actions (as we ignore
-          shouts for normally 12 or so seconds before letting them affect us again).
-    1.4 - Deafness incorpreated.
+    1.3 - If we have a damager, not equal faction, and not a DM...
+            - We set Max Elemental damage.
+        - Sets the highest damager and amount (if the new damager is seen/heard)
+        - Polymorph improved a little
+        - Hide check
+        - Morale penalty (if set)
+    1.4 - Elemental damage fixed with bugfixed introduced in later patches.
+        - Moved things around, more documentation, a little more ordered.
+        - Added the missing silent shout strings to get allies to attack.
+        - Damaged taunting will not happen if we are dead.
 ///////////////////////// [Workings] ///////////////////////////////////////////
-    Uses RespondToShout to react to allies' shouts, and just attacks any enemy
-    who speaks, or at least moves to them. (OK, dumb if they are invisible, but
-    oh well, they shouldn't talk so loud!)
+    Now with fixes, we can correctly set physical damage done (and elemental
+    damage).
 
-    Remember, whispers are never heard if too far away, speakstrings don't go
-    through walls, and shouts are always heard (so we don't go off to anyone
-    not in our area, remember)
-
-    Deafness causes us to never hear battle, so unless we see the target speaking
-    we do not react. Doesn't apply to normal conversations - although if we cannot
-    talk (also restricted by deafness) then so be it.
+    Otherwise, this acts like a hositile spell, or a normal attack or pickpocket
+    attempt would - and attack the damn person who dares damage us!
 ///////////////////////// [Arguments] //////////////////////////////////////////
-    Arguments: GetListenPatternNumber, GetLastSpeaker, TestStringAgainstPattern,
-               GetMatchedSubstring
-///////////////////////// [On Conversation] //////////////////////////////////*/
+    Arguments: GetTotalDamageDealt, GetLastDamager, GetCurrentHitPoints (and max),
+               GetDamageDealtByType (must be done seperatly for each, doesn't count melee damage)
+///////////////////////// [On Damaged] ///////////////////////////////////////*/
 
 #include "J_INC_OTHER_AI"
 
 void main()
 {
-    // Pre-conversation-event. Returns TRUE if we interrupt this script call.
-    if(FirePreUserEvent(AI_FLAG_UDE_ON_DIALOGUE_PRE_EVENT, EVENT_ON_DIALOGUE_PRE_EVENT)) return;
+    // Pre-damaged-event. Returns TRUE if we interrupt this script call.
+    if(FirePreUserEvent(AI_FLAG_UDE_DAMAGED_PRE_EVENT, EVENT_DAMAGED_PRE_EVENT)) return;
 
     // AI status check. Is the AI on?
     if(GetAIOff()) return;
 
-    // Declarations
-    int nMatch = GetListenPatternNumber();
-    object oShouter = GetLastSpeaker();
-    string sSpoken = GetMatchedSubstring(0);
+    // Define Objects/Integers.
+    int nDamage = GetTotalDamageDealt();
+    object oDamager = GetLastDamager();
+    // Check to see if we will polymorph.
+    int nPolymorph = GetAIConstant(AI_POLYMORPH_INTO);
 
-    //***** ALFA MOD - Danmar's PuppetMaster functionality
-    // Did we hear our name and it was spoken by a DM or by a
-    // DM possessed creature?
-    if ((nMatch == 16650) && ( (GetIsDM(oShouter)) ||
-        (GetIsDMPossessed(oShouter))))
+    // Total up the physical damage
+
+    // Polymorph check.
+    if(nPolymorph >= 0)
     {
-        string sPhrase = GetMatchedSubstring(1);
-        int nStartCommand;
-        int nEndCommand;
-
-        nStartCommand = FindSubString(sPhrase, "<");
-        nEndCommand = FindSubString(sPhrase, ">");
-
-        if (nStartCommand > -1 && nEndCommand > nStartCommand)
+        // We won't polymorph if already so
+        if(!GetHasEffect(EFFECT_TYPE_POLYMORPH))
         {
-            string sUpperPhrase = GetStringUpperCase(GetMatchedSubstring(1));
-            string sCommand = GetSubString(sUpperPhrase, nStartCommand + 1,
-               nEndCommand - nStartCommand - 1);
-            SetLocalString(OBJECT_SELF, "PuppetCommand", sCommand);
-            ExecuteScript("alfa_puppet", OBJECT_SELF);
+            // Polymorph into the requested shape. Cannot be dispelled.
+            effect eShape = SupernaturalEffect(EffectPolymorph(nPolymorph));
+            effect eVis = EffectVisualEffect(VFX_FNF_SUMMON_UNDEAD);
+            DelayCommand(1.0, ApplyEffectToObject(DURATION_TYPE_PERMANENT, eShape, OBJECT_SELF));
+            DelayCommand(1.0, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, OBJECT_SELF));
+        }
+        DeleteAIConstant(AI_POLYMORPH_INTO);// We set it to invalid (sets to 0).
+    }
+    // First, we check AOE spells...
+    if(GetObjectType(oDamager) == OBJECT_TYPE_AREA_OF_EFFECT)
+    {
+        // Set the damage done by it (the last damage)
+        // Set to the tag of the AOE, prefixed AI style to be sure.
+        // - Note, doesn't matter about things like
+        if(nDamage > 0)
+        {
+            // Set it to object to string, which we will delete later anywho.
+            SetAIInteger(ObjectToString(oDamager), nDamage);
+        }
+    }
+    // Hostile attacker...but it doesn't matter (at the moment) if they even
+    // did damage.
+    // * GetIgnoreNoFriend() wrappers DM, Validity, Faction Equal and Dead checks in one
+    else if(!GetIgnoreNoFriend(oDamager))
+    {
+        // Adjust automatically if set. (and not an AOE)
+        if(GetSpawnInCondition(AI_FLAG_OTHER_CHANGE_FACTIONS_TO_HOSTILE_ON_ATTACK, AI_OTHER_MASTER))
+        {
+            if(!GetIsEnemy(oDamager) && !GetFactionEqual(oDamager))
+            {
+                AdjustReputation(oDamager, OBJECT_SELF, -100);
+            }
         }
 
+        // Turn of hiding, a timer to activate Hiding in the main file. This is
+        // done in each of the events, with the opposition checking seen/heard.
+        TurnOffHiding(oDamager);
+
+        // Did they do damage to use? (IE: No DR) Some things are inapproprate
+        // to check if no damage was actually done.
+        if(nDamage > 0)
+        {
+            // Speak the damaged string, if applicable.
+            // * Don't speak when dead. 1.4 change (an obvious one to make)
+            if(CanSpeak())
+            {
+                SpeakArrayString(AI_TALK_ON_DAMAGED);
+            }
+            // 1.4 note: These two variables are currently *unused* apart from
+            // healing. When healing a being (even another NPC) they are checked
+            // for massive damage. Can not bother to set the highest damager for now.
+            // NEW:
+            int nHighestDamage = GetAIInteger(AI_HIGHEST_DAMAGE_AMOUNT);
+            if(nDamage >= nHighestDamage)
+            {
+                SetAIInteger(AI_HIGHEST_DAMAGE_AMOUNT, nDamage);
+            }
+
+            /* OLD:
+
+            // Get the previous highest damager, and highest damage amount
+            object oHighestDamager = GetAIObject(AI_HIGHEST_DAMAGER);
+            int nHighestDamage = GetAIInteger(AI_HIGHEST_DAMAGE_AMOUNT);
+            // Set the highest damager, if they are seen or heard, and have done loads.
+            if((GetObjectSeen(oDamager) || GetObjectHeard(oDamager)) &&
+                nDamage >= nHighestDamage || !GetIsObjectValid(oHighestDamager))
+            {
+                SetAIObject(AI_HIGHEST_DAMAGER, oDamager);
+                SetAIInteger(AI_HIGHEST_DAMAGE_AMOUNT, nDamage);
+            }
+            // Else, if the original was not valid...or not seen/heard, we
+            // delete it so we don't bother to use it later.
+            else if(!GetIsObjectValid(oHighestDamager) ||
+              (!GetObjectSeen(oHighestDamager) && !GetObjectHeard(oHighestDamager)))
+            {
+                DeleteAIObject(AI_HIGHEST_DAMAGER);
+                DeleteAIInteger(AI_HIGHEST_DAMAGE_AMOUNT);
+            }
+            */
+
+            // Get all the physical damage. Elemental damage is then nDamage minus
+            // the physical damage.
+            int nPhysical = GetDamageDealtByType(DAMAGE_TYPE_BASE_WEAPON |
+                                                 DAMAGE_TYPE_BLUDGEONING |
+                                                 DAMAGE_TYPE_PIERCING |
+                                                 DAMAGE_TYPE_SLASHING);
+            // If they are all -1, then we make nPhysical 0.
+            if(nPhysical <= -1) nPhysical = 0;
+
+            // Physical damage - only sets if the last damager is the last attacker.
+            if(GetAIObject(AI_STORED_LAST_ATTACKER) == oDamager)
+            {
+                // Get the previous highest damage and test it
+                if(nPhysical > GetAIInteger(AI_HIGHEST_PHISICAL_DAMAGE_AMOUNT))
+                {
+                    // If higher, and was a melee/ranged attacker, set it.
+                    // This does include other additional physical damage - EG:
+                    // weapon property: Bonus Damage.
+                    SetAIInteger(AI_HIGHEST_PHISICAL_DAMAGE_AMOUNT, nPhysical);
+                }
+            }
+
+            // Set the max elemental damage done, for better use of elemental
+            // protections. This is set for the most damage...so it could be
+            // 1 (for a +1 fire weapon, any number of hits) or over 50 (good
+            // fireball/flame storm etc.)
+            int nElemental = nDamage - nPhysical;
+            if(nElemental > GetAIInteger(MAX_ELEMENTAL_DAMAGE))
+            {
+                SetAIInteger(MAX_ELEMENTAL_DAMAGE, nElemental);
+            }
+            // Set the last damage done, may set to 0 of course :-P
+            // * This is only set if they did damage us at all, however.
+            SetAIInteger(LAST_ELEMENTAL_DAMAGE, nElemental);
+
+            // Morale: We may get a penalty if it does more than a cirtain amount of HP damage.
+            // Other: We set highest damager and amount.
+            if(!GetSpawnInCondition(AI_FLAG_FLEEING_FEARLESS, AI_TARGETING_FLEE_MASTER))
+            {
+                // Get penalty and how much damage at once needs to be done
+                int nPenalty = GetBoundriedAIInteger(AI_DAMAGE_AT_ONCE_PENALTY, 6, 50, 1);
+                int nToDamage = GetBoundriedAIInteger(AI_DAMAGE_AT_ONCE_FOR_MORALE_PENALTY, GetMaxHitPoints()/6, GetMaxHitPoints(), 1);
+                if(nDamage > nToDamage)
+                {
+                    // 61: "[Damaged] Morale Penalty for 600 seconds [Penalty]" + IntToString(iPenalty)
+                    DebugActionSpeakByInt(61, OBJECT_INVALID, nPenalty);
+                    // Apply penalty
+                    SetMoralePenalty(nPenalty, 300.0);
+                }
+            }
+        }
+        // If we are not attacking anything, and not in combat, react!
+        if(!CannotPerformCombatRound())
+        {
+            // 62: "[Damaged] Not in combat: DCR [Damager]" + GetName(oDamager)
+            DebugActionSpeakByInt(62, oDamager);
+
+            // Check if they are in the same area. Can be a left AOE spell.
+            // Don't attack purposly across area's.
+            if(GetArea(oDamager) == GetArea(OBJECT_SELF))
+            {
+                // Shout to allies to attack the enemy who attacked me
+                AISpeakString(AI_SHOUT_I_WAS_ATTACKED);
+
+                DetermineCombatRound(oDamager);
+            }
+            else
+            {
+                // Shout to allies to attack, or be prepared.
+                AISpeakString(AI_SHOUT_CALL_TO_ARMS);
+
+                DetermineCombatRound();
+            }
+        }
         else
         {
-            SpeakString(GetMatchedSubstring(1)); //Speak everything else
+            // Shout to allies to attack, or be prepared.
+            AISpeakString(AI_SHOUT_CALL_TO_ARMS);
         }
-
-        return; // Exit out of this script as we found a match.
     }
-    //****** end ALFA MOD
-
-    // We can ignore everything under special cases - EG no valid shouter,
-    // we are fleeing, its us, or we are not in the same area.
-    // - We break out of the script if this happens.
-    if(!GetIsObjectValid(oShouter) ||     /* Must be a valid speaker! */
-        oShouter == OBJECT_SELF ||        /* Not us!     */
-        GetIsPerformingSpecialAction() || /* Not fleeing */
-        GetIgnore(oShouter) ||            /* Not ignoring the shouter */
-        GetArea(oShouter) != GetArea(OBJECT_SELF))/* Same area (Stops loud yellow shouts getting NPCs) */
+    // Else it is friendly, or invalid damager
+    else
     {
-        // Fire End of Dialogue event
-        FireUserEvent(AI_FLAG_UDE_ON_DIALOGUE_EVENT, EVENT_ON_DIALOGUE_EVENT);
-        return;
-    }
+        // Still will react - eg: A left AOE spell (which might mean a battle
+        // just happened)
+        if(!CannotPerformCombatRound())
+        {
+            // Shout to allies to attack generally. No target to specifically attack,
+            // as it is an ally.
+            AISpeakString(AI_SHOUT_CALL_TO_ARMS);
 
-    // Conversation if not a shout.
-    if(nMatch == -1)
+            // 63: [Damaged] Not in combat: DCR. Ally hit us. [Damager(Ally?)]" + GetName(oDamager)
+            DebugActionSpeakByInt(63, oDamager);
+            DetermineCombatRound();
+        }
+        else
+        {
+            // Shout to allies to attack, or be prepared.
+            AISpeakString(AI_SHOUT_CALL_TO_ARMS);
+        }
+    }
+    // User defined event - for normally immoral creatures.
+    if(GetCurrentHitPoints() == 1)
     {
-        // * Don't speak when dead. 1.4 change (an obvious one to make)
-        if(CanSpeak())
-        {
-            // Make sure it is a PC and we are not fighting.
-            if(!GetIsFighting() && (GetIsPC(oShouter) || GetIsDMPossessed(oShouter)))
-            {
-                // If we have something random (or not) to say instead of
-                // the conversation, we will say that.
-                if(GetLocalInt(OBJECT_SELF, ARRAY_SIZE + AI_TALK_ON_CONVERSATION))
-                {
-                    ClearAllActions();// Stop
-                    SetFacingPoint(GetPosition(oShouter));// Face
-                    SpeakArrayString(AI_TALK_ON_CONVERSATION);// Speak string
-                    PlayAnimation(ANIMATION_LOOPING_TALK_NORMAL, 1.0, 3.0);// "Talk", then resume potitions.
-                    ActionDoCommand(ExecuteScript(FILE_WALK_WAYPOINTS, OBJECT_SELF));
-                }
-                else
-                {
-                    // If we are set to NOT clear all actions, we won't.
-                    if(!GetSpawnInCondition(AI_FLAG_OTHER_NO_CLEAR_ACTIONS_BEFORE_CONVERSATION, AI_OTHER_MASTER))
-                    {
-                        ClearAllActions();
-                    }
-                    BeginConversation();
-                }
-            }
-        }
+        // Fire the immortal damaged at 1 HP event.
+        FireUserEvent(AI_FLAG_UDE_DAMAGED_AT_1_HP, EVENT_DAMAGED_AT_1_HP);
     }
-    // If it is a valid shout...and a valid shouter.
-    // - Not a DM. Not ignoring shouting. Not a Debug String.
-    else if(!GetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID) &&// Not listening (IE heard already)
-            !GetIsDM(oShouter) && FindSubString(sSpoken, "[Debug]") == -1 &&
-    // 1.4 - Deafness (or they are seen) check, for fun.
-            (!GetHasEffect(EFFECT_TYPE_DEAF) || GetObjectSeen(oShouter)))
-    {
-        if(GetIsFriend(oShouter) || GetFactionEqual(oShouter))
-        {
-            // If they are a friend, not a PC, and a valid number, react.
-            // In the actual RespondToShout call, we do check to see if we bother.
-            // - Is PC - or is...master?
-            // - Shouts which are not negative, and not AI_ANYTHING_SAID_CONSTANT.
-            if(nMatch >= 0 && nMatch != AI_SHOUT_ANYTHING_SAID_CONSTANT &&
-              !GetIsPC(oShouter) && !GetIsPC(GetMaster(oShouter)))
-            {
-                // Respond to the shout
-                RespondToShout(oShouter, nMatch);
-            }
-            // Else either is PC or is shout 0 (everything!)
-            // - not if we are in combat, or they are not.
-            else if(!CannotPerformCombatRound() &&
-                     GetIsInCombat(oShouter) &&
-                     GetObjectType(oShouter) == OBJECT_TYPE_CREATURE)
-            {
-                // 57: "[Shout] Friend (may be PC) in combat. Attacking! [Friend] " + GetName(oShouter)
-                DebugActionSpeakByInt(57, oShouter);
-
-                // Respond to oShouter
-                IWasAttackedResponse(oShouter);
-            }
-        }
-        else if(GetIsEnemy(oShouter) && GetObjectType(oShouter) == OBJECT_TYPE_CREATURE)
-        {
-            // If we hear anything said by an enemy, and are not fighting, attack them!
-            if(!CannotPerformCombatRound())
-                // the negatives are associate shouts, Normally (!)
-                // 0+ are my shouts. 0 is anything
-            {
-                // We make sure it isn't an emote (set by default)
-                if(nMatch == AI_SHOUT_ANYTHING_SAID_CONSTANT &&
-                   GetSpawnInCondition(AI_FLAG_OTHER_DONT_RESPOND_TO_EMOTES, AI_OTHER_MASTER))
-                {
-                    // Jump out if its an emote - "*Nods*"
-                    if(GetStringLeft(sSpoken, 1) == EMOTE_STAR &&
-                       GetStringRight(sSpoken, 1) == EMOTE_STAR)
-                    {
-                        // Fire End of Dialogue event
-                        FireUserEvent(AI_FLAG_UDE_ON_DIALOGUE_EVENT, EVENT_ON_DIALOGUE_EVENT);
-                        return;
-                    }
-                }
-                // 58: "[Shout] Responding to shout [Enemy] " + GetName(oShouter) + " Who has spoken!"
-                DebugActionSpeakByInt(58, oShouter);
-
-                // Short non-respond
-                SetLocalTimer(AI_TIMER_SHOUT_IGNORE_ANYTHING_SAID, 6.0);
-
-                // Attack the enemy!
-                ClearAllActions();
-                DetermineCombatRound(oShouter);
-
-                // Shout to allies to attack the shouter
-                AISpeakString(AI_SHOUT_I_WAS_ATTACKED);
-            }
-        }
-    }
-    // Fire End of Dialogue event
-    FireUserEvent(AI_FLAG_UDE_ON_DIALOGUE_EVENT, EVENT_ON_DIALOGUE_EVENT);
+    // Fire End of Damaged event
+    FireUserEvent(AI_FLAG_UDE_DAMAGED_EVENT, EVENT_DAMAGED_EVENT);
 }
-
-
