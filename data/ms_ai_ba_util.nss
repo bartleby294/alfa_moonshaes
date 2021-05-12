@@ -61,7 +61,7 @@ void getIntoPosition(object curBandit, object sourceBandit, object campFire) {
         moveToLocationInCamp(curBandit, campFire);
     // 2/3 run to the attacked bandit
     } else {
-        float distance = (Random(8) / Random(4)) * 1.0;
+        float distance = ((Random(8) + 1) / (Random(4) + 1)) * 1.0;
         location runToLoc = pickLoc(sourceBandit, distance, Random(360) * 1.0);
         AssignCommand(curBandit, ActionMoveToLocation(runToLoc, TRUE));
     }
