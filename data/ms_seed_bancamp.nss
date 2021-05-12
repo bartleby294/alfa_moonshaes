@@ -339,6 +339,7 @@ void SetupCamp(object oArea, int maxStructures, int minStructures,
     object oCampfire = CreateObject(OBJECT_TYPE_PLACEABLE, "banditcampfire1",
                                     campfireLoc, FALSE, campfireTag);
 
+    SetLocalInt(oCampfire, "circle_max", circle_max);
     // Save our chest so we can delete it later.
     NWNX_Data_Array_PushBack_Obj(oCampfire , BANDIT_OBJ_ARRAY, oCampfire);
 

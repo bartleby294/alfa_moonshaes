@@ -1,14 +1,76 @@
 #include "ba_consts"
 #include "nwnx_data"
+#include "_btb_ban_util"
+#include "_btb_util"
 
-void getIntoPosition(object curBandit) {
+/**
+ *  Select a random valid Location in camp.
+ */
+location selectLocationInCamp(object oArea, location campfireLoc,
+                              int circle_min, int circle_max) {
+    int radius = 5 * (Random(circle_max - circle_min) + circle_min);
+    int radSqr = radius * radius;
+    int xsqr = Random(radSqr);
+    int ysqr = radSqr - xsqr;
 
+    float x = sqrt(IntToFloat(xsqr));
+    float y = sqrt(IntToFloat(ysqr));
+
+    if(Random(2) == 1) {
+        x = x * -1;
+    }
+
+    if(Random(2) == 1) {
+        y = y * -1;
+    }
+
+    vector campfireVector = GetPositionFromLocation(campfireLoc);
+    location possibleStructureLoc = Location(oArea,
+        Vector(campfireVector.x + x, campfireVector.y+ y, 0.0), 0.0);
+    float z = GetGroundHeight(possibleStructureLoc);
+
+    possibleStructureLoc = Location(oArea,
+        Vector(campfireVector.x + x, campfireVector.y+ y, z),
+            getBanditFacing(campfireVector,
+                GetPositionFromLocation(possibleStructureLoc)));
+
+    return possibleStructureLoc;
 }
 
-void setAttackAI(object curBandit, object sourceBandit) {
+void moveToLocationInCamp(object sourceBandit, object campFire) {
+    object oArea = GetArea(sourceBandit);
+    int max_circle = GetLocalInt(campFire, "circle_max");
+    location campfireLoc = GetLocation(campFire);
+    location runToLoc = selectLocationInCamp(oArea, campfireLoc, max_circle,
+                                             max_circle);
+
+    // Check if we got a valid location back
+    if(GetAreaFromLocation(runToLoc) == OBJECT_INVALID) {
+        return;
+    }
+
+    AssignCommand(sourceBandit, ActionMoveToLocation(runToLoc, TRUE));
+}
+
+void getIntoPosition(object curBandit, object sourceBandit, object campFire) {
+
+    int decision = d3();
+
+    // Take up a defensive position in camp
+    if(decision == 3) {
+        moveToLocationInCamp(curBandit, campFire);
+    // 2/3 run to the attacked bandit
+    } else {
+        float distance = (Random(8) / Random(4)) * 1.0;
+        location runToLoc = pickLoc(sourceBandit, distance, Random(360) * 1.0);
+        AssignCommand(curBandit, ActionMoveToLocation(runToLoc, TRUE));
+    }
+}
+
+void setAttackAI(object curBandit, object sourceBandit, object campFire) {
 
     if(curBandit != sourceBandit) {
-        getIntoPosition(curBandit);
+        getIntoPosition(curBandit, sourceBandit, campFire);
     }
 
     // cant set ms_ai_bah_onspaw
@@ -99,7 +161,7 @@ void alertCamp(object sourceBandit) {
             // if our object is a creature set its attack state.
             if(GetObjectType(curBandit) == OBJECT_TYPE_CREATURE) {
                 WriteTimestampedLogEntry("BANDIT onAttackActions: Tag - " + GetTag(curBandit) + " ATTACK");
-                setAttackAI(curBandit, sourceBandit);
+                setAttackAI(curBandit, sourceBandit, campFire);
             }else {
                 WriteTimestampedLogEntry("BANDIT onAttackActions: Tag - " + GetTag(curBandit));
             }
