@@ -24,7 +24,9 @@ void OnLoadWebHookNotification() {
     string webhook = NWNX_Util_GetEnvironmentVariable("NWNX_WEBHOOK_DEVELOPER_CHANNEL");
 
     //NWNX_WebHook_SendWebHookHTTPS("discordapp.com", sPath, sMessage);
-    NWNX_WebHook_SendWebHookHTTPS("discordapp.com", webhook, "PLEASE WORK");
+    NWNX_WebHook_SendWebHookHTTPS(NWNX_Util_EncodeStringForURL("discordapp.com"),
+                                  NWNX_Util_EncodeStringForURL(webhook),
+                                  NWNX_Util_EncodeStringForURL("PLEASE WORK"));
 
 
     /*struct NWNX_WebHook_Message stMessage;
@@ -48,6 +50,9 @@ void main()
   string playerPass = NWNX_Util_GetEnvironmentVariable("NWN_PLAYER_PASSWORD");
   string randPlayerPass = GetRandomUUID();
   WriteTimestampedLogEntry("randPlayerPass: " + randPlayerPass);
+
+  NWNX_Administration_SetPlayOption(NWNX_ADMINISTRATION_OPTION_SHOW_DM_JOIN_MESSAGE, FALSE);
+
   NWNX_Administration_SetPlayerPassword(randPlayerPass);
   NWNX_Util_SetInstructionLimit(2000000000);
   //NWNX_Events_SubscribeEvent("NWNX_ON_CLIENT_CONNECT_AFTER", "ms_evnt_cli_cona");
