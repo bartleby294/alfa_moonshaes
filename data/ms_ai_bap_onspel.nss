@@ -7,7 +7,7 @@ void main()
 
     // If harmful, we set the spell to a timer, if an AOE one.
     if(bHarmful && GetIsObjectValid(oCaster)) {
-        alertCamp(OBJECT_SELF);
+        alertCamp(OBJECT_SELF, oCaster);
         ExecuteScript("ms_ai_bah_onspel");
     }
 }

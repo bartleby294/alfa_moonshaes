@@ -52,7 +52,7 @@ void moveToLocationInCamp(object sourceBandit, object campFire) {
     AssignCommand(sourceBandit, ActionMoveToLocation(runToLoc, TRUE));
 }
 
-void getIntoPosition(object curBandit, object sourceBandit, object campFire) {
+void getIntoPosition(object curBandit, location runLoc, object campFire) {
 
     int decision = d3();
 
@@ -61,16 +61,18 @@ void getIntoPosition(object curBandit, object sourceBandit, object campFire) {
         moveToLocationInCamp(curBandit, campFire);
     // 2/3 run to the attacked bandit
     } else {
-        float distance = ((Random(8) + 1) / (Random(4) + 1)) * 1.0;
-        location runToLoc = pickLoc(sourceBandit, distance, Random(360) * 1.0);
+        float distance = ((Random(8) + 1) / (Random(4) + 1)) * 3.0;
+        location runToLoc = pickLocFromLoc(runLoc, distance,
+                                           Random(360) * 1.0);
         AssignCommand(curBandit, ActionMoveToLocation(runToLoc, TRUE));
     }
 }
 
-void setAttackAI(object curBandit, object sourceBandit, object campFire) {
+void setAttackAI(object curBandit, object sourceBandit, location runLoc,
+                 object campFire) {
 
     if(curBandit != sourceBandit) {
-        getIntoPosition(curBandit, sourceBandit, campFire);
+        getIntoPosition(curBandit, runLoc, campFire);
     }
 
     // cant set ms_ai_bah_onspaw
@@ -129,7 +131,7 @@ void setCalmAI(object curBandit) {
                    "ms_ai_bap_onuser");
 }
 
-void alertCamp(object sourceBandit) {
+void alertCamp(object sourceBandit, object target) {
 
     object campFire = GetLocalObject(sourceBandit, "bandit_campfire");
 
@@ -141,6 +143,9 @@ void alertCamp(object sourceBandit) {
     if(GetLocalInt(campFire, ATTACK_ON_CAMP_STATE) == BANDIT_ATTACK_NONE) {
         WriteTimestampedLogEntry("BANDIT onAttackActions: ONLY CALL ONCE!!!!");
         SetLocalInt(campFire, ATTACK_ON_CAMP_STATE, BANDIT_ATTACK_IN_PROGRESS);
+
+        location runLoc = GetMidPoint(GetLocation(sourceBandit),
+                                      GetLocation(target));
 
         // Loop over all the members of the campfire.
         int arraySize = NWNX_Data_Array_Size(NWNX_DATA_TYPE_OBJECT, campFire,
@@ -161,7 +166,7 @@ void alertCamp(object sourceBandit) {
             // if our object is a creature set its attack state.
             if(GetObjectType(curBandit) == OBJECT_TYPE_CREATURE) {
                 WriteTimestampedLogEntry("BANDIT onAttackActions: Tag - " + GetTag(curBandit) + " ATTACK");
-                setAttackAI(curBandit, sourceBandit, campFire);
+                setAttackAI(curBandit, sourceBandit, runLoc, campFire);
             }else {
                 WriteTimestampedLogEntry("BANDIT onAttackActions: Tag - " + GetTag(curBandit));
             }

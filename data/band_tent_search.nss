@@ -77,6 +77,7 @@ void main() {
 
     location lTentLocation = GetLocation(OBJECT_SELF);
     if(d6() == 6) {
+        WriteTimestampedLogEntry("TENT SEARCH MAP FOUND!!!");
         CreateBanditMapPeice(lTentLocation);
     }
 }

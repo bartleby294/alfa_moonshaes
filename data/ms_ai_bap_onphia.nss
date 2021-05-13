@@ -2,6 +2,6 @@
 
 void main()
 {
-    alertCamp(OBJECT_SELF);
+    alertCamp(OBJECT_SELF, GetLastAttacker());
     ExecuteScript("ms_ai_bah_onphia");
 }
