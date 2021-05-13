@@ -81,7 +81,7 @@ void main()
 {
     SetObjectVisualTransform(OBJECT_SELF, OBJECT_VISUAL_TRANSFORM_SCALE, 1.20);
 /************************ [Important Spawn Settings] **************************/
-    SetAIInteger(AI_INTELLIGENCE, 10);
+    SetAIInteger(AI_INTELLIGENCE, 5);
         // Intelligence value of the creauture. Can be 1-10, read readme's for help.
     SetAIInteger(AI_MORALE, 10);
         // Will save (See readme). Remember: -1 or below means they always flee.
@@ -363,14 +363,14 @@ void main()
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_TAUNTING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_EMPATHY, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_EMPATHY, AI_OTHER_COMBAT_MASTER);
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_HIDING, AI_OTHER_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_HIDING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_OPENING_LOCKED_DOORS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_OPENING_LOCKED_DOORS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_USING_HEALING_KITS, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_PARRYING, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_PARRYING, AI_OTHER_COMBAT_MASTER);
-    //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_SEARCH, AI_OTHER_COMBAT_MASTER);
+    SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_SEARCH, AI_OTHER_COMBAT_MASTER);
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_SEARCH, AI_OTHER_COMBAT_MASTER);
     // - Concentration - special notes in the readme
     //SetSpawnInCondition(AI_FLAG_OTHER_COMBAT_NO_CONCENTRATION, AI_OTHER_COMBAT_MASTER);
