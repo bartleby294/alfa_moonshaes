@@ -50,7 +50,7 @@ void moveToLocationInCamp(object sourceBandit, object campFire) {
     }
 
     AssignCommand(sourceBandit, ActionMoveToLocation(runToLoc, TRUE));
-    CreateObject(OBJECT_TYPE_PLACEABLE, "alfa_combatdummy", runToLoc);
+    //CreateObject(OBJECT_TYPE_PLACEABLE, "alfa_combatdummy", runToLoc);
 }
 
 void getIntoPosition(object curBandit, location runLoc, object campFire) {
@@ -67,7 +67,7 @@ void getIntoPosition(object curBandit, location runLoc, object campFire) {
                                            Random(360) * 1.0);
         AssignCommand(curBandit, ActionMoveToLocation(runToLoc, TRUE));
 
-        CreateObject(OBJECT_TYPE_PLACEABLE, "alfa_combatdummy", runToLoc);
+       //CreateObject(OBJECT_TYPE_PLACEABLE, "alfa_combatdummy", runToLoc);
     }
 }
 
