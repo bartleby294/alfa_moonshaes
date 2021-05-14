@@ -46,6 +46,16 @@ void main()
             }
         }
 
+        //////////////////////////////Experemental//////////////////////////////
+        // If we can't see or hear the attacker move toward where we were
+        // attacked from.
+        int canSeeAttacker = GetObjectSeen(oAttacker)
+                             || GetObjectHeard(oAttacker);
+        if(canSeeAttacker == FALSE) {
+            AssignCommand(OBJECT_SELF, ActionMoveToObject(oAttacker, TRUE));
+        }
+        ////////////////////////////////////////////////////////////////////////
+
         // If we were attacked by knockdown, for a timer of X seconds, we make
         // sure we attempt healing at a higher level.
         if(!GetLocalTimer(AI_TIMER_KNOCKDOWN) &&

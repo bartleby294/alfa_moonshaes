@@ -72,8 +72,8 @@ void main()
     if(isStealthed == TRUE || isSearching == TRUE) {
         int perceived = GetObjectSeen(OBJECT_SELF, oPlayer)
                         || GetObjectHeard(OBJECT_SELF, oPlayer);
-        int isPerceived =  GetObjectSeen(oPlayer, OBJECT_SELF)
-                           || GetObjectHeard(oPlayer, OBJECT_SELF);
+        int isPerceived =  GetObjectSeen(oPlayer)
+                           || GetObjectHeard(oPlayer);
 
         if(perceived == TRUE && isPerceived == TRUE) {
             if(isStealthed == TRUE) {
