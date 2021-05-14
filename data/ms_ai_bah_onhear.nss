@@ -63,6 +63,28 @@ void main()
     object oEnemy = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY);
     object oPlayer = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC);
 
+    int isStealthed = GetStealthMode(OBJECT_SELF) == STEALTH_MODE_ACTIVATED
+                      || GetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH);
+    int isSearching = GetDetectMode(OBJECT_SELF) == DETECT_MODE_ACTIVE
+                      || GetActionMode(OBJECT_SELF, ACTION_MODE_DETECT);
+
+
+    if(isStealthed == TRUE || isSearching == TRUE) {
+        int perceived = GetObjectSeen(OBJECT_SELF, oPlayer)
+                        || GetObjectHeard(OBJECT_SELF, oPlayer);
+        int isPerceived =  GetObjectSeen(oPlayer, OBJECT_SELF)
+                           || GetObjectHeard(oPlayer, OBJECT_SELF);
+
+        if(perceived == TRUE && isPerceived == TRUE) {
+            if(isStealthed == TRUE) {
+                SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, FALSE);
+            }
+            if(isSearching == TRUE) {
+                SetActionMode(OBJECT_SELF, ACTION_MODE_DETECT, FALSE);
+            }
+        }
+    }
+
     // We can skip to the end if we are in combat, or something...
     if(!JumpOutOfHeartBeat() && // We don't stop due to effects.
        !GetIsInCombat() &&      // We are not in combat.
