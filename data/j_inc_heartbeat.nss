@@ -438,7 +438,7 @@ int PerformSpecialAction()
                 DebugActionSpeakByInt(72, oTarget, nRoundsRemaining);
                 float distanceToTarget = GetDistanceToObject(oTarget);
                 if(distanceToTarget > 37.5 && distanceToTarget < 40.5) {
-                    ActionMoveToLocation(GetLocation(oTarget));
+                    ActionMoveToLocation(GetLocation(oTarget), TRUE);
                     DebugActionSpeak("[DRC] CONTINUE [Intruder]: Move to buffer zone.");
                 } else {
                     // Randomly walk.
