@@ -333,25 +333,39 @@ int PerformSpecialAction()
             int bStealth = GetStealthMode(OBJECT_SELF);
             int bSearch = GetDetectMode(OBJECT_SELF);
 
-            // We perfere to hide again if we search if set to...sneaky!
-            if(GetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER))
-            {
-                if(bStealth != STEALTH_MODE_ACTIVATED)
+            // Because ALFA uses asymmetrical vision radii we need to modify
+            // this portion of code.  It assumes that hostiles are on an equal
+            // footing with PCs.  As PCs can see and attack hostiles that cant
+            // see them back we need to add distance checks.
+
+            float distanceToTarget = GetDistanceToObject(oTarget);
+
+            // if we are between the pc buffer zone just run to them.
+            if(distanceToTarget > 37.5 && distanceToTarget < 40.5) {
+                ActionMoveToLocation(GetLocation(oTarget));
+                DebugActionSpeak("[DRC] CONTINUE [Intruder]: Move to buffer zone.");
+                return FALSE;
+            } else {
+                // We perfere to hide again if we search if set to...sneaky!
+                if(GetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER))
                 {
-                    SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, TRUE);
+                    if(bStealth != STEALTH_MODE_ACTIVATED)
+                    {
+                        SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, TRUE);
+                    }
                 }
-            }
-            else
-            {
-                // If we are hiding, stop to search (we shouldn't be - who knows?)
-                if(bStealth == STEALTH_MODE_ACTIVATED)
+                else
                 {
-                    SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, FALSE);
-                }
-                // And search!
-                if(bSearch != DETECT_MODE_ACTIVE && !GetHasFeat(FEAT_KEEN_SENSE))
-                {
-                     SetActionMode(OBJECT_SELF, ACTION_MODE_DETECT, TRUE);
+                    // If we are hiding, stop to search (we shouldn't be - who knows?)
+                    if(bStealth == STEALTH_MODE_ACTIVATED)
+                    {
+                        SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, FALSE);
+                    }
+                    // And search!
+                    if(bSearch != DETECT_MODE_ACTIVE && !GetHasFeat(FEAT_KEEN_SENSE))
+                    {
+                         SetActionMode(OBJECT_SELF, ACTION_MODE_DETECT, TRUE);
+                    }
                 }
             }
 
