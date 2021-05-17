@@ -638,9 +638,13 @@ void IWasAttackedResponse(object oAlly)
         //   with the checks used in DetermineCombatRound(). It will do the
         //   searching using oIntruder whatever.
 
-        // Stop, and attack
-        ClearAllActions();
-        DetermineCombatRound(oIntruder);
+        // Keep attacking if attacking
+        if(GetIsInCombat() == FALSE)
+          ActionAttack(oIntruder);
+        else{
+          ClearAllActions();
+          DetermineCombatRound(oIntruder);
+        }
 
         // Shout I was attacked - we've set our intruder now
         AISpeakString(AI_SHOUT_I_WAS_ATTACKED);
