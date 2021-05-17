@@ -34,6 +34,16 @@ void main()
     //int nMode = GetLastAttackMode(oAttacker);       // Currently unused
     int nAttackType = GetLastAttackType(oAttacker);
 
+    float distanceToTarget = GetDistanceToObject(oAttacker);
+    DebugActionSpeak("[Physically Attacked] Distance to Attacker: "
+                     + FloatToString(distanceToTarget));
+
+    // if we are between the pc buffer zone just run to them.
+    if(distanceToTarget > 37.5 && distanceToTarget < 40.5) {
+        ActionMoveToLocation(GetLocation(oAttacker), TRUE);
+        DebugActionSpeak("[Physically Attacked]: Move to buffer zone.");
+    }
+
     // Check if they are valid, a DM, we are ignoring them, they are dead now, or invalid
     if(!GetIgnoreNoFriend(oAttacker))
     {

@@ -333,25 +333,64 @@ int PerformSpecialAction()
             int bStealth = GetStealthMode(OBJECT_SELF);
             int bSearch = GetDetectMode(OBJECT_SELF);
 
-            // We perfere to hide again if we search if set to...sneaky!
-            if(GetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER))
-            {
-                if(bStealth != STEALTH_MODE_ACTIVATED)
-                {
-                    SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, TRUE);
+            // Because ALFA uses asymmetrical vision radii we need to modify
+            // this portion of code.  It assumes that hostiles are on an equal
+            // footing with PCs.  As PCs can see and attack hostiles that cant
+            // see them back we need to add distance checks.
+
+            // DISABLED FOR NOW NOT SURE IF IT HELPS YET - 2021-05-15
+            if(FALSE == TRUE) {
+                float distanceToTarget = GetDistanceToObject(oTarget);
+
+                // if we are between the pc buffer zone just run to them.
+                if(distanceToTarget > 37.5 && distanceToTarget < 40.5) {
+                    ActionMoveToLocation(GetLocation(oTarget));
+                    DebugActionSpeak("[DRC] CONTINUE [Intruder]: Move to buffer zone.");
+                    return FALSE;
+                } else {
+                    // We perfere to hide again if we search if set to...sneaky!
+                    if(GetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER))
+                    {
+                        if(bStealth != STEALTH_MODE_ACTIVATED)
+                        {
+                            SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, TRUE);
+                        }
+                    }
+                    else
+                    {
+                        // If we are hiding, stop to search (we shouldn't be - who knows?)
+                        if(bStealth == STEALTH_MODE_ACTIVATED)
+                        {
+                            SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, FALSE);
+                        }
+                        // And search!
+                        if(bSearch != DETECT_MODE_ACTIVE && !GetHasFeat(FEAT_KEEN_SENSE))
+                        {
+                             SetActionMode(OBJECT_SELF, ACTION_MODE_DETECT, TRUE);
+                        }
+                    }
                 }
-            }
-            else
-            {
-                // If we are hiding, stop to search (we shouldn't be - who knows?)
-                if(bStealth == STEALTH_MODE_ACTIVATED)
+            } else {
+                // We perfere to hide again if we search if set to...sneaky!
+                if(GetSpawnInCondition(AI_FLAG_OTHER_COMBAT_FORCE_HIDING, AI_OTHER_COMBAT_MASTER))
                 {
-                    SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, FALSE);
+                    if(bStealth != STEALTH_MODE_ACTIVATED)
+                    {
+                        SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, TRUE);
+                    }
                 }
-                // And search!
-                if(bSearch != DETECT_MODE_ACTIVE && !GetHasFeat(FEAT_KEEN_SENSE))
+                else
                 {
-                     SetActionMode(OBJECT_SELF, ACTION_MODE_DETECT, TRUE);
+                    // If we are hiding, stop to search (we shouldn't be - who knows?)
+                    if(bStealth == STEALTH_MODE_ACTIVATED)
+                    {
+                        SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, FALSE);
+                    }
+                    // And search!
+                    if(bSearch != DETECT_MODE_ACTIVE && !GetHasFeat(FEAT_KEEN_SENSE))
+                    {
+                         SetActionMode(OBJECT_SELF, ACTION_MODE_DETECT, TRUE);
+                    }
                 }
             }
 
@@ -397,8 +436,15 @@ int PerformSpecialAction()
             {
                 // 72: "[Search] Searching, No one to attack. [Rounds Remaining] " + IntToString(nRoundsRemaining) + ". [Possible target] " + GetName(oTarget)
                 DebugActionSpeakByInt(72, oTarget, nRoundsRemaining);
-                // Randomly walk.
-                ActionRandomWalk();
+                float distanceToTarget = GetDistanceToObject(oTarget);
+                if(distanceToTarget > 37.5 && distanceToTarget < 40.5) {
+                    ActionMoveToLocation(GetLocation(oTarget), TRUE);
+                    DebugActionSpeak("[DRC] CONTINUE [Intruder]: Move to buffer zone.");
+                } else {
+                    // Randomly walk.
+                    DebugActionSpeak("[DRC] CONTINUE [Intruder]: ActionRandomWalk.");
+                    ActionRandomWalk();
+                }
             }
             // If we have 0 rounds left of searching time, we turn of this special
             // action, walk waypoints, and probably rest.
