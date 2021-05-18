@@ -4,6 +4,8 @@ void main()
     int lastHeard = GetLastPerceptionHeard();
     object lastPercevied = GetLastPerceived();
 
+    SpeakString("Perceived Run");
+
     string lastPercDistance = FloatToString(GetDistanceToObject(lastPercevied));
 
     if(lastPercevied != OBJECT_INVALID) {
